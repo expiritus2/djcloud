@@ -1,0 +1,32 @@
+fileignoreconfig:
+- filename: backend/migrations/development/1652470034929-set-admin.js
+  checksum: 616d30f410d01dffb85bfbde53df6c518e4903fe65749f7e791735b2482f9cec
+- filename: backend/ormconfig.js
+  checksum: c37ba2187629dab861767220142feda2233bd3591083258a10362e497a70abde
+- filename: backend/package-lock.json
+  checksum: c1e582cd0dbd4838dbed89dcbb8837a310ea3666e34cd998706b2f9a41179573
+- filename: backend/src/app.module.ts
+  checksum: 5305fd610bd1948356da647de0c1cdf4f791ad0ccab2358cd543a8917d032364
+- filename: backend/src/configs/app/cookieSession.ts
+  checksum: 32ad7756faa7fdd2f8ae0d5d3b4654bae40dde421ebfc7a0ff9df3a27376a104
+- filename: backend/src/modules/auth/__tests__/auth.controller.spec.ts
+  checksum: e33122590fd71f5090301dd11e3cd6cad4a42a409296c18cd40736656711ba3e
+- filename: backend/src/modules/auth/__tests__/auth.service.spec.ts
+  checksum: 002f7d76abac16707b4a8b0f18e012f78b3b689267e87517b536067784e82025
+- filename: backend/src/modules/auth/auth.service.ts
+  checksum: 774ddd0c68ed42d3295e568126b9c228a95d3cf0188a71f59056aff8a0999d8c
+- filename: backend/src/modules/auth/requests.http
+  checksum: 1ee44a31db0aae210f8c8b5f4817f7e7e60131de92639b140212744ccb8ea969
+- filename: backend/src/modules/auth/utils/hashPassword.ts
+  checksum: d6f9d042630840ecc23a8aa833240d198b0ec4676e075e3f18096181f79b1d59
+- filename: backend/src/modules/users/users.service.ts
+  checksum: e016b40c8cd5e4e8eca1f0e94570a85d940b5b980d2c058574908d36dc9c1306
+- filename: backend/test/utils/signup.ts
+  checksum: 0a23516b6b207c0a67e1059b8639e38e7cb4dea495d93c0dd346eb4dda36e18c
+- filename: frontend/package-lock.json
+  checksum: c20f1a94c24f3d784446d0841fa4c51813eec13287b7fac10adb29ba6760801e
+- filename: frontend/src/react-app-env.d.ts
+  checksum: dd9923860a58d9a975bc9a9e53fff15386fce5d90aa1e330ab75f8d71900b6df
+- filename: frontend/yarn.lock
+  checksum: 92f4d52764557d282c68ccc691b1538f486e37f8c56884acafc325c1c43a198a
+version: "1.0"

@@ -25,8 +25,10 @@ fileignoreconfig:
   checksum: 0a23516b6b207c0a67e1059b8639e38e7cb4dea495d93c0dd346eb4dda36e18c
 - filename: frontend/package-lock.json
   checksum: c20f1a94c24f3d784446d0841fa4c51813eec13287b7fac10adb29ba6760801e
+- filename: frontend/src/components/App/AppRouter/index.tsx
+  checksum: 0925bfb3fd2bc5a3feacd7e73c7056612b163c4d5b0d24d47fe8acd149545d8a
 - filename: frontend/src/react-app-env.d.ts
   checksum: dd9923860a58d9a975bc9a9e53fff15386fce5d90aa1e330ab75f8d71900b6df
 - filename: frontend/yarn.lock
-  checksum: 92f4d52764557d282c68ccc691b1538f486e37f8c56884acafc325c1c43a198a
+  checksum: 8b0c68414a2380729c01ce2c080cf0b5bc3e18553644473dafba9e482fa5d652
 version: "1.0"

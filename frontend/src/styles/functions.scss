@@ -1,0 +1,5 @@
+@use "sass:math";
+
+@function setUnit($number) {
+  @return #{math.div($number, 16)}rem;
+}

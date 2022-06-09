@@ -1,0 +1,11 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.logo {
+  font-family: 'Lobster Two', sans-serif;
+  font-size: setUnit(40);
+  color: $lightColor;
+  text-shadow: setUnit(2) setUnit(2) $primaryColor;
+  position: relative;
+  bottom: setUnit(4);
+}

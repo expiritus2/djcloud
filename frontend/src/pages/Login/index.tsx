@@ -1,26 +1,27 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
-import { useStore } from '../../store';
+import { observer } from 'mobx-react-lite';
+
+import { Header } from 'components';
+import { LoginForm } from './components';
 
 import styles from './styles.module.scss';
-import { RequestStateEnum } from '../../types/request';
 
-interface ComponentProps {
+type ComponentProps = {
     className?: string;
 }
 
 const Login: FC<ComponentProps> = (props) => {
-    const { user } = useStore();
     const { className } = props;
 
-    useEffect(() => {
-        setTimeout(() => {
-            user.setState(RequestStateEnum.READY)
-        }, 1000);
-    }, []);
-
-    console.log(user.state);
-    return <div className={classNames(styles.wrapper, className)}>Login</div>;
+    return (
+        <div className={classNames(styles.login, className)}>
+            <Header />
+            <div className={styles.content}>
+                <LoginForm />
+            </div>
+        </div>
+    );
 };
 
-export default Login;
+export default observer(Login);

@@ -1,0 +1,15 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.avatar {
+  width: setUnit(50);
+  height: setUnit(50);
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}

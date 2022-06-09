@@ -30,5 +30,7 @@ fileignoreconfig:
 - filename: frontend/src/react-app-env.d.ts
   checksum: dd9923860a58d9a975bc9a9e53fff15386fce5d90aa1e330ab75f8d71900b6df
 - filename: frontend/yarn.lock
-  checksum: 8b0c68414a2380729c01ce2c080cf0b5bc3e18553644473dafba9e482fa5d652
+  checksum: fdb1bf3ad818c58e1b4dfc6a071177c01f8922defc73be220b97143887a4351f
+- filename: frontend/src/pages/Login/components/LoginForm/index.tsx
+  checksum: 1a8550ecaa5cf40312778017aa1555a321aa8ed414bc29aa225ea925913914e2
 version: "1.0"

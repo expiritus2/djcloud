@@ -1,5 +1,8 @@
 import { createContext, useContext } from 'react';
-import { UserStore } from './UserStore';
+import { UserStore } from './User';
+import { configure } from 'mobx';
+
+configure({ enforceActions: "never" });
 
 const store = {
     user: new UserStore(),

@@ -1,0 +1,56 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+.loginForm {
+  width: 95%;
+  max-width: setUnit(400);
+  border: 1px solid $darkColor;
+  border-radius: setUnit(8);
+  box-shadow: setUnit(1) setUnit(1) setUnit(5) $darkColor;
+  margin: auto 0;
+
+  .form {
+    padding: setUnit(40) setUnit(40) setUnit(50);
+  }
+
+  .formHeader {
+    border-bottom: 1px solid $darkColor;
+    font-size: setUnit(20);
+    color: $primaryColor;
+  }
+
+  .formFooter {
+    border-top: 1px solid $darkColor;
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      float: right;
+
+      .button {
+        margin-left: setUnit(15);
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .clear {
+      clear: both;
+    }
+  }
+
+  .meta {
+    padding: setUnit(20) setUnit(40);
+  }
+
+  .input {
+    margin-bottom: setUnit(20);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

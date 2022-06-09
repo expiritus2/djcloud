@@ -1,5 +1,5 @@
 // import { apiServer } from '../../settings/web-services/api';
-import { LoginProps } from '../../store/UserStore/types';
+import { LoginProps } from '../../store/User/types';
 
 export const login = (cfg: LoginProps) => {
     return new Promise((resolve) => {
@@ -8,7 +8,8 @@ export const login = (cfg: LoginProps) => {
                 data: {
                     id: 1,
                     name: 'Some user name'
-                }
+                },
+                meta: cfg
             });
         }, 1000);
     })

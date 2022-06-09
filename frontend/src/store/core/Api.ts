@@ -1,11 +1,10 @@
 import { showErrorMessage } from '../../helpers/errors';
 import { AxiosError } from 'axios';
 import { RequestOptions, RequestStateEnum } from '../../types/request';
+import { StoreData } from '../../types/store';
 
-interface IApi<D> {
-    state: RequestStateEnum;
-    data: D;
-    meta: any;
+interface IApiParams<D> {
+    data: StoreData<D>;
     method: Function;
 }
 
@@ -21,19 +20,15 @@ interface IResponse extends IRequest {
 }
 
 export default class Api<D> {
-    state: any;
-    data: any;
-    meta: any;
+    data: StoreData<D>;
     method: Function | undefined;
 
-    constructor({ state, data, meta, method }: IApi<D>) {
-        this.state = state;
+    constructor({ data, method }: IApiParams<D>) {
         this.data = data;
-        this.meta = meta;
         this.method = method;
     }
 
-    async execResult(): Promise<Function> {
+    execResult(): Function {
         return async (cfg: any = {}, options: RequestOptions = {}, cb: (err: any, response: any) => void) => {
             const opts = { showError: true, silent: true, ...options };
 
@@ -44,64 +39,60 @@ export default class Api<D> {
     async execFunc({ cfg, options, cb }: IRequest): Promise<void> {
         const { showError, ...opts } = options;
 
-            if (!options.silent) {
-                this.setPending();
+        if (!options.silent) {
+            this.setPending();
+        }
+
+        try {
+            const response = await this.method?.(cfg, opts);
+            this.setData({ cfg: { ...cfg, ...response.meta }, response, options });
+
+            if (typeof cb === 'function') {
+                cb(null, response);
             }
 
-            try {
-                const response = await this.method?.(cfg, opts);
-                this.setData({ cfg: { ...cfg, ...response.meta }, response, options });
+            return response;
+        } catch (err) {
+            const config = {
+                ...cfg,
+                status: (err as AxiosError)?.response?.status,
+                message: (err as AxiosError).message,
+            };
 
-                if (typeof cb === 'function') {
-                    cb(null, response);
-                }
+            this.setError({
+                cfg: config,
+                response: err,
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                errors: err?.response?.data?.errors,
+                options,
+            });
 
-                return response;
-            } catch (err) {
-                const config = {
-                    ...cfg,
-                    status: (err as AxiosError)?.response?.status,
-                    message: (err as AxiosError).message,
-                };
-
-                this.setError({
-                    cfg: config,
-                    response: err,
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    errors: err?.response?.data?.errors,
-                    options,
-                });
-
-                if (typeof cb === 'function') {
-                    cb(err, null);
-                }
-
-                if (showError) {
-                    showErrorMessage(err);
-                }
-
-                throw err;
+            if (typeof cb === 'function') {
+                cb(err, null);
             }
+
+            if (showError) {
+                showErrorMessage(err);
+            }
+
+            throw err;
+        }
     }
 
     setPending(): void {
-        if (this.state) {
-            this.state = RequestStateEnum.PENDING;
-        }
+        this.data.state = RequestStateEnum.PENDING;
     }
 
     setData({ cfg, response }: IResponse): void {
-        if (this.data) {
-            this.state = RequestStateEnum.READY;
-            this.data = response.data;
-            this.meta = cfg;
-        }
+        this.data.state = RequestStateEnum.READY;
+        this.data.data = response.data;
+        this.data.meta = cfg;
     }
 
     setError({ cfg }: IResponse): void {
-        this.state = RequestStateEnum.ERROR;
-        this.data = undefined;
-        this.meta = cfg;
+        this.data.state = RequestStateEnum.ERROR;
+        this.data.data = null;
+        this.data.meta = cfg;
     }
 }

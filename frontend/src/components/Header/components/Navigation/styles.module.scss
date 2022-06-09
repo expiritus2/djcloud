@@ -1,0 +1,24 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.navigation {
+  .list {
+    display: flex;
+    list-style: none;
+
+    .item {
+      margin-right: setUnit(10);
+      cursor: pointer;
+      transition: all .2s;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover,
+      &.active {
+        color: darken($lightColor, 20);
+      }
+    }
+  }
+}

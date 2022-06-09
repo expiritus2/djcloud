@@ -1,0 +1,13 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+.inputText {
+  .input {
+    @include simple-input($darkColor);
+  }
+
+  .label {
+    @include simple-label;
+  }
+}

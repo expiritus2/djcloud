@@ -1,0 +1,30 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.buttonHolder {
+  width: fit-content;
+
+  .button {
+    padding: setUnit(10) setUnit(15);
+    border: none;
+    cursor: pointer;
+    color: $whiteColor;
+    border-radius: setUnit(5);
+
+    &.primary {
+      background-color: $darkColor;
+
+      &:hover {
+        background-color: lighten($darkColor, 10);
+      }
+    }
+
+    &.secondary {
+      background-color: darken($greyColor, 40);
+
+      &:hover {
+        background-color: darken($greyColor, 50);
+      }
+    }
+  }
+}

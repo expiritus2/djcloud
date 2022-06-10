@@ -3,8 +3,15 @@ import ReactDOM from 'react-dom/client';
 import { App } from 'components';
 import reportWebVitals from './reportWebVitals';
 import store, { StoreContext } from './store';
+import * as toastr from 'toastr';
 
+import 'toastr/build/toastr.css';
 import './styles/global.scss';
+
+// @ts-ignore
+toastr.options = {
+    positionClass: 'toast-bottom-right',
+};
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

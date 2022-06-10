@@ -6141,10 +6141,20 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.6"
 
+mobx-devtools-mst@^0.9.30:
+  version "0.9.30"
+  resolved "https://registry.yarnpkg.com/mobx-devtools-mst/-/mobx-devtools-mst-0.9.30.tgz#0d1cad8b3d97e1f3f94bb9afb701cd9c8b5b164d"
+  integrity sha512-6fIYeFG4xT4syIeKddmK55zQbc3ZZZr/272/cCbfaAAM5YiuFdteGZGUgdsz8wxf/mGxWZbFOM3WmASAnpwrbw==
+
 mobx-react-lite@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-3.4.0.tgz#d59156a96889cdadad751e5e4dab95f28926dfff"
   integrity sha512-bRuZp3C0itgLKHu/VNxi66DN/XVkQG7xtoBVWxpvC5FhAqbOCP21+nPhULjnzEqd7xBMybp6KwytdUpZKEgpIQ==
+
+mobx-state-tree@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/mobx-state-tree/-/mobx-state-tree-5.1.5.tgz#7344d61072705747abb98d23ad21302e38200105"
+  integrity sha512-jugIic0PYWW+nzzYfp4RUy9dec002Z778OC6KzoOyBHnqxupK9iPCsUJYkHjmNRHjZ8E4Z7qQpsKV3At/ntGVw==
 
 mobx@^6.6.0:
   version "6.6.0"

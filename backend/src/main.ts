@@ -16,6 +16,7 @@ export async function bootstrap() {
   setPipe(app);
   setCookieSession(app);
   setHeaders(app);
+  app.enableCors();
   await app.listen(PORT);
 }
 bootstrap();

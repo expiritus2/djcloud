@@ -7,16 +7,25 @@ type ComponentProps = {
     className?: string;
     type?: 'button' | 'submit';
     label: string;
-    onClick?: MouseEventHandler<HTMLElement>,
-    variant?: 'primary' | 'secondary' | 'danger' | 'success'
+    onClick?: MouseEventHandler<HTMLButtonElement>,
+    variant?: 'primary' | 'secondary' | 'danger' | 'success',
+    form?: string,
 }
 
 const Button: FC<ComponentProps> = (props) => {
     const { className, type = 'button', label, onClick, variant = 'primary' } = props;
+    const { form } = props;
 
     return (
         <div className={classNames(styles.buttonHolder, className)}>
-            <button className={classNames(styles.button, styles[variant])} onClick={onClick} type={type}>{label}</button>
+            <button
+                className={classNames(styles.button, styles[variant])}
+                onClick={onClick}
+                type={type}
+                form={form}
+            >
+                {label}
+            </button>
         </div>
     );
 };

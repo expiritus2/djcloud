@@ -9,6 +9,12 @@ const loopErrors = (errors: any) => {
     }
 };
 
+const loopSimpleErrors = (errors: any) => {
+    if (errors && Array.isArray(errors)) {
+        errors.forEach((error) => { toastr.error(error); });
+    }
+}
+
 export const showErrorMessage = (err: any) => {
     if (typeof err === 'string') {
         return toastr.error(err);
@@ -16,7 +22,7 @@ export const showErrorMessage = (err: any) => {
 
     const backendErrorMessage = get(err, 'response.data.message');
     if (backendErrorMessage) {
-        return toastr.error(backendErrorMessage);
+        return Array.isArray(backendErrorMessage) ? loopSimpleErrors(backendErrorMessage) : toastr.error(backendErrorMessage);
     }
 
     const axiosErrors = get(err, 'response.data.errors');

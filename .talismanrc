@@ -26,11 +26,13 @@ fileignoreconfig:
 - filename: frontend/package-lock.json
   checksum: c20f1a94c24f3d784446d0841fa4c51813eec13287b7fac10adb29ba6760801e
 - filename: frontend/src/components/App/AppRouter/index.tsx
-  checksum: 0925bfb3fd2bc5a3feacd7e73c7056612b163c4d5b0d24d47fe8acd149545d8a
+  checksum: fa7f12c1b40b8861f516436924452415171262ea1ae1043e6a0f334faf3b492e
+- filename: frontend/src/components/Modal/index.tsx
+  checksum: 8a684ba004540d8e4520259d5b1474067a7e871115b3225e49b5fcbfea7125c5
+- filename: frontend/src/pages/Login/components/LoginForm/index.tsx
+  checksum: 0e5cfc239356f9e1e0deb8d5ac7a5351bca3e862fd8762698597b16bb37e12c0
 - filename: frontend/src/react-app-env.d.ts
   checksum: dd9923860a58d9a975bc9a9e53fff15386fce5d90aa1e330ab75f8d71900b6df
 - filename: frontend/yarn.lock
-  checksum: fdb1bf3ad818c58e1b4dfc6a071177c01f8922defc73be220b97143887a4351f
-- filename: frontend/src/pages/Login/components/LoginForm/index.tsx
-  checksum: 1a8550ecaa5cf40312778017aa1555a321aa8ed414bc29aa225ea925913914e2
+  checksum: 1daaa74f79ca38aead18710562e768ff4a4f8f258c7ab4f40498863df9d49aa5
 version: "1.0"

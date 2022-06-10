@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { ChangeEventHandler, FC } from 'react';
 import classNames from 'classnames';
 
 import styles from './styles.module.scss';
@@ -6,15 +6,24 @@ import styles from './styles.module.scss';
 type ComponentProps = {
     className?: string;
     label?: string;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
+    value: string;
+    name: string;
+    type?: 'text' | 'password';
 }
 
 const InputText: FC<ComponentProps> = (props) => {
-    const { className, label } = props;
+    const { className, label, onChange, value, name, type = 'text' } = props;
 
     return (
         <div className={classNames(styles.inputText, className)}>
             <label className={styles.label}>{label}</label>
-            <input className={styles.input} type="text" />
+            <input
+                onChange={onChange}
+                className={styles.input}
+                type={type} value={value}
+                name={name}
+            />
         </div>
     );
 };

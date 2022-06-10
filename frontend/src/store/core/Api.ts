@@ -52,7 +52,7 @@ export default class Api<D> {
             }
 
             return response;
-        } catch (err) {
+        } catch (err: any) {
             const config = {
                 ...cfg,
                 status: (err as AxiosError)?.response?.status,

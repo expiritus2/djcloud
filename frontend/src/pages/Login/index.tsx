@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import { observer } from 'mobx-react-lite';
 
 import { Header } from 'components';
 import { LoginForm } from './components';
@@ -24,4 +23,4 @@ const Login: FC<ComponentProps> = (props) => {
     );
 };
 
-export default observer(Login);
+export default Login;

@@ -1,4 +1,5 @@
 export const routes = {
     index: '/',
-    login: '/login'
+    login: '/login',
+    adminCategoriesList: '/admin/categories'
 };

@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start:dev": "lerna run start:dev --parallel"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^5.1.1"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "version": "5.1.1",
+  "packages": [
+    "backend",
+    "frontend"
+  ],
+  "command": {
+    "run": {
+      "npmClient": "yarn"
+    }
+  },
+  "ignoreChanges": [
+    "**/*.md"
+  ]
+}

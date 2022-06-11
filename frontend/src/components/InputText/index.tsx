@@ -10,7 +10,7 @@ type ComponentProps = {
     value: string;
     name: string;
     type?: 'text' | 'password';
-}
+};
 
 const InputText: FC<ComponentProps> = (props) => {
     const { className, label, onChange, value, name, type = 'text' } = props;
@@ -18,13 +18,7 @@ const InputText: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.inputText, className)}>
             <label className={styles.label}>{label}</label>
-            <input
-                onChange={onChange}
-                className={styles.input}
-                type={type}
-                value={value}
-                name={name}
-            />
+            <input onChange={onChange} className={styles.input} type={type} value={value} name={name} />
         </div>
     );
 };

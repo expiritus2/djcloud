@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
-}
+};
 
 const Login: FC<ComponentProps> = (props) => {
     const { className } = props;

@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 type ComponentProps = {
     className?: string;
     placeholder?: string;
-}
+};
 
 const Search: FC<ComponentProps> = (props) => {
     const { className, placeholder = 'Search' } = props;

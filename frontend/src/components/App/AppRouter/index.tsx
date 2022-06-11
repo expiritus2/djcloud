@@ -25,9 +25,7 @@ const AppRouter: FC = () => {
                         Page = <Navigate to={routes.login} />;
                     }
 
-                    return (
-                        <Route key={path} path={path} element={Page} />
-                    );
+                    return <Route key={path} path={path} element={Page} />;
                 })}
             </Routes>
         </BrowserRouter>

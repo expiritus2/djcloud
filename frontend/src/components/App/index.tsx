@@ -13,7 +13,7 @@ export function App() {
 
     useEffect(() => {
         user.currentUser();
-  }, []); // eslint-disable-line
+    }, []); // eslint-disable-line
 
     return isWaitUser ? <Spinner loaderWrapperClassName={styles.loader} /> : <AppRouter />;
 }

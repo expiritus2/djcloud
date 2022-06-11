@@ -11,14 +11,14 @@ import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
-}
+};
 
 const Navigation: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { user } = useStore();
     const location = useLocation();
 
-    const getLinkClassName = ({ isActive }: { isActive: boolean }) => classNames(styles.link, (isActive ? styles.active : ''));
+    const getLinkClassName = ({ isActive }: { isActive: boolean }) => classNames(styles.link, isActive ? styles.active : '');
 
     return (
         <div className={classNames(styles.navigation, className)}>

@@ -5,7 +5,7 @@ import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
-}
+};
 
 const NotFound: FC<ComponentProps> = (props) => {
     const { className } = props;

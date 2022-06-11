@@ -11,14 +11,14 @@ export type ButtonType = {
     variant: 'primary' | 'secondary' | 'danger' | 'success';
     formId?: string;
     className?: string;
-}
+};
 
 type ComponentProps = {
     className?: string;
-    children: ReactNode,
-    title: string,
-    buttons: ButtonType[],
-}
+    children: ReactNode;
+    title: string;
+    buttons: ButtonType[];
+};
 
 const Modal: FC<ComponentProps> = (props) => {
     const { className, children, title, buttons } = props;
@@ -30,14 +30,7 @@ const Modal: FC<ComponentProps> = (props) => {
             <div className={classNames(styles.meta, styles.footer)}>
                 <div className={styles.buttons}>
                     {buttons.map((button) => (
-                        <Button
-                            key={button.id}
-                            onClick={button.onClick}
-                            label={button.label}
-                            className={classNames(styles.button, button.className)}
-                            variant={button.variant}
-                            form={button.formId}
-                        />
+                        <Button key={button.id} onClick={button.onClick} label={button.label} className={classNames(styles.button, button.className)} variant={button.variant} form={button.formId} />
                     ))}
                 </div>
                 <div className={styles.clear} />

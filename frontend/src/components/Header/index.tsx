@@ -9,7 +9,7 @@ import { routes } from '../../settings/navigation/routes';
 
 type ComponentProps = {
     className?: string;
-}
+};
 
 const Header: FC<ComponentProps> = (props) => {
     const { className } = props;
@@ -29,11 +29,7 @@ const Header: FC<ComponentProps> = (props) => {
             <div className={styles.info}>
                 <Navigation />
                 <Search className={styles.search} />
-                <Avatar
-                    src="/images/default_avatar.png"
-                    className={styles.avatar}
-                    onClick={onClickLogin}
-                />
+                <Avatar src="/images/default_avatar.png" className={styles.avatar} onClick={onClickLogin} />
             </div>
         </div>
     );

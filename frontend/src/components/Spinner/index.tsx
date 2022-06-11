@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 type ComponentProps = {
     loaderWrapperClassName?: string;
     className?: string;
-}
+};
 
 const Spinner: FC<ComponentProps> = (props) => {
     const { loaderWrapperClassName, className } = props;

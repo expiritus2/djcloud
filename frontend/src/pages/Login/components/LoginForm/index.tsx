@@ -12,7 +12,7 @@ import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
-}
+};
 
 const LoginForm: FC<ComponentProps> = (props) => {
     const formId = 'login-form';

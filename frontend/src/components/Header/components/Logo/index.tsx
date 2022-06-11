@@ -5,8 +5,8 @@ import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
-    onClick?: MouseEventHandler<HTMLElement>
-}
+    onClick?: MouseEventHandler<HTMLElement>;
+};
 
 const Logo: FC<ComponentProps> = (props) => {
     const { className, onClick } = props;

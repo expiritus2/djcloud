@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { makeObservable, observable, reaction } from 'mobx';
 import { RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';

@@ -6,8 +6,8 @@ import styles from './styles.module.scss';
 type ComponentProps = {
     className?: string;
     src: string;
-    onClick?: MouseEventHandler<HTMLElement>,
-}
+    onClick?: MouseEventHandler<HTMLElement>;
+};
 
 const Avatar: FC<ComponentProps> = (props) => {
     const { className, src, onClick } = props;

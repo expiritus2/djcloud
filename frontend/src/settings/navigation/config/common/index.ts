@@ -1,11 +1,16 @@
 import { routes } from 'settings/navigation/routes';
-import { Tracks } from 'pages';
+import { Login, Tracks } from 'pages';
 import { INavigation } from 'types/navigation';
 
 const commonRoutes: INavigation[] = [
     {
         path: routes.index,
         Component: Tracks,
+    },
+    {
+        path: routes.login,
+        Component: Login,
+        roles: [],
     },
     {
         path: routes.mixs,

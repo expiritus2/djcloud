@@ -12,30 +12,30 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 const cookieSession = require('cookie-session');
 
 @Module({
-  imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'upload', process.env.NODE_ENV),
-    }),
-    ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot(),
-    UsersModule,
-    AuthModule,
-    GenresModule,
-    CategoriesModule,
-    TracksModule,
-  ],
-  providers: [],
+    imports: [
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', '..', 'upload', process.env.NODE_ENV),
+        }),
+        ConfigModule.forRoot({ isGlobal: true }),
+        TypeOrmModule.forRoot(),
+        UsersModule,
+        AuthModule,
+        GenresModule,
+        CategoriesModule,
+        TracksModule,
+    ],
+    providers: [],
 })
 export class AppModule {
-  constructor(private configService: ConfigService) {}
+    constructor(private configService: ConfigService) {}
 
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(
-        cookieSession({
-          keys: [this.configService.get('COOKIE_KEY')],
-        }),
-      )
-      .forRoutes('*');
-  }
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(
+                cookieSession({
+                    keys: [this.configService.get('COOKIE_KEY')],
+                }),
+            )
+            .forRoutes('*');
+    }
 }

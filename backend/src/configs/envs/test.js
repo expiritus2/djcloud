@@ -2,5 +2,5 @@
 const path = require('path');
 
 module.exports = {
-  domain: path.resolve('upload', 'test'),
+    domain: path.resolve('upload', 'test'),
 };

@@ -5,7 +5,7 @@
     "node": true,
     "jest": true
   },
-  "extends": ["airbnb"],
+  "extends": ["airbnb-typescript"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
@@ -15,7 +15,7 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "react-hooks"],
+  "plugins": ["react", "prettier", "react-hooks", "@typescript-eslint/eslint-plugin"],
   "settings": {
     "react": {
       "pragma": "React",
@@ -28,7 +28,6 @@
     }
   },
   "rules": {
-    "indent": [2, 4, { "SwitchCase": 1 }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": "off",
@@ -37,7 +36,7 @@
       "ignoreTrailingComments": true,
       "ignoreUrls": true,
       "ignoreStrings": true,
-      "ignoreTemplateLiterals": true,
+      "ignoreTemplateLiterals": true
     }],
     "react/jsx-indent-props": [2, 4],
     "react/jsx-indent": [2, 4, { "checkAttributes": true, "indentLogicalExpressions": true }],
@@ -63,6 +62,9 @@
     "default-param-last": "off",
     "arrow-body-style": "off",
     "react/require-default-props": "off",
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/indent": ["error", 4],
+    "@typescript-eslint/default-param-last": "off"
   }
 }

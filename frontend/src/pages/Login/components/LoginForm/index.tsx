@@ -8,6 +8,7 @@ import { ButtonType } from 'components/Modal';
 import classNames from 'classnames';
 
 import styles from './styles.module.scss';
+import { AxiosError } from 'axios';
 
 type ComponentProps = {
     className?: string;
@@ -26,7 +27,11 @@ const LoginForm: FC<ComponentProps> = (props) => {
 
     const onClickSubmit = (event: any) => {
         event.preventDefault();
-        user.loginAction(values);
+        user.loginAction(values, {}, (err: AxiosError) => {
+            if(!err) {
+                navigate(routes.adminCategoriesList);
+            }
+        });
     }
 
     const onChangeFieldValue = (event: any) => {

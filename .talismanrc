@@ -8,7 +8,7 @@ fileignoreconfig:
 - filename: backend/src/app.module.ts
   checksum: 5305fd610bd1948356da647de0c1cdf4f791ad0ccab2358cd543a8917d032364
 - filename: backend/src/configs/app/cookieSession.ts
-  checksum: 32ad7756faa7fdd2f8ae0d5d3b4654bae40dde421ebfc7a0ff9df3a27376a104
+  checksum: a86303e1075847d4aa07d97cd4549f5679a7b3d0ab304183f7fee5e371805831
 - filename: backend/src/modules/auth/__tests__/auth.controller.spec.ts
   checksum: e33122590fd71f5090301dd11e3cd6cad4a42a409296c18cd40736656711ba3e
 - filename: backend/src/modules/auth/__tests__/auth.service.spec.ts
@@ -26,7 +26,7 @@ fileignoreconfig:
 - filename: frontend/package-lock.json
   checksum: c20f1a94c24f3d784446d0841fa4c51813eec13287b7fac10adb29ba6760801e
 - filename: frontend/src/components/App/AppRouter/index.tsx
-  checksum: fa7f12c1b40b8861f516436924452415171262ea1ae1043e6a0f334faf3b492e
+  checksum: eeab381105f17a5618aa293591711c975238969bd0f135e287e13d7dd09ec46e
 - filename: frontend/src/components/Modal/index.tsx
   checksum: 8a684ba004540d8e4520259d5b1474067a7e871115b3225e49b5fcbfea7125c5
 - filename: frontend/src/pages/Login/components/LoginForm/index.tsx

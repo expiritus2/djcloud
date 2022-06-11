@@ -35,5 +35,5 @@ fileignoreconfig:
   checksum: dd9923860a58d9a975bc9a9e53fff15386fce5d90aa1e330ab75f8d71900b6df
 - filename: yarn.lock
   checksum: ab5af3c7cbe9b87c0461c6f1c6cfc3de44e24d125d18894d9a1435c4f4068e80
-  ignore_detectors: []
+  ignore_detectors: [filecontent, filename, filesize]
 version: "1.0"

@@ -19,13 +19,16 @@ export abstract class BaseStore<T> {
         this.logStore('state', this.data);
 
         reaction(
-            () => this.data.state, (state) => this.logStore('state', state),
+            () => this.data.state,
+            (state) => this.logStore('state', state),
         );
         reaction(
-            () => this.data.data, (data) => this.logStore('data', data),
+            () => this.data.data,
+            (data) => this.logStore('data', data),
         );
         reaction(
-            () => this.data.meta, (meta) => this.logStore('meta', meta),
+            () => this.data.meta,
+            (meta) => this.logStore('meta', meta),
         );
     }
 

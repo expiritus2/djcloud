@@ -6,6 +6,7 @@ import store, { StoreContext } from './store';
 import * as toastr from 'toastr';
 
 import 'toastr/build/toastr.css';
+
 import './styles/global.scss';
 
 // @ts-ignore

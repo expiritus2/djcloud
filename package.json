@@ -2,8 +2,8 @@
   "scripts": {
     "start:dev": "lerna run start:dev --parallel",
     "prepare": "husky install",
-    "format": "lerna run format --since master --parallel",
-    "lint": "lerna run lint --since master --parallel"
+    "format": "lerna run format --since develop --parallel",
+    "lint": "lerna run lint --since develop --parallel"
   },
   "dependencies": {},
   "devDependencies": {

@@ -1,0 +1,27 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   since: 'development',
+0 silly argv   parallel: true,
+0 silly argv   lernaVersion: '5.1.1',
+0 silly argv   '$0': '/Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/.bin/lerna',
+0 silly argv   script: 'format'
+0 silly argv }
+1 notice cli v5.1.1
+2 verbose rootPath /Users/michaildrazdovich/projects/petProjects/djcloud
+3 notice filter changed since "development"
+4 silly hasTags
+5 verbose hasTags false
+6 info Looking for changed packages since development
+7 info ignoring diff in paths matching [ '**/*.md' ]
+8 silly checking diff backend
+9 error Error: Command failed with exit code 128: git diff --name-only development -- backend
+9 error fatal: bad revision 'development'
+9 error     at makeError (/Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/execa/lib/error.js:60:11)
+9 error     at Function.module.exports.sync (/Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/execa/index.js:194:17)
+9 error     at Object.execSync (/Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/@lerna/child-process/index.js:39:16)
+9 error     at diffSinceIn (/Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/@lerna/collect-updates/lib/make-diff-predicate.js:75:23)
+9 error     at hasDiffSinceThatIsntIgnored (/Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/@lerna/collect-updates/lib/make-diff-predicate.js:34:18)
+9 error     at isCandidate (/Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/@lerna/collect-updates/collect-updates.js:113:77)
+9 error     at /Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/@lerna/collect-updates/lib/collect-packages.js:24:9
+9 error     at Map.forEach (<anonymous>)
+9 error     at collectPackages (/Users/michaildrazdovich/projects/petProjects/djcloud/node_modules/@lerna/collect-updates/lib/collect-packages.js:23:12)

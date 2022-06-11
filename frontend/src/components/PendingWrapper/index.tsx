@@ -1,8 +1,8 @@
 import React, { FC, ReactElement } from 'react';
 import classNames from 'classnames';
 
-import styles from './styles.module.scss';
 import { Spinner } from 'components';
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
@@ -20,5 +20,4 @@ const PendingWrapper: FC<ComponentProps> = (props) => {
     );
 };
 
-export default PendingWrapper
-;
+export default PendingWrapper;

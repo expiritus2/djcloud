@@ -3,15 +3,15 @@ import prodConfig from './production.json';
 import testConfig from './test';
 
 enum EnvEnums {
-  DEVELOPMENT = 'development',
-  PRODUCTION = 'production',
-  TEST = 'test',
+    DEVELOPMENT = 'development',
+    PRODUCTION = 'production',
+    TEST = 'test',
 }
 
 const envMap = {
-  [EnvEnums.DEVELOPMENT]: devConfig,
-  [EnvEnums.PRODUCTION]: prodConfig,
-  [EnvEnums.TEST]: testConfig,
+    [EnvEnums.DEVELOPMENT]: devConfig,
+    [EnvEnums.PRODUCTION]: prodConfig,
+    [EnvEnums.TEST]: testConfig,
 };
 
 export const env = process.env.NODE_ENV || 'development';

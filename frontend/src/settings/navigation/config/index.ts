@@ -1,7 +1,7 @@
 import { INavigation } from 'types/navigation';
+import { NotFound } from 'pages';
 import commonRoutes from './common';
 import protectedRoutes from './protected';
-import { NotFound } from 'pages';
 
 const allRoutes: INavigation[] = [
     ...commonRoutes,
@@ -10,7 +10,7 @@ const allRoutes: INavigation[] = [
         path: '*',
         Component: NotFound,
         roles: [],
-    }
+    },
 ];
 
 export default allRoutes;

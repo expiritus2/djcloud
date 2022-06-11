@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const getDevelopmentApiLink = () => (process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000');
+const getDevelopmentApiLink = () => process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 const getProductionApiLink = () => process.env.REACT_APP_API_ENDPOINT;
 
 export const apiServer = axios.create({
@@ -9,5 +9,5 @@ export const apiServer = axios.create({
         Accept: 'application/json',
         'Content-Type': 'application/json',
     },
-    withCredentials: true
+    withCredentials: true,
 });

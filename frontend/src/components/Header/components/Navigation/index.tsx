@@ -18,7 +18,7 @@ const Navigation: FC<ComponentProps> = (props) => {
     const { user } = useStore();
     const location = useLocation();
 
-    const getLinkClassName = ({ isActive }: { isActive: boolean }) => classNames(styles.link, (isActive ? styles.active : ''))
+    const getLinkClassName = ({ isActive }: { isActive: boolean }) => classNames(styles.link, (isActive ? styles.active : ''));
 
     return (
         <div className={classNames(styles.navigation, className)}>
@@ -33,15 +33,16 @@ const Navigation: FC<ComponentProps> = (props) => {
                         Created
                     </NavLink>
                 </li>
-                {user.data?.data?.role?.name === UserRoleEnum.ADMIN && <li className={styles.item}>
-                    <NavLink className={getLinkClassName } to={routes.adminCategoriesList}>
-                        Admin
-                    </NavLink>
-                </li>}
+                {user.data?.data?.role?.name === UserRoleEnum.ADMIN && (
+                    <li className={styles.item}>
+                        <NavLink className={getLinkClassName} to={routes.adminCategoriesList}>
+                            Admin
+                        </NavLink>
+                    </li>
+                )}
             </ul>
         </div>
     );
 };
 
-export default observer(Navigation)
-;
+export default observer(Navigation);

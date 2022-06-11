@@ -3,21 +3,21 @@ import { TrackEntity } from './track.entity';
 
 @Entity('files')
 export class FileEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column()
-  url: string;
+    @Column()
+    url: string;
 
-  @Column()
-  size: number;
+    @Column()
+    size: number;
 
-  @Column()
-  mimetype: string;
+    @Column()
+    mimetype: string;
 
-  @OneToOne(() => TrackEntity, (track) => track.file)
-  track: TrackEntity;
+    @OneToOne(() => TrackEntity, (track) => track.file)
+    track: TrackEntity;
 }

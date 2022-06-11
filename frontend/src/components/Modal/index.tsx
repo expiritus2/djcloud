@@ -40,7 +40,7 @@ const Modal: FC<ComponentProps> = (props) => {
                         />
                     ))}
                 </div>
-                <div className={styles.clear}></div>
+                <div className={styles.clear} />
             </div>
         </div>
     );

@@ -4,16 +4,16 @@ import { UserEntity } from '../users/user.entity';
 
 @Entity('roles')
 export class RoleEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({
-    type: 'enum',
-    enum: RolesEnum,
-    default: RolesEnum.ADMIN,
-  })
-  name: RolesEnum;
+    @Column({
+        type: 'enum',
+        enum: RolesEnum,
+        default: RolesEnum.ADMIN,
+    })
+    name: RolesEnum;
 
-  @OneToMany(() => UserEntity, (user) => user.role)
-  users: UserEntity[];
+    @OneToMany(() => UserEntity, (user) => user.role)
+    users: UserEntity[];
 }

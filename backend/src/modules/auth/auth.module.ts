@@ -9,12 +9,12 @@ import { CurrentUserMiddleware } from '../../lib/middlewares/current-user';
 import { RoleEntity } from '../roles/role.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), UsersModule],
-  controllers: [AuthController],
-  providers: [AuthService, UsersService],
+    imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), UsersModule],
+    controllers: [AuthController],
+    providers: [AuthService, UsersService],
 })
 export class AuthModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CurrentUserMiddleware).forRoutes('*');
-  }
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(CurrentUserMiddleware).forRoutes('*');
+    }
 }

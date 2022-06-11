@@ -1,7 +1,7 @@
-import { showErrorMessage } from '../../helpers/errors';
+import { showErrorMessage } from 'helpers/errors';
 import { AxiosError } from 'axios';
-import { RequestOptions, RequestStateEnum } from '../../types/request';
-import { StoreData } from '../../types/store';
+import { RequestOptions, RequestStateEnum } from 'types/request';
+import { StoreData } from 'types/store';
 
 interface IApiParams<D> {
     data: StoreData<D>;
@@ -21,6 +21,7 @@ interface IResponse extends IRequest {
 
 export default class Api<D> {
     data: StoreData<D>;
+
     method: Function | undefined;
 
     constructor({ data, method }: IApiParams<D>) {
@@ -29,7 +30,7 @@ export default class Api<D> {
     }
 
     execResult(): Function {
-        return async (cfg: any = {}, options: RequestOptions = {}, cb: (err: any, response: any) => void) => {
+        return async (cfg: any = {}, options: RequestOptions = {}, cb: Function) => {
             const opts = { showError: true, silent: true, ...options };
 
             return this.execFunc({ cfg, options: opts, cb });
@@ -62,8 +63,6 @@ export default class Api<D> {
             this.setError({
                 cfg: config,
                 response: err,
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 errors: err?.response?.data?.errors,
                 options,
             });

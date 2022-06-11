@@ -1,6 +1,6 @@
 export type Role = {
     name: string;
-}
+};
 
 export type User = {
     id: number;
@@ -11,4 +11,4 @@ export type User = {
 export type LoginProps = {
     email: string;
     password: string;
-}
+};

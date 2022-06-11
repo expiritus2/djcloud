@@ -7,83 +7,79 @@ import { PaginationQueryDto } from '../../../lib/common/dtos';
 import { snakeCase } from 'lodash';
 
 describe('GenresController', () => {
-  let controller: GenresController;
-  let mockGenresService;
-  const mockAdminGuard: CanActivate = { canActivate: jest.fn(() => true) };
+    let controller: GenresController;
+    let mockGenresService;
+    const mockAdminGuard: CanActivate = { canActivate: jest.fn(() => true) };
 
-  beforeEach(async () => {
-    mockGenresService = {
-      getAll: jest.fn(() => [
-        { id: 1, name: 'Test Genre', value: 'test_genre' },
-      ]),
-      create: jest.fn(({ name }) => ({ id: 1, name, value: snakeCase(name) })),
-      update: jest.fn((id, { name }) => ({
-        id,
-        name,
-        value: snakeCase(name),
-      })),
-      remove: jest.fn((id) => ({
-        id,
-        name: 'Removed Genre',
-        value: 'removed_genre',
-      })),
-    };
+    beforeEach(async () => {
+        mockGenresService = {
+            getAll: jest.fn(() => [{ id: 1, name: 'Test Genre', value: 'test_genre' }]),
+            create: jest.fn(({ name }) => ({ id: 1, name, value: snakeCase(name) })),
+            update: jest.fn((id, { name }) => ({
+                id,
+                name,
+                value: snakeCase(name),
+            })),
+            remove: jest.fn((id) => ({
+                id,
+                name: 'Removed Genre',
+                value: 'removed_genre',
+            })),
+        };
 
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [GenresController],
-      providers: [
-        {
-          provide: GenresService,
-          useValue: mockGenresService,
-        },
-      ],
-    })
-      .overrideGuard(AdminGuard)
-      .useValue(mockAdminGuard)
-      .compile();
+        const module: TestingModule = await Test.createTestingModule({
+            controllers: [GenresController],
+            providers: [
+                {
+                    provide: GenresService,
+                    useValue: mockGenresService,
+                },
+            ],
+        })
+            .overrideGuard(AdminGuard)
+            .useValue(mockAdminGuard)
+            .compile();
 
-    controller = module.get<GenresController>(GenresController);
-  });
-
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-
-  describe('getAll', () => {
-    it('getAll returns genres', async () => {
-      const result = await controller.getAll({} as PaginationQueryDto);
-      expect(result).toEqual([
-        { id: 1, name: 'Test Genre', value: 'test_genre' },
-      ]);
+        controller = module.get<GenresController>(GenresController);
     });
-  });
 
-  describe('create', () => {
-    it('create should create new entity', async () => {
-      const result = await controller.create({ name: 'New Genre' });
-      expect(result).toEqual({ id: 1, name: 'New Genre', value: 'new_genre' });
+    it('should be defined', () => {
+        expect(controller).toBeDefined();
     });
-  });
 
-  describe('update', () => {
-    it('create should create new entity', async () => {
-      const result = await controller.update('1', { name: 'Updated Genre' });
-      expect(result).toEqual({
-        id: '1',
-        name: 'Updated Genre',
-        value: 'updated_genre',
-      });
+    describe('getAll', () => {
+        it('getAll returns genres', async () => {
+            const result = await controller.getAll({} as PaginationQueryDto);
+            expect(result).toEqual([{ id: 1, name: 'Test Genre', value: 'test_genre' }]);
+        });
     });
-  });
 
-  describe('update', () => {
-    it('create should create new entity', async () => {
-      const result = await controller.remove('1');
-      expect(result).toEqual({
-        id: '1',
-        name: 'Removed Genre',
-        value: 'removed_genre',
-      });
+    describe('create', () => {
+        it('create should create new entity', async () => {
+            const result = await controller.create({ name: 'New Genre' });
+            expect(result).toEqual({ id: 1, name: 'New Genre', value: 'new_genre' });
+        });
     });
-  });
+
+    describe('update', () => {
+        it('create should create new entity', async () => {
+            const result = await controller.update('1', { name: 'Updated Genre' });
+            expect(result).toEqual({
+                id: '1',
+                name: 'Updated Genre',
+                value: 'updated_genre',
+            });
+        });
+    });
+
+    describe('update', () => {
+        it('create should create new entity', async () => {
+            const result = await controller.remove('1');
+            expect(result).toEqual({
+                id: '1',
+                name: 'Removed Genre',
+                value: 'removed_genre',
+            });
+        });
+    });
 });

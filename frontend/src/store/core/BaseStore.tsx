@@ -8,16 +8,16 @@ export abstract class BaseStore<T> {
         state: RequestStateEnum.IDLE,
         data: null,
         meta: {},
-    }
+    };
 
     protected constructor() {
         makeObservable(this, {
             data: observable,
         });
 
-        this.logStore('state', this.data)
-        reaction(() => this.data.state, (state) => this.logStore('state', state))
-        reaction(() => this.data.data, (data) => this.logStore('data', data))
+        this.logStore('state', this.data);
+        reaction(() => this.data.state, (state) => this.logStore('state', state));
+        reaction(() => this.data.data, (data) => this.logStore('data', data));
         reaction(() => this.data.meta, (meta) => this.logStore('meta', meta));
     }
 

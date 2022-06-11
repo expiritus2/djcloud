@@ -3,5 +3,5 @@ export const routes = {
     login: '/login',
     mixs: '/mixs',
     created: '/created',
-    adminCategoriesList: '/admin/categories'
+    adminCategoriesList: '/admin/categories',
 };

@@ -21,7 +21,8 @@ const InputText: FC<ComponentProps> = (props) => {
             <input
                 onChange={onChange}
                 className={styles.input}
-                type={type} value={value}
+                type={type}
+                value={value}
                 name={name}
             />
         </div>

@@ -10,20 +10,15 @@ import { MulterModule } from '@nestjs/platform-express';
 import { storage, fileFilter } from './track.utils';
 
 @Module({
-  imports: [
-    MulterModule.register({
-      storage,
-      dest: `./upload/${process.env.NODE_ENV}`,
-      fileFilter,
-    }),
-    TypeOrmModule.forFeature([
-      TrackEntity,
-      FileEntity,
-      GenreEntity,
-      CategoryEntity,
-    ]),
-  ],
-  controllers: [TracksController],
-  providers: [TracksService],
+    imports: [
+        MulterModule.register({
+            storage,
+            dest: `./upload/${process.env.NODE_ENV}`,
+            fileFilter,
+        }),
+        TypeOrmModule.forFeature([TrackEntity, FileEntity, GenreEntity, CategoryEntity]),
+    ],
+    controllers: [TracksController],
+    providers: [TracksService],
 })
 export class TracksModule {}

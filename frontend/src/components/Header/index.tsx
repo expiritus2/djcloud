@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
 import { Avatar, Search } from 'components';
-import { Logo, Navigation } from './components';
 import { useNavigate } from 'react-router-dom';
+import { Logo, Navigation } from './components';
 
 import styles from './styles.module.scss';
 import { routes } from '../../settings/navigation/routes';
@@ -17,11 +17,11 @@ const Header: FC<ComponentProps> = (props) => {
 
     const onClickLogin = () => {
         navigate(routes.login);
-    }
+    };
 
     const onLogoClick = () => {
         navigate(routes.index);
-    }
+    };
 
     return (
         <div className={classNames(styles.header, className)}>
@@ -30,7 +30,7 @@ const Header: FC<ComponentProps> = (props) => {
                 <Navigation />
                 <Search className={styles.search} />
                 <Avatar
-                    src={'/images/default_avatar.png'}
+                    src="/images/default_avatar.png"
                     className={styles.avatar}
                     onClick={onClickLogin}
                 />

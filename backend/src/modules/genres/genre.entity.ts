@@ -3,15 +3,15 @@ import { TrackEntity } from '../tracks/track.entity';
 
 @Entity('genres')
 export class GenreEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column()
-  value: string;
+    @Column()
+    value: string;
 
-  @OneToMany(() => TrackEntity, (track) => track.genre)
-  tracks: TrackEntity[];
+    @OneToMany(() => TrackEntity, (track) => track.genre)
+    tracks: TrackEntity[];
 }

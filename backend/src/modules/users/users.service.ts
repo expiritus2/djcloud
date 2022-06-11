@@ -7,35 +7,32 @@ import { RolesEnum } from '../roles/roles.enum';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
-    @InjectRepository(RoleEntity) private roleRepo: Repository<RoleEntity>,
-  ) {}
+    constructor(@InjectRepository(UserEntity) private userRepo: Repository<UserEntity>, @InjectRepository(RoleEntity) private roleRepo: Repository<RoleEntity>) {}
 
-  async create(email: string, password: string): Promise<UserEntity> {
-    const role = await this.roleRepo.findOne({ name: RolesEnum.USER });
-    const user = this.userRepo.create({ email, password, role });
+    async create(email: string, password: string): Promise<UserEntity> {
+        const role = await this.roleRepo.findOne({ name: RolesEnum.USER });
+        const user = this.userRepo.create({ email, password, role });
 
-    return this.userRepo.save(user);
-  }
-
-  async findOne(id: string | number): Promise<UserEntity> {
-    const user = await this.userRepo.findOne(id, { relations: ['role'] });
-
-    if (!user) {
-      throw new NotFoundException(`User with id: ${id} is not exists`);
+        return this.userRepo.save(user);
     }
 
-    return user;
-  }
+    async findOne(id: string | number): Promise<UserEntity> {
+        const user = await this.userRepo.findOne(id, { relations: ['role'] });
 
-  find(options: any): Promise<UserEntity[]> {
-    return this.userRepo.find({ relations: ['role'], where: options });
-  }
+        if (!user) {
+            throw new NotFoundException(`User with id: ${id} is not exists`);
+        }
 
-  async remove(id: number): Promise<UserEntity> {
-    const user = await this.findOne(id);
+        return user;
+    }
 
-    return this.userRepo.remove(user);
-  }
+    find(options: any): Promise<UserEntity[]> {
+        return this.userRepo.find({ relations: ['role'], where: options });
+    }
+
+    async remove(id: number): Promise<UserEntity> {
+        const user = await this.findOne(id);
+
+        return this.userRepo.remove(user);
+    }
 }

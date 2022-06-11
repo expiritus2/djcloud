@@ -1,0 +1,43 @@
+{
+  "extends": ["google", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": false
+    }
+  },
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "indent": [2, 4, { "SwitchCase": 1 }],
+    "no-console": [
+      "warn"
+    ],
+    "no-implicit-coercion": [
+      "error"
+    ],
+    "no-process-env": "off",
+    "no-restricted-syntax": [
+      "error",
+      "ForInStatement",
+      "LabeledStatement",
+      "WithStatement"
+    ],
+    "no-underscore-dangle": "off",
+    "no-unused-expressions": [
+      "error"
+    ],
+    "prefer-promise-reject-errors": [
+      "error"
+    ],
+    "valid-jsdoc": "off",
+    "camelcase": "off",
+    "prettier/prettier": "error",
+    "require-jsdoc": "off",
+    "no-unused-vars": "error"
+  }
+}

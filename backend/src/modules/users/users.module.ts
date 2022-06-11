@@ -7,9 +7,9 @@ import { RoleEntity } from '../roles/role.entity';
 
 @Global()
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity])],
-  controllers: [UsersController],
-  providers: [UsersService],
-  exports: [UsersService],
+    imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity])],
+    controllers: [UsersController],
+    providers: [UsersService],
+    exports: [UsersService],
 })
 export class UsersModule {}

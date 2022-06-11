@@ -11,9 +11,11 @@ const loopErrors = (errors: any) => {
 
 const loopSimpleErrors = (errors: any) => {
     if (errors && Array.isArray(errors)) {
-        errors.forEach((error) => { toastr.error(error); });
+        errors.forEach((error) => {
+            toastr.error(error);
+        });
     }
-}
+};
 
 export const showErrorMessage = (err: any) => {
     if (typeof err === 'string') {

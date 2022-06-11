@@ -1,9 +1,17 @@
 {
   "scripts": {
-    "start:dev": "lerna run start:dev --parallel"
+    "start:dev": "lerna run start:dev --parallel",
+    "prepare": "husky install",
+    "format": "lerna run format --parallel",
+    "lint": "lerna run lint --parallel"
   },
   "dependencies": {},
   "devDependencies": {
-    "lerna": "^5.1.1"
-  }
+    "eslint": "^8.17.0",
+    "husky": ">=7",
+    "lerna": "^5.1.1",
+    "lint-staged": ">=10",
+    "prettier": "^2.6.2"
+  },
+  "lint-staged": {}
 }

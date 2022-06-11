@@ -13,12 +13,12 @@ const ENV = process.env.NODE_ENV || 'development';
 const origin = ENV === 'development' ? 'http://localhost:3000' : '';
 
 export async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  setSwagger(app);
-  setPipe(app);
-  setCookieSession(app);
-  setHeaders(app);
-  app.enableCors({ origin, credentials: true });
-  await app.listen(PORT);
+    const app = await NestFactory.create(AppModule);
+    setSwagger(app);
+    setPipe(app);
+    setCookieSession(app);
+    setHeaders(app);
+    app.enableCors({ origin, credentials: true });
+    await app.listen(PORT);
 }
 bootstrap();

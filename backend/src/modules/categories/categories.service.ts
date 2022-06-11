@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaginationQueryDto } from '../../lib/common/dtos';
@@ -13,81 +9,72 @@ import { UpdateCategoryDto } from './dtos/update-category.dto';
 import { CategoryEntity } from './category.entity';
 
 interface Category {
-  id?: number;
-  name: string;
-  value: string;
+    id?: number;
+    name: string;
+    value: string;
 }
 
 @Injectable()
 export class CategoriesService {
-  // eslint-disable-next-line prettier/prettier
-  constructor(@InjectRepository(CategoryEntity) private categoryRepo: Repository<CategoryEntity>) {}
+    // eslint-disable-next-line prettier/prettier
+    constructor(
+        @InjectRepository(CategoryEntity)
+        private categoryRepo: Repository<CategoryEntity>,
+    ) {}
 
-  async find(options: Partial<Category>): Promise<CategoryEntity[]> {
-    const category = await this.categoryRepo.find({ where: options });
+    async find(options: Partial<Category>): Promise<CategoryEntity[]> {
+        const category = await this.categoryRepo.find({ where: options });
 
-    if (!category) {
-      throw new NotFoundException(
-        `Category with options: ${JSON.stringify(options)} not found`,
-      );
+        if (!category) {
+            throw new NotFoundException(`Category with options: ${JSON.stringify(options)} not found`);
+        }
+
+        return category;
     }
 
-    return category;
-  }
+    async findOne(id: string | number): Promise<CategoryEntity> {
+        const category = await this.categoryRepo.findOne(id);
 
-  async findOne(id: string | number): Promise<CategoryEntity> {
-    const category = await this.categoryRepo.findOne(id);
+        if (!category) {
+            throw new NotFoundException(`Category with id: ${id} not found`);
+        }
 
-    if (!category) {
-      throw new NotFoundException(`Category with id: ${id} not found`);
+        return category;
     }
 
-    return category;
-  }
+    async getAll(query: PaginationQueryDto): Promise<{ data: CategoryEntity[]; count: number }> {
+        const queryBuilder = this.categoryRepo.createQueryBuilder('category');
+        const paginateQueryBuilder = simplePaginateQuery<CategoryEntity>(queryBuilder, query);
 
-  async getAll(
-    query: PaginationQueryDto,
-  ): Promise<{ data: CategoryEntity[]; count: number }> {
-    const queryBuilder = this.categoryRepo.createQueryBuilder('category');
-    const paginateQueryBuilder = simplePaginateQuery<CategoryEntity>(
-      queryBuilder,
-      query,
-    );
-
-    const [data, count] = await paginateQueryBuilder.getManyAndCount();
-    return { data, count };
-  }
-
-  async create(category: CreateCategoryDto): Promise<CategoryEntity> {
-    const storedCategory = await this.find({ name: category.name });
-
-    if (storedCategory.length) {
-      throw new BadRequestException(
-        `Category with name: ${category.name} already exists`,
-      );
+        const [data, count] = await paginateQueryBuilder.getManyAndCount();
+        return { data, count };
     }
 
-    const newCategory = this.categoryRepo.create({
-      name: category.name,
-      value: snakeCase(category.name),
-    });
-    return this.categoryRepo.save(newCategory);
-  }
+    async create(category: CreateCategoryDto): Promise<CategoryEntity> {
+        const storedCategory = await this.find({ name: category.name });
 
-  async update(
-    id: string | number,
-    attrs: UpdateCategoryDto,
-  ): Promise<CategoryEntity> {
-    const category = await this.findOne(id);
+        if (storedCategory.length) {
+            throw new BadRequestException(`Category with name: ${category.name} already exists`);
+        }
 
-    Object.assign(category, { ...attrs, value: snakeCase(attrs.name) });
+        const newCategory = this.categoryRepo.create({
+            name: category.name,
+            value: snakeCase(category.name),
+        });
+        return this.categoryRepo.save(newCategory);
+    }
 
-    return this.categoryRepo.save(category);
-  }
+    async update(id: string | number, attrs: UpdateCategoryDto): Promise<CategoryEntity> {
+        const category = await this.findOne(id);
 
-  async remove(id: string | number): Promise<CategoryEntity> {
-    const category = await this.findOne(id);
+        Object.assign(category, { ...attrs, value: snakeCase(attrs.name) });
 
-    return this.categoryRepo.remove(category);
-  }
+        return this.categoryRepo.save(category);
+    }
+
+    async remove(id: string | number): Promise<CategoryEntity> {
+        const category = await this.findOne(id);
+
+        return this.categoryRepo.remove(category);
+    }
 }

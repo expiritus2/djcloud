@@ -1,21 +1,22 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
+import { Header } from 'components';
 
 import styles from './styles.module.scss';
-import Header from '../../components/Header';
 
 type ComponentProps = {
     className?: string;
 }
 
-const Main: FC<ComponentProps> = (props) => {
+const Tracks: FC<ComponentProps> = (props) => {
     const { className } = props;
 
     return (
-        <div className={classNames(styles.main, className)}>
+        <div className={classNames(styles.tracks, className)}>
             <Header />
+            Tracks
         </div>
     );
 };
 
-export default Main;
+export default Tracks;

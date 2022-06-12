@@ -7,3 +7,5 @@ export { default as Button } from './Button';
 export { default as Modal } from './Modal';
 export { default as Spinner } from './Spinner';
 export { default as PendingWrapper } from './PendingWrapper';
+export { default as AdminPageWrapper } from './Admin/PageWrapper';
+export { default as AdminMenu } from './Admin/Menu';

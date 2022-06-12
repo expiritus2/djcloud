@@ -1,0 +1,40 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.menu {
+  background-color: $darkColor;
+  min-width: setUnit(300);
+  color: $whiteColor;
+  border-top: 1px solid $whiteColor;
+  height: calc(100vh - #{setUnit(70)});
+  overflow: auto;
+
+  .list {
+    list-style: none;
+    margin-top: setUnit(30);
+
+    .item {
+      padding: 0 setUnit(20);
+      margin-bottom: setUnit(5);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .link {
+        color: $whiteColor;
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+        padding: setUnit(10) setUnit(20);
+        border-radius: setUnit(5);
+
+        &:hover,
+        &.active {
+          background-color: darken($lightColor, 20);
+          color: $darkColor;
+        }
+      }
+    }
+  }
+}

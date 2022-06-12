@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
-import { Header, PendingWrapper } from 'components';
+import { Header, PendingWrapper, AdminPageWrapper, AdminMenu } from 'components';
+import { useStore } from 'store';
 
 import styles from './styles.module.scss';
 
@@ -10,13 +11,23 @@ type ComponentProps = {
 
 const Categories: FC<ComponentProps> = (props) => {
     const { className } = props;
+    const { categories } = useStore();
+
+    useEffect(() => {
+        categories.getAll();
+    }, []); // eslint-disable-line
 
     return (
         <div className={classNames(styles.categories, className)}>
             <Header />
-            <PendingWrapper pending={false} className={styles.pendingWrapper}>
-                <div>Content</div>
-            </PendingWrapper>
+            <AdminPageWrapper>
+                <>
+                    <AdminMenu />
+                    <PendingWrapper pending={false} className={styles.pendingWrapper}>
+                        <div>Categories</div>
+                    </PendingWrapper>
+                </>
+            </AdminPageWrapper>
         </div>
     );
 };

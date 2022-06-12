@@ -4,4 +4,6 @@ export const routes = {
     mixs: '/mixs',
     created: '/created',
     adminCategoriesList: '/admin/categories',
+    adminGenresList: '/admin/genres',
+    adminTracksList: '/admin/tracks',
 };

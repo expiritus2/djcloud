@@ -1,13 +1,13 @@
 import { action, makeObservable } from 'mobx';
-import { PaginationParams, RequestOptions } from 'types/request';
+import { PaginatedItems, PaginationParams, RequestOptions } from 'types/request';
 import { Track } from './types';
 import Api from 'store/core/Api';
 import { getAll } from 'api/admin/tracks';
 import { BaseStore } from 'store/core/BaseStore';
 
-export class TracksStore extends BaseStore<Track> {
-    constructor() {
-        super();
+export class TracksStore extends BaseStore<PaginatedItems<Track>> {
+    constructor(color: string) {
+        super(color);
 
         makeObservable(this, {
             getAll: action,
@@ -15,7 +15,7 @@ export class TracksStore extends BaseStore<Track> {
     }
 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ data: this.data, method: getAll }).execResult();
+        const sendRequest = new Api<PaginatedItems<Track>>({ store: this.store, method: getAll }).execResult();
 
         sendRequest(cfg, options, cb);
     }

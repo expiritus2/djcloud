@@ -8,10 +8,10 @@ import { TracksStore } from './admin/Tracks';
 configure({ enforceActions: 'never' });
 
 const store = {
-    user: new UsersStore(),
-    categories: new CategoriesStore(),
-    genres: new GenresStore(),
-    tracks: new TracksStore(),
+    user: new UsersStore('blue'),
+    categories: new CategoriesStore('red'),
+    genres: new GenresStore('green'),
+    tracks: new TracksStore('purple'),
 };
 
 export const StoreContext = createContext(store);

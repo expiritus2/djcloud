@@ -22,3 +22,8 @@ export type PaginationParams = {
     field?: string;
     search?: string;
 };
+
+export type PaginatedItems<T> = {
+    data: T[];
+    count: number;
+};

@@ -9,3 +9,6 @@ export { default as Spinner } from './Spinner';
 export { default as PendingWrapper } from './PendingWrapper';
 export { default as AdminPageWrapper } from './Admin/PageWrapper';
 export { default as AdminMenu } from './Admin/Menu';
+export { default as AdminPageTitle } from './Admin/PageTitle';
+export { default as AdminContentWrapper } from './Admin/ContentWrapper';
+export { default as Table } from './Table';

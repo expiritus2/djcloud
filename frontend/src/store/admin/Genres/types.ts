@@ -1,4 +1,4 @@
-export type Category = {
+export type Genre = {
     id: number;
     name: string;
     value: string;

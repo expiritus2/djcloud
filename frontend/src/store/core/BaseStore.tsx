@@ -5,36 +5,40 @@ import { StoreData } from 'types/store';
 import { cloneDeep } from 'lodash';
 
 export abstract class BaseStore<T> {
-    data: StoreData<T> = {
+    color: string;
+
+    store: StoreData<T> = {
         state: RequestStateEnum.IDLE,
         data: null,
         meta: {},
     };
 
-    protected constructor() {
+    protected constructor(color: string) {
+        this.color = color;
+
         makeObservable(this, {
-            data: observable,
+            store: observable,
         });
 
-        this.logStore('state', this.data);
+        // this.logStore('state', this.store);
 
         reaction(
-            () => this.data.state,
+            () => this.store.state,
             (state) => this.logStore('state', state),
         );
         reaction(
-            () => this.data.data,
+            () => this.store.data,
             (data) => this.logStore('data', data),
         );
         reaction(
-            () => this.data.meta,
+            () => this.store.meta,
             (meta) => this.logStore('meta', meta),
         );
     }
 
     logStore(propertyName: string, data: any) {
         if (process.env.NODE_ENV === 'development') {
-            console.log(this.constructor.name, propertyName, cloneDeep(data));
+            console.log(`%c ${this.constructor.name}`, `color: ${this.color}`, propertyName, cloneDeep(data));
         }
     }
 }

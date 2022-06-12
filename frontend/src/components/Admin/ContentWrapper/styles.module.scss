@@ -1,0 +1,8 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.contentWrapper {
+  height: calc(100vh - #{setUnit(71)});
+  width: 100%;
+  padding: 0 setUnit(10);
+}

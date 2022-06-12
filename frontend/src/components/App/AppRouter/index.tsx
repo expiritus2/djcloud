@@ -15,13 +15,13 @@ const AppRouter: FC = () => {
         <BrowserRouter>
             <Routes>
                 {routesConfig.map(({ path, Component, roles: pathRoles }) => {
-                    const userRole = user.data.data?.role?.name as UserRoleEnum;
+                    const userRole = user.store.data?.role?.name as UserRoleEnum;
                     const isCanActivate = canActivate(userRole, pathRoles as UserRoleEnum[]);
                     let Page = null;
 
                     if (isCanActivate) {
                         Page = <Component />;
-                    } else if (user.data.state !== RequestStateEnum.PENDING && user.data.state !== RequestStateEnum.IDLE) {
+                    } else if (user.store.state !== RequestStateEnum.PENDING && user.store.state !== RequestStateEnum.IDLE) {
                         Page = <Navigate to={routes.login} />;
                     }
 

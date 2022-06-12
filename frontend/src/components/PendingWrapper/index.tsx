@@ -3,17 +3,18 @@ import classNames from 'classnames';
 
 import { Spinner } from 'components';
 import styles from './styles.module.scss';
+import { RequestStateEnum } from '../../types/request';
 
 type ComponentProps = {
     className?: string;
     children: ReactElement;
-    pending: boolean;
+    state: RequestStateEnum;
 };
 
 const PendingWrapper: FC<ComponentProps> = (props) => {
-    const { className, pending, children } = props;
+    const { className, state, children } = props;
 
-    return <div className={classNames(styles.pageWrapper, className)}>{pending ? <Spinner /> : children}</div>;
+    return <div className={classNames(styles.pendingWrapper, className)}>{state === RequestStateEnum.PENDING ? <Spinner /> : children}</div>;
 };
 
 export default PendingWrapper;

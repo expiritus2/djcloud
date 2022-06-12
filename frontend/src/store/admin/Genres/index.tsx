@@ -1,13 +1,13 @@
 import { action, makeObservable } from 'mobx';
-import { PaginationParams, RequestOptions } from 'types/request';
-import { Category } from './types';
+import { PaginatedItems, PaginationParams, RequestOptions } from 'types/request';
+import { Genre } from './types';
 import Api from 'store/core/Api';
 import { getAll } from 'api/admin/genres';
 import { BaseStore } from 'store/core/BaseStore';
 
-export class GenresStore extends BaseStore<Category> {
-    constructor() {
-        super();
+export class GenresStore extends BaseStore<PaginatedItems<Genre>> {
+    constructor(color: string) {
+        super(color);
 
         makeObservable(this, {
             getAll: action,
@@ -15,7 +15,7 @@ export class GenresStore extends BaseStore<Category> {
     }
 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ data: this.data, method: getAll }).execResult();
+        const sendRequest = new Api<PaginatedItems<Genre>>({ store: this.store, method: getAll }).execResult();
 
         sendRequest(cfg, options, cb);
     }

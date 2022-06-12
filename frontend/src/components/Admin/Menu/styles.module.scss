@@ -5,8 +5,6 @@
   background-color: $darkColor;
   min-width: setUnit(300);
   color: $whiteColor;
-  border-top: 1px solid $whiteColor;
-  height: calc(100vh - #{setUnit(70)});
   overflow: auto;
 
   .list {

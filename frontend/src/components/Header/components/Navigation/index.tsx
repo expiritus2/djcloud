@@ -33,7 +33,7 @@ const Navigation: FC<ComponentProps> = (props) => {
                         Created
                     </NavLink>
                 </li>
-                {user.data?.data?.role?.name === UserRoleEnum.ADMIN && (
+                {user.store?.data?.role?.name === UserRoleEnum.ADMIN && (
                     <li className={styles.item}>
                         <NavLink className={getLinkClassName} to={routes.adminCategoriesList}>
                             Admin

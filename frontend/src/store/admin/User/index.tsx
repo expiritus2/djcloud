@@ -6,8 +6,8 @@ import { currentUser, login } from '../../../api/user';
 import { BaseStore } from '../../core/BaseStore';
 
 export class UsersStore extends BaseStore<User> {
-    constructor() {
-        super();
+    constructor(color: string) {
+        super(color);
 
         makeObservable(this, {
             loginAction: action,
@@ -17,17 +17,17 @@ export class UsersStore extends BaseStore<User> {
     }
 
     loginAction(cfg: LoginProps, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<User>({ data: this.data, method: login }).execResult();
+        const sendRequest = new Api<User>({ store: this.store, method: login }).execResult();
 
         sendRequest(cfg, options, cb);
     }
 
     logoutAction() {
-        this.data.data = null;
+        this.store.data = null;
     }
 
     currentUser(cfg?: {}, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<User>({ data: this.data, method: currentUser }).execResult();
+        const sendRequest = new Api<User>({ store: this.store, method: currentUser }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }

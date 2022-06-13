@@ -6,7 +6,7 @@ import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 import CategoryModal from './Modal';
 import { ModalStateEnum } from 'types/modal';
-import { SortEnum } from 'types/request';
+import { RequestStateEnum, SortEnum } from 'types/request';
 
 import styles from './styles.module.scss';
 
@@ -39,16 +39,23 @@ const Categories: FC<ComponentProps> = (props) => {
     };
 
     const onClickEdit = (e: any, id: number) => {
+        categories.store.state = RequestStateEnum.PENDING;
         modifyCategory.getById({ id }, {}, (err: any) => {
             if (!err) {
+                categories.store.state = RequestStateEnum.READY;
                 setModalState({ id, type: ModalStateEnum.UPDATE, open: true });
             }
         });
     };
 
     const onClickDelete = (e: any, id: number) => {
-        modifyCategory.getById({ id });
-        setModalState({ id, type: ModalStateEnum.DELETE, open: true });
+        categories.store.state = RequestStateEnum.PENDING;
+        modifyCategory.getById({ id }, {}, (err: any) => {
+            if (!err) {
+                categories.store.state = RequestStateEnum.READY;
+                setModalState({ id, type: ModalStateEnum.DELETE, open: true });
+            }
+        });
     };
 
     const getRows = () => {

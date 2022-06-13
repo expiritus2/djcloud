@@ -7,11 +7,13 @@ import { cloneDeep } from 'lodash';
 export abstract class BaseStore<T> {
     color: string;
 
-    store: StoreData<T> = {
+    readonly initStore: StoreData<T> = {
         state: RequestStateEnum.IDLE,
         data: null,
         meta: {},
     };
+
+    store: StoreData<T> = cloneDeep(this.initStore);
 
     protected constructor(color: string) {
         this.color = color;

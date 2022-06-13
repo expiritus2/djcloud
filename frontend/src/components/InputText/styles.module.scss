@@ -10,4 +10,10 @@
   .label {
     @include simple-label;
   }
+
+  .error {
+    font-size: setUnit(12);
+    color: $dangerColor;
+    margin-top: setUnit(4);
+  }
 }

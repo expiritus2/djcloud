@@ -10,13 +10,17 @@
       border-bottom: 1px dotted $darkColor;
     }
 
+    .tbodyItem:nth-child(even) {
+      background-color: $lightColor;
+    }
+
     .theadCell {
       font-size: setUnit(18);
       font-weight: bold;
     }
 
     .cell {
-      padding: setUnit(5);
+      padding: setUnit(10);
     }
   }
 }

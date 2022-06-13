@@ -4,12 +4,22 @@
 .buttonHolder {
   width: fit-content;
 
+  .loader {
+    font-size: setUnit(3) !important;
+    margin: 0 !important;
+    position: relative;
+    bottom: setUnit(7);
+    color: $whiteColor !important;
+  }
+
   .button {
     padding: setUnit(10) setUnit(15);
     border: none;
     cursor: pointer;
     color: $whiteColor;
-    border-radius: setUnit(5);
+    border-radius: setUnit(6);
+    min-width: setUnit(80);
+    min-height: setUnit(40);
 
     &.primary {
       background-color: $darkColor;
@@ -24,6 +34,14 @@
 
       &:hover {
         background-color: darken($greyColor, 50);
+      }
+    }
+
+    &.danger {
+      background-color: $dangerColor;
+
+      &:hover {
+        background-color: lighten($dangerColor, 5);
       }
     }
   }

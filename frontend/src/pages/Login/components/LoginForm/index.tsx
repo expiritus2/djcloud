@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
-import { InputText, Modal } from 'components';
+import { InputText, ContentModal } from 'components';
 import { useNavigate } from 'react-router-dom';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
-import { ButtonType } from 'components/Modal';
+import { ButtonType } from 'components/ContentModal';
 import classNames from 'classnames';
 
 import { AxiosError } from 'axios';
@@ -46,12 +46,12 @@ const LoginForm: FC<ComponentProps> = (props) => {
     ];
 
     return (
-        <Modal title="Login" buttons={buttons} className={classNames(styles.loginForm, className)}>
+        <ContentModal title="Login" buttons={buttons} className={classNames(styles.loginForm, className)}>
             <form className={styles.form} id={formId} onSubmit={onClickSubmit}>
                 <InputText onChange={onChangeFieldValue} name="email" label="Email" className={styles.input} value={values.email} />
                 <InputText type="password" onChange={onChangeFieldValue} name="password" label="Password" className={styles.input} value={values.password} />
             </form>
-        </Modal>
+        </ContentModal>
     );
 };
 

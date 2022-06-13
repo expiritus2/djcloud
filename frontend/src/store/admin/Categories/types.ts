@@ -3,8 +3,3 @@ export type Category = {
     name: string;
     value: string;
 };
-
-export type PaginatedCategories = {
-    data: Category[];
-    count: number;
-};

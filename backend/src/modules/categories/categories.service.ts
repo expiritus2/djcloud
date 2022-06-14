@@ -7,6 +7,7 @@ import { CreateCategoryDto } from './dtos/create-category.dto';
 import { snakeCase } from 'lodash';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
 import { CategoryEntity } from './category.entity';
+import { GenreEntity } from '../genres/genre.entity';
 
 interface Category {
     id?: number;
@@ -50,10 +51,14 @@ export class CategoriesService {
         return { data, count };
     }
 
-    async create(category: CreateCategoryDto): Promise<CategoryEntity> {
-        const storedCategory = await this.find({ name: category.name });
+    async findByName(name: string): Promise<GenreEntity> {
+        return this.categoryRepo.createQueryBuilder('category').where('LOWER(name) = LOWER(:name)', { name }).getOne();
+    }
 
-        if (storedCategory.length) {
+    async create(category: CreateCategoryDto): Promise<CategoryEntity> {
+        const storedCategory = await this.findByName(category.name);
+
+        if (storedCategory) {
             throw new BadRequestException(`Category with name: ${category.name} already exists`);
         }
 

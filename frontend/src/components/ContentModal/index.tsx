@@ -31,7 +31,15 @@ const Modal: FC<ComponentProps> = (props) => {
             <div className={classNames(styles.meta, styles.footer)}>
                 <div className={styles.buttons}>
                     {buttons.map((button) => (
-                        <Button pending={button.pending} key={button.id} onClick={button.onClick} label={button.label} className={classNames(styles.button, button.className)} variant={button.variant} form={button.formId} />
+                        <Button
+                            pending={button.pending}
+                            key={button.id}
+                            onClick={button.onClick}
+                            label={button.label}
+                            className={classNames(styles.button, button.className)}
+                            variant={button.variant}
+                            form={button.formId}
+                        />
                     ))}
                 </div>
                 <div className={styles.clear} />

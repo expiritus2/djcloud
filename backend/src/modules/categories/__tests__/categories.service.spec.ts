@@ -103,7 +103,10 @@ describe('CategoryService', () => {
         it('should get all categories', async () => {
             const query = {};
             mocked(simplePaginateQuery).mockReturnValueOnce(mockQueryBuilder);
-            mockQueryBuilder.getManyAndCount.mockReturnValueOnce([{ id: 1, name: 'Category Name', value: 'category_name' }, 1]);
+            mockQueryBuilder.getManyAndCount.mockReturnValueOnce([
+                { id: 1, name: 'Category Name', value: 'category_name' },
+                1,
+            ]);
             const categories = await service.getAll({});
 
             expect(mockCategoryRepo.createQueryBuilder).toBeCalledWith('category');
@@ -123,22 +126,20 @@ describe('CategoryService', () => {
         };
 
         it('should create and return category', async () => {
-            mockCategoryRepo.find.mockReturnValueOnce([]);
+            jest.spyOn(CategoriesService.prototype, 'findByName').mockResolvedValueOnce(null);
             mockCategoryRepo.create.mockReturnValueOnce(newCategory);
             mockCategoryRepo.save.mockReturnValue(newCategory);
 
             const category = await service.create(newCategory);
 
-            expect(mockCategoryRepo.find).toBeCalledWith({
-                where: { name: newCategory.name },
-            });
+            expect(service.findByName).toBeCalledWith(newCategory.name);
             expect(mockCategoryRepo.create).toBeCalledWith(newCategory);
             expect(mockCategoryRepo.save).toBeCalledWith(newCategory);
             expect(category).toEqual(newCategory);
         });
 
         it('should throw error if category already exists', async () => {
-            mockCategoryRepo.find.mockReturnValueOnce([newCategory]);
+            jest.spyOn(CategoriesService.prototype, 'findByName').mockResolvedValueOnce(newCategory as any);
 
             try {
                 await service.create(newCategory);

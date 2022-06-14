@@ -15,12 +15,13 @@ describe('GenreService', () => {
 
     beforeEach(async () => {
         mockQueryBuilder = {
-            getMany: jest.fn(),
-            getManyAndCount: jest.fn(),
-            where: jest.fn(),
-            skip: jest.fn(),
-            order: jest.fn(),
-            take: jest.fn(),
+            getMany: jest.fn().mockReturnThis(),
+            getOne: jest.fn().mockReturnThis(),
+            getManyAndCount: jest.fn().mockReturnThis(),
+            where: jest.fn().mockReturnThis(),
+            skip: jest.fn().mockReturnThis(),
+            order: jest.fn().mockReturnThis(),
+            take: jest.fn().mockReturnThis(),
         };
         mockGenreRepo = {
             create: jest.fn(),
@@ -28,6 +29,7 @@ describe('GenreService', () => {
             remove: jest.fn(),
             findOne: jest.fn(),
             find: jest.fn(),
+            findByName: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
         };
         const module = await Test.createTestingModule({
@@ -103,7 +105,10 @@ describe('GenreService', () => {
         it('should get all genres', async () => {
             const query = {};
             mocked(simplePaginateQuery).mockReturnValueOnce(mockQueryBuilder);
-            mockQueryBuilder.getManyAndCount.mockReturnValueOnce([{ id: 1, name: 'Genre Name', value: 'genre_name' }, 1]);
+            mockQueryBuilder.getManyAndCount.mockReturnValueOnce([
+                { id: 1, name: 'Genre Name', value: 'genre_name' },
+                1,
+            ]);
             const genres = await service.getAll({});
 
             expect(mockGenreRepo.createQueryBuilder).toBeCalledWith('genre');
@@ -123,22 +128,20 @@ describe('GenreService', () => {
         };
 
         it('should create and return genre', async () => {
-            mockGenreRepo.find.mockReturnValueOnce([]);
+            jest.spyOn(GenresService.prototype, 'findByName').mockResolvedValueOnce(null);
             mockGenreRepo.create.mockReturnValueOnce(newGenre);
             mockGenreRepo.save.mockReturnValue(newGenre);
 
             const genre = await service.create(newGenre);
 
-            expect(mockGenreRepo.find).toBeCalledWith({
-                where: { name: newGenre.name },
-            });
+            expect(service.findByName).toBeCalledWith(newGenre.name);
             expect(mockGenreRepo.create).toBeCalledWith(newGenre);
             expect(mockGenreRepo.save).toBeCalledWith(newGenre);
             expect(genre).toEqual(newGenre);
         });
 
         it('should throw error if genre already exists', async () => {
-            mockGenreRepo.find.mockReturnValueOnce([newGenre]);
+            jest.spyOn(GenresService.prototype, 'findByName').mockResolvedValueOnce(newGenre as any);
 
             try {
                 await service.create(newGenre);

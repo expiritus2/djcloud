@@ -21,7 +21,10 @@ const AppRouter: FC = () => {
 
                     if (isCanActivate) {
                         Page = <Component />;
-                    } else if (user.store.state !== RequestStateEnum.PENDING && user.store.state !== RequestStateEnum.IDLE) {
+                    } else if (
+                        user.store.state !== RequestStateEnum.PENDING &&
+                        user.store.state !== RequestStateEnum.IDLE
+                    ) {
                         Page = <Navigate to={routes.login} />;
                     }
 

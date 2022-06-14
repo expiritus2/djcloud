@@ -7,7 +7,10 @@ import { RolesEnum } from '../roles/roles.enum';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectRepository(UserEntity) private userRepo: Repository<UserEntity>, @InjectRepository(RoleEntity) private roleRepo: Repository<RoleEntity>) {}
+    constructor(
+        @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
+        @InjectRepository(RoleEntity) private roleRepo: Repository<RoleEntity>,
+    ) {}
 
     async create(email: string, password: string): Promise<UserEntity> {
         const role = await this.roleRepo.findOne({ name: RolesEnum.USER });

@@ -24,7 +24,11 @@ const Table: FC<ComponentProps> = (props) => {
                 <thead>
                     <tr className={styles.theadItem}>
                         {columns.map((column) => (
-                            <td key={column.key} className={classNames(styles.theadCell, styles.cell)} style={{ width: column.width }}>
+                            <td
+                                key={column.key}
+                                className={classNames(styles.theadCell, styles.cell)}
+                                style={{ width: column.width }}
+                            >
                                 {column.title}
                             </td>
                         ))}

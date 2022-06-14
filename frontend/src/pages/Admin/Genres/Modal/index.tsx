@@ -22,17 +22,17 @@ type ComponentProps = {
 
 const initValues = { name: '' };
 
-const CategoryModal: FC<ComponentProps> = (props) => {
-    const { modifyCategory, categories } = useStore();
+const GenreModal: FC<ComponentProps> = (props) => {
+    const { modifyGenre, genres } = useStore();
     const { className, title, modalState, setModalState } = props;
     const [values, setValues] = useState(initValues);
     const [inputError, setInputError] = useState('');
 
     useEffect(() => {
         if (modalState.type === ModalStateEnum.UPDATE) {
-            setValues({ name: modifyCategory.store.data?.name || '' });
+            setValues({ name: modifyGenre.store.data?.name || '' });
         }
-    }, [modifyCategory.store.data, modalState.type]);
+    }, [modifyGenre.store.data, modalState.type]);
 
     if (!modalState.open) return null;
 
@@ -49,27 +49,27 @@ const CategoryModal: FC<ComponentProps> = (props) => {
 
     const refreshTable = () => {
         resetModal();
-        categories.getAll();
+        genres.getAll();
     };
 
-    const createCategory = () => {
-        modifyCategory.create(values, {}, (err: AxiosError) => {
+    const createGenre = () => {
+        modifyGenre.create(values, {}, (err: AxiosError) => {
             if (!err) {
                 refreshTable();
             }
         });
     };
 
-    const updateCategory = () => {
-        modifyCategory.update({ id: modalState.id as any, ...values }, {}, (err: AxiosError) => {
+    const updateGenre = () => {
+        modifyGenre.update({ id: modalState.id as any, ...values }, {}, (err: AxiosError) => {
             if (!err) {
                 refreshTable();
             }
         });
     };
 
-    const removeCategory = () => {
-        modifyCategory.remove({ id: modalState.id as any }, {}, (err: AxiosError) => {
+    const removeGenre = () => {
+        modifyGenre.remove({ id: modalState.id as any }, {}, (err: AxiosError) => {
             if (!err) {
                 refreshTable();
             }
@@ -84,15 +84,15 @@ const CategoryModal: FC<ComponentProps> = (props) => {
         }
 
         if (modalState.type === ModalStateEnum.CREATE) {
-            createCategory();
+            createGenre();
         }
 
         if (modalState.type === ModalStateEnum.UPDATE) {
-            updateCategory();
+            updateGenre();
         }
 
         if (modalState.type === ModalStateEnum.DELETE) {
-            removeCategory();
+            removeGenre();
         }
     };
 
@@ -127,15 +127,15 @@ const CategoryModal: FC<ComponentProps> = (props) => {
             onClick: onClickSubmit,
             label: getSubmitButtonText(),
             variant: getSubmitButtonVariant(),
-            pending: modifyCategory.store.state === RequestStateEnum.PENDING,
+            pending: modifyGenre.store.state === RequestStateEnum.PENDING,
         },
     ];
 
     const getDeleteText = () => {
         return (
             <div className={styles.deleteText}>
-                Are you sure you want delete category: <br />
-                <span className={styles.accent}>{modifyCategory.store.data?.name}</span>
+                Are you sure you want delete genre: <br />
+                <span className={styles.accent}>{modifyGenre.store.data?.name}</span>
             </div>
         );
     };
@@ -166,4 +166,4 @@ const CategoryModal: FC<ComponentProps> = (props) => {
     );
 };
 
-export default observer(CategoryModal);
+export default observer(GenreModal);

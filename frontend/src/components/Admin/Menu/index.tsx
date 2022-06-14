@@ -12,7 +12,8 @@ type ComponentProps = {
 const Menu: FC<ComponentProps> = (props) => {
     const { className } = props;
 
-    const getLinkClassName = ({ isActive }: { isActive: boolean }) => classNames(styles.link, isActive ? styles.active : '');
+    const getLinkClassName = ({ isActive }: { isActive: boolean }) =>
+        classNames(styles.link, isActive ? styles.active : '');
 
     return (
         <div className={classNames(styles.menu, className)}>

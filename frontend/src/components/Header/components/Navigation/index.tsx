@@ -18,13 +18,19 @@ const Navigation: FC<ComponentProps> = (props) => {
     const { user } = useStore();
     const location = useLocation();
 
-    const getLinkClassName = ({ isActive }: { isActive: boolean }) => classNames(styles.link, isActive ? styles.active : '');
+    const getLinkClassName = ({ isActive }: { isActive: boolean }) =>
+        classNames(styles.link, isActive ? styles.active : '');
 
     return (
         <div className={classNames(styles.navigation, className)}>
             <ul className={styles.list}>
                 <li className={styles.item}>
-                    <NavLink className={({ isActive }) => getLinkClassName({ isActive: isActive || location.pathname === '/' })} to={routes.mixs}>
+                    <NavLink
+                        className={({ isActive }) =>
+                            getLinkClassName({ isActive: isActive || location.pathname === '/' })
+                        }
+                        to={routes.mixs}
+                    >
                         Mix's
                     </NavLink>
                 </li>

@@ -37,7 +37,7 @@ export class ModifyCategoryStore extends BaseStore<Category> {
     getById(cfg: GetCategoryDto, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<Category>({ store: this.store, method: getById }).execResult();
 
-        sendRequest(cfg, { silent: false, ...options }, cb);
+        sendRequest(cfg, options, cb);
     }
 
     resetData() {

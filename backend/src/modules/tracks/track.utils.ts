@@ -17,12 +17,19 @@ export const storage = multer.diskStorage({
     },
 });
 
-export const fileFilter = (req: any, file: { originalname: string }, callback: (error: Error | null, acceptFile: boolean) => void) => {
+export const fileFilter = (
+    req: any,
+    file: { originalname: string },
+    callback: (error: Error | null, acceptFile: boolean) => void,
+) => {
     const acceptableExtensions = Object.values(FileExtensionEnum);
     const fileExtension = path.extname(file.originalname) as FileExtensionEnum;
 
     if (!acceptableExtensions.includes(fileExtension)) {
-        return callback(new ForbiddenException(`File extension not allowed. Allowed types: ${acceptableExtensions}`), false);
+        return callback(
+            new ForbiddenException(`File extension not allowed. Allowed types: ${acceptableExtensions}`),
+            false,
+        );
     }
     return callback(null, true);
 };

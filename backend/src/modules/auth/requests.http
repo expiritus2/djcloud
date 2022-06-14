@@ -1,5 +1,5 @@
 ### Create a new user
-POST http://localhost:3000/auth/signup
+POST http://localhost:8000/auth/signup
 content-type: application/json
 
 {
@@ -8,7 +8,7 @@ content-type: application/json
 }
 
 ### Sign in as an existing user
-POST http://localhost:3000/auth/signin
+POST http://localhost:8000/auth/signin
 content-type: application/json
 
 {
@@ -17,7 +17,7 @@ content-type: application/json
 }
 
 ### Get the currently signed in user
-GET http://localhost:3000/auth/whoami
+GET http://localhost:8000/auth/whoami
 
 ### Sign out
-POST http://localhost:3000/auth/signout
+POST http://localhost:8000/auth/signout

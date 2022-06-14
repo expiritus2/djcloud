@@ -1,6 +1,11 @@
 import { apiServer } from 'settings/web-services/api';
 import { PaginationParams } from 'types/request';
-import { CreateCategoryDto, GetCategoryDto, RemoveCategoryDto, UpdateCategoryDto } from 'store/admin/ModifyCategory/types';
+import {
+    CreateCategoryDto,
+    GetCategoryDto,
+    RemoveCategoryDto,
+    UpdateCategoryDto,
+} from 'store/admin/ModifyCategory/types';
 
 export const getAll = (cfg: PaginationParams) => {
     return apiServer.get('/categories/list', { params: cfg });

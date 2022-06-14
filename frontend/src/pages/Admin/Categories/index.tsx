@@ -1,12 +1,21 @@
 import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { AdminContentWrapper, AdminMenu, AdminPageTitle, AdminPageWrapper, Header, PendingWrapper, Table, TableActions } from 'components';
+import {
+    AdminContentWrapper,
+    AdminMenu,
+    AdminPageTitle,
+    AdminPageWrapper,
+    Header,
+    PendingWrapper,
+    Table,
+    TableActions,
+} from 'components';
 import { useStore } from 'store';
 
 import { observer } from 'mobx-react-lite';
 import CategoryModal from './Modal';
 import { ModalStateEnum } from 'types/modal';
-import { RequestStateEnum, SortEnum } from 'types/request';
+import { SortEnum } from 'types/request';
 
 import styles from './styles.module.scss';
 
@@ -26,6 +35,26 @@ const Categories: FC<ComponentProps> = (props) => {
         categories.getAll({ field: 'id', sort: SortEnum.ASC });
     }, []); // eslint-disable-line
 
+    const onClickEdit = (e: any, id: number, cb: Function) => {
+        cb(true);
+        modifyCategory.getById({ id }, {}, (err: any) => {
+            if (!err) {
+                cb(false);
+                setModalState({ id, type: ModalStateEnum.UPDATE, open: true });
+            }
+        });
+    };
+
+    const onClickDelete = (e: any, id: number, cb: Function) => {
+        cb(true);
+        modifyCategory.getById({ id }, {}, (err: any) => {
+            if (!err) {
+                cb(false);
+                setModalState({ id, type: ModalStateEnum.DELETE, open: true });
+            }
+        });
+    };
+
     const onClickNew = () => {
         setModalState({ type: ModalStateEnum.CREATE, open: true });
     };
@@ -38,32 +67,17 @@ const Categories: FC<ComponentProps> = (props) => {
         ];
     };
 
-    const onClickEdit = (e: any, id: number) => {
-        categories.store.state = RequestStateEnum.PENDING;
-        modifyCategory.getById({ id }, {}, (err: any) => {
-            if (!err) {
-                categories.store.state = RequestStateEnum.READY;
-                setModalState({ id, type: ModalStateEnum.UPDATE, open: true });
-            }
-        });
-    };
-
-    const onClickDelete = (e: any, id: number) => {
-        categories.store.state = RequestStateEnum.PENDING;
-        modifyCategory.getById({ id }, {}, (err: any) => {
-            if (!err) {
-                categories.store.state = RequestStateEnum.READY;
-                setModalState({ id, type: ModalStateEnum.DELETE, open: true });
-            }
-        });
-    };
-
     const getRows = () => {
         return (
             categories.store.data?.data?.map((row) => ({
                 id: row.id,
                 name: row.name,
-                actions: <TableActions onClickEdit={(e: any) => onClickEdit(e, row.id)} onClickDelete={(e: any) => onClickDelete(e, row.id)} />,
+                actions: (
+                    <TableActions
+                        onClickEdit={(e: any, cb: Function) => onClickEdit(e, row.id, cb)}
+                        onClickDelete={(e: any, cb: Function) => onClickDelete(e, row.id, cb)}
+                    />
+                ),
             })) || []
         );
     };
@@ -91,7 +105,11 @@ const Categories: FC<ComponentProps> = (props) => {
                             <>
                                 <AdminPageTitle title="Categories" onClickNew={onClickNew} />
                                 <Table columns={getColumns()} rows={getRows()} />
-                                <CategoryModal title={getModalTitle()} modalState={modalState} setModalState={setModalState} />
+                                <CategoryModal
+                                    title={getModalTitle()}
+                                    modalState={modalState}
+                                    setModalState={setModalState}
+                                />
                             </>
                         </PendingWrapper>
                     </AdminContentWrapper>

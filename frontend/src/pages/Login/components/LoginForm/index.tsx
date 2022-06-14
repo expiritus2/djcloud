@@ -48,8 +48,21 @@ const LoginForm: FC<ComponentProps> = (props) => {
     return (
         <ContentModal title="Login" buttons={buttons} className={classNames(styles.loginForm, className)}>
             <form className={styles.form} id={formId} onSubmit={onClickSubmit}>
-                <InputText onChange={onChangeFieldValue} name="email" label="Email" className={styles.input} value={values.email} />
-                <InputText type="password" onChange={onChangeFieldValue} name="password" label="Password" className={styles.input} value={values.password} />
+                <InputText
+                    onChange={onChangeFieldValue}
+                    name="email"
+                    label="Email"
+                    className={styles.input}
+                    value={values.email}
+                />
+                <InputText
+                    type="password"
+                    onChange={onChangeFieldValue}
+                    name="password"
+                    label="Password"
+                    className={styles.input}
+                    value={values.password}
+                />
             </form>
         </ContentModal>
     );

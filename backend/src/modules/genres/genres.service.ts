@@ -46,10 +46,14 @@ export class GenresService {
         return { data, count };
     }
 
-    async create(genre: CreateGenreDto): Promise<GenreEntity> {
-        const storedGenre = await this.find({ name: genre.name });
+    async findByName(name: string): Promise<GenreEntity> {
+        return this.genreRepo.createQueryBuilder('genre').where('LOWER(name) = LOWER(:name)', { name }).getOne();
+    }
 
-        if (storedGenre.length) {
+    async create(genre: CreateGenreDto): Promise<GenreEntity> {
+        const storedGenre = await this.findByName(genre.name);
+
+        if (storedGenre) {
             throw new BadRequestException(`Genre with name: ${genre.name} already exists`);
         }
 

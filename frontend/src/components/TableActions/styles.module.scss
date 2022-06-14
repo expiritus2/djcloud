@@ -2,6 +2,9 @@
 @import "src/styles/variables";
 
 .tableActions {
+  display: flex;
+  align-items: center;
+
   .icon {
     cursor: pointer;
     transition: all .2s;
@@ -11,11 +14,26 @@
     }
   }
 
+  .loader {
+    font-size: setUnit(3) !important;
+    position: relative;
+    bottom: setUnit(7);
+  }
+
+  .loaderWrapper {
+    width: setUnit(20);
+    height: setUnit(20);
+  }
+
   .remove {
     width: setUnit(20);
     height: setUnit(20);
     vertical-align: middle;
     fill: $dangerColor;
+  }
+
+  .remove,
+  .deleteLoader {
     margin-left: setUnit(20);
   }
 

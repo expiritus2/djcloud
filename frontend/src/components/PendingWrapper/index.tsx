@@ -14,7 +14,11 @@ type ComponentProps = {
 const PendingWrapper: FC<ComponentProps> = (props) => {
     const { className, state, children } = props;
 
-    return <div className={classNames(styles.pendingWrapper, className)}>{state === RequestStateEnum.PENDING ? <Spinner /> : children}</div>;
+    return (
+        <div className={classNames(styles.pendingWrapper, className)}>
+            {state === RequestStateEnum.PENDING ? <Spinner /> : children}
+        </div>
+    );
 };
 
 export default PendingWrapper;

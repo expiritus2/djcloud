@@ -18,7 +18,11 @@ describe('AuthService', () => {
         fakeConfigService = getFakeConfigService();
 
         const module = await Test.createTestingModule({
-            providers: [AuthService, { provide: UsersService, useValue: fakeUserService }, { provide: ConfigService, useValue: fakeConfigService }],
+            providers: [
+                AuthService,
+                { provide: UsersService, useValue: fakeUserService },
+                { provide: ConfigService, useValue: fakeConfigService },
+            ],
         }).compile();
 
         service = module.get(AuthService);

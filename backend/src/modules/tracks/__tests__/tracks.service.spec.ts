@@ -150,7 +150,10 @@ describe('TracksService', () => {
         it('should get all tracks', async () => {
             const query = {};
             mocked(simplePaginateQuery).mockReturnValueOnce(mockQueryBuilder);
-            mockQueryBuilder.getManyAndCount.mockReturnValueOnce([{ id: 1, name: 'Genre Name', value: 'genre_name' }, 1]);
+            mockQueryBuilder.getManyAndCount.mockReturnValueOnce([
+                { id: 1, name: 'Genre Name', value: 'genre_name' },
+                1,
+            ]);
             const genres = await service.getAll({});
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');

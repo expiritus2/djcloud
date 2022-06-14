@@ -58,19 +58,44 @@ export class TracksService {
     async getAll(query: PaginationQueryDto): Promise<{ data: TrackEntity[]; count: number }> {
         const queryBuilder = this.trackRepo
             .createQueryBuilder('track')
-            .select(['track.id', 'track.title', 'track.visible', 'track.likes', 'track.duration', 'track.createdAt', 'track.updatedAt', '"title"', '"visible"', '"likes"', '"duration"', '"createdAt"', '"updatedAt"', '"file"', '"genre"', '"category"'])
+            .select([
+                'track.id',
+                'track.title',
+                'track.visible',
+                'track.likes',
+                'track.duration',
+                'track.createdAt',
+                'track.updatedAt',
+                '"title"',
+                '"visible"',
+                '"likes"',
+                '"duration"',
+                '"createdAt"',
+                '"updatedAt"',
+                '"file"',
+                '"genre"',
+                '"category"',
+            ])
             .leftJoinAndSelect('track.file', 'file')
             .leftJoinAndSelect('track.category', 'category')
             .leftJoinAndSelect('track.genre', 'genre');
 
-        const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(queryBuilder, query, { searchFieldName: 'title' });
+        const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(queryBuilder, query, {
+            searchFieldName: 'title',
+        });
 
         const [data, count] = await paginateQueryBuilder.getManyAndCount();
         return { data, count };
     }
 
     async findOne(id: string | number): Promise<TrackEntity> {
-        const track = await this.trackRepo.createQueryBuilder('track').leftJoinAndSelect('track.file', 'file').leftJoinAndSelect('track.genre', 'genre').leftJoinAndSelect('track.category', 'category').where(`track.id = ${id}`).getOne();
+        const track = await this.trackRepo
+            .createQueryBuilder('track')
+            .leftJoinAndSelect('track.file', 'file')
+            .leftJoinAndSelect('track.genre', 'genre')
+            .leftJoinAndSelect('track.category', 'category')
+            .where(`track.id = ${id}`)
+            .getOne();
 
         if (!track) {
             throw new NotFoundException(`Track with id: ${id} not found`);

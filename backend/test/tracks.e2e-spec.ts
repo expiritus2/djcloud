@@ -66,7 +66,11 @@ describe('Tracks management', () => {
         });
 
         it('should upload file with .mp3 extension', async () => {
-            const { body } = await request(app.getHttpServer()).post('/tracks/file-upload').set('Cookie', adminCookie).attach('file', pathToMP3File).expect(201);
+            const { body } = await request(app.getHttpServer())
+                .post('/tracks/file-upload')
+                .set('Cookie', adminCookie)
+                .attach('file', pathToMP3File)
+                .expect(201);
 
             const duration = await getAudioDurationInSeconds(pathToMP3File);
             const stats = fs.statSync(pathToMP3File);
@@ -84,7 +88,11 @@ describe('Tracks management', () => {
         it('should upload file with .wav extension', async () => {
             const pathToFile = path.resolve(__dirname, 'data', 'files', 'file_example_WAV_1MG.wav');
 
-            const { body } = await request(app.getHttpServer()).post('/tracks/file-upload').set('Cookie', adminCookie).attach('file', pathToFile).expect(201);
+            const { body } = await request(app.getHttpServer())
+                .post('/tracks/file-upload')
+                .set('Cookie', adminCookie)
+                .attach('file', pathToFile)
+                .expect(201);
 
             const duration = await getAudioDurationInSeconds(pathToFile);
             const stats = fs.statSync(pathToFile);
@@ -102,7 +110,11 @@ describe('Tracks management', () => {
         it('should throw error if file not in [.mp3, .wav] formats and .txt format', async () => {
             const pathToFile = path.resolve(__dirname, 'data', 'files', 'testFile.txt');
 
-            const { body } = await request(app.getHttpServer()).post('/tracks/file-upload').set('Cookie', adminCookie).attach('file', pathToFile).expect(403);
+            const { body } = await request(app.getHttpServer())
+                .post('/tracks/file-upload')
+                .set('Cookie', adminCookie)
+                .attach('file', pathToFile)
+                .expect(403);
             expect(body.error).toEqual('Forbidden');
             expect(body.message).toEqual('File extension not allowed. Allowed types: .mp3,.wav');
         });
@@ -110,7 +122,11 @@ describe('Tracks management', () => {
         it('should throw error if file not in [.mp3, .wav] formats and file without extension', async () => {
             const pathToFile = path.resolve(__dirname, 'data', 'files', 'testFileWithoutExtension');
 
-            const { body } = await request(app.getHttpServer()).post('/tracks/file-upload').set('Cookie', adminCookie).attach('file', pathToFile).expect(403);
+            const { body } = await request(app.getHttpServer())
+                .post('/tracks/file-upload')
+                .set('Cookie', adminCookie)
+                .attach('file', pathToFile)
+                .expect(403);
             expect(body.error).toEqual('Forbidden');
             expect(body.message).toEqual('File extension not allowed. Allowed types: .mp3,.wav');
         });
@@ -124,11 +140,21 @@ describe('Tracks management', () => {
         it('should create new track', async () => {
             const pathToFile = path.resolve(__dirname, 'data', 'files', 'Kamera-ExtendedMix.mp3');
 
-            const { body: trackFile } = await request(app.getHttpServer()).post('/tracks/file-upload').set('Cookie', adminCookie).attach('file', pathToFile).expect(201);
+            const { body: trackFile } = await request(app.getHttpServer())
+                .post('/tracks/file-upload')
+                .set('Cookie', adminCookie)
+                .attach('file', pathToFile)
+                .expect(201);
 
-            const { body: genres } = await request(app.getHttpServer()).get('/genres/list').set('Cookie', adminCookie).expect(200);
+            const { body: genres } = await request(app.getHttpServer())
+                .get('/genres/list')
+                .set('Cookie', adminCookie)
+                .expect(200);
 
-            const { body: categories } = await request(app.getHttpServer()).get('/categories/list').set('Cookie', adminCookie).expect(200);
+            const { body: categories } = await request(app.getHttpServer())
+                .get('/categories/list')
+                .set('Cookie', adminCookie)
+                .expect(200);
 
             const { body } = await request(app.getHttpServer())
                 .post('/tracks/create')
@@ -171,12 +197,22 @@ describe('Tracks management', () => {
         });
 
         beforeEach(async () => {
-            const { body: genres } = await request(app.getHttpServer()).get('/genres/list').set('Cookie', adminCookie).expect(200);
+            const { body: genres } = await request(app.getHttpServer())
+                .get('/genres/list')
+                .set('Cookie', adminCookie)
+                .expect(200);
 
-            const { body: categories } = await request(app.getHttpServer()).get('/genres/list').set('Cookie', adminCookie).expect(200);
+            const { body: categories } = await request(app.getHttpServer())
+                .get('/categories/list')
+                .set('Cookie', adminCookie)
+                .expect(200);
 
             for (let i = 0; i < 10; i++) {
-                const { body: trackFile } = await request(app.getHttpServer()).post('/tracks/file-upload').set('Cookie', adminCookie).attach('file', pathToMP3File).expect(201);
+                const { body: trackFile } = await request(app.getHttpServer())
+                    .post('/tracks/file-upload')
+                    .set('Cookie', adminCookie)
+                    .attach('file', pathToMP3File)
+                    .expect(201);
 
                 const { body } = await request(app.getHttpServer())
                     .post('/tracks/create')
@@ -186,8 +222,8 @@ describe('Tracks management', () => {
                         visible: true,
                         duration: trackFile.duration,
                         file: trackFile,
-                        category: { id: categories.data[0].id },
-                        genre: { id: genres.data[0].id },
+                        category: categories.data[0],
+                        genre: genres.data[0],
                     })
                     .expect(201);
                 listTracks.push(body);
@@ -209,7 +245,10 @@ describe('Tracks management', () => {
         it('getAll tracks with pagination', async () => {
             const limit = 3;
             for (let i = 0; i < Math.round(listTracks.length / limit); i++) {
-                const { body: tracks } = await request(app.getHttpServer()).get(`/tracks/list?limit=${limit}&page=${i}&field=track_id&sort=DESC`).set('Cookie', adminCookie).expect(200);
+                const { body: tracks } = await request(app.getHttpServer())
+                    .get(`/tracks/list?limit=${limit}&page=${i}&field=track_id&sort=DESC`)
+                    .set('Cookie', adminCookie)
+                    .expect(200);
                 const skip = i * limit;
                 const dbTracks = listTracks.sort((a, b) => b.id - a.id).slice(skip, skip + limit);
                 expect(tracks).toEqual({ data: dbTracks, count: 10 });
@@ -225,7 +264,10 @@ describe('Tracks management', () => {
 
         it('should get category by id', async () => {
             const track = await createTrack(app, adminCookie);
-            const { body } = await request(app.getHttpServer()).get(`/tracks/${track.id}`).set('Cookie', adminCookie).expect(200);
+            const { body } = await request(app.getHttpServer())
+                .get(`/tracks/${track.id}`)
+                .set('Cookie', adminCookie)
+                .expect(200);
 
             expect(body).toEqual(track);
         });
@@ -296,7 +338,10 @@ describe('Tracks management', () => {
 
         it('should remove track', async () => {
             const track = await createTrack(app, adminCookie);
-            const { body } = await request(app.getHttpServer()).delete(`/tracks/${track.id}`).set('Cookie', adminCookie).expect(200);
+            const { body } = await request(app.getHttpServer())
+                .delete(`/tracks/${track.id}`)
+                .set('Cookie', adminCookie)
+                .expect(200);
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { id, ...expectedTrack } = track;

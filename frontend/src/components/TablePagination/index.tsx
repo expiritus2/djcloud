@@ -32,7 +32,6 @@ const TablePagination: FC<ComponentProps> = (props) => {
                       .map((_, i) => current + 1 + (i + 1))
                       .filter((p) => p <= countPages)
                 : [];
-        console.log(prevPages, nextPages);
         return {
             prev: prevPages,
             next: nextPages,

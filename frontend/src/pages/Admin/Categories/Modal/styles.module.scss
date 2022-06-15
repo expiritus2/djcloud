@@ -4,10 +4,10 @@
 .opacityLayer {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    background: rgba($whiteColor, .7);
+    background: rgba($darkColor, .3);
 }
 
 .modal {

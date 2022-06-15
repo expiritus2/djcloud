@@ -1,22 +1,27 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
+import { SortEnum } from 'types/request';
+import { GoTriangleDown } from 'react-icons/go';
 
 import styles from './styles.module.scss';
 
-type Column = {
+export type Column = {
     key: string;
     title: string;
     width?: string;
+    isSort?: boolean;
+    sort?: SortEnum;
 };
 
 type ComponentProps = {
     className?: string;
     columns: Column[];
     rows: any;
+    onSortClick?: Function;
 };
 
 const Table: FC<ComponentProps> = (props) => {
-    const { className, columns, rows } = props;
+    const { className, columns, rows, onSortClick } = props;
 
     return (
         <div className={classNames(styles.tableWrapper, className)}>
@@ -29,7 +34,23 @@ const Table: FC<ComponentProps> = (props) => {
                                 className={classNames(styles.theadCell, styles.cell)}
                                 style={{ width: column.width }}
                             >
-                                {column.title}
+                                <div
+                                    className={classNames(
+                                        styles.title,
+                                        column.isSort === undefined ? styles.clickable : '',
+                                    )}
+                                    onClick={(e) => column.isSort === undefined && onSortClick?.(e, column)}
+                                >
+                                    <div>{column.title}</div>
+                                    {column.isSort === false ? null : (
+                                        <GoTriangleDown
+                                            className={classNames(
+                                                styles.sortArrow,
+                                                column.sort === SortEnum.DESC ? styles.desc : styles.asc,
+                                            )}
+                                        />
+                                    )}
+                                </div>
                             </td>
                         ))}
                     </tr>

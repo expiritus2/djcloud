@@ -17,6 +17,6 @@ export class GenresStore extends BaseStore<PaginatedItems<Genre>> {
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<PaginatedItems<Genre>>({ store: this.store, method: getAll }).execResult();
 
-        sendRequest(cfg, options, cb);
+        sendRequest({ limit: 15, ...this.store.meta, ...cfg }, options, cb);
     }
 }

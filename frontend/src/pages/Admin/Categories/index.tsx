@@ -11,11 +11,13 @@ import {
     TableActions,
 } from 'components';
 import { useStore } from 'store';
+import Pagination from './Pagination';
 
 import { observer } from 'mobx-react-lite';
 import CategoryModal from './Modal';
 import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
+import { Column } from 'components/Table';
 
 import styles from './styles.module.scss';
 
@@ -32,7 +34,7 @@ const Categories: FC<ComponentProps> = (props) => {
     const [modalState, setModalState] = useState(initModalState);
 
     useEffect(() => {
-        categories.getAll({ field: 'id', sort: SortEnum.ASC });
+        categories.getAll({ field: 'id', sort: SortEnum.ASC, limit: 3 }, { silent: false });
     }, []); // eslint-disable-line
 
     const onClickEdit = (e: any, id: number, cb: Function) => {
@@ -61,9 +63,19 @@ const Categories: FC<ComponentProps> = (props) => {
 
     const getColumns = () => {
         return [
-            { key: 'id', title: 'Id', width: '33%' },
-            { key: 'name', title: 'Name', width: '33%' },
-            { key: 'actions', title: 'Actions', width: '33%' },
+            {
+                key: 'id',
+                title: 'Id',
+                width: '33%',
+                sort: categories.store.meta.field === 'id' ? categories.store.meta.sort : undefined,
+            },
+            {
+                key: 'name',
+                title: 'Name',
+                width: '33%',
+                sort: categories.store.meta.field === 'name' ? categories.store.meta.sort : undefined,
+            },
+            { key: 'actions', title: 'Actions', width: '33%', isSort: false },
         ];
     };
 
@@ -94,6 +106,13 @@ const Categories: FC<ComponentProps> = (props) => {
         return 'Create Category';
     };
 
+    const onSortClick = (e: any, column: Column) => {
+        categories.getAll(
+            { field: column.key, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
+            { silent: true },
+        );
+    };
+
     return (
         <div className={classNames(styles.categories, className)}>
             <Header />
@@ -104,7 +123,13 @@ const Categories: FC<ComponentProps> = (props) => {
                         <PendingWrapper state={categories.store.state} className={styles.pendingWrapper}>
                             <>
                                 <AdminPageTitle title="Categories" onClickNew={onClickNew} />
-                                <Table columns={getColumns()} rows={getRows()} />
+                                <Table
+                                    columns={getColumns()}
+                                    rows={getRows()}
+                                    onSortClick={onSortClick}
+                                    className={styles.table}
+                                />
+                                <Pagination />
                                 <CategoryModal
                                     title={getModalTitle()}
                                     modalState={modalState}

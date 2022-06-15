@@ -135,7 +135,7 @@ const CategoryModal: FC<ComponentProps> = (props) => {
         return (
             <div className={styles.deleteText}>
                 Are you sure you want delete category: <br />
-                <span className={styles.accent}>{modifyCategory.store.data?.name}</span>
+                <span className={styles.accent}>{`${modifyCategory.store.data?.name}?`}</span>
             </div>
         );
     };

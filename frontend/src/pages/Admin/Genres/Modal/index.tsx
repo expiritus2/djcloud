@@ -135,7 +135,7 @@ const GenreModal: FC<ComponentProps> = (props) => {
         return (
             <div className={styles.deleteText}>
                 Are you sure you want delete genre: <br />
-                <span className={styles.accent}>{modifyGenre.store.data?.name}</span>
+                <span className={styles.accent}>{`${modifyGenre.store.data?.name}?`}</span>
             </div>
         );
     };

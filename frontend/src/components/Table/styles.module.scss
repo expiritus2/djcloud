@@ -2,25 +2,57 @@
 @import "src/styles/variables";
 
 .tableWrapper {
-  .table {
-    width: 100%;
+    .table {
+        width: 100%;
 
-    .theadItem,
-    .tbodyItem {
-      border-bottom: 1px dotted $darkColor;
-    }
+        .theadItem,
+        .tbodyItem {
+            border-bottom: 1px dotted $darkColor;
+        }
 
-    .tbodyItem:nth-child(even) {
-      background-color: $lightColor;
-    }
+        .theadItem {
+            .title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
 
-    .theadCell {
-      font-size: setUnit(18);
-      font-weight: bold;
-    }
+        .tbodyItem:nth-child(even) {
+            background-color: $lightColor;
+        }
 
-    .cell {
-      padding: setUnit(10);
+        .theadCell {
+            font-size: setUnit(18);
+            font-weight: bold;
+
+            &.cell {
+                padding: 0;
+            }
+
+            .title {
+                &.clickable {
+                    cursor: pointer;
+                }
+            }
+
+            .sortArrow {
+                color: $darkColor;
+                transition: all .2s;
+
+                &.asc {
+                    transform: rotate(0);
+                }
+
+                &.desc {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        .cell,
+        .title {
+            padding: setUnit(10);
+        }
     }
-  }
 }

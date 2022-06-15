@@ -2,37 +2,38 @@
 @import "src/styles/variables";
 
 .menu {
-  background-color: $darkColor;
-  min-width: setUnit(300);
-  color: $whiteColor;
-  overflow: auto;
+    background-color: $darkColor;
+    min-width: setUnit(300);
+    color: $whiteColor;
+    overflow: auto;
+    height: calc(100vh - #{setUnit(71)});
 
-  .list {
-    list-style: none;
-    margin-top: setUnit(30);
+    .list {
+        list-style: none;
+        margin-top: setUnit(30);
 
-    .item {
-      padding: 0 setUnit(20);
-      margin-bottom: setUnit(5);
+        .item {
+            padding: 0 setUnit(20);
+            margin-bottom: setUnit(5);
 
-      &:last-child {
-        margin-bottom: 0;
-      }
+            &:last-child {
+                margin-bottom: 0;
+            }
 
-      .link {
-        color: $whiteColor;
-        text-decoration: none;
-        display: inline-block;
-        width: 100%;
-        padding: setUnit(10) setUnit(20);
-        border-radius: setUnit(5);
+            .link {
+                color: $whiteColor;
+                text-decoration: none;
+                display: inline-block;
+                width: 100%;
+                padding: setUnit(10) setUnit(20);
+                border-radius: setUnit(5);
 
-        &:hover,
-        &.active {
-          background-color: darken($lightColor, 20);
-          color: $darkColor;
+                &:hover,
+                &.active {
+                    background-color: darken($lightColor, 20);
+                    color: $darkColor;
+                }
+            }
         }
-      }
     }
-  }
 }

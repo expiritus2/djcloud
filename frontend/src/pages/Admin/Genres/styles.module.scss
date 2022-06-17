@@ -2,6 +2,10 @@
 @import "src/styles/variables";
 
 .genres {
+    .table {
+        min-height: calc(100vh - #{setUnit(250)});
+    }
+
     .pendingWrapper {
         position: relative;
     }

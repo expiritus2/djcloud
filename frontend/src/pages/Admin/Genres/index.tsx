@@ -34,7 +34,7 @@ const Genres: FC<ComponentProps> = (props) => {
     const [modalState, setModalState] = useState(initModalState);
 
     useEffect(() => {
-        genres.getAll({ field: 'id', sort: SortEnum.ASC, limit: 3 }, { silent: false });
+        genres.getAll({ field: 'id', sort: SortEnum.ASC, limit: 15 }, { silent: false });
     }, []); // eslint-disable-line
 
     const onClickEdit = (e: any, id: number, cb: Function) => {

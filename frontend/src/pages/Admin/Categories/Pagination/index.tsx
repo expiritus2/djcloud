@@ -20,12 +20,17 @@ const Pagination: FC<ComponentProps> = (props) => {
         return <div className={classNames(styles.pagination, className)} />;
     }
 
+    const onClickPage = (e: any, page: number) => {
+        categories.getAll({ page });
+    };
+
     return (
         <div className={classNames(styles.pagination, className)}>
             <TablePagination
                 count={categories.store.data?.count}
                 current={categories.store.meta.page}
                 limit={categories.store.meta.limit}
+                onClickPage={onClickPage}
             />
         </div>
     );

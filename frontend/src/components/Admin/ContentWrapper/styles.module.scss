@@ -4,6 +4,6 @@
 .contentWrapper {
     height: calc(100vh - #{setUnit(71)});
     width: 100%;
-    padding: 0 setUnit(10);
+    padding: setUnit(10) setUnit(10) 0;
     overflow: auto;
 }

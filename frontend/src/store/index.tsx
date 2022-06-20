@@ -6,6 +6,7 @@ import { GenresStore } from './admin/Genres';
 import { TracksStore } from './admin/Tracks';
 import { ModifyCategoryStore } from './admin/ModifyCategory';
 import { ModifyGenreStore } from './admin/ModifyGenre';
+import { ModifyTrackStore } from './admin/ModifyTrack';
 
 configure({ enforceActions: 'never' });
 
@@ -14,6 +15,7 @@ const store = {
     categories: new CategoriesStore('red'),
     modifyCategory: new ModifyCategoryStore('#FFB703'),
     modifyGenre: new ModifyGenreStore('#FFCB47'),
+    modifyTrack: new ModifyTrackStore('#0B132B'),
     genres: new GenresStore('green'),
     tracks: new TracksStore('purple'),
 };

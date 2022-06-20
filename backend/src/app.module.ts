@@ -6,6 +6,7 @@ import { UsersModule } from './modules/users/users.module';
 import { GenresModule } from './modules/genres/genres.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { TracksModule } from './modules/tracks/tracks.module';
+import { TrackRatingsModule } from './modules/trackRatings/trackRatings.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -23,6 +24,7 @@ const cookieSession = require('cookie-session');
         GenresModule,
         CategoriesModule,
         TracksModule,
+        TrackRatingsModule,
     ],
     providers: [],
 })

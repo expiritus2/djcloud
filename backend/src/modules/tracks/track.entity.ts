@@ -4,6 +4,7 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
@@ -11,6 +12,7 @@ import {
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { FileEntity } from './file.entity';
+import { TrackRatingEntity } from '../trackRatings/trackRating.entity';
 
 @Entity('tracks')
 export class TrackEntity {
@@ -22,9 +24,6 @@ export class TrackEntity {
 
     @Column({ default: true })
     visible: boolean;
-
-    @Column({ default: 0 })
-    likes: number;
 
     @Column({ type: 'float' })
     duration: number;
@@ -40,6 +39,9 @@ export class TrackEntity {
     @OneToOne(() => FileEntity, (file) => file.track)
     @JoinColumn({ name: 'fileId' })
     file: FileEntity;
+
+    @OneToMany(() => TrackRatingEntity, (trackRatings) => trackRatings.track)
+    trackRatings: TrackRatingEntity;
 
     @CreateDateColumn({ type: 'timestamp', nullable: false })
     createdAt: string;

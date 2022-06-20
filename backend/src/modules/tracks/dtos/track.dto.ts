@@ -66,10 +66,6 @@ export class TrackDto {
 
     @Expose()
     @ApiProperty()
-    likes: number;
-
-    @Expose()
-    @ApiProperty()
     duration: string;
 
     @Expose()

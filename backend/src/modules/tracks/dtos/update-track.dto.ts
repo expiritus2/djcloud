@@ -34,11 +34,6 @@ export class UpdateTrackDto {
     visible?: boolean;
 
     @IsOptional()
-    @IsNumber()
-    @ApiProperty()
-    likes?: number;
-
-    @IsOptional()
     @ValidateNested()
     @Type(() => File)
     @ApiProperty()

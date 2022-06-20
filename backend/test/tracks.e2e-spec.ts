@@ -173,7 +173,6 @@ describe('Tracks management', () => {
 
             expect(body).toEqual({
                 id: expect.anything(),
-                likes: 0,
                 title: 'New Track Title',
                 visible: true,
                 duration,
@@ -287,7 +286,6 @@ describe('Tracks management', () => {
                 .send({
                     title: 'Updated title',
                     visible: false,
-                    likes: 50,
                     duration: 4000,
                 })
                 .set('Cookie', adminCookie)
@@ -296,7 +294,6 @@ describe('Tracks management', () => {
                 ...track,
                 title: 'Updated title',
                 visible: false,
-                likes: 50,
                 duration: 4000,
                 updatedAt: expect.anything(),
             });
@@ -312,7 +309,6 @@ describe('Tracks management', () => {
                 .send({
                     title: 'Updated title',
                     visible: false,
-                    likes: 50,
                     duration: 4000,
                     file,
                 })
@@ -322,7 +318,6 @@ describe('Tracks management', () => {
                 ...track,
                 title: 'Updated title',
                 visible: false,
-                likes: 50,
                 duration: 4000,
                 file,
                 updatedAt: expect.anything(),

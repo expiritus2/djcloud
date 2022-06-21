@@ -1,10 +1,18 @@
+import { Category, Genre, File } from '../Tracks/types';
+
 export type CreateTrackDto = {
-    name: string;
+    title: string;
+    category: Category;
+    genre: Genre;
+    file: File;
 };
 
 export type UpdateTrackDto = {
     id: number;
-    name: string;
+    title: string;
+    category: Category;
+    genre: Genre;
+    file: File;
 };
 
 export type GetTrackDto = {

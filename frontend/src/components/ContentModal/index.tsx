@@ -9,6 +9,7 @@ export type ButtonType = {
     onClick: any;
     label: string;
     variant: 'primary' | 'secondary' | 'danger' | 'success';
+    type?: 'submit' | 'button';
     formId?: string;
     className?: string;
     pending?: boolean;
@@ -32,6 +33,7 @@ const Modal: FC<ComponentProps> = (props) => {
                 <div className={styles.buttons}>
                     {buttons.map((button) => (
                         <Button
+                            type={button.type}
                             pending={button.pending}
                             key={button.id}
                             onClick={button.onClick}

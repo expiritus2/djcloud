@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
 
-import { ContentModal, InputText } from 'components';
+import { ContentModal } from 'components';
 import { ButtonType } from 'components/ContentModal';
 import { useStore } from 'store';
 
@@ -10,6 +10,7 @@ import { initModalState, InitModalStateType } from '..';
 import { observer } from 'mobx-react-lite';
 import { ModalStateEnum } from 'types/modal';
 import { RequestStateEnum } from 'types/request';
+import Form from '../Form';
 
 import styles from './styles.module.scss';
 
@@ -20,26 +21,14 @@ type ComponentProps = {
     setModalState: any;
 };
 
-const initValues = { name: '' };
-
 const TrackModal: FC<ComponentProps> = (props) => {
     const { modifyTrack, tracks } = useStore();
     const { className, title, modalState, setModalState } = props;
-    const [values, setValues] = useState(initValues);
-    const [inputError, setInputError] = useState('');
-
-    useEffect(() => {
-        if (modalState.type === ModalStateEnum.UPDATE) {
-            setValues({ name: modifyTrack.store.data?.title || '' });
-        }
-    }, [modifyTrack.store.data, modalState.type]);
 
     if (!modalState.open) return null;
 
     const resetModal = () => {
         setModalState(initModalState);
-        setInputError('');
-        setValues(initValues);
     };
 
     const onClickCancel = () => {
@@ -48,24 +37,7 @@ const TrackModal: FC<ComponentProps> = (props) => {
     };
 
     const refreshTable = () => {
-        resetModal();
         tracks.getAll();
-    };
-
-    const createTrack = () => {
-        modifyTrack.create(values, {}, (err: AxiosError) => {
-            if (!err) {
-                refreshTable();
-            }
-        });
-    };
-
-    const updateTrack = () => {
-        modifyTrack.update({ id: modalState.id as any, ...values }, {}, (err: AxiosError) => {
-            if (!err) {
-                refreshTable();
-            }
-        });
     };
 
     const removeTrack = () => {
@@ -76,29 +48,10 @@ const TrackModal: FC<ComponentProps> = (props) => {
         });
     };
 
-    const onClickSubmit = (e: any) => {
-        e.preventDefault();
-
-        if (!values.name && modalState.type !== ModalStateEnum.DELETE) {
-            return setInputError('Required');
-        }
-
-        if (modalState.type === ModalStateEnum.CREATE) {
-            createTrack();
-        }
-
-        if (modalState.type === ModalStateEnum.UPDATE) {
-            updateTrack();
-        }
-
+    const onClickSubmit = () => {
         if (modalState.type === ModalStateEnum.DELETE) {
             removeTrack();
         }
-    };
-
-    const onChangeName = (e: any) => {
-        const { name, value } = e.target;
-        setValues((prevVal) => ({ ...prevVal, [name]: value }));
     };
 
     const getSubmitButtonText = () => {
@@ -124,6 +77,8 @@ const TrackModal: FC<ComponentProps> = (props) => {
         { id: 'cancel', onClick: onClickCancel, label: 'Cancel', variant: 'secondary' },
         {
             id: 'submit',
+            formId: 'trackSubmit',
+            type: 'submit',
             onClick: onClickSubmit,
             label: getSubmitButtonText(),
             variant: getSubmitButtonVariant(),
@@ -144,16 +99,7 @@ const TrackModal: FC<ComponentProps> = (props) => {
         return modalState.type === ModalStateEnum.DELETE ? (
             getDeleteText()
         ) : (
-            <form onSubmit={onClickSubmit}>
-                <InputText
-                    error={inputError}
-                    className={styles.input}
-                    label="Name"
-                    value={values.name}
-                    name="name"
-                    onChange={onChangeName}
-                />
-            </form>
+            <Form onClickSubmit={onClickSubmit} resetModal={resetModal} modalState={modalState} />
         );
     };
 

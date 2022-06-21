@@ -14,3 +14,6 @@ export { default as AdminContentWrapper } from './Admin/ContentWrapper';
 export { default as Table } from './Table';
 export { default as TablePagination } from './TablePagination';
 export { default as TableActions } from './TableActions';
+export { default as CategoryInput } from './CategoryInput';
+export { default as GenreInput } from './GenreInput';
+export { default as DropZone } from './DropZone';

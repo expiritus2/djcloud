@@ -1,13 +1,17 @@
-type File = {
+export type File = {
     id: number;
 };
 
-type Category = {
+export type Category = {
     id: number;
+    value: string;
+    name: string;
 };
 
-type Genre = {
+export type Genre = {
     id: number;
+    value: string;
+    name: string;
 };
 
 export type Track = {

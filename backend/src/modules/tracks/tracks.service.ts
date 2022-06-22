@@ -11,7 +11,7 @@ import { simplePaginateQuery } from '../../lib/queries/pagination';
 import { UpdateTrackDto } from './dtos/update-track.dto';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { getAudioDurationInSeconds } = require('get-audio-duration');
-import { merge } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 import path from 'path';
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
@@ -105,10 +105,15 @@ export class TracksService {
     async update(id: string | number, attrs: UpdateTrackDto): Promise<TrackEntity> {
         const track = await this.findOne(id);
 
-        const updatedTrack = merge(track, attrs);
+        const updatedTrack = merge(cloneDeep(track), cloneDeep(attrs));
 
         try {
-            return this.trackRepo.save(updatedTrack);
+            const savedTrack = await this.trackRepo.save(updatedTrack);
+
+            if (track.file.id !== attrs.file.id) {
+                await this.removeFile(track.file.id);
+            }
+            return savedTrack;
         } catch (error: any) {
             throw new InternalServerErrorException(error);
         }

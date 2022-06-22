@@ -16,6 +16,7 @@ const Pagination: FC<ComponentProps> = (props) => {
 
     const countPages = Math.ceil((tracks.store.data?.count || 0) / tracks.store.meta.limit);
 
+    console.log(countPages);
     if (countPages <= 1) {
         return <div className={classNames(styles.pagination, className)} />;
     }

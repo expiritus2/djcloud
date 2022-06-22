@@ -1,4 +1,4 @@
-import { Category, Genre, File } from '../Tracks/types';
+import { Category, Genre, File as TrackFile } from '../Tracks/types';
 
 export type CreateTrackDto = {
     title: string;
@@ -12,7 +12,7 @@ export type UpdateTrackDto = {
     title: string;
     category: Category;
     genre: Genre;
-    file: File;
+    file: TrackFile;
 };
 
 export type GetTrackDto = {

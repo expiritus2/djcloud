@@ -18,6 +18,7 @@ import TrackModal from './Modal';
 import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
 import { Column } from 'components/Table';
+import formatDuration from 'format-duration';
 
 import styles from './styles.module.scss';
 
@@ -61,21 +62,44 @@ const Tracks: FC<ComponentProps> = (props) => {
         setModalState({ type: ModalStateEnum.CREATE, open: true });
     };
 
+    const getFieldSort = (fieldKey: string) => {
+        return tracks.store.meta.field === fieldKey ? tracks.store.meta.sort : undefined;
+    };
+
     const getColumns = () => {
         return [
             {
                 key: 'track_id',
                 title: 'Id',
-                width: '33%',
-                sort: tracks.store.meta.field === 'id' ? tracks.store.meta.sort : undefined,
+                sort: getFieldSort('track_id'),
             },
             {
                 key: 'title',
                 title: 'Title',
-                width: '33%',
-                sort: tracks.store.meta.field === 'title' ? tracks.store.meta.sort : undefined,
+                width: '25%',
+                sort: getFieldSort('title'),
             },
-            { key: 'actions', title: 'Actions', width: '33%', isSort: false },
+            {
+                key: 'duration',
+                title: 'Duration',
+                sort: getFieldSort('duration'),
+            },
+            {
+                key: 'category',
+                title: 'Category',
+                sort: getFieldSort('category'),
+            },
+            {
+                key: 'genre',
+                title: 'Genre',
+                sort: getFieldSort('genre'),
+            },
+            {
+                key: 'visible',
+                title: 'Visible',
+                sort: getFieldSort('visible'),
+            },
+            { key: 'actions', title: 'Actions', isSort: false },
         ];
     };
 
@@ -83,13 +107,18 @@ const Tracks: FC<ComponentProps> = (props) => {
         return (
             tracks.store.data?.data?.map((row) => ({
                 track_id: row.id,
+                id: row.id,
                 title: row.title,
+                duration: formatDuration(row.duration * 1000, { leading: true }),
+                category: row.category.name,
+                genre: row.genre.name,
                 actions: (
                     <TableActions
                         onClickEdit={(e: any, cb: Function) => onClickEdit(e, row.id, cb)}
                         onClickDelete={(e: any, cb: Function) => onClickDelete(e, row.id, cb)}
                     />
                 ),
+                visible: `${row.visible}`,
             })) || []
         );
     };

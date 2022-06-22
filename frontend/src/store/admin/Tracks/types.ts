@@ -1,5 +1,10 @@
 export type File = {
     id: number;
+    mimetype: string;
+    duration: number;
+    name: string;
+    size: number;
+    url: string;
 };
 
 export type Category = {

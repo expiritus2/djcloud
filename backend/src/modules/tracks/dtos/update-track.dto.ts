@@ -3,10 +3,25 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 class File {
-    @IsOptional()
     @IsNumber()
     @ApiProperty()
     id: number;
+
+    @IsString()
+    @ApiProperty()
+    mimetype: string;
+
+    @IsString()
+    @ApiProperty()
+    name: string;
+
+    @IsNumber()
+    @ApiProperty()
+    size: string;
+
+    @IsString()
+    @ApiProperty()
+    url: string;
 }
 
 class Category {
@@ -23,31 +38,31 @@ class Genre {
 }
 
 export class UpdateTrackDto {
-    @IsOptional()
     @IsString()
     @ApiProperty()
-    title?: string;
+    title: string;
 
-    @IsOptional()
     @IsBoolean()
     @ApiProperty()
-    visible?: boolean;
+    visible: boolean;
 
+    @IsNumber()
+    @ApiProperty()
     @IsOptional()
+    duration?: number;
+
     @ValidateNested()
     @Type(() => File)
     @ApiProperty()
-    file?: File;
+    file: File;
 
-    @IsOptional()
     @ValidateNested()
     @Type(() => Category)
     @ApiProperty()
-    category?: Category;
+    category: Category;
 
-    @IsOptional()
     @ValidateNested()
     @Type(() => Genre)
     @ApiProperty()
-    genre?: Genre;
+    genre: Genre;
 }

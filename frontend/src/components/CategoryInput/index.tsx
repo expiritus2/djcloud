@@ -25,7 +25,7 @@ const CategoryInput: FC<ComponentProps> = (props) => {
 
     const onChangeValue = (e: any) => {
         const category = (categories.store.data?.data || []).find((cat) => cat.value === e.target.value);
-        onChange({ ...e, target: { name, value: cloneDeep(category) } });
+        onChange({ ...e, target: { name, value: cloneDeep(category) || null } });
     };
 
     return (

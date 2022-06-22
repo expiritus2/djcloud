@@ -17,6 +17,6 @@ export class TracksStore extends BaseStore<PaginatedItems<Track>> {
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<PaginatedItems<Track>>({ store: this.store, method: getAll }).execResult();
 
-        sendRequest(cfg, options, cb);
+        sendRequest({ limit: 15, ...this.store.meta, ...cfg }, options, cb);
     }
 }

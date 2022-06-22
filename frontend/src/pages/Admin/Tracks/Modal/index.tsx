@@ -37,6 +37,7 @@ const TrackModal: FC<ComponentProps> = (props) => {
     };
 
     const refreshTable = () => {
+        resetModal();
         tracks.getAll();
     };
 

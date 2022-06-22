@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { InputText, CategoryInput, GenreInput, DropZone } from 'components';
+import { InputText, CategoryInput, GenreInput, DropZone, Checkbox } from 'components';
 import { ModalStateEnum } from 'types/modal';
 import { AxiosError } from 'axios';
 import { useStore } from 'store';
@@ -16,7 +16,7 @@ type ComponentProps = {
     modalState: InitModalStateType;
 };
 
-const initValues: any = { title: '', category: null, genre: null, file: null };
+const initValues: any = { visible: true, title: '', category: null, genre: null, file: null };
 const initialErrors: any = { title: '', category: '', genre: '', file: '' };
 
 const Form: FC<ComponentProps> = (props) => {
@@ -29,7 +29,7 @@ const Form: FC<ComponentProps> = (props) => {
         if (modalState.type === ModalStateEnum.UPDATE) {
             const track = modifyTrack.store.data;
             if (track) {
-                setValues({ title: track.title, category: track.category, genre: track.genre, file: track.file });
+                setValues({ ...track });
             }
         }
     }, [modifyTrack.store.data, modalState.type]);
@@ -94,6 +94,13 @@ const Form: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.form, className)}>
             <form id="trackSubmit" onSubmit={onClickSubmitHandler}>
+                <Checkbox
+                    label="Visible"
+                    checked={values.visible}
+                    name="visible"
+                    onChange={onChangeValue}
+                    className={styles.input}
+                />
                 <InputText
                     error={inputError.title}
                     className={styles.input}

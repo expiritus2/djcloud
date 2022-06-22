@@ -25,7 +25,7 @@ const GenreInput: FC<ComponentProps> = (props) => {
 
     const onChangeValue = (e: any) => {
         const genre = (genres.store.data?.data || []).find((cat) => cat.value === e.target.value);
-        onChange({ ...e, target: { name, value: cloneDeep(genre) } });
+        onChange({ ...e, target: { name, value: cloneDeep(genre) || null } });
     };
 
     return (

@@ -12,6 +12,7 @@ export const create = (cfg: CreateTrackDto) => {
 
 export const update = (cfg: UpdateTrackDto) => {
     const { id, ...config } = cfg;
+    console.log('this', config);
     return apiServer.patch(`/tracks/${id}`, config);
 };
 
@@ -21,4 +22,11 @@ export const remove = (cfg: RemoveTrackDto) => {
 
 export const getById = (cfg: GetTrackDto) => {
     return apiServer.get(`/tracks/${cfg.id}`);
+};
+
+export const uploadFile = (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return apiServer.post('/tracks/file-upload', formData);
 };

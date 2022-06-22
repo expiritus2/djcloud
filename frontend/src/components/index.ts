@@ -17,3 +17,4 @@ export { default as TableActions } from './TableActions';
 export { default as CategoryInput } from './CategoryInput';
 export { default as GenreInput } from './GenreInput';
 export { default as DropZone } from './DropZone';
+export { default as Checkbox } from './Checkbox';

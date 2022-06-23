@@ -38,6 +38,7 @@ const Table: FC<ComponentProps> = (props) => {
                                     className={classNames(
                                         styles.title,
                                         column.isSort === undefined ? styles.clickable : '',
+                                        column.sort === SortEnum.DESC ? styles.desc : styles.asc,
                                     )}
                                     onClick={(e) => column.isSort === undefined && onSortClick?.(e, column)}
                                 >

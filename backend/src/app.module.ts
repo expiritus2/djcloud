@@ -1,12 +1,12 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
-import { GenresModule } from './modules/genres/genres.module';
-import { CategoriesModule } from './modules/categories/categories.module';
-import { TracksModule } from './modules/tracks/tracks.module';
-import { TrackRatingsModule } from './modules/trackRatings/trackRatings.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { GenresModule } from './genres/genres.module';
+import { CategoriesModule } from './categories/categories.module';
+import { TracksModule } from './tracks/tracks.module';
+import { TrackRatingsModule } from './trackRatings/trackRatings.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 // eslint-disable-next-line @typescript-eslint/no-var-requires

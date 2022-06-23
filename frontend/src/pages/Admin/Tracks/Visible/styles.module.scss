@@ -1,0 +1,9 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.visible {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: setUnit(51);
+}

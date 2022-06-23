@@ -12,7 +12,6 @@ export const create = (cfg: CreateTrackDto) => {
 
 export const update = (cfg: UpdateTrackDto) => {
     const { id, ...config } = cfg;
-    console.log('this', config);
     return apiServer.patch(`/tracks/${id}`, config);
 };
 

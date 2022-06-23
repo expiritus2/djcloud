@@ -1,6 +1,8 @@
 @import "src/styles/functions";
 @import "src/styles/variables";
 
+$sorColor: darken($lightColor, 60);
+
 .tableWrapper {
     .table {
         width: 100%;
@@ -34,6 +36,10 @@
                 &.clickable {
                     cursor: pointer;
                 }
+
+                &.desc {
+                    color: $sorColor;
+                }
             }
 
             .sortArrow {
@@ -46,6 +52,7 @@
 
                 &.desc {
                     transform: rotate(180deg);
+                    fill: $sorColor;
                 }
             }
         }

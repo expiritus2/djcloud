@@ -12,5 +12,20 @@
         .labelText {
             margin-left: setUnit(10);
         }
+
+        .input {
+            cursor: pointer;
+        }
+    }
+
+    .loaderWrapper {
+        width: setUnit(15);
+        height: setUnit(15);
+
+        .loader {
+            font-size: setUnit(1.5);
+            position: relative;
+            bottom: setUnit(2);
+        }
     }
 }

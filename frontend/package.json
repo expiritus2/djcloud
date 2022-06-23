@@ -18,6 +18,7 @@
     "@types/toastr": "^2.1.39",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",
+    "date-fns": "^2.28.0",
     "format-duration": "^2.0.0",
     "lodash": "^4.17.21",
     "mobx": "^6.6.0",

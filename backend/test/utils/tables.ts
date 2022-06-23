@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import { getConnection } from 'typeorm';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
-import { GenreEntity } from '../../src/modules/genres/genre.entity';
-import { CategoryEntity } from '../../src/modules/categories/category.entity';
+import { GenreEntity } from '../../src/genres/genre.entity';
+import { CategoryEntity } from '../../src/categories/category.entity';
 
 export const clearTable = async <E>(Entity: EntityTarget<E>) => {
     const connection = getConnection();

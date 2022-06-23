@@ -7,14 +7,12 @@ import { TracksStore } from './admin/Tracks';
 import { ModifyCategoryStore } from './admin/ModifyCategory';
 import { ModifyGenreStore } from './admin/ModifyGenre';
 import { ModifyTrackStore } from './admin/ModifyTrack';
-import { InputCategoriesStore } from './InputCategories';
 
 configure({ enforceActions: 'never' });
 
 const store = {
     user: new UsersStore('blue'),
     categories: new CategoriesStore('red'),
-    inputCategories: new InputCategoriesStore('#E0AFA0'),
     modifyCategory: new ModifyCategoryStore('#FFB703'),
     modifyGenre: new ModifyGenreStore('#FFCB47'),
     modifyTrack: new ModifyTrackStore('#0B132B'),

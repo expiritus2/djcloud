@@ -15,6 +15,11 @@ export type UpdateTrackDto = {
     file: TrackFile;
 };
 
+export type UpdateVisibleTrackDto = {
+    id: number;
+    visible: boolean;
+};
+
 export type GetTrackDto = {
     id: number;
 };

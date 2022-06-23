@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import path from 'path';
-import { TrackDto } from '../../src/modules/tracks/dtos/track.dto';
+import { TrackDto } from '../../src/tracks/dtos/track.dto';
 
 const pathToMP3File = path.resolve(__dirname, '..', 'data', 'files', 'Kamera-ExtendedMix.mp3');
 

@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
 
+import { Spinner } from 'components';
+
 import styles from './styles.module.scss';
 
 type ComponentProps = {
@@ -9,10 +11,11 @@ type ComponentProps = {
     onChange: any;
     checked: true | false;
     name: string;
+    pending?: boolean;
 };
 
 const Checkbox: FC<ComponentProps> = (props) => {
-    const { className, label, onChange, checked, name } = props;
+    const { className, label, onChange, checked, name, pending = false } = props;
 
     const onChangeHandler = (e: any) => {
         onChange({ target: { name, value: e.target.checked } });
@@ -21,14 +24,18 @@ const Checkbox: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.checkbox, className)}>
             <label className={styles.label}>
-                <input
-                    onChange={onChangeHandler}
-                    className={styles.input}
-                    type="checkbox"
-                    checked={checked}
-                    name={name}
-                />
-                <span className={styles.labelText}>{label}</span>
+                {pending ? (
+                    <Spinner loaderWrapperClassName={styles.loaderWrapper} className={styles.loader} />
+                ) : (
+                    <input
+                        onChange={onChangeHandler}
+                        className={styles.input}
+                        type="checkbox"
+                        checked={checked}
+                        name={name}
+                    />
+                )}
+                {label && <span className={styles.labelText}>{label}</span>}
             </label>
         </div>
     );

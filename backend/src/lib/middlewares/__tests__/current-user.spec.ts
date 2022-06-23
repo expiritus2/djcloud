@@ -1,5 +1,5 @@
 import { CurrentUserMiddleware } from '../current-user';
-import { UsersService } from '../../../modules/users/users.service';
+import { UsersService } from '../../../users/users.service';
 import { cloneDeep } from 'lodash';
 
 describe('CurrentUser middleware', () => {

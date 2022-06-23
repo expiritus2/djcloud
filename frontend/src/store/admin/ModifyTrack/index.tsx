@@ -1,10 +1,11 @@
 import { action, makeObservable } from 'mobx';
 import { RequestOptions } from 'types/request';
-import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto } from './types';
+import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto, UpdateVisibleTrackDto } from './types';
 import { Track } from '../Tracks/types';
 import Api from 'store/core/Api';
 import { create, getById, update, remove, uploadFile } from 'api/admin/tracks';
 import { BaseStore } from 'store/core/BaseStore';
+import store from 'store';
 
 export class ModifyTrackStore extends BaseStore<Track> {
     constructor(color: string) {
@@ -58,6 +59,22 @@ export class ModifyTrackStore extends BaseStore<Track> {
         } else {
             sendRequest(cfg, { silent: false, ...options }, cb);
         }
+    }
+
+    updateVisible(cfg: UpdateVisibleTrackDto, options?: RequestOptions, cb?: Function) {
+        const sendRequest = new Api<Track>({ store: this.store, method: update }).execResult();
+
+        sendRequest(cfg, options, (err: any, response: any) => {
+            const tracksStoreData = store.tracks.store.data;
+            if (!err && tracksStoreData) {
+                const updatedTrackIndex = tracksStoreData.data.findIndex((track) => track.id === cfg.id);
+                tracksStoreData.data[updatedTrackIndex].visible = response.data.visible;
+            }
+
+            if (cb) {
+                cb(err, response);
+            }
+        });
     }
 
     getById(cfg: GetTrackDto, options?: RequestOptions, cb?: Function) {

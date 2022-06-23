@@ -4,10 +4,10 @@ import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, signupAdmin } from './utils';
 import { getConnection } from 'typeorm';
-import { GenreEntity } from '../src/modules/genres/genre.entity';
-import { UserEntity } from '../src/modules/users/user.entity';
+import { GenreEntity } from '../src/genres/genre.entity';
+import { UserEntity } from '../src/users/user.entity';
 import { snakeCase } from 'lodash';
-import { GenreDto } from '../src/modules/genres/dtos/genre.dto';
+import { GenreDto } from '../src/genres/dtos/genre.dto';
 
 describe('Genres management', () => {
     let app: INestApplication;

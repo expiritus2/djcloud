@@ -28,6 +28,6 @@ export type Track = {
     file: File;
     category: Category;
     genre: Genre;
-    createdAt: number;
-    updatedAt: number;
+    createdAt: string;
+    updatedAt: string;
 };

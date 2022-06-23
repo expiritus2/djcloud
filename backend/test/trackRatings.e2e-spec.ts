@@ -5,13 +5,13 @@ import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, clearTestUploads, createCategories, createGenres, signupAdmin } from './utils';
 import { getConnection } from 'typeorm';
-import { CategoryEntity } from '../src/modules/categories/category.entity';
-import { UserEntity } from '../src/modules/users/user.entity';
-import { GenreEntity } from '../src/modules/genres/genre.entity';
-import { TrackRatingEntity } from '../src/modules/trackRatings/trackRating.entity';
-import { FileEntity } from '../src/modules/tracks/file.entity';
+import { CategoryEntity } from '../src/categories/category.entity';
+import { UserEntity } from '../src/users/user.entity';
+import { GenreEntity } from '../src/genres/genre.entity';
+import { TrackRatingEntity } from '../src/trackRatings/trackRating.entity';
+import { FileEntity } from '../src/tracks/file.entity';
 import { createTrack } from './utils/tracks';
-import { TrackEntity } from '../src/modules/tracks/track.entity';
+import { TrackEntity } from '../src/tracks/track.entity';
 
 global.__baseDir = path.resolve(__dirname, '..');
 

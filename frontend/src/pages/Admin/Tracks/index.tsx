@@ -10,6 +10,7 @@ import {
     Table,
     TableActions,
 } from 'components';
+import { format, parseISO } from 'date-fns';
 import { useStore } from 'store';
 import Pagination from './Pagination';
 
@@ -19,6 +20,8 @@ import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
 import { Column } from 'components/Table';
 import formatDuration from 'format-duration';
+import Visible from './Visible';
+import { Track } from 'store/admin/Tracks/types';
 
 import styles from './styles.module.scss';
 
@@ -35,7 +38,7 @@ const Tracks: FC<ComponentProps> = (props) => {
     const [modalState, setModalState] = useState(initModalState);
 
     useEffect(() => {
-        tracks.getAll({ field: 'track_id', sort: SortEnum.ASC, limit: 15 }, { silent: false });
+        tracks.getAll({}, { silent: false });
     }, []); // eslint-disable-line
 
     const onClickEdit = (e: any, id: number, cb: Function) => {
@@ -99,26 +102,32 @@ const Tracks: FC<ComponentProps> = (props) => {
                 title: 'Visible',
                 sort: getFieldSort('visible'),
             },
+            {
+                key: 'createdAt',
+                title: 'CreatedAt',
+                sort: getFieldSort('createdAt'),
+            },
             { key: 'actions', title: 'Actions', isSort: false },
         ];
     };
 
     const getRows = () => {
         return (
-            tracks.store.data?.data?.map((row) => ({
-                track_id: row.id,
-                id: row.id,
-                title: row.title,
-                duration: formatDuration(row.duration * 1000, { leading: true }),
-                category: row.category.name,
-                genre: row.genre.name,
+            tracks.store.data?.data?.map((track: Track) => ({
+                track_id: track.id,
+                id: track.id,
+                title: track.title,
+                duration: formatDuration(track.duration * 1000, { leading: true }),
+                category: track.category.name,
+                genre: track.genre.name,
+                visible: <Visible track={track} />,
+                createdAt: format(parseISO(track.createdAt), 'dd-MM-yyyy HH:mm'),
                 actions: (
                     <TableActions
-                        onClickEdit={(e: any, cb: Function) => onClickEdit(e, row.id, cb)}
-                        onClickDelete={(e: any, cb: Function) => onClickDelete(e, row.id, cb)}
+                        onClickEdit={(e: any, cb: Function) => onClickEdit(e, track.id, cb)}
+                        onClickDelete={(e: any, cb: Function) => onClickDelete(e, track.id, cb)}
                     />
                 ),
-                visible: `${row.visible}`,
             })) || []
         );
     };

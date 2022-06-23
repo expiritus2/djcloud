@@ -4,10 +4,10 @@ import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, signupAdmin } from './utils';
 import { getConnection } from 'typeorm';
-import { CategoryEntity } from '../src/modules/categories/category.entity';
-import { UserEntity } from '../src/modules/users/user.entity';
+import { CategoryEntity } from '../src/categories/category.entity';
+import { UserEntity } from '../src/users/user.entity';
 import { snakeCase } from 'lodash';
-import { CategoryDto } from '../src/modules/categories/dtos/category.dto';
+import { CategoryDto } from '../src/categories/dtos/category.dto';
 
 describe('Categories management', () => {
     let app: INestApplication;

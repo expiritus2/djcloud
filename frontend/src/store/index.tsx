@@ -1,12 +1,12 @@
 import { createContext, useContext } from 'react';
 import { configure } from 'mobx';
-import { UsersStore } from './admin/User';
-import { CategoriesStore } from './admin/Categories';
-import { GenresStore } from './admin/Genres';
-import { TracksStore } from './admin/Tracks';
-import { ModifyCategoryStore } from './admin/ModifyCategory';
-import { ModifyGenreStore } from './admin/ModifyGenre';
-import { ModifyTrackStore } from './admin/ModifyTrack';
+import { UsersStore } from './User';
+import { CategoriesStore } from './Categories';
+import { GenresStore } from './Genres';
+import { TracksStore } from './Tracks';
+import { ModifyCategoryStore } from './ModifyCategory';
+import { ModifyGenreStore } from './ModifyGenre';
+import { ModifyTrackStore } from './ModifyTrack';
 
 configure({ enforceActions: 'never' });
 

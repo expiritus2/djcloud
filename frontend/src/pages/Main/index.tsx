@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import { Header } from 'components';
+import { Header, PageWrapper } from 'components';
+import { MainMenu, Content } from './components';
 
 import styles from './styles.module.scss';
 
@@ -14,7 +15,12 @@ const Main: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.main, className)}>
             <Header />
-            Main
+            <PageWrapper>
+                <>
+                    <MainMenu />
+                    <Content />
+                </>
+            </PageWrapper>
         </div>
     );
 };

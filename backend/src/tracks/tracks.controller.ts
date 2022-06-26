@@ -7,10 +7,12 @@ import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger
 import { TrackDto } from './dtos/track.dto';
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { ApiImplicitFile } from '@nestjs/swagger/dist/decorators/api-implicit-file.decorator';
-import { PaginationQueryDto } from '../lib/common/dtos';
 import { TrackEntity } from './track.entity';
 import { GenreDto } from '../genres/dtos/genre.dto';
 import { UpdateTrackDto } from './dtos/update-track.dto';
+import { GetAllDto } from './dtos/get-all.dto';
+import { GetTracksGenresDto } from './dtos/get-tracks-genres.dto';
+import { TracksGenresDto } from './dtos/tracks-genres.dto';
 
 @ApiTags('Tracks')
 @Controller('tracks')
@@ -39,8 +41,17 @@ export class TracksController {
     @Get('/list')
     @ApiOperation({ summary: 'Get all tracks with pagination' })
     @ApiResponse({ status: 200, type: TrackDto })
-    async getAll(@Query() query: PaginationQueryDto): Promise<{ data: TrackEntity[]; count: number }> {
+    async getAll(@Query() query: GetAllDto): Promise<{ data: TrackEntity[]; count: number }> {
         return this.tracksService.getAll(query);
+    }
+
+    @Get('/tracks-genres')
+    @ApiOperation({ summary: 'Get tracks genres with count' })
+    @ApiResponse({ status: 200, type: TracksGenresDto })
+    async getTracksGenres(
+        @Query() query: GetTracksGenresDto,
+    ): Promise<{ id: number; name: string; value: string; countTracks: number }[]> {
+        return this.tracksService.getTracksGenres(query);
     }
 
     @Get('/:id')

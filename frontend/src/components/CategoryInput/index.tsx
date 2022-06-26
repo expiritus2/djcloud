@@ -4,7 +4,7 @@ import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 
 import styles from './styles.module.scss';
-import { Category } from '../../store/admin/Tracks/types';
+import { Category } from '../../store/Tracks/types';
 import { cloneDeep } from 'lodash';
 
 type ComponentProps = {

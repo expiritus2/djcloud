@@ -1,0 +1,12 @@
+@import "../../styles/functions";
+@import "../../styles/variables";
+
+.categories {
+    .table {
+        min-height: calc(100vh - #{setUnit(250)});
+    }
+
+    .pendingWrapper {
+        position: relative;
+    }
+}

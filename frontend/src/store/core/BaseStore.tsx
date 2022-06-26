@@ -43,4 +43,8 @@ export abstract class BaseStore<T> {
             console.log(`%c ${this.constructor.name}`, `color: ${this.color}`, propertyName, cloneDeep(data));
         }
     }
+
+    resetStore() {
+        this.store = this.initStore;
+    }
 }

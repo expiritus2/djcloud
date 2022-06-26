@@ -3,20 +3,20 @@ import { AdminGuard } from '../lib/guards/adminGuard';
 import { CreateGenreDto } from './dtos/create-genre.dto';
 import { GenresService } from './genres.service';
 import { GenreDto } from './dtos/genre.dto';
-import { PaginationQueryDto } from '../lib/common/dtos';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GenreEntity } from './genre.entity';
 import { UpdateGenreDto } from './dtos/update-genre.dto';
+import { PaginationQueryDto } from '../lib/common/dtos';
 
 @ApiTags('Genres')
 @Controller('genres')
-@UseGuards(AdminGuard)
 export class GenresController {
     constructor(private genreService: GenresService) {}
 
     @Post('/create')
     @ApiOperation({ summary: 'Create new genre' })
     @ApiResponse({ status: 201, type: GenreDto })
+    @UseGuards(AdminGuard)
     async create(@Body() body: CreateGenreDto): Promise<GenreEntity> {
         return this.genreService.create(body);
     }
@@ -31,6 +31,7 @@ export class GenresController {
     @Get('/:id')
     @ApiOperation({ summary: 'Get genre by id' })
     @ApiResponse({ status: 200, type: GenreDto })
+    @UseGuards(AdminGuard)
     async getById(@Param('id') id: string): Promise<GenreEntity> {
         return this.genreService.findOne(id);
     }

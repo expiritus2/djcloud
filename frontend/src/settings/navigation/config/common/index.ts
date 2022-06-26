@@ -8,11 +8,11 @@ const commonRoutes: INavigation[] = [
         Component: Main,
     },
     {
-        path: routes.mixs,
+        path: routes.tracks,
         Component: Main,
     },
     {
-        path: routes.created,
+        path: routes.tracksCategory,
         Component: Main,
     },
     {

@@ -1,9 +1,14 @@
 import { apiServer } from 'settings/web-services/api';
 import { PaginationParams } from 'types/request';
-import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto } from 'store/admin/ModifyTrack/types';
+import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto } from 'store/ModifyTrack/types';
+import { TrackGenreParams } from '../../../store/Tracks/types';
 
 export const getAll = (cfg: PaginationParams) => {
     return apiServer.get('/tracks/list', { params: cfg });
+};
+
+export const getTracksGenres = (cfg: TrackGenreParams) => {
+    return apiServer.get('/tracks/tracks-genres', { params: cfg });
 };
 
 export const create = (cfg: CreateTrackDto) => {

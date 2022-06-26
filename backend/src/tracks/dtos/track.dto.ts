@@ -28,13 +28,13 @@ class Category {
     @ApiProperty()
     id: number;
 
-    // @Expose()
-    // @ApiProperty()
-    // name: string;
-    //
-    // @Expose()
-    // @ApiProperty()
-    // value: string;
+    @Expose()
+    @ApiProperty()
+    name: string;
+
+    @Expose()
+    @ApiProperty()
+    value: string;
 }
 
 class Genre {

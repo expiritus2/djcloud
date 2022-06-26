@@ -1,6 +1,6 @@
 import { apiServer } from 'settings/web-services/api';
 import { PaginationParams } from 'types/request';
-import { CreateGenreDto, GetGenreDto, RemoveGenreDto, UpdateGenreDto } from 'store/admin/ModifyGenre/types';
+import { CreateGenreDto, GetGenreDto, RemoveGenreDto, UpdateGenreDto } from 'store/ModifyGenre/types';
 
 export const getAll = (cfg: PaginationParams) => {
     return apiServer.get('/genres/list', { params: cfg });

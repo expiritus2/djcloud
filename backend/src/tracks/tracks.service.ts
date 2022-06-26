@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { FileEntity } from './file.entity';
 import { env, envConfig } from '../lib/configs/envs';
 import { CreateTrackDto } from './dtos/create-track.dto';
-import { PaginationQueryDto } from '../lib/common/dtos';
 import { simplePaginateQuery } from '../lib/queries/pagination';
 import { UpdateTrackDto } from './dtos/update-track.dto';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -15,6 +14,9 @@ import { cloneDeep, merge } from 'lodash';
 import path from 'path';
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
+import { GetAllDto } from './dtos/get-all.dto';
+import { filterTracks } from './queries/filter';
+import { GetTracksGenresDto } from './dtos/get-tracks-genres.dto';
 
 @Injectable()
 export class TracksService {
@@ -55,7 +57,7 @@ export class TracksService {
         return this.trackRepo.save(newTrack);
     }
 
-    async getAll(query: PaginationQueryDto): Promise<{ data: TrackEntity[]; count: number }> {
+    async getAll(query: GetAllDto): Promise<{ data: TrackEntity[]; count: number }> {
         const queryBuilder = this.trackRepo
             .createQueryBuilder('track')
             .select([
@@ -78,12 +80,35 @@ export class TracksService {
             .leftJoinAndSelect('track.category', 'category')
             .leftJoinAndSelect('track.genre', 'genre');
 
-        const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(queryBuilder, query, {
+        const filteredTracks = filterTracks(queryBuilder, query);
+        const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(filteredTracks, query, {
             searchFieldName: 'title',
         });
 
         const [data, count] = await paginateQueryBuilder.getManyAndCount();
         return { data, count };
+    }
+
+    async getTracksGenres(
+        query: GetTracksGenresDto,
+    ): Promise<{ id: number; name: string; value: string; countTracks: number }[]> {
+        const visible = query.visible !== undefined ? query.visible : true;
+        const trackGenres = await this.trackRepo
+            .createQueryBuilder('track')
+            .select('COUNT(genre.id)', 'countTracks')
+            .leftJoinAndSelect('track.category', 'category')
+            .leftJoinAndSelect('track.genre', 'genre')
+            .where('category.value = :category', { category: query.category })
+            .andWhere('track.visible = :visible', { visible })
+            .groupBy('genre.id')
+            .addGroupBy('category.id')
+            .getRawMany();
+        return trackGenres.map((trackGenre) => ({
+            id: trackGenre.genre_id,
+            name: trackGenre.genre_name,
+            value: trackGenre.genre_value,
+            countTracks: trackGenre.countTracks,
+        }));
     }
 
     async findOne(id: string | number): Promise<TrackEntity> {

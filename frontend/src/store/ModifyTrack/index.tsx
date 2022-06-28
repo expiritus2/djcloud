@@ -1,9 +1,9 @@
 import { action, makeObservable } from 'mobx';
 import { RequestOptions } from 'types/request';
 import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto, UpdateVisibleTrackDto } from './types';
-import { Track } from '../Tracks/types';
+import { Track } from 'types/track';
 import Api from 'store/core/Api';
-import { create, getById, update, remove, uploadFile } from 'api/admin/tracks';
+import { create, getById, update, remove, uploadFile } from 'api/tracks';
 import { BaseStore } from 'store/core/BaseStore';
 import store from 'store/index';
 

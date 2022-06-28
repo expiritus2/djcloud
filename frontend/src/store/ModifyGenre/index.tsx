@@ -1,9 +1,9 @@
 import { action, makeObservable } from 'mobx';
 import { RequestOptions } from 'types/request';
 import { CreateGenreDto, GetGenreDto, RemoveGenreDto, UpdateGenreDto } from './types';
-import { Genre } from '../Genres/types';
+import { Genre } from 'types/track';
 import Api from 'store/core/Api';
-import { create, getById, update, remove } from 'api/admin/genres';
+import { create, getById, update, remove } from 'api/genres';
 import { BaseStore } from 'store/core/BaseStore';
 
 export class ModifyGenreStore extends BaseStore<Genre> {

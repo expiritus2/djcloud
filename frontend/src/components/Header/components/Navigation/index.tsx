@@ -25,18 +25,23 @@ const Navigation: FC<ComponentProps> = (props) => {
         genres.getAll();
     }, []); // eslint-disable-line
 
-    const getLinkClassName = ({ isActive }: { isActive: boolean }) =>
-        classNames(styles.link, isActive ? styles.active : '');
+    const getLinkClassName = ({ isActive, index }: { isActive: boolean; index?: number }) => {
+        const active = isActive || (location.pathname === '/' && index === 0);
+        return classNames(styles.link, active ? styles.active : '');
+    };
 
     return (
         <div className={classNames(styles.navigation, className)}>
             <ul className={styles.list}>
-                {categories.store.data?.data.map((category) => (
+                {categories.store.data?.data.map((category, index) => (
                     <li key={category.value} className={styles.item}>
                         <NavLink
-                            className={({ isActive }) =>
-                                getLinkClassName({ isActive: isActive || match?.params.category === category.value })
-                            }
+                            className={({ isActive }) => {
+                                return getLinkClassName({
+                                    isActive: isActive || match?.params.category === category.value,
+                                    index,
+                                });
+                            }}
                             to={link.toTracks(category.value, '')}
                         >
                             {category.name}

@@ -19,7 +19,7 @@ import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
 import { Column } from 'components/Table';
 import { Visible } from './components';
-import { Track } from 'store/Tracks/types';
+import { Track } from 'types/track';
 
 import styles from './styles.module.scss';
 import { formatDate, getDuration } from '../../helpers/formatters';

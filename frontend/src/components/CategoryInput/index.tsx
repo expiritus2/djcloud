@@ -3,9 +3,10 @@ import classNames from 'classnames';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 
-import styles from './styles.module.scss';
-import { Category } from '../../store/Tracks/types';
+import { Category } from 'types/track';
 import { cloneDeep } from 'lodash';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

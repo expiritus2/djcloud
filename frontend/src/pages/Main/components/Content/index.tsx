@@ -7,7 +7,7 @@ import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 import { Track as TrackComponent } from '..';
 
-import { Track } from 'store/Tracks/types';
+import { Track } from 'types/track';
 import styles from './styles.module.scss';
 
 type ComponentProps = {
@@ -32,7 +32,7 @@ const Content: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.content, className)}>
             {tracks.store.data?.data.map((track: Track) => (
-                <TrackComponent {...track} />
+                <TrackComponent key={track.id} {...track} className={styles.track} />
             ))}
         </div>
     );

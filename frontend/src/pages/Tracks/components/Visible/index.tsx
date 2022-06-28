@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 import { AxiosError } from 'axios';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
-import { Track } from 'store/Tracks/types';
+import { Track } from 'types/track';
 
 type ComponentProps = {
     className?: string;

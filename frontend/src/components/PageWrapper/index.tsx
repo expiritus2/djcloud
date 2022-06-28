@@ -11,7 +11,7 @@ type ComponentProps = {
 const PageWrapper: FC<ComponentProps> = (props) => {
     const { className, children } = props;
 
-    return <div className={classNames(styles.adminPageWrapper, className)}>{children}</div>;
+    return <div className={classNames(styles.pageWrapper, className)}>{children}</div>;
 };
 
 export default PageWrapper;

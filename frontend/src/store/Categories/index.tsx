@@ -1,8 +1,8 @@
 import { action, makeObservable } from 'mobx';
 import { PaginationParams, RequestOptions, PaginatedItems } from 'types/request';
-import { Category } from './types';
+import { Category } from 'types/track';
 import Api from 'store/core/Api';
-import { getAll } from 'api/admin/categories';
+import { getAll } from 'api/categories';
 import { BaseStore } from 'store/core/BaseStore';
 
 export class CategoriesStore extends BaseStore<PaginatedItems<Category>> {

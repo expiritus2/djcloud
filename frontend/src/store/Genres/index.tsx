@@ -1,8 +1,8 @@
 import { action, makeObservable } from 'mobx';
 import { PaginatedItems, PaginationParams, RequestOptions } from 'types/request';
-import { Genre } from './types';
+import { Genre } from 'types/track';
 import Api from 'store/core/Api';
-import { getAll } from 'api/admin/genres';
+import { getAll } from 'api/genres';
 import { BaseStore } from 'store/core/BaseStore';
 
 export class GenresStore extends BaseStore<PaginatedItems<Genre>> {

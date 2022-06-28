@@ -8,6 +8,7 @@ export type MenuItem = {
     label: string;
     path: string;
     count?: number;
+    active?: boolean;
 };
 
 type ComponentProps = {
@@ -26,7 +27,10 @@ const Menu: FC<ComponentProps> = (props) => {
             <ul className={styles.list}>
                 {listItems.map((item) => (
                     <li key={item.path} className={styles.item}>
-                        <NavLink className={getActiveClassName} to={item.path}>
+                        <NavLink
+                            className={({ isActive }) => getActiveClassName({ isActive: item.active || isActive })}
+                            to={item.path}
+                        >
                             <span>{item.label}</span>
                             {item.count && <span className={styles.count}>{`(${item.count})`}</span>}
                         </NavLink>

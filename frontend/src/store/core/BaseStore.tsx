@@ -30,9 +30,18 @@ export abstract class BaseStore<T> {
             resetStore: action,
         });
 
-        reaction(() => this.state, (state) => this.logStore('state', state));
-        reaction(() => this.data, (data) => this.logStore('data', data));
-        reaction(() => this.meta, (meta) => this.logStore('meta', meta));
+        reaction(
+            () => this.state,
+            (state) => this.logStore('state', state),
+        );
+        reaction(
+            () => this.data,
+            (data) => this.logStore('data', data),
+        );
+        reaction(
+            () => this.meta,
+            (meta) => this.logStore('meta', meta),
+        );
     }
 
     logStore(propertyName: string, data: any) {

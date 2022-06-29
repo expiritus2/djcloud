@@ -7,9 +7,9 @@ import { useStore } from 'store';
 
 import { link } from 'settings/navigation/link';
 import { routes } from 'settings/navigation/routes';
-import { Player } from 'components';
 
 import styles from './styles.module.scss';
+import { observer } from 'mobx-react-lite';
 
 type ComponentProps = {
     className?: string;
@@ -24,34 +24,26 @@ const Main: FC<ComponentProps> = (props) => {
     const altMatch = useMatch({ path: routes.tracksCategory });
 
     useEffect(() => {
-        if (location.pathname === '/' && categories.store.data?.data[0] && tracksGenres.store.data) {
-            navigate(link.toTracks(categories.store.data?.data[0].value, tracksGenres.store.data[0].value));
+        if (location.pathname === '/' && categories.data?.data[0] && tracksGenres.data?.[0]?.value) {
+            navigate(link.toTracks(categories.data?.data[0].value, tracksGenres.data[0].value));
         }
 
-        if (!match && altMatch?.params.category && tracksGenres.store.data) {
-            navigate(link.toTracks(altMatch.params.category, tracksGenres.store.data[0].value));
+        if (!match && altMatch?.params.category && tracksGenres.data) {
+            navigate(link.toTracks(altMatch.params.category, tracksGenres.data[0].value));
         }
-    }, [
-        location.pathname,
-        categories.store.data?.data,
-        navigate,
-        tracksGenres.store.data,
-        match,
-        altMatch?.params.category,
-    ]);
+    }, [location.pathname, categories.data, navigate, tracksGenres.data, match, altMatch?.params.category]);
 
     return (
         <div className={classNames(styles.main, className)}>
             <Header />
-            <PageWrapper className={styles.pageWrapper}>
+            <PageWrapper>
                 <>
                     <MainMenu />
                     <Content />
                 </>
             </PageWrapper>
-            <Player />
         </div>
     );
 };
 
-export default Main;
+export default observer(Main);

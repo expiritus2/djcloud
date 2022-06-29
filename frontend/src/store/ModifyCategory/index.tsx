@@ -12,35 +12,30 @@ export class ModifyCategoryStore extends BaseStore<Category> {
 
         makeObservable(this, {
             create: action,
-            resetData: action,
         });
     }
 
     create(cfg?: CreateCategoryDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ store: this.store, method: create }).execResult();
+        const sendRequest = new Api<Category>({ store: this, method: create }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     remove(cfg?: RemoveCategoryDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ store: this.store, method: remove }).execResult();
+        const sendRequest = new Api<Category>({ store: this, method: remove }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     update(cfg?: UpdateCategoryDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ store: this.store, method: update }).execResult();
+        const sendRequest = new Api<Category>({ store: this, method: update }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     getById(cfg: GetCategoryDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ store: this.store, method: getById }).execResult();
+        const sendRequest = new Api<Category>({ store: this, method: getById }).execResult();
 
         sendRequest(cfg, options, cb);
-    }
-
-    resetData() {
-        this.store = this.initStore;
     }
 }

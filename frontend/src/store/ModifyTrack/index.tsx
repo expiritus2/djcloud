@@ -13,12 +13,15 @@ export class ModifyTrackStore extends BaseStore<Track> {
 
         makeObservable(this, {
             create: action,
-            resetData: action,
+            remove: action,
+            update: action,
+            updateVisible: action,
+            getById: action,
         });
     }
 
     create(cfg: CreateTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this.store, method: create }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: create }).execResult();
         const uploadFileRequest = new Api({ store: { data: {} } as any, method: uploadFile }).execResult();
 
         uploadFileRequest(cfg.file, { silent: false }, (err: any, response: any) => {
@@ -35,13 +38,13 @@ export class ModifyTrackStore extends BaseStore<Track> {
     }
 
     remove(cfg?: RemoveTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this.store, method: remove }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: remove }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     update(cfg: UpdateTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this.store, method: update }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: update }).execResult();
         const uploadFileRequest = new Api({ store: { data: {} } as any, method: uploadFile }).execResult();
 
         if (!cfg.file.id) {
@@ -62,10 +65,10 @@ export class ModifyTrackStore extends BaseStore<Track> {
     }
 
     updateVisible(cfg: UpdateVisibleTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this.store, method: update }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: update }).execResult();
 
         sendRequest(cfg, options, (err: any, response: any) => {
-            const tracksStoreData = store.tracks.store.data;
+            const tracksStoreData = store.tracks.data;
             if (!err && tracksStoreData) {
                 const updatedTrackIndex = tracksStoreData.data.findIndex((track) => track.id === cfg.id);
                 tracksStoreData.data[updatedTrackIndex].visible = response.data.visible;
@@ -78,12 +81,8 @@ export class ModifyTrackStore extends BaseStore<Track> {
     }
 
     getById(cfg: GetTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this.store, method: getById }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: getById }).execResult();
 
         sendRequest(cfg, options, cb);
-    }
-
-    resetData() {
-        this.store = this.initStore;
     }
 }

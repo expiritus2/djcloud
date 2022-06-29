@@ -2,6 +2,7 @@
 @import "src/styles/variables";
 
 .pageWrapper {
-  display: flex;
-  border-top: 1px solid $whiteColor;
+    display: flex;
+    border-top: 1px solid $whiteColor;
+    height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)});
 }

@@ -67,13 +67,13 @@ const Genres: FC<ComponentProps> = (props) => {
                 key: 'id',
                 title: 'Id',
                 width: '33%',
-                sort: genres.store.meta.field === 'id' ? genres.store.meta.sort : undefined,
+                sort: genres.meta.field === 'id' ? genres.meta.sort : undefined,
             },
             {
                 key: 'name',
                 title: 'Name',
                 width: '33%',
-                sort: genres.store.meta.field === 'name' ? genres.store.meta.sort : undefined,
+                sort: genres.meta.field === 'name' ? genres.meta.sort : undefined,
             },
             { key: 'actions', title: 'Actions', width: '33%', isSort: false },
         ];
@@ -81,7 +81,7 @@ const Genres: FC<ComponentProps> = (props) => {
 
     const getRows = () => {
         return (
-            genres.store.data?.data?.map((row) => ({
+            genres.data?.data?.map((row) => ({
                 id: row.id,
                 name: row.name,
                 actions: (
@@ -120,7 +120,7 @@ const Genres: FC<ComponentProps> = (props) => {
                 <>
                     <AdminMenu />
                     <AdminContentWrapper>
-                        <PendingWrapper state={genres.store.state} className={styles.pendingWrapper}>
+                        <PendingWrapper state={genres.state} className={styles.pendingWrapper}>
                             <>
                                 <AdminPageTitle title="Genres" onClickNew={onClickNew} />
                                 <Table

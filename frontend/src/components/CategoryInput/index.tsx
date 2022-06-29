@@ -25,7 +25,7 @@ const CategoryInput: FC<ComponentProps> = (props) => {
     }, []); // eslint-disable-line
 
     const onChangeValue = (e: any) => {
-        const category = (categories.store.data?.data || []).find((cat) => cat.value === e.target.value);
+        const category = (categories.data?.data || []).find((cat) => cat.value === e.target.value);
         onChange({ ...e, target: { name, value: cloneDeep(category) || null } });
     };
 
@@ -34,7 +34,7 @@ const CategoryInput: FC<ComponentProps> = (props) => {
             <label className={styles.label}>{label}</label>
             <select name={name} className={styles.input} onChange={(e) => onChangeValue(e)} value={value?.value}>
                 <option value="null">---</option>
-                {(categories.store.data?.data || []).map((category) => (
+                {(categories.data?.data || []).map((category) => (
                     <option key={category.id} value={category.value}>
                         {category.name}
                     </option>

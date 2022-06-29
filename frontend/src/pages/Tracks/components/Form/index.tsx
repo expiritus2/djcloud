@@ -27,12 +27,12 @@ const Form: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         if (modalState.type === ModalStateEnum.UPDATE) {
-            const track = modifyTrack.store.data;
+            const track = modifyTrack.data;
             if (track) {
                 setValues({ ...track });
             }
         }
-    }, [modifyTrack.store.data, modalState.type]);
+    }, [modifyTrack.data, modalState.type]);
 
     const resetForm = () => {
         resetModal();

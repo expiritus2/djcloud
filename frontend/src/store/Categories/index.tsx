@@ -15,8 +15,8 @@ export class CategoriesStore extends BaseStore<PaginatedItems<Category>> {
     }
 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<PaginatedItems<Category>>({ store: this.store, method: getAll }).execResult();
+        const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
 
-        sendRequest({ limit: 15, ...this.store.meta, ...cfg }, options, cb);
+        sendRequest({ limit: 15, ...this.meta, ...cfg }, options, cb);
     }
 }

@@ -16,17 +16,17 @@ type ComponentProps = {
 
 const MainMenu: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracksGenres } = useStore();
+    const { tracksGenres, categories } = useStore();
     const match = useMatch({ path: routes.tracks });
     const altMatch = useMatch({ path: routes.tracksCategory });
     const location = useLocation();
 
     useEffect(() => {
-        let category = match?.params.category! || altMatch?.params.category!;
+        let category = match?.params.category! || altMatch?.params.category! || categories.data?.data[0].value!;
         tracksGenres.getTracksGenres({ category });
-    }, [match?.params.category, altMatch?.params.category]); // eslint-disable-line
+    }, [match?.params.category, altMatch?.params.category, tracksGenres, categories.data?.data]);
 
-    const menuItems = (tracksGenres.store.data || []).map((genre, index) => {
+    const menuItems = (tracksGenres.data || []).map((genre, index) => {
         return {
             path: link.toTracks(match?.params.category! || altMatch?.params.category!, genre.value),
             label: genre.name,

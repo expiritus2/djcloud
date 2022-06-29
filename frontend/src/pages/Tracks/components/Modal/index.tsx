@@ -83,7 +83,7 @@ const TrackModal: FC<ComponentProps> = (props) => {
             onClick: onClickSubmit,
             label: getSubmitButtonText(),
             variant: getSubmitButtonVariant(),
-            pending: modifyTrack.store.state === RequestStateEnum.PENDING,
+            pending: modifyTrack.state === RequestStateEnum.PENDING,
         },
     ];
 
@@ -91,7 +91,7 @@ const TrackModal: FC<ComponentProps> = (props) => {
         return (
             <div className={styles.deleteText}>
                 Are you sure you want delete track: <br />
-                <span className={styles.accent}>{`${modifyTrack.store.data?.title}?`}</span>
+                <span className={styles.accent}>{`${modifyTrack.data?.title}?`}</span>
             </div>
         );
     };

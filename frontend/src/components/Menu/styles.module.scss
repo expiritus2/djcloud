@@ -6,7 +6,6 @@
     min-width: setUnit(300);
     color: $whiteColor;
     overflow: auto;
-    height: calc(100vh - #{setUnit(71)});
 
     .list {
         list-style: none;

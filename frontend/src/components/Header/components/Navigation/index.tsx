@@ -33,7 +33,7 @@ const Navigation: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.navigation, className)}>
             <ul className={styles.list}>
-                {categories.store.data?.data.map((category, index) => (
+                {categories.data?.data.map((category, index) => (
                     <li key={category.value} className={styles.item}>
                         <NavLink
                             className={({ isActive }) => {
@@ -48,7 +48,7 @@ const Navigation: FC<ComponentProps> = (props) => {
                         </NavLink>
                     </li>
                 ))}
-                {user.store?.data?.role?.name === UserRoleEnum.ADMIN && (
+                {user.data?.role?.name === UserRoleEnum.ADMIN && (
                     <li className={styles.item}>
                         <NavLink
                             className={({ isActive }) =>

@@ -14,7 +14,7 @@ const Pagination: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks } = useStore();
 
-    const countPages = Math.ceil((tracks.store.data?.count || 0) / tracks.store.meta.limit);
+    const countPages = Math.ceil((tracks.data?.count || 0) / tracks.meta.limit);
 
     if (countPages <= 1) {
         return <div className={classNames(styles.pagination, className)} />;
@@ -27,9 +27,9 @@ const Pagination: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.pagination, className)}>
             <TablePagination
-                count={tracks.store.data?.count}
-                current={tracks.store.meta.page}
-                limit={tracks.store.meta.limit}
+                count={tracks.data?.count}
+                current={tracks.meta.page}
+                limit={tracks.meta.limit}
                 onClickPage={onClickPage}
             />
         </div>

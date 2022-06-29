@@ -25,13 +25,13 @@ const Content: FC<ComponentProps> = (props) => {
     useEffect(() => {
         tracks.resetStore();
         if (category && genre) {
-            tracks.getAll({ category, genre });
+            tracks.getAll({ category, genre, visible: true });
         }
     }, [category, genre, tracks]);
 
     return (
         <div className={classNames(styles.content, className)}>
-            {tracks.store.data?.data.map((track: Track) => (
+            {tracks.data?.data.map((track: Track) => (
                 <TrackComponent key={track.id} {...track} className={styles.track} />
             ))}
         </div>

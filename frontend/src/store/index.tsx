@@ -21,7 +21,7 @@ const store = {
     genres: new GenresStore('green'),
     tracks: new TracksStore('purple'),
     tracksGenres: new TracksGenresStore('yellow'),
-    currentTrackStore: new CurrentTrackStore('aqua'),
+    currentTrack: new CurrentTrackStore('aqua'),
 };
 
 export const StoreContext = createContext(store);

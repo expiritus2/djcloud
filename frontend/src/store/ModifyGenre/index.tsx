@@ -12,35 +12,33 @@ export class ModifyGenreStore extends BaseStore<Genre> {
 
         makeObservable(this, {
             create: action,
-            resetData: action,
+            remove: action,
+            update: action,
+            getById: action,
         });
     }
 
     create(cfg?: CreateGenreDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Genre>({ store: this.store, method: create }).execResult();
+        const sendRequest = new Api<Genre>({ store: this, method: create }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     remove(cfg?: RemoveGenreDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Genre>({ store: this.store, method: remove }).execResult();
+        const sendRequest = new Api<Genre>({ store: this, method: remove }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     update(cfg?: UpdateGenreDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Genre>({ store: this.store, method: update }).execResult();
+        const sendRequest = new Api<Genre>({ store: this, method: update }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     getById(cfg: GetGenreDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Genre>({ store: this.store, method: getById }).execResult();
+        const sendRequest = new Api<Genre>({ store: this, method: getById }).execResult();
 
         sendRequest(cfg, options, cb);
-    }
-
-    resetData() {
-        this.store = this.initStore;
     }
 }

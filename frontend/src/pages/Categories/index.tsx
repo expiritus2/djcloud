@@ -67,13 +67,13 @@ const Categories: FC<ComponentProps> = (props) => {
                 key: 'id',
                 title: 'Id',
                 width: '33%',
-                sort: categories.store.meta.field === 'id' ? categories.store.meta.sort : undefined,
+                sort: categories.meta.field === 'id' ? categories.meta.sort : undefined,
             },
             {
                 key: 'name',
                 title: 'Name',
                 width: '33%',
-                sort: categories.store.meta.field === 'name' ? categories.store.meta.sort : undefined,
+                sort: categories.meta.field === 'name' ? categories.meta.sort : undefined,
             },
             { key: 'actions', title: 'Actions', width: '33%', isSort: false },
         ];
@@ -81,7 +81,7 @@ const Categories: FC<ComponentProps> = (props) => {
 
     const getRows = () => {
         return (
-            categories.store.data?.data?.map((row) => ({
+            categories.data?.data?.map((row) => ({
                 id: row.id,
                 name: row.name,
                 actions: (
@@ -120,7 +120,7 @@ const Categories: FC<ComponentProps> = (props) => {
                 <>
                     <AdminMenu />
                     <AdminContentWrapper>
-                        <PendingWrapper state={categories.store.state} className={styles.pendingWrapper}>
+                        <PendingWrapper state={categories.state} className={styles.pendingWrapper}>
                             <>
                                 <AdminPageTitle title="Categories" onClickNew={onClickNew} />
                                 <Table

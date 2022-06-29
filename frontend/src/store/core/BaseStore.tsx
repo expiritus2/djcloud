@@ -1,8 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { makeObservable, observable, reaction } from 'mobx';
+import { action, makeObservable, observable, reaction } from 'mobx';
 import { RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';
 import { cloneDeep } from 'lodash';
+import { logStore } from '../../settings';
 
 export abstract class BaseStore<T> {
     color: string;
@@ -13,38 +14,36 @@ export abstract class BaseStore<T> {
         meta: {},
     };
 
-    store: StoreData<T> = cloneDeep(this.initStore);
+    state: RequestStateEnum = cloneDeep(this.initStore.state);
+
+    data: T | null = cloneDeep(this.initStore.data);
+
+    meta = cloneDeep(this.initStore.meta);
 
     protected constructor(color: string) {
         this.color = color;
 
         makeObservable(this, {
-            store: observable,
+            state: observable,
+            data: observable,
+            meta: observable,
+            resetStore: action,
         });
 
-        // this.logStore('state', this.store);
-
-        reaction(
-            () => this.store.state,
-            (state) => this.logStore('state', state),
-        );
-        reaction(
-            () => this.store.data,
-            (data) => this.logStore('data', data),
-        );
-        reaction(
-            () => this.store.meta,
-            (meta) => this.logStore('meta', meta),
-        );
+        reaction(() => this.state, (state) => this.logStore('state', state));
+        reaction(() => this.data, (data) => this.logStore('data', data));
+        reaction(() => this.meta, (meta) => this.logStore('meta', meta));
     }
 
     logStore(propertyName: string, data: any) {
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV === 'development' && logStore) {
             console.log(`%c ${this.constructor.name}`, `color: ${this.color}`, propertyName, cloneDeep(data));
         }
     }
 
     resetStore() {
-        this.store = this.initStore;
+        this.state = cloneDeep(this.initStore.state);
+        this.data = cloneDeep(this.initStore.data);
+        this.meta = cloneDeep(this.initStore.meta);
     }
 }

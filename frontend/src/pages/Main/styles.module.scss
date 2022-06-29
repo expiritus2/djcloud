@@ -2,7 +2,4 @@
 @import "src/styles/variables";
 
 .main {
-    .pageWrapper {
-        height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)});
-    }
 }

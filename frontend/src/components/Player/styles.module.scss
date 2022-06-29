@@ -2,5 +2,13 @@
 @import "src/styles/variables";
 
 .player {
+    .title {
+        min-height: setUnit(20);
+    }
 
+    .playerContainer {
+        background: $whiteColor;
+        position: relative;
+        z-index: 99999;
+    }
 }

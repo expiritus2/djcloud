@@ -17,17 +17,17 @@ export class UsersStore extends BaseStore<User> {
     }
 
     loginAction(cfg: LoginProps, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<User>({ store: this.store, method: login }).execResult();
+        const sendRequest = new Api<User>({ store: this, method: login }).execResult();
 
         sendRequest(cfg, options, cb);
     }
 
     logoutAction() {
-        this.store.data = null;
+        this.resetStore();
     }
 
     currentUser(cfg?: {}, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<User>({ store: this.store, method: currentUser }).execResult();
+        const sendRequest = new Api<User>({ store: this, method: currentUser }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }

@@ -2,8 +2,9 @@ import React, { FC } from 'react';
 import classNames from 'classnames';
 import { Track } from 'types/track';
 import { formatDate, getDuration } from 'helpers/formatters';
-import { AiFillPlayCircle, AiFillPauseCircle } from 'react-icons/ai';
+import { AiFillPauseCircle, AiFillPlayCircle } from 'react-icons/ai';
 import { FaDownload } from 'react-icons/fa';
+import { sign } from 'settings/sign';
 
 import { useStore } from 'store';
 
@@ -16,28 +17,32 @@ type ComponentProps = {
 
 const TrackComponent: FC<ComponentProps> = (props) => {
     const { className, id, title, duration, createdAt } = props;
-    const { currentTrackStore } = useStore();
+    const { currentTrack } = useStore();
 
     const onPlay = () => {
-        currentTrackStore.getTrackById({ id });
+        currentTrack.getTrackById({ id });
     };
 
     const onPause = () => {
-        currentTrackStore.resetStore();
+        if (!currentTrack.pause) {
+            currentTrack.setPause();
+        }
+    };
+
+    const getHeadIcon = () => {
+        return !currentTrack.pause && currentTrack.data?.id == id ? (
+            <AiFillPauseCircle onClick={onPause} className={styles.headIcon} />
+        ) : (
+            <AiFillPlayCircle onClick={onPlay} className={styles.headIcon} />
+        );
     };
 
     return (
         <div className={classNames(styles.track, className)}>
             <div className={styles.head}>
-                <div>
-                    {currentTrackStore.store.data?.id == id ? (
-                        <AiFillPauseCircle onClick={onPause} className={styles.headIcon} />
-                    ) : (
-                        <AiFillPlayCircle onClick={onPlay} className={styles.headIcon} />
-                    )}
-                </div>
+                {getHeadIcon()}
                 <div className={styles.info}>
-                    <div className={styles.author}>DjCloud</div>
+                    <div className={styles.author}>{sign}</div>
                     <div className={styles.trackName}>{title}</div>
                 </div>
             </div>

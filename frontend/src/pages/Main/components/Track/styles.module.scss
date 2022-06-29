@@ -18,6 +18,12 @@
         display: flex;
         align-items: center;
 
+        .loader {
+            font-size: setUnit(2.5);
+            color: $lightColor;
+            height: 0;
+        }
+
         .headIcon {
             width: setUnit(45);
             height: setUnit(45);
@@ -25,6 +31,11 @@
             cursor: pointer;
             transition: all .1s;
             vertical-align: middle;
+
+            &.pending {
+                width: setUnit(45);
+                height: setUnit(45);
+            }
 
             &:hover {
                 transform: scale(1.05);

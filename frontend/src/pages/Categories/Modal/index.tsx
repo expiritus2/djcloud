@@ -30,9 +30,9 @@ const CategoryModal: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         if (modalState.type === ModalStateEnum.UPDATE) {
-            setValues({ name: modifyCategory.store.data?.name || '' });
+            setValues({ name: modifyCategory.data?.name || '' });
         }
-    }, [modifyCategory.store.data, modalState.type]);
+    }, [modifyCategory.data, modalState.type]);
 
     if (!modalState.open) return null;
 
@@ -127,7 +127,7 @@ const CategoryModal: FC<ComponentProps> = (props) => {
             onClick: onClickSubmit,
             label: getSubmitButtonText(),
             variant: getSubmitButtonVariant(),
-            pending: modifyCategory.store.state === RequestStateEnum.PENDING,
+            pending: modifyCategory.state === RequestStateEnum.PENDING,
         },
     ];
 
@@ -135,7 +135,7 @@ const CategoryModal: FC<ComponentProps> = (props) => {
         return (
             <div className={styles.deleteText}>
                 Are you sure you want delete category: <br />
-                <span className={styles.accent}>{`${modifyCategory.store.data?.name}?`}</span>
+                <span className={styles.accent}>{`${modifyCategory.data?.name}?`}</span>
             </div>
         );
     };

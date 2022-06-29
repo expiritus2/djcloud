@@ -30,9 +30,9 @@ const GenreModal: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         if (modalState.type === ModalStateEnum.UPDATE) {
-            setValues({ name: modifyGenre.store.data?.name || '' });
+            setValues({ name: modifyGenre.data?.name || '' });
         }
-    }, [modifyGenre.store.data, modalState.type]);
+    }, [modifyGenre.data, modalState.type]);
 
     if (!modalState.open) return null;
 
@@ -127,7 +127,7 @@ const GenreModal: FC<ComponentProps> = (props) => {
             onClick: onClickSubmit,
             label: getSubmitButtonText(),
             variant: getSubmitButtonVariant(),
-            pending: modifyGenre.store.state === RequestStateEnum.PENDING,
+            pending: modifyGenre.state === RequestStateEnum.PENDING,
         },
     ];
 
@@ -135,7 +135,7 @@ const GenreModal: FC<ComponentProps> = (props) => {
         return (
             <div className={styles.deleteText}>
                 Are you sure you want delete genre: <br />
-                <span className={styles.accent}>{`${modifyGenre.store.data?.name}?`}</span>
+                <span className={styles.accent}>{`${modifyGenre.data?.name}?`}</span>
             </div>
         );
     };

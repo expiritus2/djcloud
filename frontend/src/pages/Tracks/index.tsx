@@ -65,7 +65,7 @@ const Tracks: FC<ComponentProps> = (props) => {
     };
 
     const getFieldSort = (fieldKey: string) => {
-        return tracks.store.meta.field === fieldKey ? tracks.store.meta.sort : undefined;
+        return tracks.meta.field === fieldKey ? tracks.meta.sort : undefined;
     };
 
     const getColumns = () => {
@@ -112,7 +112,7 @@ const Tracks: FC<ComponentProps> = (props) => {
 
     const getRows = () => {
         return (
-            tracks.store.data?.data?.map((track: Track) => ({
+            tracks.data?.data?.map((track: Track) => ({
                 track_id: track.id,
                 id: track.id,
                 title: track.title,
@@ -157,7 +157,7 @@ const Tracks: FC<ComponentProps> = (props) => {
                 <>
                     <AdminMenu />
                     <AdminContentWrapper>
-                        <PendingWrapper state={tracks.store.state} className={styles.pendingWrapper}>
+                        <PendingWrapper state={tracks.state} className={styles.pendingWrapper}>
                             <>
                                 <AdminPageTitle title="Tracks" onClickNew={onClickNew} />
                                 <Table

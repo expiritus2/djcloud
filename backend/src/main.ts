@@ -14,7 +14,7 @@ const origin = ENV === 'development' ? 'http://localhost:3000' : '';
 
 export async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-
+    app.setGlobalPrefix('api');
     setSwagger(app);
     setPipe(app);
     setCookieSession(app);

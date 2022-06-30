@@ -10,13 +10,14 @@ import { useStore } from 'store';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
+import { downloadByRequest } from 'helpers/download';
 
 type ComponentProps = {
     className?: string;
 } & Track;
 
 const TrackComponent: FC<ComponentProps> = (props) => {
-    const { className, id, title, duration, createdAt } = props;
+    const { className, id, title, duration, createdAt, file } = props;
     const { currentTrack } = useStore();
 
     const onPlay = () => {
@@ -37,6 +38,10 @@ const TrackComponent: FC<ComponentProps> = (props) => {
         );
     };
 
+    const onDownload = () => {
+        downloadByRequest(file.url, `${sign}-${title}`);
+    };
+
     return (
         <div className={classNames(styles.track, className)}>
             <div className={styles.head}>
@@ -49,7 +54,7 @@ const TrackComponent: FC<ComponentProps> = (props) => {
             <div className={styles.meta}>
                 <div>{getDuration(duration)}</div>
                 <div className={styles.download}>
-                    <FaDownload className={styles.icon} />
+                    <FaDownload onClick={onDownload} className={styles.icon} />
                 </div>
                 <div>{formatDate(createdAt)}</div>
             </div>

@@ -19,6 +19,10 @@ export class TracksStore extends BaseStore<PaginatedItems<Track>> {
         this.resetStore();
         const sendRequest = new Api<PaginatedItems<Track>>({ store: this, method: getAll }).execResult();
 
-        sendRequest({ limit: 15, ...this.meta, ...cfg }, options, cb);
+        sendRequest(
+            { limit: 12, field: 'createdAt', sort: 'DESC', ...this.meta, ...cfg },
+            { silent: false, ...options },
+            cb,
+        );
     }
 }

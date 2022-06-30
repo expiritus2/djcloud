@@ -85,9 +85,11 @@ export class TrackDto {
 
     @Expose()
     @ApiProperty()
-    createdAt: number;
+    @Type(() => Date)
+    createdAt: Date;
 
     @Expose()
     @ApiProperty()
-    updatedAt: number;
+    @Type(() => Date)
+    updatedAt: Date;
 }

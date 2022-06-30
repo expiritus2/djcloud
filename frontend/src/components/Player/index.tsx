@@ -6,8 +6,9 @@ import 'react-h5-audio-player/src/styles.scss';
 
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
-import styles from './styles.module.scss';
 import { sign } from 'settings/sign';
+import styles from './styles.module.scss';
+import './styles.scss';
 
 type ComponentProps = {
     className?: string;

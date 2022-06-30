@@ -5,10 +5,12 @@ import { useMatch } from 'react-router-dom';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
-import { Track as TrackComponent } from '..';
+import { CreatedSort, Tracks } from '..';
+import { Pagination } from '..';
 
-import { Track } from 'types/track';
+import { PendingWrapper } from 'components';
 import styles from './styles.module.scss';
+import { mainPageTrackLimit } from '../../../../settings';
 
 type ComponentProps = {
     className?: string;
@@ -25,15 +27,21 @@ const Content: FC<ComponentProps> = (props) => {
     useEffect(() => {
         tracks.resetStore();
         if (category && genre) {
-            tracks.getAll({ category, genre, visible: true });
+            tracks.getAll({ category, genre, visible: true, limit: mainPageTrackLimit });
         }
     }, [category, genre, tracks]);
 
     return (
         <div className={classNames(styles.content, className)}>
-            {tracks.data?.data.map((track: Track) => (
-                <TrackComponent key={track.id} {...track} className={styles.track} />
-            ))}
+            <PendingWrapper state={tracks.state}>
+                <>
+                    <div className={styles.innerHolder}>
+                        <CreatedSort className={styles.createSort} />
+                        <Tracks />
+                    </div>
+                    <Pagination />
+                </>
+            </PendingWrapper>
         </div>
     );
 };

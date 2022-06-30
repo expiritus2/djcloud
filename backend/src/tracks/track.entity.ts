@@ -43,9 +43,9 @@ export class TrackEntity {
     @OneToMany(() => TrackRatingEntity, (trackRatings) => trackRatings.track)
     trackRatings: TrackRatingEntity;
 
-    @CreateDateColumn({ type: 'timestamp', nullable: false })
-    createdAt: string;
+    @CreateDateColumn({ type: 'timestamptz', nullable: false })
+    createdAt: Date;
 
-    @UpdateDateColumn({ type: 'timestamp', nullable: false })
+    @UpdateDateColumn({ type: 'timestamptz', nullable: false })
     updatedAt: Date;
 }

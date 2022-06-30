@@ -3,13 +3,15 @@
 
 .content {
     width: 100%;
-    padding: setUnit(20);
+    padding: setUnit(15) setUnit(20) setUnit(20) setUnit(20);
+    height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)});
+    overflow: auto;
 
-    .track {
-        margin-bottom: setUnit(20);
+    .innerHolder {
+        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(125)});;
+    }
 
-        &:last-child {
-            margin-bottom: 0;
-        }
+    .createSort {
+        margin-bottom: setUnit(25);
     }
 }

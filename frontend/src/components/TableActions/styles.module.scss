@@ -2,47 +2,51 @@
 @import "src/styles/variables";
 
 .tableActions {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 
-  .icon {
-    cursor: pointer;
-    transition: all .2s;
+    .icon {
+        cursor: pointer;
+        transition: all .2s;
 
-    &:hover {
-      transform: scale(1.1);
+        &:hover {
+            transform: scale(1.1);
+        }
     }
-  }
 
-  .loader {
-    font-size: setUnit(3) !important;
-    position: relative;
-    bottom: setUnit(7);
-  }
+    .loader {
+        font-size: setUnit(3) !important;
+        position: relative;
+        bottom: setUnit(7);
+    }
 
-  .loaderWrapper {
-    width: setUnit(20);
-    height: setUnit(20);
-  }
+    .loaderWrapper {
+        width: setUnit(20);
+        height: setUnit(20);
+    }
 
-  .remove {
-    width: setUnit(20);
-    height: setUnit(20);
-    vertical-align: middle;
-    fill: $dangerColor;
-  }
+    .remove {
+        width: setUnit(20);
+        height: setUnit(20);
+        vertical-align: middle;
 
-  .remove,
-  .deleteLoader {
-    margin-left: setUnit(20);
-  }
+        path {
+            fill: $dangerColor;
+        }
 
-  .edit {
-    width: setUnit(20);
-    height: setUnit(20);
-    vertical-align: middle;
-    position: relative;
-    top: setUnit(-1);
-    fill: $darkColor;
-  }
+    }
+
+    .remove,
+    .deleteLoader {
+        margin-left: setUnit(20);
+    }
+
+    .edit {
+        width: setUnit(20);
+        height: setUnit(20);
+        vertical-align: middle;
+        position: relative;
+        top: setUnit(-1);
+        fill: $darkColor;
+    }
 }

@@ -49,9 +49,9 @@ module.exports = class initialSchema1652384901361 {
                     constraint users_pk primary key,
                 email       varchar(300) not null unique,
                 password    varchar(300),
-                "createdAt" timestamp    not null default current_timestamp,
-                "updatedAt" timestamp    not null default current_timestamp,
-                "roleId"    int references roles (id)
+                "roleId"    int references roles (id),
+                "createdAt"  timestamptz NOT NULL DEFAULT now(),
+                "updatedAt"  timestamptz NOT NULL DEFAULT now()
             );`);
         await queryRunner.query(
             `CREATE TRIGGER table_update BEFORE UPDATE ON "users" FOR EACH ROW EXECUTE PROCEDURE set_updatedAt();`,
@@ -79,8 +79,8 @@ module.exports = class initialSchema1652384901361 {
                 "fileId"     int references files (id),
                 "categoryId" int references categories (id),
                 "genreId"    int          references genres (id) on delete set null,
-                "createdAt"  timestamp default current_timestamp,
-                "updatedAt"  timestamp default current_timestamp
+                "createdAt"  timestamptz NOT NULL DEFAULT now(),
+                "updatedAt"  timestamptz NOT NULL DEFAULT now()
             );
         `);
         await queryRunner.query(`

@@ -24,9 +24,9 @@ export class UserEntity {
     @JoinColumn({ name: 'roleId' })
     role: RoleEntity;
 
-    @CreateDateColumn({ type: 'timestamp', nullable: false })
-    createdAt: number;
+    @CreateDateColumn({ type: 'timestamptz', nullable: false })
+    createdAt: Date;
 
-    @UpdateDateColumn({ type: 'timestamp', nullable: false })
-    updatedAt: number;
+    @UpdateDateColumn({ type: 'timestamptz', nullable: false })
+    updatedAt: Date;
 }

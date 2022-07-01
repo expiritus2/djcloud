@@ -14,7 +14,7 @@ const Pagination: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { categories } = useStore();
 
-    const countPages = Math.ceil((categories.data?.count || 0) / categories.meta.limit);
+    const countPages = Math.ceil((categories.data?.count || 0) / categories.meta.limit || 0);
 
     if (countPages <= 1) {
         return <div className={classNames(styles.pagination, className)} />;

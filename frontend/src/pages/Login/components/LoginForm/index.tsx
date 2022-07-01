@@ -46,7 +46,13 @@ const LoginForm: FC<ComponentProps> = (props) => {
     ];
 
     return (
-        <ContentModal title="Login" buttons={buttons} className={classNames(styles.loginForm, className)}>
+        <ContentModal
+            title="Login"
+            buttons={buttons}
+            opacityLayerClassName={styles.opacityLayer}
+            className={classNames(styles.loginForm, className)}
+            wrapperClassName={styles.modalWrapper}
+        >
             <form className={styles.form} id={formId} onSubmit={onClickSubmit}>
                 <InputText
                     onChange={onChangeFieldValue}

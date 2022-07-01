@@ -1,14 +1,5 @@
-@import "../../../../styles/functions";
-@import "../../../../styles/variables";
-
-.opacityLayer {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba($darkColor, .3);
-}
+@import "src/styles/functions";
+@import "src/styles/variables";
 
 .modal {
     max-width: setUnit(500) !important;

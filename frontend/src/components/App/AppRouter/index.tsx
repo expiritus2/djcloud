@@ -19,12 +19,13 @@ const AppRouter: FC = () => {
                     const userRole = user.data?.role?.name as UserRoleEnum;
                     const isCanActivate = canActivate(userRole, pathRoles as UserRoleEnum[]);
                     let Page = null;
+                    const exceptPlayerPaths = [routes.login, '*'];
 
                     if (isCanActivate) {
                         Page = (
                             <>
                                 <Component />
-                                <Player />
+                                {!exceptPlayerPaths.includes(path) ? <Player /> : null}
                             </>
                         );
                     } else if (user.state !== RequestStateEnum.PENDING && user.state !== RequestStateEnum.IDLE) {

@@ -105,11 +105,9 @@ const TrackModal: FC<ComponentProps> = (props) => {
     };
 
     return (
-        <div className={styles.opacityLayer}>
-            <ContentModal title={title} buttons={buttons} className={classNames(styles.modal, className)}>
-                <div className={styles.content}>{getContent()}</div>
-            </ContentModal>
-        </div>
+        <ContentModal title={title} buttons={buttons} className={classNames(styles.modal, className)}>
+            <div className={styles.content}>{getContent()}</div>
+        </ContentModal>
     );
 };
 

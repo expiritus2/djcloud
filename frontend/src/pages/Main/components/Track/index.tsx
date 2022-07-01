@@ -8,9 +8,11 @@ import { sign } from 'settings/sign';
 
 import { useStore } from 'store';
 
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { downloadByRequest } from 'helpers/download';
+import { Rating } from 'components';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
@@ -56,6 +58,7 @@ const TrackComponent: FC<ComponentProps> = (props) => {
                 <div className={styles.download}>
                     <FaDownload onClick={onDownload} className={styles.icon} />
                 </div>
+                <Rating className={styles.rating} />
                 <div>{formatDate(createdAt)}</div>
             </div>
         </div>

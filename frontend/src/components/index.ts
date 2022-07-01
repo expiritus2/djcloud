@@ -20,3 +20,4 @@ export { default as DropZone } from './DropZone';
 export { default as Checkbox } from './Checkbox';
 export { default as Menu } from './Menu';
 export { default as Player } from './Player';
+export { default as Rating } from './Rating';

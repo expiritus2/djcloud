@@ -2,20 +2,30 @@
 @import "src/styles/variables";
 @import "src/styles/mixins";
 
-.loginForm {
-  .form {
-    padding: setUnit(40) setUnit(40) setUnit(50);
-  }
+.modalWrapper {
+    top: setUnit($header-height);
+    height: calc(100vh - #{setUnit($header-height)});
 
-  .meta {
-    padding: setUnit(20) setUnit(40);
-  }
-
-  .input {
-    margin-bottom: setUnit(20);
-
-    &:last-child {
-      margin-bottom: 0;
+    .opacityLayer {
+        background: none !important;
+        display: none !important;
     }
-  }
+}
+
+.loginForm {
+    .form {
+        padding: setUnit(40) setUnit(40) setUnit(50);
+    }
+
+    .meta {
+        padding: setUnit(20) setUnit(40);
+    }
+
+    .input {
+        margin-bottom: setUnit(20);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }

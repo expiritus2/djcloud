@@ -9,6 +9,10 @@
     border-radius: setUnit(5);
     padding: setUnit(5) setUnit(15);
 
+    .rating {
+        margin-right: setUnit(15);
+    }
+
     &:nth-child(even) {
         background: $lightColor;
         border: 1px solid darken($lightColor, 10);

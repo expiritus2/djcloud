@@ -6,9 +6,9 @@ export const getDuration = (durationSeconds: number) => {
 };
 
 export enum DateFormat {
-    dd_MM_yyyy_HH_mm = 'dd-MM-yyyy HH:mm',
+    dd_MMMM_yyyy_HH_mm = 'dd MMMM yyyy HH:mm',
 }
 
-export const formatDate = (date: string, format: DateFormat = DateFormat.dd_MM_yyyy_HH_mm) => {
+export const formatDate = (date: string, format: DateFormat = DateFormat.dd_MMMM_yyyy_HH_mm) => {
     return dateFnsFormat(parseISO(date), format);
 };

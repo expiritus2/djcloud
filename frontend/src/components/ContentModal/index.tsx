@@ -17,34 +17,39 @@ export type ButtonType = {
 
 type ComponentProps = {
     className?: string;
+    opacityLayerClassName?: string;
+    wrapperClassName?: string;
     children: ReactNode;
     title: string;
     buttons: ButtonType[];
 };
 
 const Modal: FC<ComponentProps> = (props) => {
-    const { className, children, title, buttons } = props;
+    const { className, children, title, buttons, opacityLayerClassName, wrapperClassName } = props;
 
     return (
-        <div className={classNames(styles.modal, className)}>
-            <div className={classNames(styles.meta, styles.header)}>{title}</div>
-            {children}
-            <div className={classNames(styles.meta, styles.footer)}>
-                <div className={styles.buttons}>
-                    {buttons.map((button) => (
-                        <Button
-                            type={button.type}
-                            pending={button.pending}
-                            key={button.id}
-                            onClick={button.onClick}
-                            label={button.label}
-                            className={classNames(styles.button, button.className)}
-                            variant={button.variant}
-                            form={button.formId}
-                        />
-                    ))}
+        <div className={classNames(styles.wrapper, wrapperClassName)}>
+            <div className={classNames(styles.opacityLayer, opacityLayerClassName)} />
+            <div className={classNames(styles.modal, className)}>
+                <div className={classNames(styles.meta, styles.header)}>{title}</div>
+                {children}
+                <div className={classNames(styles.meta, styles.footer)}>
+                    <div className={styles.buttons}>
+                        {buttons.map((button) => (
+                            <Button
+                                type={button.type}
+                                pending={button.pending}
+                                key={button.id}
+                                onClick={button.onClick}
+                                label={button.label}
+                                className={classNames(styles.button, button.className)}
+                                variant={button.variant}
+                                form={button.formId}
+                            />
+                        ))}
+                    </div>
+                    <div className={styles.clear} />
                 </div>
-                <div className={styles.clear} />
             </div>
         </div>
     );

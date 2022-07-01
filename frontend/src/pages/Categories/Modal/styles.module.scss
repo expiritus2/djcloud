@@ -1,15 +1,6 @@
 @import "../../../styles/functions";
 @import "../../../styles/variables";
 
-.opacityLayer {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba($darkColor, .3);
-}
-
 .modal {
   .content {
     padding: 0 setUnit(40);

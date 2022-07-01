@@ -28,7 +28,7 @@ const Main: FC<ComponentProps> = (props) => {
             navigate(link.toTracks(categories.data?.data[0].value, tracksGenres.data[0].value));
         }
 
-        if (!match && altMatch?.params.category && tracksGenres.data) {
+        if (!match && altMatch?.params.category && tracksGenres.data?.[0]) {
             navigate(link.toTracks(altMatch.params.category, tracksGenres.data[0].value));
         }
     }, [location.pathname, categories.data, navigate, tracksGenres.data, match, altMatch?.params.category]);

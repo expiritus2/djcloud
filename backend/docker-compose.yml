@@ -12,7 +12,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - /var/lib/postgresql:/var/lib/postgresql/data
+      - ./.pgdata:/var/lib/postgresql/data
   dbTest:
     container_name: dbTest
     image: postgres

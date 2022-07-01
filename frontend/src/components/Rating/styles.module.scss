@@ -1,0 +1,23 @@
+@import "src/styles/variables";
+@import "src/styles/functions";
+
+.rating {
+    display: flex;
+    align-items: center;
+
+    .star {
+        margin-right: setUnit(1);
+        width: setUnit(15);
+        height: setUnit(15);
+        vertical-align: middle;
+        cursor: pointer;
+
+        path {
+            fill: darken($lightColor, 60);
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}

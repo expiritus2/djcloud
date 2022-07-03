@@ -14,13 +14,12 @@ type ComponentProps = {
 
 const CreatedSort: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracks, currentTrack } = useStore();
+    const { tracks } = useStore();
     const isDesc = tracks.meta.sort === SortEnum.DESC;
 
     const onSort = () => {
         const newSort = tracks.meta.sort === SortEnum.DESC ? SortEnum.ASC : SortEnum.DESC;
         tracks.getAll({ sort: newSort, limit: mainPageTrackLimit });
-        currentTrack.initialPlayedTrackPage = 0;
     };
 
     return (

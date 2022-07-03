@@ -1,7 +1,8 @@
-import { PaginationParams } from '../../types/request';
+import { PaginationParams } from 'types/request';
+import { Category } from 'types/track';
 
 export type TrackGenreParams = {
-    category: string;
+    category: Category;
 };
 
 export type GetAllByParams = {

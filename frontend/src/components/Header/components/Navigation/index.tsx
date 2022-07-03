@@ -16,7 +16,7 @@ type ComponentProps = {
 
 const Navigation: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { user, categories, genres } = useStore();
+    const { user, categories, genres, customerState, tracksGenres } = useStore();
     const match = useMatch({ path: routes.tracks });
     const location = useLocation();
 
@@ -33,28 +33,34 @@ const Navigation: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.navigation, className)}>
             <ul className={styles.list}>
-                {categories.data?.data.map((category, index) => (
-                    <li key={category.value} className={styles.item}>
-                        <NavLink
-                            className={({ isActive }) => {
-                                return getLinkClassName({
-                                    isActive: isActive || match?.params.category === category.value,
-                                    index,
-                                });
-                            }}
-                            to={link.toTracks(category.value, '')}
-                        >
-                            {category.name}
-                        </NavLink>
-                    </li>
-                ))}
+                {(categories.data?.data || []).map((category, index) => {
+                    return (
+                        <li key={category.value} className={styles.item}>
+                            <NavLink
+                                className={({ isActive }) => {
+                                    return getLinkClassName({
+                                        isActive: isActive || match?.params.category === category.value,
+                                        index,
+                                    });
+                                }}
+                                to={link.toTracks(
+                                    category.value,
+                                    customerState.tab[category.value] ||
+                                        tracksGenres.genres[category.value]?.[0]?.value,
+                                )}
+                            >
+                                {category.name}
+                            </NavLink>
+                        </li>
+                    );
+                })}
                 {user.data?.role?.name === UserRoleEnum.ADMIN && (
                     <li className={styles.item}>
                         <NavLink
                             className={({ isActive }) =>
                                 getLinkClassName({ isActive: isActive || location.pathname.startsWith('/admin') })
                             }
-                            to={routes.adminCategoriesList}
+                            to={link.toAdminPage(customerState.tab.admin)}
                         >
                             Admin
                         </NavLink>

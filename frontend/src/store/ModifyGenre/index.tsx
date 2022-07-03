@@ -4,9 +4,9 @@ import { CreateGenreDto, GetGenreDto, RemoveGenreDto, UpdateGenreDto } from './t
 import { Genre } from 'types/track';
 import Api from 'store/core/Api';
 import { create, getById, update, remove } from 'api/genres';
-import { BaseStore } from 'store/core/BaseStore';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
 
-export class ModifyGenreStore extends BaseStore<Genre> {
+export class ModifyGenreStore extends BaseRequestStore<Genre> {
     constructor(color: string) {
         super(color);
 

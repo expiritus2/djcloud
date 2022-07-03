@@ -12,4 +12,14 @@ export const link = {
             }
             return '';
         }),
+    toAdminPage: (tab: string | null) => {
+        if (tab === 'tracks') {
+            return routes.adminTracksList;
+        }
+
+        if (tab === 'genres') {
+            return routes.adminGenresList;
+        }
+        return routes.adminCategoriesList;
+    },
 };

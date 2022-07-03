@@ -13,6 +13,8 @@ import { downloadByRequest } from 'helpers/download';
 import { Rating } from 'components';
 
 import styles from './styles.module.scss';
+import { useMatch } from 'react-router-dom';
+import { routes } from '../../../../settings/navigation/routes';
 
 type ComponentProps = {
     className?: string;
@@ -21,9 +23,12 @@ type ComponentProps = {
 const TrackComponent: FC<ComponentProps> = (props) => {
     const { className, id, title, duration, createdAt, file } = props;
     const { currentTrack } = useStore();
+    const match = useMatch({ path: routes.tracks });
 
     const onPlay = () => {
-        currentTrack.getTrackById({ id });
+        if (match?.params.genre) {
+            currentTrack.getTrackById({ id });
+        }
     };
 
     const onPause = () => {

@@ -22,7 +22,8 @@ const Pagination: FC<ComponentProps> = (props) => {
     }
 
     const onClickPage = (e: any, page: number) => {
-        tracks.getAll({ page, limit: mainPageTrackLimit, ...(tracks.meta.sort ? { sort: tracks.meta.sort } : {}) });
+        const sort = tracks.meta.sort ? { sort: tracks.meta.sort } : {};
+        tracks.getAll({ page, limit: mainPageTrackLimit, ...sort });
     };
 
     return (

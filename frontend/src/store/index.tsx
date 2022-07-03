@@ -9,6 +9,7 @@ import { ModifyGenreStore } from './ModifyGenre';
 import { ModifyTrackStore } from './ModifyTrack';
 import { TracksGenresStore } from './TrackGenres';
 import { CurrentTrackStore } from './CurrentTrack';
+import { CustomerState } from './CustomerState';
 
 configure({ enforceActions: 'never' });
 
@@ -22,6 +23,7 @@ const store = {
     tracks: new TracksStore('purple'),
     tracksGenres: new TracksGenresStore('yellow'),
     currentTrack: new CurrentTrackStore('aqua'),
+    customerState: new CustomerState(),
 };
 
 export const StoreContext = createContext(store);

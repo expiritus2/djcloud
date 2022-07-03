@@ -7,8 +7,10 @@ import { NavLink } from 'react-router-dom';
 export type MenuItem = {
     label: string;
     path: string;
+    value?: string;
     count?: number;
     active?: boolean;
+    onClickItem?: Function;
 };
 
 type ComponentProps = {
@@ -30,6 +32,7 @@ const Menu: FC<ComponentProps> = (props) => {
                         <NavLink
                             className={({ isActive }) => getActiveClassName({ isActive: item.active || isActive })}
                             to={item.path}
+                            onClick={(e) => item.onClickItem?.(e, item.value)}
                         >
                             <span>{item.label}</span>
                             {item.count && <span className={styles.count}>{`(${item.count})`}</span>}

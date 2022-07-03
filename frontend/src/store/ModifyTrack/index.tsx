@@ -4,10 +4,10 @@ import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto, UpdateVisi
 import { Track } from 'types/track';
 import Api from 'store/core/Api';
 import { create, getById, update, remove, uploadFile } from 'api/tracks';
-import { BaseStore } from 'store/core/BaseStore';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import store from 'store/index';
 
-export class ModifyTrackStore extends BaseStore<Track> {
+export class ModifyTrackStore extends BaseRequestStore<Track> {
     constructor(color: string) {
         super(color);
 

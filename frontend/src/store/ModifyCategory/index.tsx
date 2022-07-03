@@ -4,9 +4,9 @@ import { CreateCategoryDto, GetCategoryDto, RemoveCategoryDto, UpdateCategoryDto
 import { Category } from 'types/track';
 import Api from 'store/core/Api';
 import { create, getById, update, remove } from 'api/categories';
-import { BaseStore } from 'store/core/BaseStore';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
 
-export class ModifyCategoryStore extends BaseStore<Category> {
+export class ModifyCategoryStore extends BaseRequestStore<Category> {
     constructor(color: string) {
         super(color);
 

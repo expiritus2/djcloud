@@ -16,22 +16,35 @@ type ComponentProps = {
 
 const MainMenu: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracksGenres, categories } = useStore();
+    const { tracksGenres, categories, customerState } = useStore();
     const match = useMatch({ path: routes.tracks });
-    const altMatch = useMatch({ path: routes.tracksCategory });
     const location = useLocation();
 
     useEffect(() => {
-        let category = match?.params.category! || altMatch?.params.category! || categories.data?.data[0].value!;
-        tracksGenres.getTracksGenres({ category });
-    }, [match?.params.category, altMatch?.params.category, tracksGenres, categories.data?.data]);
+        if (categories.data?.data) {
+            for (const category of categories.data?.data || []) {
+                tracksGenres.getTracksGenres({ category });
+            }
+        }
+    }, [categories.data?.data]); // eslint-disable-line
 
-    const menuItems = (tracksGenres.data || []).map((genre, index) => {
+    const onClickItem = (e: any, tab: string) => {
+        if (match?.params.category) {
+            customerState.tab = {
+                ...customerState.tab,
+                [match?.params.category]: tab,
+            };
+        }
+    };
+
+    const menuItems = (tracksGenres.genres[match?.params.category!] || []).map((genre, index) => {
         return {
-            path: link.toTracks(match?.params.category! || altMatch?.params.category!, genre.value),
+            path: link.toTracks(match?.params.category!, genre.value),
             label: genre.name,
+            value: genre.value,
             count: genre.countTracks,
             active: location.pathname === '/' && index === 0,
+            onClickItem,
         } as MenuItem;
     });
 

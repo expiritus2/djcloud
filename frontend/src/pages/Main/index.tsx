@@ -17,21 +17,21 @@ type ComponentProps = {
 
 const Main: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracksGenres, categories } = useStore();
+    const { tracksGenres, categories, customerState } = useStore();
     const location = useLocation();
     const navigate = useNavigate();
     const match = useMatch({ path: routes.tracks });
-    const altMatch = useMatch({ path: routes.tracksCategory });
 
     useEffect(() => {
         if (location.pathname === '/' && categories.data?.data[0] && tracksGenres.data?.[0]?.value) {
-            navigate(link.toTracks(categories.data?.data[0].value, tracksGenres.data[0].value));
+            const category = categories.data?.data[0].value;
+            const genre = tracksGenres.data[0].value;
+            customerState.setTab(genre, category);
+            navigate(link.toTracks(category, genre));
         }
 
-        if (!match && altMatch?.params.category && tracksGenres.data?.[0]) {
-            navigate(link.toTracks(altMatch.params.category, tracksGenres.data[0].value));
-        }
-    }, [location.pathname, categories.data, navigate, tracksGenres.data, match, altMatch?.params.category]);
+        customerState.setTab(match?.params.genre!, match?.params.category!);
+    }, [location.pathname, match?.params.genre, match?.params.category]); // eslint-disable-line
 
     return (
         <div className={classNames(styles.main, className)}>

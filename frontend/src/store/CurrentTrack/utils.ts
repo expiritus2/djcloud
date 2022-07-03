@@ -1,4 +1,3 @@
-import { TracksStore } from '../Tracks';
 import { Track } from 'types/track';
 import store from '..';
 import { mainPageTrackLimit } from 'settings';
@@ -17,8 +16,8 @@ export const isVeryLastTrack = (currentEndTrackIndex: number, tracks: Track[]): 
     return currentEndTrackIndex === tracks.length - 1;
 };
 
-export const isNotLastTrack = (currentEndTrackIndex: number, tracks: Track[]) => {
-    return currentEndTrackIndex && currentEndTrackIndex !== tracks.length - 1;
+export const isNotLastTrack = (currentTrackIndex: number, tracks: Track[]) => {
+    return currentTrackIndex !== tracks.length - 1;
 };
 
 export const getTracksNextPage = (): number => {

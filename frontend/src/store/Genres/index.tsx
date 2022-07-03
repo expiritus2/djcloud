@@ -3,9 +3,9 @@ import { PaginatedItems, PaginationParams, RequestOptions } from 'types/request'
 import { Genre } from 'types/track';
 import Api from 'store/core/Api';
 import { getAll } from 'api/genres';
-import { BaseStore } from 'store/core/BaseStore';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
 
-export class GenresStore extends BaseStore<PaginatedItems<Genre>> {
+export class GenresStore extends BaseRequestStore<PaginatedItems<Genre>> {
     constructor(color: string) {
         super(color);
 

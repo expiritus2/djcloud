@@ -1,3 +1,5 @@
+import { Category } from 'types/track';
+
 export type TrackGenre = {
     id: number;
     name: string;
@@ -6,5 +8,5 @@ export type TrackGenre = {
 };
 
 export type TrackGenreParams = {
-    category: string;
+    category: Category;
 };

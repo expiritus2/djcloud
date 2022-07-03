@@ -9,8 +9,9 @@ import { CreatedSort, Tracks } from '..';
 import { Pagination } from '..';
 
 import { PendingWrapper } from 'components';
+import { mainPageTrackLimit } from 'settings';
+
 import styles from './styles.module.scss';
-import { mainPageTrackLimit } from '../../../../settings';
 
 type ComponentProps = {
     className?: string;
@@ -18,23 +19,22 @@ type ComponentProps = {
 
 const Content: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracks, currentTrack } = useStore();
+    const { tracks } = useStore();
     const match = useMatch({ path: routes.tracks });
-    const altMatch = useMatch({ path: routes.tracksCategory });
-    const category = match?.params.category || altMatch?.params.category;
-    const genre = match?.params.genre || altMatch?.params.genre;
+    const category = match?.params.category;
+    const genre = match?.params.genre;
 
     useEffect(() => {
-        if (category && genre) {
+        if ((category !== tracks.meta.category || genre !== tracks.meta.genre) && category && genre) {
             tracks.getAll({
                 category,
                 genre,
                 visible: true,
                 limit: mainPageTrackLimit,
-                page: currentTrack.initialPlayedTrackPage,
-                ...(tracks.meta.sort ? { sort: tracks.meta.sort } : {}),
             });
         }
+
+        return () => tracks.resetStore();
     }, [category, genre, tracks]); // eslint-disable-line
 
     return (

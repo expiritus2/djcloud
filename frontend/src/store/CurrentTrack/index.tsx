@@ -4,7 +4,7 @@ import { GetTrackByIdParamsDto } from './types';
 import { Track } from 'types/track';
 import Api from 'store/core/Api';
 import { getById } from 'api/tracks';
-import { BaseStore } from 'store/core/BaseStore';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import {
     getActualTrackIndex,
     getCurrentPageTracks,
@@ -15,12 +15,9 @@ import {
     isVeryLastTrack,
     requestNextPageTracks,
 } from './utils';
-import store from '../index';
 
-export class CurrentTrackStore extends BaseStore<Track> {
+export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
-
-    initialPlayedTrackPage: number = 0;
 
     constructor(color: string) {
         super(color);
@@ -34,7 +31,6 @@ export class CurrentTrackStore extends BaseStore<Track> {
 
         makeObservable(this, {
             pause: observable,
-            initialPlayedTrackPage: observable,
             getTrackById: action,
             setPause: action,
             setPlay: action,
@@ -42,10 +38,9 @@ export class CurrentTrackStore extends BaseStore<Track> {
         });
     }
 
-    getTrackById(cfg?: GetTrackByIdParamsDto, options?: RequestOptions, cb?: Function) {
+    getTrackById(cfg: GetTrackByIdParamsDto, options?: RequestOptions, cb?: Function) {
         this.resetStore();
         const sendRequest = new Api<Track>({ store: this, method: getById }).execResult();
-        this.initialPlayedTrackPage = store.tracks.meta.page;
 
         sendRequest(cfg, options, cb);
     }

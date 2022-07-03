@@ -3,9 +3,9 @@ import { RequestOptions } from '../../types/request';
 import { LoginProps, User } from './types';
 import Api from '../core/Api';
 import { currentUser, login } from '../../api/user';
-import { BaseStore } from '../core/BaseStore';
+import { BaseRequestStore } from '../core/BaseRequestStore';
 
-export class UsersStore extends BaseStore<User> {
+export class UsersStore extends BaseRequestStore<User> {
     constructor(color: string) {
         super(color);
 

@@ -18,18 +18,24 @@ type ComponentProps = {
 
 const Content: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracks } = useStore();
+    const { tracks, currentTrack } = useStore();
     const match = useMatch({ path: routes.tracks });
     const altMatch = useMatch({ path: routes.tracksCategory });
     const category = match?.params.category || altMatch?.params.category;
     const genre = match?.params.genre || altMatch?.params.genre;
 
     useEffect(() => {
-        tracks.resetStore();
         if (category && genre) {
-            tracks.getAll({ category, genre, visible: true, limit: mainPageTrackLimit });
+            tracks.getAll({
+                category,
+                genre,
+                visible: true,
+                limit: mainPageTrackLimit,
+                page: currentTrack.initialPlayedTrackPage,
+                ...(tracks.meta.sort ? { sort: tracks.meta.sort } : {}),
+            });
         }
-    }, [category, genre, tracks]);
+    }, [category, genre, tracks]); // eslint-disable-line
 
     return (
         <div className={classNames(styles.content, className)}>

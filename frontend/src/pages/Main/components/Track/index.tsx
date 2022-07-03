@@ -28,7 +28,7 @@ const TrackComponent: FC<ComponentProps> = (props) => {
 
     const onPause = () => {
         if (!currentTrack.pause) {
-            currentTrack.setPause();
+            currentTrack.setPause(true);
         }
     };
 

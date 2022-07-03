@@ -33,7 +33,7 @@ const Player: FC<ComponentProps> = (props) => {
 
     const onPause = () => {
         if (!currentTrack.pause) {
-            currentTrack.setPause();
+            currentTrack.setPause(true);
         }
     };
 
@@ -41,6 +41,10 @@ const Player: FC<ComponentProps> = (props) => {
         if (currentTrack.pause) {
             currentTrack.setPlay();
         }
+    };
+
+    const onEnded = () => {
+        currentTrack.onEnd();
     };
 
     const renderHeader = () => {
@@ -60,6 +64,7 @@ const Player: FC<ComponentProps> = (props) => {
                 src={currentTrack.data?.file?.url}
                 onPlay={onPlay}
                 onPause={onPause}
+                onEnded={onEnded}
                 header={renderHeader()}
                 className={styles.playerContainer}
             />

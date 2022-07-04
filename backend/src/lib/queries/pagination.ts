@@ -11,7 +11,7 @@ export const simplePaginateQuery = <Entity>(
 ): SelectQueryBuilder<Entity> => {
     const { search, limit = 10, page, sort, field } = query;
     if (search) {
-        queryBuilder.where(`${searchFieldName} like :search`, {
+        queryBuilder.where(`${searchFieldName} iLIKE :search`, {
             search: `%${search}%`,
         });
     }

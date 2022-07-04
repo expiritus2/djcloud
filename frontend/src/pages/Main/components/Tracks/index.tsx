@@ -10,7 +10,7 @@ type ComponentProps = {
     className?: string;
 };
 
-const BaseComponent: FC<ComponentProps> = (props) => {
+const Tracks: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks } = useStore();
 
@@ -23,4 +23,4 @@ const BaseComponent: FC<ComponentProps> = (props) => {
     );
 };
 
-export default BaseComponent;
+export default Tracks;

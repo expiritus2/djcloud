@@ -18,11 +18,13 @@ import TrackModal from './components/Modal';
 import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
 import { Column } from 'components/Table';
-import { Visible } from './components';
+import { Title, Visible } from './components';
 import { Track } from 'types/track';
 
 import styles from './styles.module.scss';
 import { formatDate, getDuration } from '../../helpers/formatters';
+import { useLocation } from 'react-router-dom';
+import { getQuery } from '../../helpers/query';
 
 type ComponentProps = {
     className?: string;
@@ -35,10 +37,12 @@ const Tracks: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks, modifyTrack } = useStore();
     const [modalState, setModalState] = useState(initModalState);
+    const location = useLocation();
+    const query = getQuery(location);
 
     useEffect(() => {
-        tracks.getAll({}, { silent: false });
-    }, []); // eslint-disable-line
+        tracks.getAll({ search: query.search as string }, { silent: false });
+    }, [query.search]); // eslint-disable-line
 
     const onClickEdit = (e: any, id: number, cb: Function) => {
         cb(true);
@@ -115,7 +119,7 @@ const Tracks: FC<ComponentProps> = (props) => {
             tracks.data?.data?.map((track: Track) => ({
                 track_id: track.id,
                 id: track.id,
-                title: track.title,
+                title: <Title {...track} />,
                 duration: getDuration(track.duration),
                 category: track.category.name,
                 genre: track.genre.name,

@@ -25,13 +25,13 @@ const Main: FC<ComponentProps> = (props) => {
     useEffect(() => {
         if (location.pathname === '/' && categories.data?.data[0] && tracksGenres.data?.[0]?.value) {
             const category = categories.data?.data[0].value;
-            const genre = tracksGenres.data[0].value;
+            const genre = tracksGenres.genres[category][0].value;
             customerState.setTab(genre, category);
             navigate(link.toTracks(category, genre));
         }
 
         customerState.setTab(match?.params.genre!, match?.params.category!);
-    }, [location.pathname, match?.params.genre, match?.params.category]); // eslint-disable-line
+    }, [categories.data, tracksGenres.data]); // eslint-disable-line
 
     return (
         <div className={classNames(styles.main, className)}>

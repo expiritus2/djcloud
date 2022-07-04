@@ -2,19 +2,14 @@ import React, { FC } from 'react';
 import classNames from 'classnames';
 import { Track } from 'types/track';
 import { formatDate, getDuration } from 'helpers/formatters';
-import { AiFillPauseCircle, AiFillPlayCircle } from 'react-icons/ai';
 import { FaDownload } from 'react-icons/fa';
 import { sign } from 'settings/sign';
 
-import { useStore } from 'store';
-
 import { observer } from 'mobx-react-lite';
 import { downloadByRequest } from 'helpers/download';
-import { Rating } from 'components';
+import { Rating, Play } from 'components';
 
 import styles from './styles.module.scss';
-import { useMatch } from 'react-router-dom';
-import { routes } from '../../../../settings/navigation/routes';
 
 type ComponentProps = {
     className?: string;
@@ -22,28 +17,6 @@ type ComponentProps = {
 
 const TrackComponent: FC<ComponentProps> = (props) => {
     const { className, id, title, duration, createdAt, file } = props;
-    const { currentTrack } = useStore();
-    const match = useMatch({ path: routes.tracks });
-
-    const onPlay = () => {
-        if (match?.params.genre) {
-            currentTrack.getTrackById({ id });
-        }
-    };
-
-    const onPause = () => {
-        if (!currentTrack.pause) {
-            currentTrack.setPause(true);
-        }
-    };
-
-    const getHeadIcon = () => {
-        return !currentTrack.pause && currentTrack.data?.id == id ? (
-            <AiFillPauseCircle onClick={onPause} className={styles.headIcon} />
-        ) : (
-            <AiFillPlayCircle onClick={onPlay} className={styles.headIcon} />
-        );
-    };
 
     const onDownload = () => {
         downloadByRequest(file.url, `${sign}-${title}`);
@@ -52,7 +25,7 @@ const TrackComponent: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.track, className)}>
             <div className={styles.head}>
-                {getHeadIcon()}
+                <Play trackId={id} />
                 <div className={styles.info}>
                     <div className={styles.author}>{sign}</div>
                     <div className={styles.trackName}>{title}</div>

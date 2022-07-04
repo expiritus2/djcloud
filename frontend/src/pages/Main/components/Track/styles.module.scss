@@ -27,24 +27,6 @@
             color: $lightColor;
             height: 0;
         }
-
-        .headIcon {
-            width: setUnit(45);
-            height: setUnit(45);
-            fill: $darkColor;
-            cursor: pointer;
-            transition: all .1s;
-            vertical-align: middle;
-
-            &.pending {
-                width: setUnit(45);
-                height: setUnit(45);
-            }
-
-            &:hover {
-                transform: scale(1.05);
-            }
-        }
     }
 
     .info {

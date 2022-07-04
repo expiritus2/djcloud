@@ -20,6 +20,8 @@ import { SortEnum } from 'types/request';
 import { Column } from 'components/Table';
 
 import styles from './styles.module.scss';
+import { useLocation } from 'react-router-dom';
+import { getQuery } from '../../helpers/query';
 
 type ComponentProps = {
     className?: string;
@@ -32,10 +34,12 @@ const Genres: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { genres, modifyGenre } = useStore();
     const [modalState, setModalState] = useState(initModalState);
+    const location = useLocation();
+    const query = getQuery(location);
 
     useEffect(() => {
-        genres.getAll({}, { silent: false });
-    }, []); // eslint-disable-line
+        genres.getAll({ search: query.search as string }, { silent: false });
+    }, [query.search]); // eslint-disable-line
 
     const onClickEdit = (e: any, id: number, cb: Function) => {
         cb(true);

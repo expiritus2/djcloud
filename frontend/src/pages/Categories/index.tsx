@@ -18,6 +18,8 @@ import CategoryModal from './Modal';
 import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
 import { Column } from 'components/Table';
+import { useLocation } from 'react-router-dom';
+import { getQuery } from 'helpers/query';
 
 import styles from './styles.module.scss';
 
@@ -32,10 +34,12 @@ const Categories: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { categories, modifyCategory } = useStore();
     const [modalState, setModalState] = useState(initModalState);
+    const location = useLocation();
+    const query = getQuery(location);
 
     useEffect(() => {
-        categories.getAll({}, { silent: false });
-    }, []); // eslint-disable-line
+        categories.getAll({ search: query.search as string }, { silent: false });
+    }, [query.search]); // eslint-disable-line
 
     const onClickEdit = (e: any, id: number, cb: Function) => {
         cb(true);

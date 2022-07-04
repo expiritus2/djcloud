@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import classNames from 'classnames';
 import { Menu } from 'components';
 import { useStore } from 'store';
@@ -16,17 +16,9 @@ type ComponentProps = {
 
 const MainMenu: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracksGenres, categories, customerState } = useStore();
+    const { tracksGenres, customerState } = useStore();
     const match = useMatch({ path: routes.tracks });
     const location = useLocation();
-
-    useEffect(() => {
-        if (categories.data?.data) {
-            for (const category of categories.data?.data || []) {
-                tracksGenres.getTracksGenres({ category });
-            }
-        }
-    }, [categories.data?.data]); // eslint-disable-line
 
     const onClickItem = (e: any, tab: string) => {
         if (match?.params.category) {

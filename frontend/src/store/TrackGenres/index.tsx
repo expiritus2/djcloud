@@ -17,7 +17,7 @@ export class TracksGenresStore extends BaseRequestStore<TrackGenre[]> {
         });
     }
 
-    getTracksGenres(cfg: TrackGenreParams, options?: RequestOptions, cb?: Function) {
+    getTracksGenres(cfg: TrackGenreParams, options?: RequestOptions, cb?: Function): void {
         const sendRequest = new Api<TrackGenre[]>({ store: this, method: getTracksGenres }).execResult();
 
         sendRequest(cfg, options, (err: any, response: any) => {

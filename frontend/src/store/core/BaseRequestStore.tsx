@@ -21,7 +21,7 @@ export abstract class BaseRequestStore<T> {
     meta = cloneDeep(this.initStore.meta);
 
     protected constructor(color?: string) {
-        if(color) {
+        if (color) {
             this.color = color;
         }
 

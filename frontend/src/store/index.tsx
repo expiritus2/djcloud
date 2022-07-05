@@ -10,6 +10,7 @@ import { ModifyTrackStore } from './ModifyTrack';
 import { TracksGenresStore } from './TrackGenres';
 import { CurrentTrackStore } from './CurrentTrack';
 import { CustomerState } from './CustomerState';
+import { TrackRatingStore } from './TrackRating';
 
 configure({ enforceActions: 'never' });
 
@@ -24,6 +25,7 @@ const store = {
     tracksGenres: new TracksGenresStore('yellow'),
     currentTrack: new CurrentTrackStore('aqua'),
     customerState: new CustomerState(),
+    trackRating: new TrackRatingStore(),
 };
 
 export const StoreContext = createContext(store);

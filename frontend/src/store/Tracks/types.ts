@@ -10,3 +10,7 @@ export type GetAllByParams = {
     genre?: string;
     visible?: boolean;
 } & PaginationParams;
+
+export type AddTrackRating = {
+    id: number;
+};

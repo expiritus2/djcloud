@@ -19,15 +19,20 @@ export type Genre = {
     name: string;
 };
 
+export type TrackRating = {
+    rating: number;
+    isDidRating: boolean;
+    countRatings: number;
+};
+
 export type Track = {
     id: number;
     title: string;
     visible: boolean;
-    likes: number;
     duration: number;
     file: File;
     category: Category;
     genre: Genre;
     createdAt: string;
     updatedAt: string;
-};
+} & TrackRating;

@@ -5,6 +5,7 @@ import { Track } from 'types/track';
 import { Track as TrackComponent } from '..';
 import { useStore } from 'store';
 import styles from './styles.module.scss';
+import { observer } from 'mobx-react-lite';
 
 type ComponentProps = {
     className?: string;
@@ -23,4 +24,4 @@ const Tracks: FC<ComponentProps> = (props) => {
     );
 };
 
-export default Tracks;
+export default observer(Tracks);

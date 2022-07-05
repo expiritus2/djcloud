@@ -41,7 +41,7 @@ export class TrackEntity {
     file: FileEntity;
 
     @OneToMany(() => TrackRatingEntity, (trackRatings) => trackRatings.track)
-    trackRatings: TrackRatingEntity;
+    trackRatings: TrackRatingEntity[];
 
     @CreateDateColumn({ type: 'timestamptz', nullable: false })
     createdAt: Date;

@@ -12,4 +12,7 @@ export class TrackRatingEntity {
     @ManyToOne(() => TrackEntity, (trackRatings) => trackRatings.trackRatings)
     @JoinColumn({ name: 'trackId' })
     track: TrackEntity;
+
+    @Column()
+    ipAddress: string;
 }

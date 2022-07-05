@@ -6,9 +6,8 @@
     align-items: center;
 
     .playIcon {
-        width: setUnit(20);
-        height: setUnit(20);
-        position: relative;
+        width: setUnit(20) !important;
+        height: setUnit(20) !important;
     }
 
     .titleText {

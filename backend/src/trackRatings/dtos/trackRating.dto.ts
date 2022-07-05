@@ -1,6 +1,32 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
+class Track {
+    @Expose()
+    @ApiProperty()
+    id: number;
+
+    @Expose()
+    @ApiProperty()
+    title: string;
+
+    @Expose()
+    @ApiProperty()
+    visible: boolean;
+
+    @Expose()
+    @ApiProperty()
+    duration: number;
+
+    @Expose()
+    @ApiProperty()
+    createdAt: number;
+
+    @Expose()
+    @ApiProperty()
+    updatedAt: number;
+}
+
 export class TrackRatingDto {
     @Expose()
     @ApiProperty({ example: 1 })
@@ -8,9 +34,13 @@ export class TrackRatingDto {
 
     @Expose()
     @ApiProperty()
-    trackId: number;
+    track: Track;
 
     @Expose()
     @ApiProperty()
     rating: number;
+
+    @Expose()
+    @ApiProperty()
+    ipAddress: string;
 }

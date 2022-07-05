@@ -78,7 +78,8 @@ export class TracksService {
             ])
             .leftJoinAndSelect('track.file', 'file')
             .leftJoinAndSelect('track.category', 'category')
-            .leftJoinAndSelect('track.genre', 'genre');
+            .leftJoinAndSelect('track.genre', 'genre')
+            .leftJoinAndSelect('track.trackRatings', 'ratings');
 
         const filteredTracks = filterTracks(queryBuilder, query);
         const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(filteredTracks, query, {
@@ -86,6 +87,7 @@ export class TracksService {
         });
 
         const [data, count] = await paginateQueryBuilder.getManyAndCount();
+
         return { data, count };
     }
 

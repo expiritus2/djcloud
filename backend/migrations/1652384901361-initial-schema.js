@@ -90,7 +90,8 @@ module.exports = class initialSchema1652384901361 {
                     constraint trackRatings_pk
                         primary key,
                 "trackId" int references tracks (id) on delete cascade,
-                rating    float not null
+                rating    float not null,
+                "ipAddress" varchar(300) not null
             )
         `);
         await queryRunner.query(

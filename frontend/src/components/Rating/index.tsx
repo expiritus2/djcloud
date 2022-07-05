@@ -3,15 +3,20 @@ import classNames from 'classnames';
 
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 
+import { useStore } from 'store';
+
 import styles from './styles.module.scss';
+import { observer } from 'mobx-react-lite';
+import { TrackRating } from '../../types/track';
 
 type ComponentProps = {
     className?: string;
-    rating?: number | null;
-};
+    trackId: number;
+} & TrackRating;
 
 const Rating: FC<ComponentProps> = (props) => {
-    const { className, rating = 5 } = props;
+    const { className, trackId, rating, countRatings, isDidRating } = props;
+    const { trackRating, tracks } = useStore();
     const [currentRating, setCurrentRating] = useState(rating);
 
     const onMouseOver = (e: any, index: number) => {
@@ -22,8 +27,14 @@ const Rating: FC<ComponentProps> = (props) => {
         setCurrentRating(rating);
     };
 
-    const onClick = (e: any, index: number) => {
-        setCurrentRating(index + 1);
+    const onClick = () => {
+        if (currentRating && trackId && !isDidRating) {
+            trackRating.addTrackRating({ trackId, rating: currentRating }, {}, (err: any, response: any) => {
+                if (!err) {
+                    tracks.setTrackRating(response.data, trackId);
+                }
+            });
+        }
     };
 
     const getStars = () => {
@@ -32,7 +43,7 @@ const Rating: FC<ComponentProps> = (props) => {
                 key: index,
                 onMouseOver: (e: any) => onMouseOver(e, index),
                 className: styles.star,
-                onClick: (e: any) => onClick(e, index),
+                onClick,
             };
             if (currentRating && index <= currentRating - 1) {
                 return <AiFillStar {...iconProps} />;
@@ -43,9 +54,10 @@ const Rating: FC<ComponentProps> = (props) => {
 
     return (
         <div className={classNames(styles.rating, className)} onMouseLeave={onMouseLeave}>
-            {getStars()}
+            <div className={classNames(styles.stars, isDidRating ? styles.disable : '')}>{getStars()}</div>
+            <div>({countRatings})</div>
         </div>
     );
 };
 
-export default Rating;
+export default observer(Rating);

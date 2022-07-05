@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { logStore } from '../../settings';
 
 export abstract class BaseRequestStore<T> {
-    color: string;
+    color: string = '';
 
     readonly initStore: StoreData<T> = {
         state: RequestStateEnum.IDLE,
@@ -20,8 +20,10 @@ export abstract class BaseRequestStore<T> {
 
     meta = cloneDeep(this.initStore.meta);
 
-    protected constructor(color: string) {
-        this.color = color;
+    protected constructor(color?: string) {
+        if(color) {
+            this.color = color;
+        }
 
         makeObservable(this, {
             state: observable,

@@ -16,7 +16,7 @@ type ComponentProps = {
 } & Track;
 
 const TrackComponent: FC<ComponentProps> = (props) => {
-    const { className, id, title, duration, createdAt, file } = props;
+    const { className, id, title, duration, createdAt, file, rating, countRatings, isDidRating } = props;
 
     const onDownload = () => {
         downloadByRequest(file.url, `${sign}-${title}`);
@@ -36,7 +36,13 @@ const TrackComponent: FC<ComponentProps> = (props) => {
                 <div className={styles.download}>
                     <FaDownload onClick={onDownload} className={styles.icon} />
                 </div>
-                <Rating className={styles.rating} />
+                <Rating
+                    className={styles.rating}
+                    trackId={id}
+                    rating={rating}
+                    countRatings={countRatings}
+                    isDidRating={isDidRating}
+                />
                 <div>{formatDate(createdAt)}</div>
             </div>
         </div>

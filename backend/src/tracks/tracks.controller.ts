@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UploadedFile, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UploadedFile, UseGuards } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -13,6 +13,8 @@ import { UpdateTrackDto } from './dtos/update-track.dto';
 import { GetAllDto } from './dtos/get-all.dto';
 import { GetTracksGenresDto } from './dtos/get-tracks-genres.dto';
 import { TracksGenresDto } from './dtos/tracks-genres.dto';
+import { cloneDeep, mean, round } from 'lodash';
+import { GetAllResponseDto } from './dtos/get-all-response.dto';
 
 @ApiTags('Tracks')
 @Controller('tracks')
@@ -41,8 +43,20 @@ export class TracksController {
     @Get('/list')
     @ApiOperation({ summary: 'Get all tracks with pagination' })
     @ApiResponse({ status: 200, type: TrackDto })
-    async getAll(@Query() query: GetAllDto): Promise<{ data: TrackEntity[]; count: number }> {
-        return this.tracksService.getAll(query);
+    async getAll(@Query() query: GetAllDto, @Req() req: any): Promise<GetAllResponseDto> {
+        const tracks = await this.tracksService.getAll(query);
+
+        return {
+            ...tracks,
+            data: tracks.data.map((track) => {
+                const cloneTrackRatings = cloneDeep(track.trackRatings);
+                delete track.trackRatings;
+                const isDidRating = cloneTrackRatings.some((rating) => rating.ipAddress === req.ip);
+                const ratings = cloneTrackRatings.map((tr) => tr.rating);
+                const rating = round(mean(ratings.length ? ratings : [0]));
+                return { ...track, isDidRating, rating, countRatings: cloneTrackRatings.length };
+            }),
+        };
     }
 
     @Get('/tracks-genres')

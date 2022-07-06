@@ -2,17 +2,57 @@
 @import "src/styles/variables";
 @import "src/styles/mixins";
 
-.modalWrapper {
-    top: setUnit($header-height);
-    height: calc(100vh - #{setUnit($header-height)});
-
-    .opacityLayer {
-        background: none !important;
-        display: none !important;
-    }
-}
-
 .loginForm {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+
+    .holder {
+        width: 95%;
+        max-width: setUnit(400);
+        border: 1px solid $darkColor;
+        border-radius: setUnit(8);
+        box-shadow: setUnit(1) setUnit(1) setUnit(5) $darkColor;
+        margin: auto 0;
+        background-color: $whiteColor;
+
+        position: relative;
+        z-index: 999;
+
+        .meta {
+            padding: setUnit(20) setUnit(40);
+        }
+
+        .header {
+            border-bottom: 1px solid $darkColor;
+            font-size: setUnit(20);
+            color: $primaryColor;
+        }
+
+        .footer {
+            border-top: 1px solid $darkColor;
+
+            .buttons {
+                display: flex;
+                align-items: center;
+                float: right;
+
+                .button {
+                    margin-left: setUnit(15);
+
+                    &:first-child {
+                        margin-left: 0;
+                    }
+                }
+            }
+
+            .clear {
+                clear: both;
+            }
+        }
+    }
+
     .form {
         padding: setUnit(40) setUnit(40) setUnit(50);
     }

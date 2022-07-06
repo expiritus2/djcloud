@@ -28,6 +28,12 @@ export class TrackEntity {
     @Column({ type: 'float' })
     duration: number;
 
+    @Column({ type: 'float' })
+    rating: number;
+
+    @Column()
+    countRatings: number;
+
     @ManyToOne(() => GenreEntity, (genre) => genre.tracks)
     @JoinColumn({ name: 'genreId' })
     genre: GenreEntity;

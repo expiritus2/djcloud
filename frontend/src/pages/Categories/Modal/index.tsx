@@ -34,8 +34,6 @@ const CategoryModal: FC<ComponentProps> = (props) => {
         }
     }, [modifyCategory.data, modalState.type]);
 
-    if (!modalState.open) return null;
-
     const resetModal = () => {
         setModalState(initModalState);
         setInputError('');
@@ -158,7 +156,12 @@ const CategoryModal: FC<ComponentProps> = (props) => {
     };
 
     return (
-        <ContentModal title={title} buttons={buttons} className={classNames(styles.modal, className)}>
+        <ContentModal
+            open={modalState.open}
+            title={title}
+            buttons={buttons}
+            className={classNames(styles.modal, className)}
+        >
             <div className={styles.content}>{getContent()}</div>
         </ContentModal>
     );

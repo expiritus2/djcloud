@@ -20,5 +20,6 @@ import { storage, fileFilter } from './track.utils';
     ],
     controllers: [TracksController],
     providers: [TracksService],
+    exports: [TracksService],
 })
 export class TracksModule {}

@@ -5,7 +5,7 @@ import { useMatch, useLocation } from 'react-router-dom';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
-import { CreatedSort, Tracks } from '..';
+import { CreatedSort, PopularSort, Tracks } from '..';
 import { Pagination } from '..';
 
 import { PendingWrapper } from 'components';
@@ -46,7 +46,10 @@ const Content: FC<ComponentProps> = (props) => {
             <PendingWrapper state={tracks.state}>
                 <>
                     <div className={styles.innerHolder}>
-                        <CreatedSort className={styles.createSort} />
+                        <div className={styles.sorts}>
+                            <CreatedSort className={styles.createSort} />
+                            <PopularSort className={styles.popularSort} />
+                        </div>
                         <Tracks />
                     </div>
                     <Pagination />

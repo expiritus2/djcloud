@@ -39,8 +39,4 @@ export class TrackRatingDto {
     @Expose()
     @ApiProperty()
     rating: number;
-
-    @Expose()
-    @ApiProperty()
-    ipAddress: string;
 }

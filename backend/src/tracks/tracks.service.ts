@@ -67,19 +67,21 @@ export class TracksService {
                 'track.duration',
                 'track.createdAt',
                 'track.updatedAt',
+                'track.rating',
+                'track.countRatings',
                 '"title"',
                 '"visible"',
                 '"duration"',
                 '"createdAt"',
                 '"updatedAt"',
+                '"rating"',
                 '"file"',
                 '"genre"',
                 '"category"',
             ])
             .leftJoinAndSelect('track.file', 'file')
             .leftJoinAndSelect('track.category', 'category')
-            .leftJoinAndSelect('track.genre', 'genre')
-            .leftJoinAndSelect('track.trackRatings', 'ratings');
+            .leftJoinAndSelect('track.genre', 'genre');
 
         const filteredTracks = filterTracks(queryBuilder, query);
         const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(filteredTracks, query, {

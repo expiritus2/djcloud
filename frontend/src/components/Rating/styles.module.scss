@@ -1,31 +1,58 @@
 @import "src/styles/variables";
 @import "src/styles/functions";
 
+.stars {
+    line-height: setUnit(14);
+
+    .starsWrapper {
+        padding: setUnit(30) setUnit(10);
+
+        .starsHolder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .star {
+                width: setUnit(35);
+                height: setUnit(35);
+            }
+        }
+    }
+
+    .star {
+        margin-right: setUnit(1);
+        width: setUnit(15);
+        height: setUnit(15);
+        vertical-align: middle;
+        cursor: pointer;
+
+        path {
+            fill: darken($lightColor, 50);
+        }
+
+        &.isDidRating {
+            path {
+                fill: darken($lightColor, 60);
+            }
+        }
+
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    &.disable {
+        pointer-events: none;
+    }
+}
+
 .rating {
     display: flex;
     align-items: center;
 
-    .stars {
-        line-height: setUnit(14);
-
-        .star {
-            margin-right: setUnit(1);
-            width: setUnit(15);
-            height: setUnit(15);
-            vertical-align: middle;
-            cursor: pointer;
-
-            path {
-                fill: darken($lightColor, 60);
-            }
-
-            &:last-child {
-                margin-right: 0;
-            }
-        }
-
-        &.disable {
-            pointer-events: none;
-        }
+    .count {
+        font-size: setUnit(12);
+        margin-left: setUnit(3);
     }
 }

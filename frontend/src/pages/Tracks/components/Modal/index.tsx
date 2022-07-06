@@ -25,8 +25,6 @@ const TrackModal: FC<ComponentProps> = (props) => {
     const { modifyTrack, tracks } = useStore();
     const { className, title, modalState, setModalState } = props;
 
-    if (!modalState.open) return null;
-
     const resetModal = () => {
         setModalState(initModalState);
     };
@@ -105,7 +103,12 @@ const TrackModal: FC<ComponentProps> = (props) => {
     };
 
     return (
-        <ContentModal title={title} buttons={buttons} className={classNames(styles.modal, className)}>
+        <ContentModal
+            open={modalState.open}
+            title={title}
+            buttons={buttons}
+            className={classNames(styles.modal, className)}
+        >
             <div className={styles.content}>{getContent()}</div>
         </ContentModal>
     );

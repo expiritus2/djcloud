@@ -16,17 +16,18 @@ const CreatedSort: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks } = useStore();
     const isDesc = tracks.meta.sort === SortEnum.DESC;
+    const isCreatedAtField = tracks.meta.field === 'createdAt';
 
     const onSort = () => {
         const newSort = tracks.meta.sort === SortEnum.DESC ? SortEnum.ASC : SortEnum.DESC;
-        tracks.getAll({ sort: newSort, limit: mainPageTrackLimit });
+        tracks.getAll({ sort: newSort, limit: mainPageTrackLimit, field: 'createdAt' });
     };
 
     return (
         <div onClick={onSort} className={classNames(styles.createdSort, className)}>
             <span
                 className={classNames({
-                    [styles.active]: tracks.meta.sort === SortEnum.DESC,
+                    [styles.active]: isCreatedAtField && tracks.meta.sort === SortEnum.DESC,
                 })}
             >
                 Newest
@@ -34,12 +35,12 @@ const CreatedSort: FC<ComponentProps> = (props) => {
             <span>/</span>
             <span
                 className={classNames({
-                    [styles.active]: tracks.meta.sort === SortEnum.ASC,
+                    [styles.active]: isCreatedAtField && tracks.meta.sort === SortEnum.ASC,
                 })}
             >
                 Oldest
             </span>
-            {isDesc ? <BsSortDown className={styles.icon} /> : <BsSortUp className={styles.icon} />}
+            {isCreatedAtField && isDesc ? <BsSortDown className={styles.icon} /> : <BsSortUp className={styles.icon} />}
         </div>
     );
 };

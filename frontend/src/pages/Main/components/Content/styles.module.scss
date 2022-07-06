@@ -8,10 +8,16 @@
     overflow: auto;
 
     .innerHolder {
-        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(125)});;
-    }
+        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(125)});
 
-    .createSort {
-        margin-bottom: setUnit(25);
+        .sorts {
+            display: flex;
+            align-items: center;
+            margin-bottom: setUnit(25);
+
+            .popularSort {
+                margin-left: setUnit(10);
+            }
+        }
     }
 }

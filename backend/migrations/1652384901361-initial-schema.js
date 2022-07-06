@@ -50,8 +50,8 @@ module.exports = class initialSchema1652384901361 {
                 email       varchar(300) not null unique,
                 password    varchar(300),
                 "roleId"    int references roles (id),
-                "createdAt"  timestamptz NOT NULL DEFAULT now(),
-                "updatedAt"  timestamptz NOT NULL DEFAULT now()
+                "createdAt" timestamptz  NOT NULL DEFAULT now(),
+                "updatedAt" timestamptz  NOT NULL DEFAULT now()
             );`);
         await queryRunner.query(
             `CREATE TRIGGER table_update BEFORE UPDATE ON "users" FOR EACH ROW EXECUTE PROCEDURE set_updatedAt();`,
@@ -70,17 +70,19 @@ module.exports = class initialSchema1652384901361 {
         await queryRunner.query(`
             create table tracks
             (
-                id           serial
+                id             serial
                     constraint tracks_pk
                         primary key,
-                title        varchar(300) not null,
-                visible      boolean   default true,
-                duration     float        not null,
-                "fileId"     int references files (id),
-                "categoryId" int references categories (id),
-                "genreId"    int          references genres (id) on delete set null,
-                "createdAt"  timestamptz NOT NULL DEFAULT now(),
-                "updatedAt"  timestamptz NOT NULL DEFAULT now()
+                title          varchar(300) not null,
+                visible        boolean               default true,
+                duration       float        not null,
+                rating         float                 default 0,
+                "countRatings" int                   default 0,
+                "fileId"       int references files (id),
+                "categoryId"   int references categories (id),
+                "genreId"      int          references genres (id) on delete set null,
+                "createdAt"    timestamptz  NOT NULL DEFAULT now(),
+                "updatedAt"    timestamptz  NOT NULL DEFAULT now()
             );
         `);
         await queryRunner.query(`
@@ -90,8 +92,7 @@ module.exports = class initialSchema1652384901361 {
                     constraint trackRatings_pk
                         primary key,
                 "trackId" int references tracks (id) on delete cascade,
-                rating    float not null,
-                "ipAddress" varchar(300) not null
+                rating    float not null
             )
         `);
         await queryRunner.query(

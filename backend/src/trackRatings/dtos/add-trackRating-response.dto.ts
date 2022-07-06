@@ -10,6 +10,20 @@ export class AddTrackRatingResponseDto {
     @ApiProperty()
     rating: number;
 
+    @IsNumber()
+    @ApiProperty()
+    countRatings: number;
+}
+
+export class AddTrackRatingControllerResponseDto {
+    @IsNumber()
+    @ApiProperty()
+    trackId: number;
+
+    @IsNumber()
+    @ApiProperty()
+    rating: number;
+
     @IsBoolean()
     @ApiProperty()
     isDidRating: boolean;

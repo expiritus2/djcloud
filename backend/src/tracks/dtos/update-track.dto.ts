@@ -69,4 +69,14 @@ export class UpdateTrackDto {
     @Type(() => Genre)
     @ApiProperty()
     genre?: Genre;
+
+    @IsOptional()
+    @IsNumber()
+    @ApiProperty()
+    rating?: number;
+
+    @IsOptional()
+    @IsNumber()
+    @ApiProperty()
+    countRatings?: number;
 }

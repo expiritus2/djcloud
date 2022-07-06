@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import classNames from 'classnames';
+import { createPortal } from 'react-dom';
 
 import styles from './styles.module.scss';
 import { Button } from '../index';
@@ -22,12 +23,15 @@ type ComponentProps = {
     children: ReactNode;
     title: string;
     buttons: ButtonType[];
+    open: boolean;
 };
 
 const Modal: FC<ComponentProps> = (props) => {
-    const { className, children, title, buttons, opacityLayerClassName, wrapperClassName } = props;
+    const { className, children, title, buttons, opacityLayerClassName, wrapperClassName, open = false } = props;
 
-    return (
+    if (!open) return null;
+
+    return createPortal(
         <div className={classNames(styles.wrapper, wrapperClassName)}>
             <div className={classNames(styles.opacityLayer, opacityLayerClassName)} />
             <div className={classNames(styles.modal, className)}>
@@ -51,7 +55,8 @@ const Modal: FC<ComponentProps> = (props) => {
                     <div className={styles.clear} />
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body,
     );
 };
 

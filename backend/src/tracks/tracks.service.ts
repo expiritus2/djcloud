@@ -26,8 +26,8 @@ const spaceEndpoint = new AWS.Endpoint('fra1.digitaloceanspaces.com');
 export const s3 = new AWS.S3({
     endpoint: spaceEndpoint.href,
     credentials: new AWS.Credentials({
-        accessKeyId: 'EEM7MB5OGH4J4IFM62OI',
-        secretAccessKey: '7zUagYR4B97p2IVrYXErICCG6qnQxux64pTATSsVOQ0',
+        accessKeyId: process.env.DO_ACCESS_KEY,
+        secretAccessKey: process.env.DO_SECRET_KEY,
     }),
 });
 

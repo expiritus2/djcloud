@@ -4,7 +4,7 @@ export type CreateTrackDto = {
     title: string;
     category: Category;
     genre: Genre;
-    file: File;
+    file: TrackFile;
 };
 
 export type UpdateTrackDto = {

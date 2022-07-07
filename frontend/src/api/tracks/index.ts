@@ -28,9 +28,10 @@ export const getById = (cfg: GetTrackDto) => {
     return apiServer.get(`/tracks/${cfg.id}`);
 };
 
-export const uploadFile = (file: File) => {
+export const uploadFile = ({ file, title }: { file: File; title: string }) => {
     const formData = new FormData();
-    formData.append('file', file);
+    const extension = file.name.split('.').pop();
+    formData.append('file', file, `${title}.${extension}`);
 
     return apiServer.post('/tracks/file-upload', formData);
 };

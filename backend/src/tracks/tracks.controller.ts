@@ -8,17 +8,15 @@ import {
     Post,
     Query,
     Session,
-    UploadedFile,
     UseGuards,
+    UploadedFile,
+    UseInterceptors,
 } from '@nestjs/common';
 import { TracksService } from './tracks.service';
-import { UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminGuard } from '../lib/guards/adminGuard';
-import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TrackDto } from './dtos/track.dto';
 import { CreateTrackDto } from './dtos/create-track.dto';
-import { ApiImplicitFile } from '@nestjs/swagger/dist/decorators/api-implicit-file.decorator';
 import { TrackEntity } from './track.entity';
 import { GenreDto } from '../genres/dtos/genre.dto';
 import { UpdateTrackDto } from './dtos/update-track.dto';
@@ -27,20 +25,29 @@ import { GetTracksGenresDto } from './dtos/get-tracks-genres.dto';
 import { TracksGenresDto } from './dtos/tracks-genres.dto';
 import { GetAllResponseDto } from './dtos/get-all-response.dto';
 import { differenceInDays } from 'date-fns';
+import { TelegramService } from '../telegram/telegram.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+
+export type UploadedMulterFile = {
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    buffer: Buffer;
+    size: number;
+};
 
 @ApiTags('Tracks')
 @Controller('tracks')
 export class TracksController {
-    constructor(private tracksService: TracksService) {}
+    constructor(private tracksService: TracksService, private telegramService: TelegramService) {}
 
     @UseGuards(AdminGuard)
     @Post('/file-upload')
     @ApiOperation({ summary: 'Upload file' })
-    @ApiConsumes('multipart/form-data')
-    @ApiImplicitFile({ name: 'file', required: true })
     @ApiResponse({ status: 201 })
     @UseInterceptors(FileInterceptor('file'))
-    async fileUpload(@UploadedFile() file: Express.Multer.File) {
+    async fileUpload(@UploadedFile() file: UploadedMulterFile) {
         return this.tracksService.storeFile(file);
     }
 
@@ -49,7 +56,10 @@ export class TracksController {
     @ApiOperation({ summary: 'Create new track' })
     @ApiResponse({ status: 201, type: TrackDto })
     async createTrack(@Body() track: CreateTrackDto) {
-        return this.tracksService.create(track);
+        const newTrack = await this.tracksService.create(track);
+        const fileUrl = `${newTrack.file.url}`;
+        await this.telegramService.sendAudio(fileUrl);
+        return newTrack;
     }
 
     @Get('/list')

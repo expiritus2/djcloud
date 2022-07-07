@@ -22,9 +22,9 @@ export class ModifyTrackStore extends BaseRequestStore<Track> {
 
     create(cfg: CreateTrackDto, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<Track>({ store: this, method: create }).execResult();
-        const uploadFileRequest = new Api({ store: { data: {} } as any, method: uploadFile }).execResult();
+        const uploadFileRequest = new Api({ store: this as any, method: uploadFile }).execResult();
 
-        uploadFileRequest(cfg.file, { silent: false }, (err: any, response: any) => {
+        uploadFileRequest({ file: cfg.file, title: cfg.title }, { silent: false }, (err: any, response: any) => {
             if (!err) {
                 const { duration, ...uploadedFile } = response.data;
                 const config = {

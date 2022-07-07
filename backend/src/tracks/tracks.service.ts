@@ -10,6 +10,7 @@ import { simplePaginateQuery } from '../lib/queries/pagination';
 import { UpdateTrackDto } from './dtos/update-track.dto';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { getAudioDurationInSeconds } = require('get-audio-duration');
+import * as AWS from 'aws-sdk';
 import { cloneDeep, merge } from 'lodash';
 import path from 'path';
 import { GenreEntity } from '../genres/genre.entity';
@@ -17,6 +18,18 @@ import { CategoryEntity } from '../categories/category.entity';
 import { GetAllDto } from './dtos/get-all.dto';
 import { filterTracks } from './queries/filter';
 import { GetTracksGenresDto } from './dtos/get-tracks-genres.dto';
+import { ConfigService } from '@nestjs/config';
+import { UploadedMulterFile } from './tracks.controller';
+import { v4 as uuid } from 'uuid';
+
+const spaceEndpoint = new AWS.Endpoint('fra1.digitaloceanspaces.com');
+export const s3 = new AWS.S3({
+    endpoint: spaceEndpoint.href,
+    credentials: new AWS.Credentials({
+        accessKeyId: 'EEM7MB5OGH4J4IFM62OI',
+        secretAccessKey: '7zUagYR4B97p2IVrYXErICCG6qnQxux64pTATSsVOQ0',
+    }),
+});
 
 @Injectable()
 export class TracksService {
@@ -26,21 +39,37 @@ export class TracksService {
         @InjectRepository(GenreEntity) private genreRepo: Repository<GenreEntity>,
         @InjectRepository(CategoryEntity)
         private categoryRepo: Repository<CategoryEntity>,
+        private configService: ConfigService,
     ) {}
 
-    async storeFile(file: Express.Multer.File) {
-        const { filename, size, mimetype } = file;
-        const pathToFile = `${envConfig.domain}/${filename}`;
-        const duration = await getAudioDurationInSeconds(pathToFile);
-
-        const newFile = this.fileRepo.create({
-            name: filename,
-            url: pathToFile,
-            size,
-            mimetype,
+    async storeFile(file: UploadedMulterFile) {
+        const filename = `${uuid()}-${file.originalname}`;
+        return new Promise((resolve, reject) => {
+            s3.putObject(
+                {
+                    Bucket: this.configService.get('DO_BUCKET_NAME'),
+                    Key: `${this.configService.get('NODE_ENV')}/${filename}`,
+                    Body: file.buffer,
+                    ACL: 'public-read',
+                },
+                async (error: AWS.AWSError) => {
+                    if (!error) {
+                        const pathToFile = `${envConfig.domain}/${this.configService.get('NODE_ENV')}/${filename}`;
+                        const duration = await getAudioDurationInSeconds(pathToFile);
+                        const newFile = this.fileRepo.create({
+                            name: filename,
+                            url: pathToFile,
+                            size: file.size,
+                            mimetype: file.mimetype,
+                        });
+                        const createdFile = await this.fileRepo.save(newFile);
+                        resolve({ ...createdFile, duration });
+                    } else {
+                        reject(new Error(`DoSpacesService_ERROR: ${error.message || 'Something went wrong'}`));
+                    }
+                },
+            );
         });
-        const createdFile = await this.fileRepo.save(newFile);
-        return { ...createdFile, duration };
     }
 
     async create(track: CreateTrackDto) {

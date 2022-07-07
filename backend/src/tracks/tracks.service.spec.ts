@@ -34,7 +34,7 @@ describe('TracksService', () => {
         title: 'Track title',
         visible: true,
         duration: 435.34,
-        file: { id: 1 },
+        file: { id: 1, mimetype: 'audio/mpeg4', name: 'Some file name', size: 4096 },
         category: { id: 1, name: 'Mixs', value: 'mixs' },
         genre: { id: 1, name: 'Hip-Hop', value: 'hip_hop' },
     };

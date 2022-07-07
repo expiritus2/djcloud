@@ -19,7 +19,9 @@ const TrackComponent: FC<ComponentProps> = (props) => {
     const { className, id, title, duration, createdAt, file, rating, countRatings, isDidRating } = props;
 
     const onDownload = () => {
-        downloadByRequest(file.url, `${sign}-${title}`);
+        if (file.url) {
+            downloadByRequest(file.url, `${sign}-${title}`);
+        }
     };
 
     return (

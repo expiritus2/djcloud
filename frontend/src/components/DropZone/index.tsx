@@ -17,8 +17,8 @@ const DropZone: FC<ComponentProps> = (props) => {
 
     const onDropHandler = useCallback(
         (acceptedFiles: any) => {
-            const files = multiple ? acceptedFiles : acceptedFiles[0];
-            onDrop({ target: { name, value: files } });
+            const file = multiple ? acceptedFiles : acceptedFiles[0];
+            onDrop({ target: { name, value: file } });
         },
         [multiple, name, onDrop],
     );

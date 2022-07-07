@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
@@ -6,6 +6,28 @@ class File {
     @IsNumber()
     @ApiProperty()
     id: number;
+
+    @IsString()
+    @ApiProperty()
+    mimetype: string;
+
+    @IsString()
+    @ApiProperty()
+    name: string;
+
+    @IsNumber()
+    @ApiProperty()
+    size: number;
+
+    @IsString()
+    @ApiProperty()
+    @IsOptional()
+    url?: string;
+
+    @IsString()
+    @ApiProperty()
+    @IsOptional()
+    data?: string;
 }
 
 class Category {

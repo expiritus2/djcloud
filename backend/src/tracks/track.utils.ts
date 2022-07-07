@@ -1,8 +1,5 @@
 import multer from 'multer';
 import fs from 'fs';
-import { FileExtensionEnum } from '../lib/configs/app/tracks';
-import path from 'path';
-import { ForbiddenException } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
 export const storage = multer.diskStorage({
@@ -16,20 +13,3 @@ export const storage = multer.diskStorage({
         cb(null, `${uuid()}.${extension}`);
     },
 });
-
-export const fileFilter = (
-    req: any,
-    file: { originalname: string },
-    callback: (error: Error | null, acceptFile: boolean) => void,
-) => {
-    const acceptableExtensions = Object.values(FileExtensionEnum);
-    const fileExtension = path.extname(file.originalname) as FileExtensionEnum;
-
-    if (!acceptableExtensions.includes(fileExtension)) {
-        return callback(
-            new ForbiddenException(`File extension not allowed. Allowed types: ${acceptableExtensions}`),
-            false,
-        );
-    }
-    return callback(null, true);
-};

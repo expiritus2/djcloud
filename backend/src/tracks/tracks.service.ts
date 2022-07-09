@@ -1,10 +1,9 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import fs from 'fs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TrackEntity } from './track.entity';
 import { Repository } from 'typeorm';
 import { FileEntity } from './file.entity';
-import { env, envConfig } from '../lib/configs/envs';
+import { envConfig } from '../lib/configs/envs';
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { simplePaginateQuery } from '../lib/queries/pagination';
 import { UpdateTrackDto } from './dtos/update-track.dto';
@@ -12,24 +11,15 @@ import { UpdateTrackDto } from './dtos/update-track.dto';
 const { getAudioDurationInSeconds } = require('get-audio-duration');
 import * as AWS from 'aws-sdk';
 import { cloneDeep, merge } from 'lodash';
-import path from 'path';
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { GetAllDto } from './dtos/get-all.dto';
 import { filterTracks } from './queries/filter';
 import { GetTracksGenresDto } from './dtos/get-tracks-genres.dto';
 import { ConfigService } from '@nestjs/config';
-import { UploadedMulterFile } from './tracks.controller';
 import { v4 as uuid } from 'uuid';
-
-const spaceEndpoint = new AWS.Endpoint('fra1.digitaloceanspaces.com');
-export const s3 = new AWS.S3({
-    endpoint: spaceEndpoint.href,
-    credentials: new AWS.Credentials({
-        accessKeyId: process.env.DO_ACCESS_KEY,
-        secretAccessKey: process.env.DO_SECRET_KEY,
-    }),
-});
+import { UploadedFile } from './dtos/track-file.dto';
+import { s3 } from './tracks.module';
 
 @Injectable()
 export class TracksService {
@@ -42,33 +32,35 @@ export class TracksService {
         private configService: ConfigService,
     ) {}
 
-    async storeFile(file: UploadedMulterFile) {
-        const filename = `${uuid()}-${file.originalname}`;
+    async storeFile(file: UploadedFile) {
+        const filename = `${uuid()}-${file.originalName}`;
         return new Promise((resolve, reject) => {
-            s3.putObject(
-                {
-                    Bucket: this.configService.get('DO_BUCKET_NAME'),
-                    Key: `${this.configService.get('NODE_ENV')}/${filename}`,
-                    Body: file.buffer,
-                    ACL: 'public-read',
-                },
-                async (error: AWS.AWSError) => {
-                    if (!error) {
-                        const pathToFile = `${envConfig.domain}/${this.configService.get('NODE_ENV')}/${filename}`;
-                        const duration = await getAudioDurationInSeconds(pathToFile);
-                        const newFile = this.fileRepo.create({
-                            name: filename,
-                            url: pathToFile,
-                            size: file.size,
-                            mimetype: file.mimetype,
-                        });
-                        const createdFile = await this.fileRepo.save(newFile);
-                        resolve({ ...createdFile, duration });
-                    } else {
-                        reject(new Error(`DoSpacesService_ERROR: ${error.message || 'Something went wrong'}`));
-                    }
-                },
-            );
+            const config = {
+                Bucket: this.configService.get('DO_BUCKET_NAME'),
+                Key: `${this.configService.get('NODE_ENV')}/${filename}`,
+                Body: file.buffer,
+                ACL: 'public-read',
+            };
+            s3.config.credentials = new AWS.Credentials({
+                accessKeyId: this.configService.get('DO_ACCESS_KEY'),
+                secretAccessKey: this.configService.get('DO_SECRET_KEY'),
+            });
+            s3.putObject(config, async (error: AWS.AWSError) => {
+                if (!error) {
+                    const pathToFile = `${envConfig.cdn}/${this.configService.get('NODE_ENV')}/${filename}`;
+                    const duration = await getAudioDurationInSeconds(pathToFile);
+                    const newFile = this.fileRepo.create({
+                        name: filename,
+                        url: pathToFile,
+                        size: file.size,
+                        mimetype: file.mimetype,
+                    });
+                    const createdFile = await this.fileRepo.save(newFile);
+                    resolve({ ...createdFile, duration });
+                } else {
+                    reject(new Error(`DoSpacesService_ERROR: ${error.message || 'Something went wrong'}`));
+                }
+            });
         });
     }
 
@@ -190,7 +182,17 @@ export class TracksService {
     async removeFile(id: number): Promise<FileEntity> {
         try {
             const file = await this.fileRepo.findOne(id);
-            fs.unlinkSync(path.join(global.__baseDir, 'upload', env, file.name));
+            s3.deleteObject(
+                {
+                    Bucket: this.configService.get('DO_BUCKET_NAME'),
+                    Key: `${this.configService.get('NODE_ENV')}/${file.name}`,
+                },
+                (error: AWS.AWSError) => {
+                    if (!error) {
+                        console.log('success');
+                    }
+                },
+            );
             return this.fileRepo.remove(file);
         } catch (error: any) {
             throw new InternalServerErrorException(`Can not delete file with id: ${id}`);

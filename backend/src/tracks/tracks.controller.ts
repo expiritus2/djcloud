@@ -1,17 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Patch,
-    Post,
-    Query,
-    Session,
-    UseGuards,
-    UploadedFile,
-    UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Session, UseGuards } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { AdminGuard } from '../lib/guards/adminGuard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -26,16 +13,8 @@ import { TracksGenresDto } from './dtos/tracks-genres.dto';
 import { GetAllResponseDto } from './dtos/get-all-response.dto';
 import { differenceInDays } from 'date-fns';
 import { TelegramService } from '../telegram/telegram.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-
-export type UploadedMulterFile = {
-    fieldname: string;
-    originalname: string;
-    encoding: string;
-    mimetype: string;
-    buffer: Buffer;
-    size: number;
-};
+import { FormDataRequest } from 'nestjs-form-data';
+import { TrackFileDto } from './dtos/track-file.dto';
 
 @ApiTags('Tracks')
 @Controller('tracks')
@@ -46,8 +25,8 @@ export class TracksController {
     @Post('/file-upload')
     @ApiOperation({ summary: 'Upload file' })
     @ApiResponse({ status: 201 })
-    @UseInterceptors(FileInterceptor('file'))
-    async fileUpload(@UploadedFile() file: UploadedMulterFile) {
+    @FormDataRequest()
+    async fileUpload(@Body() { file }: TrackFileDto) {
         return this.tracksService.storeFile(file);
     }
 

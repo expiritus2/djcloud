@@ -7,9 +7,14 @@ import { FileEntity } from './file.entity';
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { TelegramService } from '../telegram/telegram.service';
+import { NestjsFormDataModule } from 'nestjs-form-data';
+import * as AWS from 'aws-sdk';
+
+const spaceEndpoint = new AWS.Endpoint('fra1.digitaloceanspaces.com');
+export const s3 = new AWS.S3({ endpoint: spaceEndpoint.href });
 
 @Module({
-    imports: [TypeOrmModule.forFeature([TrackEntity, FileEntity, GenreEntity, CategoryEntity])],
+    imports: [NestjsFormDataModule, TypeOrmModule.forFeature([TrackEntity, FileEntity, GenreEntity, CategoryEntity])],
     controllers: [TracksController],
     providers: [TracksService, TelegramService],
     exports: [TracksService],

@@ -50,7 +50,9 @@ describe('TrackRatingsService', () => {
 
     describe('add', () => {
         const newTrackRatings = {
-            track,
+            track: {
+                id: 1,
+            },
             rating: 10,
         };
 
@@ -58,12 +60,13 @@ describe('TrackRatingsService', () => {
             mockTrackRepo.findOne.mockResolvedValueOnce(track);
             mockTrackRatingsRepo.create.mockReturnValueOnce(newTrackRatings);
             mockTrackRatingsRepo.save.mockReturnValue(newTrackRatings);
+            mockQueryBuilder.getMany.mockReturnValue([{ trackId: 1, rating: 10 }]);
 
-            const category = await service.add({ trackId: track.id, rating: newTrackRatings.rating });
+            const trackRating = await service.add({ trackId: track.id, rating: newTrackRatings.rating });
 
             expect(mockTrackRatingsRepo.create).toBeCalledWith(newTrackRatings);
             expect(mockTrackRatingsRepo.save).toBeCalledWith(newTrackRatings);
-            expect(category).toEqual(newTrackRatings);
+            expect(trackRating).toEqual({ trackId: 1, rating: 10, countRatings: 1 });
         });
     });
 

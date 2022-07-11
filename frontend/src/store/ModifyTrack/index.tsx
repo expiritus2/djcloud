@@ -3,7 +3,8 @@ import { RequestOptions } from 'types/request';
 import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto, UpdateVisibleTrackDto } from './types';
 import { Track } from 'types/track';
 import Api from 'store/core/Api';
-import { create, getById, update, remove, uploadFile } from 'api/tracks';
+import { create, getById, update, remove } from 'api/tracks';
+import { uploadFile } from 'api/files';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import store from 'store/index';
 

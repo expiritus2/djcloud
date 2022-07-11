@@ -44,7 +44,7 @@ export class TrackRatingsController {
     ): Promise<(TrackRatingEntity & { isDidRating: boolean })[]> {
         const trackRatings = await this.trackRatingService.getByTrackId(trackId);
         return trackRatings.map((trackRating) => {
-            const days = differenceInDays(session.ratings[trackRating.track.id].ratingDate, Date.now());
+            const days = differenceInDays(session?.ratings?.[trackRating.track.id]?.ratingDate, Date.now());
             return {
                 ...trackRating,
                 isDidRating: days < 1,

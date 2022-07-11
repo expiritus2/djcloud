@@ -6,7 +6,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { mocked } from 'jest-mock';
 import { simplePaginateQuery } from '../lib/queries/pagination';
 
-jest.mock('../../../lib/queries/pagination');
+jest.mock('../lib/queries/pagination');
 
 describe('GenreService', () => {
     let service: GenresService;

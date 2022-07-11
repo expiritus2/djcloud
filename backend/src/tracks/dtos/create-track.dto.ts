@@ -2,7 +2,7 @@ import { IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from 'class
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
-class File {
+export class File {
     @IsNumber()
     @ApiProperty()
     id: number;
@@ -36,7 +36,7 @@ class Category {
     id: number;
 }
 
-class Genre {
+export class Genre {
     @IsNumber()
     @ApiProperty()
     id: number;

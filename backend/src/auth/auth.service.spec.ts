@@ -4,24 +4,24 @@ import { UsersService } from '../users/users.service';
 import { UserEntity } from '../users/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { getFakeConfigService } from '../lib/testData/utils';
+import { getMockConfigService } from '../lib/testData/utils';
 import { getHashPassword } from './utils';
 
 describe('AuthService', () => {
     let service: AuthService;
     let fakeUserService: Partial<UsersService>;
-    let fakeConfigService: Partial<ConfigService>;
+    let mockConfigService: Partial<ConfigService>;
 
     beforeEach(async () => {
         const users: UserEntity[] = [];
-        fakeUserService = getFakeUserService(users);
-        fakeConfigService = getFakeConfigService();
+        fakeUserService = getMockUserService(users);
+        mockConfigService = getMockConfigService();
 
         const module = await Test.createTestingModule({
             providers: [
                 AuthService,
                 { provide: UsersService, useValue: fakeUserService },
-                { provide: ConfigService, useValue: fakeConfigService },
+                { provide: ConfigService, useValue: mockConfigService },
             ],
         }).compile();
 
@@ -51,7 +51,7 @@ describe('AuthService', () => {
             const password = 'asdf';
             const user = await service.signup(email, password);
 
-            const hashPassword = await getHashPassword(password, getFakeConfigService().get('SALT'));
+            const hashPassword = await getHashPassword(password, getMockConfigService().get('SALT'));
 
             expect(user).toEqual({
                 id: expect.anything(),
@@ -79,7 +79,7 @@ describe('AuthService', () => {
             const email = 'asdf@asdf.com';
             const password = 'asdf';
 
-            const storedHashPassword = await getHashPassword(password, getFakeConfigService().get('SALT'));
+            const storedHashPassword = await getHashPassword(password, getMockConfigService().get('SALT'));
 
             fakeUserService.find = () => {
                 return Promise.resolve([{ id: 1, email, password: storedHashPassword }] as UserEntity[]);
@@ -98,7 +98,7 @@ describe('AuthService', () => {
             const email = 'asdf@asdf.com';
             const password = 'asdf';
 
-            const storedHashPassword = await getHashPassword(password, getFakeConfigService().get('SALT'));
+            const storedHashPassword = await getHashPassword(password, getMockConfigService().get('SALT'));
 
             fakeUserService.find = () => {
                 return Promise.resolve([{ id: 1, email, password: storedHashPassword }] as UserEntity[]);
@@ -114,7 +114,7 @@ describe('AuthService', () => {
     });
 });
 
-const getFakeUserService = (users: UserEntity[]) => {
+const getMockUserService = (users: UserEntity[]) => {
     return {
         find: (email) => {
             const filteredUsers = users.filter((user) => user.email === email);

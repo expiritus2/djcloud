@@ -9,13 +9,19 @@ import { InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import path from 'path';
+import { getMockConfigService } from '../lib/testData/utils';
+import { ConfigService } from '@nestjs/config';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { getAudioDurationInSeconds } = require('get-audio-duration');
+import { s3 } from './tracks.module';
 
 jest.mock('get-audio-duration');
-jest.mock('../../../lib/queries/pagination');
+jest.mock('../lib/queries/pagination');
+jest.mock('uuid', () => ({
+    v4: jest.fn().mockReturnValue('mockUUID'),
+}));
 
-global.__basePath = path.resolve(__dirname, '..', '..', '..', '..');
+global.__basePath = path.resolve(__dirname, '..', '..');
 
 describe('TracksService', () => {
     let service: TracksService;
@@ -24,9 +30,11 @@ describe('TracksService', () => {
     let mockTrackRepo;
     let mockGenresRepo;
     let mockCategoriesRepo;
+    let mockConfigService;
 
     const file = {
-        filename: 'fileName',
+        name: 'fileName',
+        originalName: 'originalName',
         size: 456000,
         mimetype: 'audio/mpeg4',
     };
@@ -40,6 +48,10 @@ describe('TracksService', () => {
     };
 
     beforeEach(async () => {
+        jest.spyOn(s3, 'putObject').mockImplementation((params: any, callback?: any) => {
+            return callback(null);
+        });
+        mockConfigService = getMockConfigService();
         mockQueryBuilder = {
             getMany: jest.fn().mockReturnThis(),
             getManyAndCount: jest.fn().mockReturnThis(),
@@ -89,6 +101,10 @@ describe('TracksService', () => {
                     provide: getRepositoryToken(CategoryEntity),
                     useValue: mockCategoriesRepo,
                 },
+                {
+                    provide: ConfigService,
+                    useValue: mockConfigService,
+                },
             ],
         }).compile();
 
@@ -101,9 +117,9 @@ describe('TracksService', () => {
 
     describe('storeFile', () => {
         it('should store file', async () => {
-            const pathToFile = `${global.__basePath}/upload/test/${file.filename}`;
+            const pathToFile = `${global.__basePath}/upload/test/mockUUID-${file.originalName}`;
             const createdFile = {
-                name: file.filename,
+                name: `mockUUID-${file.originalName}`,
                 url: pathToFile,
                 size: file.size,
                 mimetype: file.mimetype,
@@ -164,11 +180,14 @@ describe('TracksService', () => {
                 'track.duration',
                 'track.createdAt',
                 'track.updatedAt',
+                'track.rating',
+                'track.countRatings',
                 '"title"',
                 '"visible"',
                 '"duration"',
                 '"createdAt"',
                 '"updatedAt"',
+                '"rating"',
                 '"file"',
                 '"genre"',
                 '"category"',

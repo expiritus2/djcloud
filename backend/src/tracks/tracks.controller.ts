@@ -13,22 +13,11 @@ import { TracksGenresDto } from './dtos/tracks-genres.dto';
 import { GetAllResponseDto } from './dtos/get-all-response.dto';
 import { differenceInDays } from 'date-fns';
 import { TelegramService } from '../telegram/telegram.service';
-import { FormDataRequest } from 'nestjs-form-data';
-import { TrackFileDto } from './dtos/track-file.dto';
 
 @ApiTags('Tracks')
 @Controller('tracks')
 export class TracksController {
     constructor(private tracksService: TracksService, private telegramService: TelegramService) {}
-
-    @UseGuards(AdminGuard)
-    @Post('/file-upload')
-    @ApiOperation({ summary: 'Upload file' })
-    @ApiResponse({ status: 201 })
-    @FormDataRequest()
-    async fileUpload(@Body() { file }: TrackFileDto) {
-        return this.tracksService.storeFile(file);
-    }
 
     @UseGuards(AdminGuard)
     @Post('/create')
@@ -37,7 +26,9 @@ export class TracksController {
     async createTrack(@Body() track: CreateTrackDto) {
         const newTrack = await this.tracksService.create(track);
         const fileUrl = `${newTrack.file.url}`;
-        await this.telegramService.sendAudio(fileUrl);
+        if (track.visible) {
+            await this.telegramService.sendAudio(fileUrl);
+        }
         return newTrack;
     }
 

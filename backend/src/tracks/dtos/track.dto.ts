@@ -1,7 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-class File {
+export class File {
     @Expose()
     @ApiProperty()
     id: number;
@@ -23,7 +23,7 @@ class File {
     mimetype: string;
 }
 
-class Category {
+export class Category {
     @Expose()
     @ApiProperty()
     id: number;
@@ -37,7 +37,7 @@ class Category {
     value: string;
 }
 
-class Genre {
+export class Genre {
     @Expose()
     @ApiProperty()
     id: number;

@@ -3,16 +3,24 @@ import { TrackRatingsController } from './trackRatings.controller';
 import { TrackRatingsService } from './trackRatings.service';
 import { AdminGuard } from '../lib/guards/adminGuard';
 import { CanActivate } from '@nestjs/common';
+import { TracksService } from '../tracks/tracks.service';
 
 describe('TrackRatingsController', () => {
     let controller: TrackRatingsController;
     let mockTrackRatingsService;
+    let mockTracksService;
+    let session;
     const mockAdminGuard: CanActivate = { canActivate: jest.fn(() => true) };
 
     beforeEach(async () => {
+        session = {};
         mockTrackRatingsService = {
             add: jest.fn(({ trackId, rating }) => ({ id: 1, track: { id: trackId }, rating })),
             getByTrackId: jest.fn((trackId) => [{ id: 1, track: { id: trackId }, rating: 10 }]),
+        };
+
+        mockTracksService = {
+            update: jest.fn(),
         };
 
         const module: TestingModule = await Test.createTestingModule({
@@ -21,6 +29,10 @@ describe('TrackRatingsController', () => {
                 {
                     provide: TrackRatingsService,
                     useValue: mockTrackRatingsService,
+                },
+                {
+                    provide: TracksService,
+                    useValue: mockTracksService,
                 },
             ],
         })
@@ -36,10 +48,11 @@ describe('TrackRatingsController', () => {
     });
 
     describe('add', () => {
-        it('create should create new entity', async () => {
-            const result = await controller.add({ trackId: 1, rating: 10 });
+        it('add should create new entity', async () => {
+            const result = await controller.add({ trackId: 1, rating: 10 }, session);
             expect(result).toEqual({
                 id: 1,
+                isDidRating: true,
                 track: { id: 1 },
                 rating: 10,
             });
@@ -48,8 +61,8 @@ describe('TrackRatingsController', () => {
 
     describe('getByTrackId', () => {
         it('should return all ratings by trackId', async () => {
-            const result = await controller.getByTrackId(1);
-            expect(result).toEqual([{ id: 1, track: { id: 1 }, rating: 10 }]);
+            const result = await controller.getByTrackId(1, session);
+            expect(result).toEqual([{ id: 1, track: { id: 1 }, rating: 10, isDidRating: false }]);
         });
     });
 });

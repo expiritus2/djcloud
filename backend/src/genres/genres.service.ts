@@ -47,7 +47,10 @@ export class GenresService {
     }
 
     async findByName(name: string): Promise<GenreEntity> {
-        return this.genreRepo.createQueryBuilder('genre').where('LOWER(name) = LOWER(:name)', { name }).getOne();
+        return this.genreRepo
+            .createQueryBuilder('genre')
+            .where('name iLIKE :name', { name: `%${name}%` })
+            .getOne();
     }
 
     async create(genre: CreateGenreDto): Promise<GenreEntity> {

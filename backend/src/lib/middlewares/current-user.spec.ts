@@ -1,5 +1,5 @@
-import { CurrentUserMiddleware } from '../current-user';
-import { UsersService } from '../../../users/users.service';
+import { CurrentUserMiddleware } from './current-user';
+import { UsersService } from '../../users/users.service';
 import { cloneDeep } from 'lodash';
 
 describe('CurrentUser middleware', () => {
@@ -28,6 +28,16 @@ describe('CurrentUser middleware', () => {
         const currentUserMiddleware = new CurrentUserMiddleware(fakeUserService);
         const reqCopy = cloneDeep(req);
         reqCopy.session.userId = null;
+        await currentUserMiddleware.use(reqCopy, res, next);
+
+        expect(reqCopy.currentUser).toBeUndefined();
+        expect(next).toBeCalled();
+    });
+
+    it('should not return current user if session is undefined', async () => {
+        const currentUserMiddleware = new CurrentUserMiddleware(fakeUserService);
+        const reqCopy = cloneDeep(req);
+        reqCopy.session = undefined;
         await currentUserMiddleware.use(reqCopy, res, next);
 
         expect(reqCopy.currentUser).toBeUndefined();

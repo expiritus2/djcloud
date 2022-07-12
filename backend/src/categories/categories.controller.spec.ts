@@ -20,6 +20,7 @@ describe('CategoriesController', () => {
                 name,
                 value: snakeCase(name),
             })),
+            findOne: jest.fn(),
             remove: jest.fn((id) => ({
                 id,
                 name: 'Removed Category',
@@ -53,6 +54,20 @@ describe('CategoriesController', () => {
                 limit: '10',
             } as PaginationQueryDto);
             expect(result).toEqual([{ id: 1, name: 'Test Category', value: 'test_category' }]);
+        });
+    });
+
+    describe('getById', () => {
+        it('getById returns category', async () => {
+            const category = {
+                id: 1,
+                name: 'Category Name',
+                value: 'category_name',
+            };
+            mockCategoriesService.findOne.mockResolvedValueOnce(category);
+            const result = await controller.getById('1');
+            expect(mockCategoriesService.findOne).toBeCalledWith('1');
+            expect(result).toEqual(category);
         });
     });
 

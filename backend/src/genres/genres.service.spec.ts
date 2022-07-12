@@ -121,6 +121,20 @@ describe('GenreService', () => {
         });
     });
 
+    describe('findByName', () => {
+        it('should get genre by name', async () => {
+            const genre = { id: 1, name: 'Genre', value: 'genre' };
+            mockQueryBuilder.getOne.mockResolvedValueOnce(genre);
+
+            const result = await service.findByName('test name');
+
+            expect(mockGenreRepo.createQueryBuilder).toBeCalledWith('genre');
+            expect(mockQueryBuilder.where).toBeCalledWith('name iLIKE :name', { name: '%test name%' });
+            expect(mockQueryBuilder.getOne).toBeCalled();
+            expect(result).toEqual(genre);
+        });
+    });
+
     describe('create', () => {
         const newGenre = {
             name: 'New Genre',

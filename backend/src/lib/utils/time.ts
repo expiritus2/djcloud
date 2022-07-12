@@ -5,8 +5,8 @@ export const secondsToHms = (num: number | string, isShort = true) => {
     const s = Math.floor((num % 3600) % 60);
 
     const hour = isShort ? 'h ' : h == 1 ? ' hour ' : ' hours ';
-    const minute = isShort ? 'm ' : m == 1 ? ' minute' : ' minutes';
-    const second = isShort ? 's ' : s == 1 ? ' second' : ' seconds';
+    const minute = isShort ? 'm ' : m == 1 ? ' minute ' : ' minutes ';
+    const second = isShort ? 's ' : s == 1 ? ' second ' : ' seconds ';
 
     const hDisplay = h > 0 ? h + hour : '';
     const mDisplay = m > 0 ? m + minute : '';

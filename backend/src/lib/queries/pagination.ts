@@ -21,7 +21,7 @@ export const simplePaginateQuery = <Entity>(
     }
 
     if (page) {
-        queryBuilder.skip(toNumber(page) * (toNumber(limit) || 10));
+        queryBuilder.skip(toNumber(page) * toNumber(limit));
     }
 
     if (field && sort) {

@@ -15,12 +15,13 @@ describe('CategoryService', () => {
 
     beforeEach(async () => {
         mockQueryBuilder = {
-            getMany: jest.fn(),
-            getManyAndCount: jest.fn(),
-            where: jest.fn(),
-            skip: jest.fn(),
-            order: jest.fn(),
-            take: jest.fn(),
+            getMany: jest.fn().mockReturnThis(),
+            getOne: jest.fn().mockReturnThis(),
+            getManyAndCount: jest.fn().mockReturnThis(),
+            where: jest.fn().mockReturnThis(),
+            skip: jest.fn().mockReturnThis(),
+            order: jest.fn().mockReturnThis(),
+            take: jest.fn().mockReturnThis(),
         };
         mockCategoryRepo = {
             create: jest.fn(),
@@ -116,6 +117,20 @@ describe('CategoryService', () => {
                 data: { id: 1, name: 'Category Name', value: 'category_name' },
                 count: 1,
             });
+        });
+    });
+
+    describe('findByName', () => {
+        it('should get category by name', async () => {
+            const category = { id: 1, name: 'Category', value: 'category' };
+            mockQueryBuilder.getOne.mockResolvedValueOnce(category);
+
+            const result = await service.findByName('test name');
+
+            expect(mockCategoryRepo.createQueryBuilder).toBeCalledWith('category');
+            expect(mockQueryBuilder.where).toBeCalledWith('name iLIKE :name', { name: `%test name%` });
+            expect(mockQueryBuilder.getOne).toBeCalled();
+            expect(result).toEqual(category);
         });
     });
 

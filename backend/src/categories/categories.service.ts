@@ -52,7 +52,10 @@ export class CategoriesService {
     }
 
     async findByName(name: string): Promise<GenreEntity> {
-        return this.categoryRepo.createQueryBuilder('category').where('LOWER(name) = LOWER(:name)', { name }).getOne();
+        return this.categoryRepo
+            .createQueryBuilder('category')
+            .where('name iLIKE :name', { name: `%${name}%` })
+            .getOne();
     }
 
     async create(category: CreateCategoryDto): Promise<CategoryEntity> {

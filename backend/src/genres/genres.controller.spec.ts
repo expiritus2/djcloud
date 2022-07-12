@@ -20,6 +20,7 @@ describe('GenresController', () => {
                 name,
                 value: snakeCase(name),
             })),
+            findOne: jest.fn(),
             remove: jest.fn((id) => ({
                 id,
                 name: 'Removed Genre',
@@ -51,6 +52,20 @@ describe('GenresController', () => {
         it('getAll returns genres', async () => {
             const result = await controller.getAll({} as PaginationQueryDto);
             expect(result).toEqual([{ id: 1, name: 'Test Genre', value: 'test_genre' }]);
+        });
+    });
+
+    describe('getById', () => {
+        it('getById returns genre', async () => {
+            const category = {
+                id: 1,
+                name: 'Genre Name',
+                value: 'genre_name',
+            };
+            mockGenresService.findOne.mockResolvedValueOnce(category);
+            const result = await controller.getById('1');
+            expect(mockGenresService.findOne).toBeCalledWith('1');
+            expect(result).toEqual(category);
         });
     });
 

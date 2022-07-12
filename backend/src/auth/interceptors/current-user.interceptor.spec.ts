@@ -60,5 +60,16 @@ describe('CurrentUserInterceptor', () => {
             expect(copyRequest.currentUser).toBeNull();
             expect(callHandler.handle).toBeCalledTimes(1);
         });
+
+        it('should not assign userId to currentUser if session not exists', async () => {
+            const copyRequest = cloneDeep(request);
+            copyRequest.session = undefined;
+            mocked(executionContext.switchToHttp().getRequest).mockReturnValueOnce(copyRequest);
+
+            await interceptor.intercept(executionContext, callHandler);
+
+            expect(copyRequest.currentUser).toBeNull();
+            expect(callHandler.handle).toBeCalledTimes(1);
+        });
     });
 });

@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { TracksService } from './tracks.service';
-import { AdminGuard } from '../lib/guards/adminGuard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AdminGuard } from '../lib/guards/adminGuard';
+import { TracksService } from './tracks.service';
 import { FormDataRequest } from 'nestjs-form-data';
 import { TrackFileDto } from './dtos/track-file.dto';
 

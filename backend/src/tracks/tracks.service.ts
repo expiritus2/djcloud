@@ -20,6 +20,7 @@ import { ConfigService } from '@nestjs/config';
 import { v4 as uuid } from 'uuid';
 import { UploadedFile } from './dtos/track-file.dto';
 import { s3 } from './tracks.module';
+import logger from '../lib/common/logger';
 
 @Injectable()
 export class TracksService {
@@ -160,7 +161,7 @@ export class TracksService {
         try {
             const savedTrack = await this.trackRepo.save(updatedTrack);
 
-            if (attrs.file && attrs.file?.id !== track.file.id) {
+            if (attrs.file && attrs.file.id !== track.file.id) {
                 await this.removeFile(track.file.id);
             }
             return savedTrack;
@@ -189,7 +190,9 @@ export class TracksService {
                 },
                 (error: AWS.AWSError) => {
                     if (!error) {
-                        console.log('success');
+                        logger.log(`File with ${id} was deleted successfully`);
+                    } else {
+                        logger.log(`Can not delete file with id: ${id}`);
                     }
                 },
             );

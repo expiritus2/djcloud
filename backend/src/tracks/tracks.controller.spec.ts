@@ -3,8 +3,9 @@ import { TracksController } from './tracks.controller';
 import { TracksService } from './tracks.service';
 import { CanActivate } from '@nestjs/common';
 import { AdminGuard } from '../lib/guards/adminGuard';
-import { merge } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 import { TelegramService } from '../telegram/telegram.service';
+import { getTime, subDays, subHours } from 'date-fns';
 
 describe('TracksController', () => {
     let controller: TracksController;
@@ -12,7 +13,7 @@ describe('TracksController', () => {
     let mockTelegramService;
 
     const mockAdminGuard: CanActivate = { canActivate: jest.fn(() => true) };
-    const mockSession = {};
+    let mockSession = {};
 
     const file = {
         id: 1,
@@ -31,6 +32,7 @@ describe('TracksController', () => {
     };
 
     beforeEach(async () => {
+        mockSession = {};
         mockTelegramService = {
             sendAudio: jest.fn(),
         };
@@ -42,6 +44,7 @@ describe('TracksController', () => {
             update: jest.fn(),
             remove: jest.fn(),
             removeFile: jest.fn(),
+            getTracksGenres: jest.fn(),
         };
         const module: TestingModule = await Test.createTestingModule({
             controllers: [TracksController],
@@ -89,12 +92,46 @@ describe('TracksController', () => {
     describe('getAll', () => {
         it('should return all tracks', async () => {
             const query = {};
+            const copySession = cloneDeep(mockSession) as any;
+            copySession.ratings = {
+                1: { ratingDate: subHours(Date.now(), 1) },
+                2: { ratingDate: getTime(subDays(Date.now(), 1)) },
+            };
             mockTrackService.getAll.mockResolvedValueOnce({
-                data: [{ id: 1, ...track }],
-                count: 1,
+                data: [
+                    { id: 1, ...track },
+                    { id: 2, ...track },
+                ],
+                count: 2,
             });
-            const result = await controller.getAll(query, mockSession);
-            expect(result).toEqual({ data: [{ id: 1, isDidRating: false, ...track }], count: 1 });
+            const result = await controller.getAll(query, copySession);
+            expect(result).toEqual({
+                data: [
+                    { id: 1, isDidRating: true, ...track },
+                    { id: 2, isDidRating: false, ...track },
+                ],
+                count: 2,
+            });
+        });
+        it('should return all tracks with isDidRating false if session.ratings is undefined', async () => {
+            const query = {};
+            const copySession = cloneDeep(mockSession) as any;
+            copySession.ratings = undefined;
+            mockTrackService.getAll.mockResolvedValueOnce({
+                data: [
+                    { id: 1, ...track },
+                    { id: 2, ...track },
+                ],
+                count: 2,
+            });
+            const result = await controller.getAll(query, copySession);
+            expect(result).toEqual({
+                data: [
+                    { id: 1, isDidRating: false, ...track },
+                    { id: 2, isDidRating: false, ...track },
+                ],
+                count: 2,
+            });
         });
     });
 
@@ -125,6 +162,15 @@ describe('TracksController', () => {
             const result = await controller.remove(1);
             expect(result).toEqual(track);
             expect(mockTrackService.removeFile).toBeCalledWith(track.file.id);
+        });
+    });
+
+    describe('getTracksGenres', () => {
+        it('should return tracks genres', async () => {
+            mockTrackService.getTracksGenres.mockResolvedValueOnce(track);
+            const result = await controller.getTracksGenres({ category: 'category', visible: true });
+            expect(mockTrackService.getTracksGenres).toBeCalledWith({ category: 'category', visible: true });
+            expect(result).toEqual(track);
         });
     });
 });

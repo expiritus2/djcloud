@@ -4,6 +4,8 @@ import { TrackRatingsService } from './trackRatings.service';
 import { AdminGuard } from '../lib/guards/adminGuard';
 import { CanActivate } from '@nestjs/common';
 import { TracksService } from '../tracks/tracks.service';
+import { cloneDeep } from 'lodash';
+import { subHours, subDays, getTime } from 'date-fns';
 
 describe('TrackRatingsController', () => {
     let controller: TrackRatingsController;
@@ -62,6 +64,29 @@ describe('TrackRatingsController', () => {
     describe('getByTrackId', () => {
         it('should return all ratings by trackId', async () => {
             const result = await controller.getByTrackId(1, session);
+            expect(result).toEqual([{ id: 1, track: { id: 1 }, rating: 10, isDidRating: false }]);
+        });
+
+        it('should set idDidRating to true if last rating did less than one day', async () => {
+            const copySession = cloneDeep(session);
+            copySession.ratings = {
+                1: { ratingDate: subHours(Date.now(), 1) },
+            };
+            const result = await controller.getByTrackId(1, copySession);
+            expect(result).toEqual([{ id: 1, track: { id: 1 }, rating: 10, isDidRating: true }]);
+        });
+
+        it('should set idDidRating to false if last rating did more than one day', async () => {
+            const copySession = cloneDeep(session);
+            copySession.ratings = {
+                1: { ratingDate: getTime(subDays(Date.now(), 1)) },
+            };
+            const result = await controller.getByTrackId(1, copySession);
+            expect(result).toEqual([{ id: 1, track: { id: 1 }, rating: 10, isDidRating: true }]);
+        });
+
+        it('should set idDidRating to false if session is undefined', async () => {
+            const result = await controller.getByTrackId(1, undefined);
             expect(result).toEqual([{ id: 1, track: { id: 1 }, rating: 10, isDidRating: false }]);
         });
     });

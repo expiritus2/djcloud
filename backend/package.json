@@ -20,11 +20,6 @@
         "test:cov": "cross-env NODE_ENV=test jest --coverage --setupFiles dotenv/config",
         "test:debug": "cross-env NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1",
-        "test:e2e:auth": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1 --testPathPattern=auth.e2e-spec",
-        "test:e2e:genres": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1 --testPathPattern=genres.e2e-spec",
-        "test:e2e:categories": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1 --testPathPattern=categories.e2e-spec",
-        "test:e2e:tracks": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1 --testPathPattern=tracks.e2e-spec",
-        "test:e2e:trackRatings": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1 --testPathPattern=trackRatings.e2e-spec",
         "typeorm": "cross-env NODE_ENV=development node --require ts-node/register ./node_modules/typeorm/cli.js",
         "migration:run": "cross-env NODE_ENV=development typeorm migration:run"
     },
@@ -107,7 +102,8 @@
             "!genres/genres.module.ts",
             "!lib/common/**",
             "!lib/interceptors/serialize.interceptor.ts",
-            "!categories/categories.module.ts"
+            "!categories/categories.module.ts",
+            "!tracks/file.controller.ts"
         ],
         "coverageDirectory": "../coverage",
         "testEnvironment": "node"

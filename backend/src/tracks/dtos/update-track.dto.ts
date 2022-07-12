@@ -17,7 +17,7 @@ class File {
 
     @IsNumber()
     @ApiProperty()
-    size: string;
+    size: number;
 
     @IsString()
     @ApiProperty()

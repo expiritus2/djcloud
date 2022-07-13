@@ -10,6 +10,7 @@ import { TrackRatingsModule } from './trackRatings/trackRatings.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TelegramModule } from './telegram/telegram.module';
+import { FilesModule } from './files/files.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cookieSession = require('cookie-session');
 
@@ -27,6 +28,7 @@ const cookieSession = require('cookie-session');
         TracksModule,
         TrackRatingsModule,
         TelegramModule,
+        FilesModule,
     ],
     providers: [],
 })

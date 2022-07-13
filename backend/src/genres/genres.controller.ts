@@ -39,6 +39,7 @@ export class GenresController {
     @Patch('/:id')
     @ApiOperation({ summary: 'Update genre by id' })
     @ApiResponse({ status: 200, type: GenreDto })
+    @UseGuards(AdminGuard)
     async update(@Param('id') id: string, @Body() body: UpdateGenreDto): Promise<GenreEntity> {
         return this.genreService.update(id, body);
     }
@@ -46,6 +47,7 @@ export class GenresController {
     @Delete('/:id')
     @ApiOperation({ summary: 'Remove genre' })
     @ApiResponse({ status: 200, type: GenreDto })
+    @UseGuards(AdminGuard)
     async remove(@Param('id') id: string) {
         return this.genreService.remove(id);
     }

@@ -1,5 +1,5 @@
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { TrackEntity } from './track.entity';
+import { TrackEntity } from '../tracks/track.entity';
 
 @Entity('files')
 export class FileEntity {

@@ -13,11 +13,16 @@ import { TracksGenresDto } from './dtos/tracks-genres.dto';
 import { GetAllResponseDto } from './dtos/get-all-response.dto';
 import { differenceInDays } from 'date-fns';
 import { TelegramService } from '../telegram/telegram.service';
+import { FilesService } from '../files/files.service';
 
 @ApiTags('Tracks')
 @Controller('tracks')
 export class TracksController {
-    constructor(private tracksService: TracksService, private telegramService: TelegramService) {}
+    constructor(
+        private tracksService: TracksService,
+        private telegramService: TelegramService,
+        private fileService: FilesService,
+    ) {}
 
     @UseGuards(AdminGuard)
     @Post('/create')
@@ -80,7 +85,7 @@ export class TracksController {
     @ApiResponse({ status: 200, type: TrackDto })
     async remove(@Param('id') id: string | number) {
         const track = await this.tracksService.remove(id);
-        await this.tracksService.removeFile(track.file.id);
+        await this.fileService.removeFile(track.file.id);
         return track;
     }
 }

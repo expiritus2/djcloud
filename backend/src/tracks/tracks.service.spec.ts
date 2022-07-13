@@ -3,7 +3,7 @@ import { mocked } from 'jest-mock';
 import { TracksService } from './tracks.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TrackEntity } from './track.entity';
-import { FileEntity } from './file.entity';
+import { FileEntity } from '../files/file.entity';
 import { simplePaginateQuery } from '../lib/queries/pagination';
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { GenreEntity } from '../genres/genre.entity';
@@ -11,10 +11,8 @@ import { CategoryEntity } from '../categories/category.entity';
 import path from 'path';
 import { getMockConfigService } from '../lib/testData/utils';
 import { ConfigService } from '@nestjs/config';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { getAudioDurationInSeconds } = require('get-audio-duration');
-import { s3 } from './tracks.module';
-import logger from '../lib/common/logger';
+import { SpacesService } from '../files/spaces.service';
+import { FilesService } from '../files/files.service';
 
 jest.mock('../lib/common/logger');
 jest.mock('get-audio-duration');
@@ -33,13 +31,9 @@ describe('TracksService', () => {
     let mockGenresRepo;
     let mockCategoriesRepo;
     let mockConfigService;
+    let mockFilesService;
+    let spacesService: SpacesService;
 
-    const file = {
-        name: 'fileName',
-        originalName: 'originalName',
-        size: 456000,
-        mimetype: 'audio/mpeg4',
-    };
     const track = {
         title: 'Track title',
         visible: true,
@@ -50,10 +44,11 @@ describe('TracksService', () => {
     };
 
     beforeEach(async () => {
-        jest.spyOn(s3, 'putObject').mockImplementation((params: any, callback?: any) => {
+        mockConfigService = getMockConfigService();
+        spacesService = new SpacesService(mockConfigService);
+        jest.spyOn(spacesService.s3, 'putObject').mockImplementation((params: any, callback?: any) => {
             return callback(null);
         });
-        mockConfigService = getMockConfigService();
         mockQueryBuilder = {
             getMany: jest.fn().mockReturnThis(),
             groupBy: jest.fn().mockReturnThis(),
@@ -90,6 +85,10 @@ describe('TracksService', () => {
             findOne: jest.fn(),
         };
 
+        mockFilesService = {
+            removeFile: jest.fn(),
+        };
+
         const module: TestingModule = await Test.createTestingModule({
             providers: [
                 TracksService,
@@ -113,6 +112,10 @@ describe('TracksService', () => {
                     provide: ConfigService,
                     useValue: mockConfigService,
                 },
+                {
+                    provide: FilesService,
+                    useValue: mockFilesService,
+                },
             ],
         }).compile();
 
@@ -121,52 +124,6 @@ describe('TracksService', () => {
 
     it('should be defined', () => {
         expect(service).toBeDefined();
-    });
-
-    describe('storeFile', () => {
-        it('should store file', async () => {
-            const pathToFile = `${global.__basePath}/upload/test/mockUUID-${file.originalName}`;
-            const createdFile = {
-                name: `mockUUID-${file.originalName}`,
-                url: pathToFile,
-                size: file.size,
-                mimetype: file.mimetype,
-            };
-            mockFileRepo.create.mockReturnValueOnce(createdFile);
-            mockFileRepo.save.mockResolvedValueOnce(createdFile);
-            mocked(getAudioDurationInSeconds).mockResolvedValueOnce(435.24);
-
-            const result = await service.storeFile(file as unknown as Express.Multer.File);
-
-            expect(getAudioDurationInSeconds).toBeCalledWith(pathToFile);
-            expect(mockFileRepo.create).toBeCalledWith(createdFile);
-            expect(mockFileRepo.save).toBeCalledWith(createdFile);
-            expect(result).toEqual({ ...createdFile, duration: 435.24 });
-        });
-
-        it('should throw error if upload not success', async () => {
-            jest.spyOn(s3, 'putObject').mockImplementationOnce((params: any, callback?: any) => {
-                return callback(new Error('Some error message'));
-            });
-
-            try {
-                await service.storeFile(file as unknown as Express.Multer.File);
-            } catch (error: any) {
-                expect(error.message).toEqual('DoSpacesService_ERROR: Some error message');
-            }
-        });
-
-        it('should throw error if upload not success with default error message', async () => {
-            jest.spyOn(s3, 'putObject').mockImplementationOnce((params: any, callback?: any) => {
-                return callback(new Error());
-            });
-
-            try {
-                await service.storeFile(file as unknown as Express.Multer.File);
-            } catch (error: any) {
-                expect(error.message).toEqual('DoSpacesService_ERROR: Something went wrong');
-            }
-        });
     });
 
     describe('create', () => {
@@ -291,7 +248,7 @@ describe('TracksService', () => {
                 file: { id: 2, mimetype: 'audio/mpeg4', name: 'SomeFileName.mpe', size: 4096, url: '' },
             };
             mockTrackRepo.save.mockResolvedValueOnce({ ...track, ...updatedTrack });
-            jest.spyOn(service, 'removeFile').mockResolvedValueOnce(null);
+            mockFilesService.removeFile.mockResolvedValueOnce(null);
 
             const result = await service.update(1, updatedTrack);
 
@@ -300,7 +257,7 @@ describe('TracksService', () => {
                 ...track,
                 ...updatedTrack,
             });
-            expect(service.removeFile).toBeCalledWith(track.file.id);
+            expect(mockFilesService.removeFile).toBeCalledWith(track.file.id);
             expect(result).toEqual({ ...track, ...updatedTrack });
         });
 
@@ -313,7 +270,7 @@ describe('TracksService', () => {
                 file: undefined,
             };
             mockTrackRepo.save.mockResolvedValueOnce({ ...track, ...updatedTrack, file: track.file });
-            jest.spyOn(service, 'removeFile').mockResolvedValueOnce(null);
+            mockFilesService.removeFile.mockResolvedValueOnce(null);
 
             const result = await service.update(1, updatedTrack);
 
@@ -323,7 +280,7 @@ describe('TracksService', () => {
                 ...updatedTrack,
                 file: track.file,
             });
-            expect(service.removeFile).not.toBeCalled();
+            expect(mockFilesService.removeFile).not.toBeCalled();
             expect(result).toEqual({ ...track, ...updatedTrack, file: track.file });
         });
 
@@ -345,9 +302,11 @@ describe('TracksService', () => {
         it('should remove track', async () => {
             mockTrackRepo.findOne.mockResolvedValueOnce({ id: 1, ...track });
             mockTrackRepo.remove.mockResolvedValueOnce(track);
+            mockFilesService.removeFile.mockResolvedValueOnce(null);
 
             const result = await service.remove(1);
             expect(mockTrackRepo.remove).toBeCalledWith({ id: 1, ...track });
+            expect(mockFilesService.removeFile).toBeCalledWith(track.file.id);
             expect(result).toEqual(track);
         });
 
@@ -412,59 +371,6 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.getRawMany).toBeCalled();
 
             expect(result).toEqual([{ countTracks: 2, id: 1, name: 'name', value: 'value' }]);
-        });
-    });
-
-    describe('removeFile', () => {
-        it('should remove file from s3', async () => {
-            mockFileRepo.findOne.mockResolvedValueOnce(track.file);
-            mockFileRepo.remove.mockResolvedValueOnce(track.file);
-
-            jest.spyOn(s3, 'deleteObject').mockImplementationOnce((params: any, callback?: any) => {
-                return callback(null);
-            });
-
-            await service.removeFile(1);
-
-            expect(s3.deleteObject).toBeCalledWith(
-                {
-                    Bucket: 'DO_BUCKET_NAME',
-                    Key: 'test/SomeFileName.mp3',
-                },
-                expect.any(Function),
-            );
-            expect(logger.log).toBeCalledWith(`File with 1 was deleted successfully`);
-        });
-
-        it('should throw and log error', async () => {
-            mockFileRepo.findOne.mockResolvedValueOnce(track.file);
-            mockFileRepo.remove.mockResolvedValueOnce(track.file);
-
-            jest.spyOn(s3, 'deleteObject').mockImplementationOnce((params: any, callback?: any) => {
-                return callback(new Error('Some error message'));
-            });
-
-            await service.removeFile(1);
-
-            expect(s3.deleteObject).toBeCalledWith(
-                {
-                    Bucket: 'DO_BUCKET_NAME',
-                    Key: 'test/SomeFileName.mp3',
-                },
-                expect.any(Function),
-            );
-            expect(logger.log).toBeCalledWith(`Can not delete file with id: 1`);
-        });
-
-        it('should throw error by findOne', async () => {
-            mockFileRepo.findOne.mockRejectedValueOnce(new Error('Some error message'));
-
-            try {
-                await service.removeFile(1);
-            } catch (error: any) {
-                expect(error instanceof InternalServerErrorException).toBeTruthy();
-                expect(error.message).toEqual(`Can not delete file with id: 1`);
-            }
         });
     });
 });

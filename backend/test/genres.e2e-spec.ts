@@ -71,10 +71,6 @@ describe('Genres management', () => {
     });
 
     describe('/genres/list', () => {
-        it('should throw forbidden error if user is not admin', async () => {
-            await request(app.getHttpServer()).get('/genres/list').expect(403);
-        });
-
         it('getAll genres with pagination', async () => {
             const limit = 3;
             for (let i = 0; i < Math.round(listGenres.length / limit); i++) {

@@ -103,7 +103,8 @@
             "!lib/common/**",
             "!lib/interceptors/serialize.interceptor.ts",
             "!categories/categories.module.ts",
-            "!tracks/file.controller.ts"
+            "!lib/testData/utils/configService.ts",
+            "!users/users.controller.ts"
         ],
         "coverageDirectory": "../coverage",
         "testEnvironment": "node"

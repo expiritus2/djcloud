@@ -5,12 +5,29 @@ import { TrackDto } from '../../src/tracks/dtos/track.dto';
 
 const pathToMP3File = path.resolve(__dirname, '..', 'data', 'files', 'Kamera-ExtendedMix.mp3');
 
-export const createTrack = async (app: INestApplication, adminCookie: any): Promise<TrackDto> => {
-    const { body: trackFile } = await request(app.getHttpServer())
-        .post('/tracks/file-upload')
+export const uploadFile = (app, adminCookie) => {
+    return request(app.getHttpServer())
+        .post('/files/file-upload')
         .set('Cookie', adminCookie)
         .attach('file', pathToMP3File)
         .expect(201);
+};
+
+export const removeFile = (app, adminCookie, pathToFile) => {
+    return request(app.getHttpServer())
+        .post('/files/file-remove')
+        .set('Cookie', adminCookie)
+        .send({ pathToFile })
+        .expect(201);
+};
+
+export const createTrack = async (app: INestApplication, adminCookie: any): Promise<TrackDto> => {
+    // const { body: trackFile } = await request(app.getHttpServer())
+    //     .post('/files/file-upload')
+    //     .set('Cookie', adminCookie)
+    //     .attach('file', pathToMP3File)
+    //     .expect(201);
+    const { body: trackFile } = await uploadFile(app, adminCookie);
 
     const { body: genres } = await request(app.getHttpServer())
         .get('/genres/list')

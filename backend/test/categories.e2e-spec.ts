@@ -71,10 +71,6 @@ describe('Categories management', () => {
     });
 
     describe('/categories/list', () => {
-        it('should throw forbidden error if user is not admin', async () => {
-            await request(app.getHttpServer()).get('/categories/list').expect(403);
-        });
-
         it('getAll categories with pagination', async () => {
             const limit = 3;
             for (let i = 0; i < Math.round(listCategories.length / limit); i++) {
@@ -122,10 +118,6 @@ describe('Categories management', () => {
     });
 
     describe('GET /categories/:id', () => {
-        it('should throw forbidden error if user is not admin', async () => {
-            await request(app.getHttpServer()).get('/categories/1').expect(403);
-        });
-
         it('should get category by id', async () => {
             const { body } = await request(app.getHttpServer())
                 .get(`/categories/${listCategories[4].id}`)

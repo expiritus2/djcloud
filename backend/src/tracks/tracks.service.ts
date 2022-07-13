@@ -2,68 +2,26 @@ import { Injectable, InternalServerErrorException, NotFoundException } from '@ne
 import { InjectRepository } from '@nestjs/typeorm';
 import { TrackEntity } from './track.entity';
 import { Repository } from 'typeorm';
-import { FileEntity } from './file.entity';
-import { envConfig } from '../lib/configs/envs';
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { simplePaginateQuery } from '../lib/queries/pagination';
 import { UpdateTrackDto } from './dtos/update-track.dto';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { getAudioDurationInSeconds } = require('get-audio-duration');
-import * as AWS from 'aws-sdk';
 import { cloneDeep, merge } from 'lodash';
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { GetAllDto } from './dtos/get-all.dto';
 import { filterTracks } from './queries/filter';
 import { GetTracksGenresDto } from './dtos/get-tracks-genres.dto';
-import { ConfigService } from '@nestjs/config';
-import { v4 as uuid } from 'uuid';
-import { UploadedFile } from './dtos/track-file.dto';
-import { s3 } from './tracks.module';
-import logger from '../lib/common/logger';
+import { FilesService } from '../files/files.service';
 
 @Injectable()
 export class TracksService {
     constructor(
         @InjectRepository(TrackEntity) private trackRepo: Repository<TrackEntity>,
-        @InjectRepository(FileEntity) private fileRepo: Repository<FileEntity>,
         @InjectRepository(GenreEntity) private genreRepo: Repository<GenreEntity>,
         @InjectRepository(CategoryEntity)
         private categoryRepo: Repository<CategoryEntity>,
-        private configService: ConfigService,
+        private fileService: FilesService,
     ) {}
-
-    async storeFile(file: UploadedFile) {
-        const filename = `${uuid()}-${file.originalName}`;
-        return new Promise((resolve, reject) => {
-            const config = {
-                Bucket: this.configService.get('DO_BUCKET_NAME'),
-                Key: `${this.configService.get('NODE_ENV')}/${filename}`,
-                Body: file.buffer,
-                ACL: 'public-read',
-            };
-            s3.config.credentials = new AWS.Credentials({
-                accessKeyId: this.configService.get('DO_ACCESS_KEY'),
-                secretAccessKey: this.configService.get('DO_SECRET_KEY'),
-            });
-            s3.putObject(config, async (error: AWS.AWSError) => {
-                if (!error) {
-                    const pathToFile = `${envConfig.cdn}/${this.configService.get('NODE_ENV')}/${filename}`;
-                    const duration = await getAudioDurationInSeconds(pathToFile);
-                    const newFile = this.fileRepo.create({
-                        name: filename,
-                        url: pathToFile,
-                        size: file.size,
-                        mimetype: file.mimetype,
-                    });
-                    const createdFile = await this.fileRepo.save(newFile);
-                    resolve({ ...createdFile, duration });
-                } else {
-                    reject(new Error(`DoSpacesService_ERROR: ${error.message || 'Something went wrong'}`));
-                }
-            });
-        });
-    }
 
     async create(track: CreateTrackDto) {
         const genre = await this.genreRepo.findOne(track.genre.id);
@@ -162,7 +120,7 @@ export class TracksService {
             const savedTrack = await this.trackRepo.save(updatedTrack);
 
             if (attrs.file && attrs.file.id !== track.file.id) {
-                await this.removeFile(track.file.id);
+                await this.fileService.removeFile(track.file.id);
             }
             return savedTrack;
         } catch (error: any) {
@@ -173,32 +131,10 @@ export class TracksService {
     async remove(id: string | number): Promise<TrackEntity> {
         try {
             const track = await this.findOne(id);
-
+            await this.fileService.removeFile(track.file.id);
             return this.trackRepo.remove(track);
         } catch (error: any) {
             throw new InternalServerErrorException(`Can not delete track with id: ${id}`);
-        }
-    }
-
-    async removeFile(id: number): Promise<FileEntity> {
-        try {
-            const file = await this.fileRepo.findOne(id);
-            s3.deleteObject(
-                {
-                    Bucket: this.configService.get('DO_BUCKET_NAME'),
-                    Key: `${this.configService.get('NODE_ENV')}/${file.name}`,
-                },
-                (error: AWS.AWSError) => {
-                    if (!error) {
-                        logger.log(`File with ${id} was deleted successfully`);
-                    } else {
-                        logger.log(`Can not delete file with id: ${id}`);
-                    }
-                },
-            );
-            return this.fileRepo.remove(file);
-        } catch (error: any) {
-            throw new InternalServerErrorException(`Can not delete file with id: ${id}`);
         }
     }
 }

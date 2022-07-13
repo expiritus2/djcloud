@@ -1,6 +1,6 @@
 import devConfig from './development.json';
 import prodConfig from './production.json';
-import testConfig from './test';
+import testConfig from './test.json';
 
 enum EnvEnums {
     DEVELOPMENT = 'development',

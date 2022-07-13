@@ -9,11 +9,13 @@ import { CategoryEntity } from '../src/categories/category.entity';
 import { UserEntity } from '../src/users/user.entity';
 import { GenreEntity } from '../src/genres/genre.entity';
 import { TrackRatingEntity } from '../src/trackRatings/trackRating.entity';
-import { FileEntity } from '../src/tracks/file.entity';
+import { FileEntity } from '../src/file/file.entity';
 import { createTrack } from './utils/tracks';
 import { TrackEntity } from '../src/tracks/track.entity';
 
 global.__baseDir = path.resolve(__dirname, '..');
+
+jest.setTimeout(30000);
 
 describe('TrackRatings management', () => {
     let app: INestApplication;

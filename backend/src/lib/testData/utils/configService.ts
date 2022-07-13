@@ -12,6 +12,10 @@ export const getMockConfigService = () => {
                     return 'TELEGRAM_CHAT_ID';
                 case 'DO_BUCKET_NAME':
                     return 'DO_BUCKET_NAME';
+                case 'DO_ACCESS_KEY':
+                    return 'DO_ACCESS_KEY';
+                case 'DO_SECRET_KEY':
+                    return 'DO_SECRET_KEY';
                 default:
                     return undefined;
             }

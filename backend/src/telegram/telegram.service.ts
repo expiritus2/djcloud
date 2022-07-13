@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { Telegraf } from 'telegraf';
 import { ExtraAudio } from 'telegraf/typings/telegram-types';
 import { ITelegramOptions } from './telegram.interface';
@@ -9,7 +9,7 @@ export class TelegramService {
     bot: Telegraf;
     options: ITelegramOptions;
 
-    constructor(private configService: ConfigService) {
+    constructor(@Inject(forwardRef(() => ConfigService)) private configService: ConfigService) {
         this.options = {
             token: configService.get('TELEGRAM_TOKEN'),
             chatId: configService.get('TELEGRAM_CHAT_ID'),

@@ -6,11 +6,13 @@ import { AdminGuard } from '../lib/guards/adminGuard';
 import { cloneDeep, merge } from 'lodash';
 import { TelegramService } from '../telegram/telegram.service';
 import { getTime, subDays, subHours } from 'date-fns';
+import { FilesService } from '../files/files.service';
 
 describe('TracksController', () => {
     let controller: TracksController;
     let mockTrackService;
     let mockTelegramService;
+    let mockFilesService;
 
     const mockAdminGuard: CanActivate = { canActivate: jest.fn(() => true) };
     let mockSession = {};
@@ -36,6 +38,10 @@ describe('TracksController', () => {
         mockTelegramService = {
             sendAudio: jest.fn(),
         };
+
+        mockFilesService = {
+            removeFile: jest.fn(),
+        };
         mockTrackService = {
             storeFile: jest.fn(),
             getAll: jest.fn(),
@@ -57,6 +63,10 @@ describe('TracksController', () => {
                     provide: TelegramService,
                     useValue: mockTelegramService,
                 },
+                {
+                    provide: FilesService,
+                    useValue: mockFilesService,
+                },
             ],
         })
             .overrideGuard(AdminGuard)
@@ -69,16 +79,6 @@ describe('TracksController', () => {
     it('should be defined', () => {
         expect(controller).toBeDefined();
     });
-
-    // describe('fileUpload', () => {
-    //     it('should upload and return file data', async () => {
-    //         mockTrackService.storeFile.mockResolvedValueOnce({ id: 1, ...file });
-    //
-    //         const result = await controller.fileUpload({ file } as unknown as TrackFileDto);
-    //
-    //         expect(result).toEqual({ id: 1, ...file });
-    //     });
-    // });
 
     describe('createTrack', () => {
         it('should create and return track', async () => {
@@ -161,7 +161,7 @@ describe('TracksController', () => {
 
             const result = await controller.remove(1);
             expect(result).toEqual(track);
-            expect(mockTrackService.removeFile).toBeCalledWith(track.file.id);
+            expect(mockFilesService.removeFile).toBeCalledWith(track.file.id);
         });
     });
 

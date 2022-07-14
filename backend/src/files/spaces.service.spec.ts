@@ -4,7 +4,6 @@ import { getMockConfigService } from '../lib/testData/utils';
 import { ConfigService } from '@nestjs/config';
 import { mocked } from 'jest-mock';
 import { InternalServerErrorException } from '@nestjs/common';
-import logger from '../lib/common/logger';
 
 jest.mock('../lib/common/logger');
 jest.mock('uuid', () => ({
@@ -13,8 +12,9 @@ jest.mock('uuid', () => ({
 
 jest.mock('aws-sdk', () => ({
     S3: jest.fn(() => ({
-        putObject: jest.fn((config, cb) => cb(null)),
-        deleteObject: jest.fn((config, cb) => cb(null)),
+        putObject: jest.fn().mockReturnThis(),
+        deleteObject: jest.fn().mockReturnThis(),
+        promise: jest.fn().mockReturnThis(),
         config: {},
     })),
     Credentials: jest.fn((params: any) => params),
@@ -70,15 +70,12 @@ describe('SpacesService', () => {
         it('should upload file to s3', async () => {
             const result = await service.putObject(uploadFile);
 
-            expect(service.s3.putObject).toBeCalledWith(
-                {
-                    Bucket: 'DO_BUCKET_NAME',
-                    Key: `test/uuid-${uploadFile.originalName}`,
-                    Body: uploadFile.buffer,
-                    ACL: 'public-read',
-                },
-                expect.any(Function),
-            );
+            expect(service.s3.putObject).toBeCalledWith({
+                Bucket: 'DO_BUCKET_NAME',
+                Key: `test/uuid-${uploadFile.originalName}`,
+                Body: uploadFile.buffer,
+                ACL: 'public-read',
+            });
 
             expect(result).toEqual({
                 duration: 400.54,
@@ -92,8 +89,8 @@ describe('SpacesService', () => {
         it('should throw error with default message', async () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            mocked(service.s3.putObject).mockImplementationOnce((config, cb) => {
-                cb(new Error());
+            mocked(service.s3.putObject).mockImplementationOnce(() => {
+                throw new Error();
             });
 
             try {
@@ -107,8 +104,8 @@ describe('SpacesService', () => {
         it('should throw error with custom message', async () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            mocked(service.s3.putObject).mockImplementationOnce((config, cb) => {
-                cb(new Error('Some error message'));
+            mocked(service.s3.putObject).mockImplementationOnce(() => {
+                throw new Error('Some error message');
             });
 
             try {
@@ -124,22 +121,19 @@ describe('SpacesService', () => {
         it('should delete object', async () => {
             await service.deleteObject(file as any);
 
-            expect(service.s3.deleteObject).toBeCalledWith(
-                {
-                    Bucket: 'DO_BUCKET_NAME',
-                    Key: `test/${file.name}`,
-                },
-                expect.any(Function),
-            );
+            expect(service.s3.deleteObject).toBeCalledWith({
+                Bucket: 'DO_BUCKET_NAME',
+                Key: `test/${file.name}`,
+            });
 
-            expect(logger.log).toBeCalledWith(`File with ${file.id} was deleted successfully`);
+            expect(service.s3.deleteObject(file as any).promise).toBeCalled();
         });
 
         it('should throw error', async () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            mocked(service.s3.deleteObject).mockImplementationOnce((config, cb) => {
-                cb(new Error('Some error message'));
+            mocked(service.s3.deleteObject).mockImplementationOnce(() => {
+                throw new Error('Some error message');
             });
 
             try {

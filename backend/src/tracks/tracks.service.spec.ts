@@ -306,7 +306,6 @@ describe('TracksService', () => {
 
             const result = await service.remove(1);
             expect(mockTrackRepo.remove).toBeCalledWith({ id: 1, ...track });
-            expect(mockFilesService.removeFile).toBeCalledWith(track.file.id);
             expect(result).toEqual(track);
         });
 

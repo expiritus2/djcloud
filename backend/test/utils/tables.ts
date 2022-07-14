@@ -1,5 +1,3 @@
-import path from 'path';
-import fs from 'fs';
 import { getConnection } from 'typeorm';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
 import { GenreEntity } from '../../src/genres/genre.entity';
@@ -8,19 +6,6 @@ import { CategoryEntity } from '../../src/categories/category.entity';
 export const clearTable = async <E>(Entity: EntityTarget<E>) => {
     const connection = getConnection();
     await connection.getRepository<E>(Entity).delete({});
-};
-
-export const clearTestUploads = async () => {
-    const directory = path.resolve('upload', 'test');
-    fs.readdir(directory, (err, files) => {
-        if (err) throw err;
-
-        for (const file of files) {
-            fs.unlink(path.join(directory, file), (err) => {
-                if (err) throw err;
-            });
-        }
-    });
 };
 
 export const createGenres = async () => {

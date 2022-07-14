@@ -69,4 +69,6 @@ export class CreateTrackDto {
     @Type(() => Genre)
     @ApiProperty()
     genre: Genre;
+
+    isTest?: boolean;
 }

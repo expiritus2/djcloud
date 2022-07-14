@@ -131,7 +131,6 @@ export class TracksService {
     async remove(id: string | number): Promise<TrackEntity> {
         try {
             const track = await this.findOne(id);
-            await this.fileService.removeFile(track.file.id);
             return this.trackRepo.remove(track);
         } catch (error: any) {
             throw new InternalServerErrorException(`Can not delete track with id: ${id}`);

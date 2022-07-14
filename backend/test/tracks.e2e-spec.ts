@@ -4,13 +4,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { clearTable, clearTestUploads, createCategories, createGenres, signupAdmin } from './utils';
+import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
 import { getConnection } from 'typeorm';
 import { CategoryEntity } from '../src/categories/category.entity';
 import { UserEntity } from '../src/users/user.entity';
 import { GenreEntity } from '../src/genres/genre.entity';
 import { TrackEntity } from '../src/tracks/track.entity';
-import { FileEntity } from '../src/tracks/file.entity';
+import { FileEntity } from '../src/files/file.entity';
 import { getAudioDurationInSeconds } from 'get-audio-duration';
 import { TrackDto } from '../src/tracks/dtos/track.dto';
 import { createTrack, fileUpload } from './utils/tracks';
@@ -50,7 +50,7 @@ describe('Tracks management', () => {
         await clearTable(TrackEntity);
         await clearTable(FileEntity);
         await clearTable(UserEntity);
-        await clearTestUploads();
+        // await clearTestUploads();
     });
 
     afterAll(async () => {
@@ -192,7 +192,7 @@ describe('Tracks management', () => {
             await clearTable(TrackEntity);
             await clearTable(FileEntity);
             await clearTable(UserEntity);
-            await clearTestUploads();
+            // await clearTestUploads();
         });
 
         beforeEach(async () => {
@@ -233,7 +233,7 @@ describe('Tracks management', () => {
             await clearTable(TrackEntity);
             await clearTable(FileEntity);
             await clearTable(UserEntity);
-            await clearTestUploads();
+            // await clearTestUploads();
             listTracks.length = 0;
         });
 

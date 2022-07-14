@@ -31,7 +31,7 @@ export class TracksController {
     async createTrack(@Body() track: CreateTrackDto) {
         const newTrack = await this.tracksService.create(track);
         const fileUrl = `${newTrack.file.url}`;
-        if (track.visible) {
+        if (track.visible && !track.isTest) {
             await this.telegramService.sendAudio(fileUrl);
         }
         return newTrack;

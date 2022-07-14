@@ -3,14 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { clearTable, clearTestUploads, createCategories, createGenres, signupAdmin } from './utils';
+import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
 import { getConnection } from 'typeorm';
 import { CategoryEntity } from '../src/categories/category.entity';
 import { UserEntity } from '../src/users/user.entity';
 import { GenreEntity } from '../src/genres/genre.entity';
 import { TrackRatingEntity } from '../src/trackRatings/trackRating.entity';
-import { FileEntity } from '../src/file/file.entity';
-import { createTrack } from './utils/tracks';
+import { FileEntity } from '../src/files/file.entity';
+import { createTrack, removeFile } from './utils/tracks';
 import { TrackEntity } from '../src/tracks/track.entity';
 
 global.__baseDir = path.resolve(__dirname, '..');
@@ -41,17 +41,19 @@ describe('TrackRatings management', () => {
         await createCategories();
         const { cookie } = await signupAdmin(app);
         adminCookie = cookie;
+    });
 
+    beforeEach(async () => {
         track = await createTrack(app, adminCookie);
     });
 
     afterEach(async () => {
         await clearTable(TrackRatingEntity);
-        await clearTestUploads();
+        await clearTable(TrackEntity);
+        await removeFile(app, adminCookie, track.file.id);
     });
 
     afterAll(async () => {
-        await clearTable(TrackEntity);
         await clearTable(CategoryEntity);
         await clearTable(GenreEntity);
         await clearTable(TrackRatingEntity);
@@ -69,16 +71,10 @@ describe('TrackRatings management', () => {
                 .expect(201);
 
             expect(body).toEqual({
-                id: expect.anything(),
                 rating: 10,
-                track: {
-                    createdAt: track.createdAt,
-                    updatedAt: track.updatedAt,
-                    duration: 411.95102,
-                    id: track.id,
-                    title: track.title,
-                    visible: track.visible,
-                },
+                trackId: track.id,
+                countRatings: 1,
+                isDidRating: true,
             });
         });
     });
@@ -104,6 +100,7 @@ describe('TrackRatings management', () => {
                         title: track.title,
                         visible: track.visible,
                     }),
+                    isDidRating: false,
                 });
             }
         });

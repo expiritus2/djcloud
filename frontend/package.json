@@ -1,84 +1,80 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-    "engines": {
-        "npm": "8.3.2",
-        "node": "14.18.3"
+    "name": "frontend",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@testing-library/jest-dom": "^5.16.4",
+        "@testing-library/react": "^13.3.0",
+        "@testing-library/user-event": "^13.5.0",
+        "@types/axios": "^0.14.0",
+        "@types/classnames": "^2.3.1",
+        "@types/jest": "^27.5.2",
+        "@types/lodash": "^4.14.182",
+        "@types/node": "^16.11.39",
+        "@types/react": "^18.0.12",
+        "@types/react-dom": "^18.0.5",
+        "@types/react-icons": "^3.0.0",
+        "@types/react-router-dom": "^5.3.3",
+        "@types/toastr": "^2.1.39",
+        "axios": "^0.27.2",
+        "classnames": "^2.3.1",
+        "date-fns": "^2.28.0",
+        "format-duration": "^2.0.0",
+        "lodash": "^4.17.21",
+        "mobx": "^6.6.1",
+        "mobx-react-lite": "^3.4.0",
+        "query-string": "^7.1.1",
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "react-dropzone": "^14.2.1",
+        "react-h5-audio-player": "^3.8.4",
+        "react-icons": "^4.4.0",
+        "react-router-dom": "^6.3.0",
+        "react-scripts": "^5.0.1",
+        "sass": "^1.52.2",
+        "toastr": "^2.1.4",
+        "typescript": "^4.7.3",
+        "web-vitals": "^2.1.4"
     },
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/axios": "^0.14.0",
-    "@types/classnames": "^2.3.1",
-    "@types/jest": "^27.5.2",
-    "@types/lodash": "^4.14.182",
-    "@types/node": "^16.11.39",
-    "@types/react": "^18.0.12",
-    "@types/react-dom": "^18.0.5",
-    "@types/react-icons": "^3.0.0",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/toastr": "^2.1.39",
-    "axios": "^0.27.2",
-    "classnames": "^2.3.1",
-    "date-fns": "^2.28.0",
-    "format-duration": "^2.0.0",
-    "lodash": "^4.17.21",
-    "mobx": "^6.6.1",
-    "mobx-react-lite": "^3.4.0",
-    "query-string": "^7.1.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-dropzone": "^14.2.1",
-    "react-h5-audio-player": "^3.8.4",
-    "react-icons": "^4.4.0",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.1",
-    "sass": "^1.52.2",
-    "toastr": "^2.1.4",
-    "typescript": "^4.7.3",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start:dev": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint --ext .jsx,.js,.ts src",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\""
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.27.1",
-    "@typescript-eslint/parser": "^5.27.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-config-react-app": "6.0.0",
-    "eslint-plugin-jest": "^26.5.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react-hooks": "^4.5.0",
-    "eslint-plugin-testing-library": "^5.5.1",
-    "mobx-devtools-mst": "^0.9.30",
-    "mobx-state-tree": "^5.1.5",
-    "prettier": "^2.6.2"
-  }
+    "scripts": {
+        "start:dev": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "lint": "eslint --ext .jsx,.js,.ts src",
+        "format": "prettier --write \"src/**/*.{ts,tsx}\""
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.27.1",
+        "@typescript-eslint/parser": "^5.27.1",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-config-airbnb-typescript": "^17.0.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-react-app": "6.0.0",
+        "eslint-plugin-jest": "^26.5.3",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-react-hooks": "^4.5.0",
+        "eslint-plugin-testing-library": "^5.5.1",
+        "mobx-devtools-mst": "^0.9.30",
+        "mobx-state-tree": "^5.1.5",
+        "prettier": "^2.6.2"
+    }
 }

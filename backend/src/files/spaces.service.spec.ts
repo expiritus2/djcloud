@@ -3,7 +3,7 @@ import { SpacesService } from './spaces.service';
 import { getMockConfigService } from '../lib/testData/utils';
 import { ConfigService } from '@nestjs/config';
 import { mocked } from 'jest-mock';
-import { InternalServerErrorException } from '@nestjs/common';
+import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
 
 jest.mock('../lib/common/logger');
 jest.mock('uuid', () => ({
@@ -15,6 +15,7 @@ jest.mock('aws-sdk', () => ({
         putObject: jest.fn().mockReturnThis(),
         deleteObject: jest.fn().mockReturnThis(),
         promise: jest.fn().mockReturnThis(),
+        getObject: jest.fn().mockReturnThis(),
         config: {},
     })),
     Credentials: jest.fn((params: any) => params),
@@ -141,6 +142,34 @@ describe('SpacesService', () => {
             } catch (error: any) {
                 expect(error instanceof InternalServerErrorException).toBeTruthy();
                 expect(error.message).toEqual(`Can not delete file with id: 1`);
+            }
+        });
+    });
+
+    describe('getObject', () => {
+        it('should return object', async () => {
+            const result = await service.getObject('file-key.mp3');
+
+            expect(service.s3.getObject).toBeCalledWith({
+                Bucket: 'DO_BUCKET_NAME',
+                Key: 'test/file-key.mp3',
+            });
+
+            expect(result).toBeDefined();
+        });
+
+        it('should throw error if getObject is fails', async () => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            mocked(service.s3.getObject).mockImplementationOnce(() => {
+                throw new Error('Some error message');
+            });
+            const key = 'file-key.mp3';
+            try {
+                await service.getObject(key);
+            } catch (error: any) {
+                expect(error instanceof NotFoundException).toBeTruthy();
+                expect(error.message).toEqual(`Can not find file with key: ${key}`);
             }
         });
     });

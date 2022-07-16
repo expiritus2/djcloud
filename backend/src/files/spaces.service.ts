@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
 import { UploadedFile, UploadFile } from './dtos/track-file.dto';
@@ -20,7 +20,7 @@ export class SpacesService {
         this.s3.config.credentials = this.credentials;
     }
 
-    async putObject(file: UploadFile): Promise<UploadedFile> {
+    async putObject(file: UploadFile): Promise<Omit<UploadedFile, 'id'>> {
         const filename = `${uuid()}-${file.originalName}`;
         const config = {
             Bucket: this.configService.get('DO_BUCKET_NAME'),
@@ -52,9 +52,22 @@ export class SpacesService {
         };
 
         try {
-            return await this.s3.deleteObject(config).promise();
+            return this.s3.deleteObject(config).promise();
         } catch (error: any) {
-            throw new InternalServerErrorException(`Can not delete file with id: ${file.id}`);
+            throw new InternalServerErrorException(`Can not delete file with id: ${file.id}`, error);
+        }
+    }
+
+    async getObject(key: string) {
+        const config = {
+            Bucket: this.configService.get('DO_BUCKET_NAME'),
+            Key: `${this.configService.get('NODE_ENV')}/${key}`,
+        };
+
+        try {
+            return this.s3.getObject(config).promise();
+        } catch (error: any) {
+            throw new NotFoundException(`Can not find file with key: ${key}`, error);
         }
     }
 }

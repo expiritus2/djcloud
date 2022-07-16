@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AdminGuard } from '../lib/guards/adminGuard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FormDataRequest } from 'nestjs-form-data';
@@ -23,9 +23,14 @@ export class FilesController {
     @UseGuards(AdminGuard)
     @Post('/file-remove')
     @ApiOperation({ summary: 'Delete file' })
-    @ApiResponse({ status: 201 })
     @FormDataRequest()
-    async fileRemove(@Body() id: number): Promise<FileEntity> {
+    async fileRemove(@Body() { id }: { id: number }): Promise<FileEntity> {
         return this.filesService.removeFile(id);
+    }
+
+    @Get('/:id')
+    @ApiOperation({ summary: 'Get file' })
+    async getFileById(@Param('id') id: number): Promise<FileEntity> {
+        return this.filesService.getFileById(id);
     }
 }

@@ -26,7 +26,7 @@ const DropZone: FC<ComponentProps> = (props) => {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop: onDropHandler,
         multiple: false,
-        accept: { 'audio/*': [] },
+        accept: { 'audio/mpeg': [] },
     });
 
     const getText = () => {

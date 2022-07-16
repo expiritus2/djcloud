@@ -44,7 +44,8 @@ describe('TrackRatings management', () => {
     });
 
     beforeEach(async () => {
-        track = await createTrack(app, adminCookie);
+        const { createdTrack } = await createTrack(app, adminCookie);
+        track = createdTrack;
     });
 
     afterEach(async () => {

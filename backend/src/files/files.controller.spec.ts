@@ -24,6 +24,7 @@ describe('FilesController', () => {
         mockFilesService = {
             storeFile: jest.fn(),
             removeFile: jest.fn(),
+            getFileById: jest.fn(),
         };
         const module: TestingModule = await Test.createTestingModule({
             imports: [NestjsFormDataModule],
@@ -65,10 +66,20 @@ describe('FilesController', () => {
         it('should remove file', async () => {
             mockFilesService.removeFile.mockResolvedValueOnce(file);
 
-            const result = await controller.fileRemove(1);
+            const result = await controller.fileRemove({ id: 1 });
 
             expect(mockFilesService.removeFile).toBeCalledWith(1);
             expect(result).toEqual(file);
+        });
+    });
+
+    describe('getFileById', () => {
+        it('should return file by id', async () => {
+            mockFilesService.getFileById.mockResolvedValueOnce({ id: 1, ...file });
+
+            const result = await controller.getFileById(1);
+
+            expect(result).toEqual({ id: 1, ...file });
         });
     });
 });

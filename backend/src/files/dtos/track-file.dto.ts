@@ -10,6 +10,7 @@ export type UploadFile = {
 };
 
 export type UploadedFile = {
+    id: number;
     name: string;
     url: string;
     size: number;
@@ -20,6 +21,6 @@ export type UploadedFile = {
 export class TrackFileDto {
     @IsFile()
     @MaxFileSize(1e9)
-    @HasMimeType(['audio/mpeg', 'audio/wav'])
+    @HasMimeType(['audio/mpeg'], { message: 'File extension not allowed. Allowed types: .mp3' })
     file: UploadFile;
 }

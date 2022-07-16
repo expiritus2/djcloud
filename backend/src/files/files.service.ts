@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UploadedFile, UploadFile } from './dtos/track-file.dto';
 import { FileEntity } from './file.entity';
 import { ConfigService } from '@nestjs/config';
@@ -27,8 +27,17 @@ export class FilesService {
         return { ...createdFile, duration: fileInfo.duration };
     }
 
+    async getFileById(id: number): Promise<FileEntity> {
+        const storedFile = await this.fileRepo.findOne(id);
+        if (!storedFile) {
+            throw new NotFoundException(`File with id: ${id} not found`);
+        }
+
+        return storedFile;
+    }
+
     async removeFile(id: number): Promise<FileEntity> {
-        const file = await this.fileRepo.findOne(id);
+        const file = await this.getFileById(id);
         await this.spacesService.deleteObject(file);
 
         return this.fileRepo.remove(file);

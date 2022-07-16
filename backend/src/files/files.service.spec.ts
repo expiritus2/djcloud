@@ -6,6 +6,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FileEntity } from './file.entity';
 import { SpacesService } from './spaces.service';
+import { NotFoundException } from '@nestjs/common';
 
 describe('FilesService', () => {
     let service: FilesService;
@@ -111,6 +112,28 @@ describe('FilesService', () => {
             expect(mockSpacesService.deleteObject).toBeCalledWith(file);
 
             expect(result).toEqual(file);
+        });
+    });
+
+    describe('getFileById', () => {
+        it('should return file by id', async () => {
+            mockFilesRepo.findOne.mockResolvedValueOnce({ id: 1, ...fileInfo });
+
+            const result = await service.getFileById(1);
+
+            expect(mockFilesRepo.findOne).toBeCalledWith(1);
+            expect(result).toEqual({ id: 1, ...fileInfo });
+        });
+
+        it('should throw error if file not found', async () => {
+            mockFilesRepo.findOne.mockResolvedValueOnce(null);
+
+            try {
+                await service.getFileById(1);
+            } catch (error: any) {
+                expect(error instanceof NotFoundException).toBeTruthy();
+                expect(error.message).toEqual('File with id: 1 not found');
+            }
         });
     });
 });

@@ -1,0 +1,8 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.contentWrapper {
+    width: 100%;
+    padding: setUnit(10) setUnit(10) 0;
+    overflow: auto;
+}

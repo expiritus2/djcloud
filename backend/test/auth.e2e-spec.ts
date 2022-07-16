@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { UserEntity } from '../src/modules/users/user.entity';
+import { UserEntity } from '../src/users/user.entity';
 import { signup, clearTable } from './utils';
 import { getConnection } from 'typeorm';
 

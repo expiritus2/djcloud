@@ -24,7 +24,9 @@ export const showErrorMessage = (err: any) => {
 
     const backendErrorMessage = get(err, 'response.data.message');
     if (backendErrorMessage) {
-        return Array.isArray(backendErrorMessage) ? loopSimpleErrors(backendErrorMessage) : toastr.error(backendErrorMessage);
+        return Array.isArray(backendErrorMessage)
+            ? loopSimpleErrors(backendErrorMessage)
+            : toastr.error(backendErrorMessage);
     }
 
     const axiosErrors = get(err, 'response.data.errors');

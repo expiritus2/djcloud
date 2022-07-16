@@ -1,0 +1,51 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.tablePagination {
+    display: flex;
+    align-items: center;
+
+    .controls {
+        display: flex;
+        align-items: center;
+    }
+
+    .pages {
+        display: flex;
+        align-items: center;
+    }
+
+    .page {
+        width: fit-content;
+        min-width: setUnit(30);
+        height: setUnit(30);
+        padding: setUnit(5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid $darkColor;
+        border-left: none;
+        cursor: pointer;
+        font-size: setUnit(14);
+
+        &.first {
+            border-left: 1px solid lighten($darkColor, 20);
+        }
+
+        &.current,
+        &:hover {
+            background: $darkColor;
+            color: $whiteColor;
+        }
+    }
+
+    .dots {
+        font-size: setUnit(18);
+        cursor: auto;
+
+        &:hover {
+            background: none;
+            color: $darkColor;
+        }
+    }
+}

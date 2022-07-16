@@ -1,0 +1,15 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.pageTitle {
+  display: flex;
+  align-items: center;
+  padding: 0 setUnit(10);
+  border-radius: setUnit(5);
+
+  .title {
+    flex-grow: 1;
+    text-align: center;
+    font-size: setUnit(40);
+  }
+}

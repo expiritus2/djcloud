@@ -1,0 +1,61 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: setUnit(14);
+    border-radius: setUnit(5);
+    padding: setUnit(5) setUnit(15);
+
+    .rating {
+        margin-right: setUnit(15);
+    }
+
+    &:nth-child(even) {
+        background: $lightColor;
+        border: 1px solid darken($lightColor, 10);
+    }
+
+    .head {
+        display: flex;
+        align-items: center;
+
+        .loader {
+            font-size: setUnit(2.5);
+            color: $lightColor;
+            height: 0;
+        }
+    }
+
+    .info {
+        color: $darkColor;
+        margin-left: setUnit(10);
+
+        .author {
+            margin-bottom: setUnit(4);
+        }
+    }
+
+    .meta {
+        display: flex;
+        align-items: center;
+
+        .download {
+            margin: 0 setUnit(10);
+
+            .icon {
+                width: setUnit(15);
+                height: setUnit(15);
+                cursor: pointer;
+                transition: all .2s;
+                fill: lighten($darkColor, 5);
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+}

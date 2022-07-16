@@ -21,7 +21,7 @@ describe('paginationQuery', () => {
 
             const queryBuilder = simplePaginateQuery(mockQueryBuilder as SelectQueryBuilder<any>, query);
 
-            expect(mockQueryBuilder.where).toBeCalledWith('name like :search', {
+            expect(mockQueryBuilder.where).toBeCalledWith('name iLIKE :search', {
                 search: '%some search%',
             });
             expect(queryBuilder).toEqual(mockQueryBuilder);
@@ -102,7 +102,7 @@ describe('paginationQuery', () => {
 
             const queryBuilder = simplePaginateQuery(mockQueryBuilder as SelectQueryBuilder<any>, query);
 
-            expect(mockQueryBuilder.where).toBeCalledWith('name like :search', {
+            expect(mockQueryBuilder.where).toBeCalledWith('name iLIKE :search', {
                 search: `%${query.search}%`,
             });
             expect(mockQueryBuilder.take).toBeCalledWith(toNumber(query.limit));

@@ -1,0 +1,69 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.wrapper {
+    width: 100%;
+    height: calc(100% - #{setUnit($player-height)});
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+}
+
+.opacityLayer {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba($darkColor, .3);
+    display: flex;
+    justify-content: center;
+}
+
+.modal {
+    width: 95%;
+    max-width: setUnit(400);
+    border: 1px solid $darkColor;
+    border-radius: setUnit(8);
+    box-shadow: setUnit(1) setUnit(1) setUnit(5) $darkColor;
+    margin: auto 0;
+    background-color: $whiteColor;
+
+    position: relative;
+    z-index: 999;
+
+    .meta {
+        padding: setUnit(20) setUnit(40);
+    }
+
+    .header {
+        border-bottom: 1px solid $darkColor;
+        font-size: setUnit(20);
+        color: $primaryColor;
+    }
+
+    .footer {
+        border-top: 1px solid $darkColor;
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            float: right;
+
+            .button {
+                margin-left: setUnit(15);
+
+                &:first-child {
+                    margin-left: 0;
+                }
+            }
+        }
+
+        .clear {
+            clear: both;
+        }
+    }
+}

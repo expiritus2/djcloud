@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { setSwagger } from './configs/app/swagger';
-import { setPipe } from './configs/app/pipes';
-import { setCookieSession } from './configs/app/cookieSession';
-import { setHeaders } from './configs/app/headers';
+import { setSwagger } from './lib/configs/app/swagger';
+import { setPipe } from './lib/configs/app/pipes';
+import { setCookieSession } from './lib/configs/app/cookieSession';
+import { setHeaders } from './lib/configs/app/headers';
 import path from 'path';
 
 global.__baseDir = path.resolve(__dirname, '..', '..');
@@ -14,7 +14,7 @@ const origin = ENV === 'development' ? 'http://localhost:3000' : '';
 
 export async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-
+    app.setGlobalPrefix('api');
     setSwagger(app);
     setPipe(app);
     setCookieSession(app);

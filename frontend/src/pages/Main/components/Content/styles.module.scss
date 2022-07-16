@@ -1,0 +1,23 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.content {
+    width: 100%;
+    padding: setUnit(15) setUnit(20) setUnit(20) setUnit(20);
+    height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)});
+    overflow: auto;
+
+    .innerHolder {
+        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(125)});
+
+        .sorts {
+            display: flex;
+            align-items: center;
+            margin-bottom: setUnit(25);
+
+            .popularSort {
+                margin-left: setUnit(10);
+            }
+        }
+    }
+}

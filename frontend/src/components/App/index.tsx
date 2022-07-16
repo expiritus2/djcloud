@@ -9,7 +9,7 @@ import styles from './styles.module.scss';
 
 export function App() {
     const { user } = useStore();
-    const isWaitUser = user.data.state === RequestStateEnum.IDLE || user.data.state === RequestStateEnum.PENDING;
+    const isWaitUser = user.state === RequestStateEnum.IDLE || user.state === RequestStateEnum.PENDING;
 
     useEffect(() => {
         user.currentUser();

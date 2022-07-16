@@ -1,0 +1,65 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+$sorColor: darken($lightColor, 60);
+
+.tableWrapper {
+    .table {
+        width: 100%;
+
+        .theadItem,
+        .tbodyItem {
+            border-bottom: 1px dotted $darkColor;
+        }
+
+        .theadItem {
+            .title {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        .tbodyItem:nth-child(even) {
+            background-color: $lightColor;
+        }
+
+        .theadCell {
+            font-size: setUnit(18);
+            font-weight: bold;
+
+            &.cell {
+                padding: 0;
+            }
+
+            .title {
+                &.clickable {
+                    cursor: pointer;
+                }
+
+                &.desc {
+                    color: $sorColor;
+                }
+            }
+
+            .sortArrow {
+                color: $darkColor;
+                transition: all .2s;
+
+                &.asc {
+                    transform: rotate(0);
+                }
+
+                &.desc {
+                    transform: rotate(180deg);
+                    fill: $sorColor;
+                }
+            }
+        }
+
+        .cell,
+        .title {
+            padding: setUnit(10);
+        }
+    }
+}

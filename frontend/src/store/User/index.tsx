@@ -3,11 +3,11 @@ import { RequestOptions } from '../../types/request';
 import { LoginProps, User } from './types';
 import Api from '../core/Api';
 import { currentUser, login } from '../../api/user';
-import { BaseStore } from '../core/BaseStore';
+import { BaseRequestStore } from '../core/BaseRequestStore';
 
-export class UserStore extends BaseStore<User> {
-    constructor() {
-        super();
+export class UsersStore extends BaseRequestStore<User> {
+    constructor(color: string) {
+        super(color);
 
         makeObservable(this, {
             loginAction: action,
@@ -17,17 +17,17 @@ export class UserStore extends BaseStore<User> {
     }
 
     loginAction(cfg: LoginProps, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<User>({ data: this.data, method: login }).execResult();
+        const sendRequest = new Api<User>({ store: this, method: login }).execResult();
 
         sendRequest(cfg, options, cb);
     }
 
     logoutAction() {
-        this.data.data = null;
+        this.resetStore();
     }
 
     currentUser(cfg?: {}, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<User>({ data: this.data, method: currentUser }).execResult();
+        const sendRequest = new Api<User>({ store: this, method: currentUser }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }

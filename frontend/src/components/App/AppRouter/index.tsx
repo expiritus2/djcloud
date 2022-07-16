@@ -6,7 +6,8 @@ import { useStore } from 'store';
 import { routes } from 'settings/navigation/routes';
 import { UserRoleEnum } from 'types/user';
 import { canActivate } from './helpers';
-import { RequestStateEnum } from '../../../types/request';
+import { RequestStateEnum } from 'types/request';
+import { Player } from 'components';
 
 const AppRouter: FC = () => {
     const { user } = useStore();
@@ -15,13 +16,19 @@ const AppRouter: FC = () => {
         <BrowserRouter>
             <Routes>
                 {routesConfig.map(({ path, Component, roles: pathRoles }) => {
-                    const userRole = user.data.data?.role?.name as UserRoleEnum;
+                    const userRole = user.data?.role?.name as UserRoleEnum;
                     const isCanActivate = canActivate(userRole, pathRoles as UserRoleEnum[]);
                     let Page = null;
+                    const exceptPlayerPaths = [routes.login, '*'];
 
                     if (isCanActivate) {
-                        Page = <Component />;
-                    } else if (user.data.state !== RequestStateEnum.PENDING && user.data.state !== RequestStateEnum.IDLE) {
+                        Page = (
+                            <>
+                                <Component />
+                                {!exceptPlayerPaths.includes(path) ? <Player /> : null}
+                            </>
+                        );
+                    } else if (user.state !== RequestStateEnum.PENDING && user.state !== RequestStateEnum.IDLE) {
                         Page = <Navigate to={routes.login} />;
                     }
 

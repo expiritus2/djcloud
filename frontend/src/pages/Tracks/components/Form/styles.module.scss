@@ -1,0 +1,12 @@
+@import "../../../../styles/functions";
+@import "../../../../styles/variables";
+
+.form {
+    .input {
+        margin-bottom: setUnit(15);
+    }
+
+    .dropzone {
+        margin-top: setUnit(30);
+    }
+}

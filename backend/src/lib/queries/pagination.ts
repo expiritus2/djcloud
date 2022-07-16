@@ -4,10 +4,14 @@ import { PaginationQueryDto } from '../common/dtos';
 
 type OptionsType = { searchFieldName?: string };
 
-export const simplePaginateQuery = <Entity>(queryBuilder: SelectQueryBuilder<Entity>, query: PaginationQueryDto, { searchFieldName = 'name' }: OptionsType = {}): SelectQueryBuilder<Entity> => {
+export const simplePaginateQuery = <Entity>(
+    queryBuilder: SelectQueryBuilder<Entity>,
+    query: PaginationQueryDto,
+    { searchFieldName = 'name' }: OptionsType = {},
+): SelectQueryBuilder<Entity> => {
     const { search, limit = 10, page, sort, field } = query;
     if (search) {
-        queryBuilder.where(`${searchFieldName} like :search`, {
+        queryBuilder.where(`${searchFieldName} iLIKE :search`, {
             search: `%${search}%`,
         });
     }
@@ -17,7 +21,7 @@ export const simplePaginateQuery = <Entity>(queryBuilder: SelectQueryBuilder<Ent
     }
 
     if (page) {
-        queryBuilder.skip(toNumber(page) * (toNumber(limit) || 10));
+        queryBuilder.skip(toNumber(page) * toNumber(limit));
     }
 
     if (field && sort) {

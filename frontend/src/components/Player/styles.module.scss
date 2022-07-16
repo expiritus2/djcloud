@@ -1,0 +1,14 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.player {
+    .title {
+        min-height: setUnit(20);
+    }
+
+    .playerContainer {
+        background: lighten($lightColor, 3);
+        position: relative;
+        z-index: 99999;
+    }
+}

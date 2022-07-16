@@ -4,7 +4,7 @@ import { RequestOptions, RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';
 
 interface IApiParams<D> {
-    data: StoreData<D>;
+    store: StoreData<D>;
     method: Function;
 }
 
@@ -20,12 +20,12 @@ interface IResponse extends IRequest {
 }
 
 export default class Api<D> {
-    data: StoreData<D>;
+    store: StoreData<D>;
 
     method: Function | undefined;
 
-    constructor({ data, method }: IApiParams<D>) {
-        this.data = data;
+    constructor({ store, method }: IApiParams<D>) {
+        this.store = store;
         this.method = method;
     }
 
@@ -80,18 +80,18 @@ export default class Api<D> {
     }
 
     setPending(): void {
-        this.data.state = RequestStateEnum.PENDING;
+        this.store.state = RequestStateEnum.PENDING;
     }
 
     setData({ cfg, response }: IResponse): void {
-        this.data.state = RequestStateEnum.READY;
-        this.data.data = response.data;
-        this.data.meta = cfg;
+        this.store.state = RequestStateEnum.READY;
+        this.store.data = response.data;
+        this.store.meta = cfg;
     }
 
     setError({ cfg }: IResponse): void {
-        this.data.state = RequestStateEnum.ERROR;
-        this.data.data = null;
-        this.data.meta = cfg;
+        this.store.state = RequestStateEnum.ERROR;
+        this.store.data = null;
+        this.store.meta = cfg;
     }
 }

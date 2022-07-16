@@ -19,7 +19,12 @@ export class UsersStore extends BaseRequestStore<User> {
     loginAction(cfg: LoginProps, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<User>({ store: this, method: login }).execResult();
 
-        sendRequest(cfg, options, cb);
+        const config = {
+            email: cfg.email.trim(),
+            password: cfg.email.trim(),
+        };
+
+        sendRequest(config, options, cb);
     }
 
     logoutAction() {

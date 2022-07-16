@@ -1,3 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+console.log('thisthisthis', process.env.ADMIN_EMAIL, process.env.ADMIN_PASSWORD);
+
 module.exports = class setAdmin1658005083954 {
     name = 'setAdmin1658005083954';
 
@@ -13,8 +20,8 @@ module.exports = class setAdmin1658005083954 {
         queryRunner.query(`
         delete
         from users
-        where email = 'test@email.com'
-          and password = '486e9b3962de2e17c1c399596d1ffd508bf163cdaf7ec38cb22694e44c016093'
+        where email = ${process.env.ADMIN_EMAIL}
+          and password = ${process.env.ADMIN_PASSWORD}
     `);
     }
 };

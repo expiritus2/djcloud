@@ -41,7 +41,7 @@ switch (process.env.NODE_ENV) {
             entities: ['**/*.entity.js'],
             synchronize: false,
             migrationsRun: true,
-            migrations: [...dbConfig.migrations],
+            migrations: [...dbConfig.migrations, 'migrations/production/*.js'],
             ssl: {
                 rejectUnauthorized: false,
             },

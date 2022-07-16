@@ -21,7 +21,7 @@ export class UsersStore extends BaseRequestStore<User> {
 
         const config = {
             email: cfg.email.trim(),
-            password: cfg.email.trim(),
+            password: cfg.password.trim(),
         };
 
         sendRequest(config, options, cb);

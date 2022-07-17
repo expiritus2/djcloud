@@ -24,8 +24,8 @@ export class TracksService {
     ) {}
 
     async create(track: CreateTrackDto) {
-        const genre = await this.genreRepo.findOne(track.genre.id);
-        const category = await this.categoryRepo.findOne(track.category.id);
+        const genre = await this.genreRepo.findOne({ where: { id: track.genre.id } });
+        const category = await this.categoryRepo.findOne({ where: { id: track.category.id } });
         const newTrack = this.trackRepo.create({
             title: track.title,
             visible: track.visible,

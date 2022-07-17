@@ -1,15 +1,17 @@
 import path from 'path';
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, signupAdmin } from './utils';
-import { getConnection } from 'typeorm';
 import { UserEntity } from '../src/users/user.entity';
 import { FileEntity } from '../src/files/file.entity';
 import { removeFile, uploadFile } from './utils/tracks';
 import { SpacesService } from '../src/files/spaces.service';
 import { envConfig } from '../src/lib/configs/envs';
+import { setCookieSession } from '../src/lib/configs/app/cookieSession';
+import { setPipe } from '../src/lib/configs/app/pipes';
+import dataSource from '../ormconfig';
 
 global.__baseDir = path.resolve(__dirname, '..');
 
@@ -26,7 +28,8 @@ describe('Files management', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
-        app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+        setPipe(app);
+        setCookieSession(app);
         await app.init();
 
         await clearTable(FileEntity);
@@ -47,8 +50,7 @@ describe('Files management', () => {
     afterAll(async () => {
         await clearTable(UserEntity);
         await clearTable(FileEntity);
-        const conn = getConnection();
-        await conn.close();
+        await dataSource.destroy();
     });
 
     describe('/files/file-upload', () => {

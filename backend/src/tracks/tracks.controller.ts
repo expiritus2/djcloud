@@ -14,6 +14,7 @@ import { GetAllResponseDto } from './dtos/get-all-response.dto';
 import { differenceInDays } from 'date-fns';
 import { TelegramService } from '../telegram/telegram.service';
 import { FilesService } from '../files/files.service';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('Tracks')
 @Controller('tracks')
@@ -22,6 +23,7 @@ export class TracksController {
         private tracksService: TracksService,
         private telegramService: TelegramService,
         private fileService: FilesService,
+        private configService: ConfigService,
     ) {}
 
     @UseGuards(AdminGuard)
@@ -31,7 +33,8 @@ export class TracksController {
     async createTrack(@Body() track: CreateTrackDto) {
         const newTrack = await this.tracksService.create(track);
         const fileUrl = `${newTrack.file.url}`;
-        if (track.visible && !track.isTest) {
+        const env = this.configService.get('NODE_ENV');
+        if (track.visible && env !== 'test' && env !== 'ci') {
             await this.telegramService.sendAudio(fileUrl);
         }
         return newTrack;

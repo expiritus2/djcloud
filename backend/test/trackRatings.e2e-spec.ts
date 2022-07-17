@@ -4,7 +4,6 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
-import { getConnection } from 'typeorm';
 import { CategoryEntity } from '../src/categories/category.entity';
 import { UserEntity } from '../src/users/user.entity';
 import { GenreEntity } from '../src/genres/genre.entity';
@@ -12,6 +11,9 @@ import { TrackRatingEntity } from '../src/trackRatings/trackRating.entity';
 import { FileEntity } from '../src/files/file.entity';
 import { createTrack, removeFile } from './utils/tracks';
 import { TrackEntity } from '../src/tracks/track.entity';
+import { setCookieSession } from '../src/lib/configs/app/cookieSession';
+import { setPipe } from '../src/lib/configs/app/pipes';
+import dataSource from '../ormconfig';
 
 global.__baseDir = path.resolve(__dirname, '..');
 
@@ -28,6 +30,8 @@ describe('TrackRatings management', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+        setPipe(app);
+        setCookieSession(app);
         await app.init();
 
         await clearTable(TrackEntity);
@@ -60,8 +64,7 @@ describe('TrackRatings management', () => {
         await clearTable(TrackRatingEntity);
         await clearTable(FileEntity);
         await clearTable(UserEntity);
-        const conn = getConnection();
-        await conn.close();
+        await dataSource.destroy();
     });
 
     describe('/trackRatings/add', () => {

@@ -32,7 +32,7 @@ export class GenresController {
     @ApiOperation({ summary: 'Get genre by id' })
     @ApiResponse({ status: 200, type: GenreDto })
     @UseGuards(AdminGuard)
-    async getById(@Param('id') id: string): Promise<GenreEntity> {
+    async getById(@Param('id') id: number): Promise<GenreEntity> {
         return this.genreService.findOne(id);
     }
 
@@ -40,7 +40,7 @@ export class GenresController {
     @ApiOperation({ summary: 'Update genre by id' })
     @ApiResponse({ status: 200, type: GenreDto })
     @UseGuards(AdminGuard)
-    async update(@Param('id') id: string, @Body() body: UpdateGenreDto): Promise<GenreEntity> {
+    async update(@Param('id') id: number, @Body() body: UpdateGenreDto): Promise<GenreEntity> {
         return this.genreService.update(id, body);
     }
 
@@ -48,7 +48,7 @@ export class GenresController {
     @ApiOperation({ summary: 'Remove genre' })
     @ApiResponse({ status: 200, type: GenreDto })
     @UseGuards(AdminGuard)
-    async remove(@Param('id') id: string) {
+    async remove(@Param('id') id: number) {
         return this.genreService.remove(id);
     }
 }

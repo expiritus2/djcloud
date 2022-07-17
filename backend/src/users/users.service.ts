@@ -13,14 +13,14 @@ export class UsersService {
     ) {}
 
     async create(email: string, password: string): Promise<UserEntity> {
-        const role = await this.roleRepo.findOne({ name: RolesEnum.USER });
+        const role = await this.roleRepo.findOne({ where: { name: RolesEnum.USER } });
         const user = this.userRepo.create({ email, password, role });
 
         return this.userRepo.save(user);
     }
 
-    async findOne(id: string | number): Promise<UserEntity> {
-        const user = await this.userRepo.findOne(id, { relations: ['role'] });
+    async findOne(id: number): Promise<UserEntity> {
+        const user = await this.userRepo.findOne({ where: { id }, relations: ['role'] });
 
         if (!user) {
             throw new NotFoundException(`User with id: ${id} is not exists`);
@@ -29,8 +29,8 @@ export class UsersService {
         return user;
     }
 
-    find(options: any): Promise<UserEntity[]> {
-        return this.userRepo.find({ relations: ['role'], where: options });
+    async find(options: any): Promise<UserEntity[]> {
+        return this.userRepo.find({ where: options, relations: ['role'] });
     }
 
     async remove(id: number): Promise<UserEntity> {

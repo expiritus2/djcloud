@@ -1,6 +1,5 @@
-import { getConnection } from 'typeorm';
+import dataSource from '../ormconfig';
 
 global.afterAll(async () => {
-    const conn = getConnection();
-    await conn.close();
+    await dataSource.destroy();
 });

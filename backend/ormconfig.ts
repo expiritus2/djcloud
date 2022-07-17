@@ -1,14 +1,16 @@
-const dbConfig = {
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+
+const ORMConfig = {
     synchronize: false,
-    migrations: ['migrations/*.js'],
     cli: {
         migrationsDir: 'migrations',
     },
-};
+} as TypeOrmModuleOptions;
 
 switch (process.env.NODE_ENV) {
     case 'development':
-        Object.assign(dbConfig, {
+        Object.assign(ORMConfig, {
             type: 'postgres',
             host: 'localhost',
             port: 5432,
@@ -16,12 +18,12 @@ switch (process.env.NODE_ENV) {
             password: 'local',
             database: 'local',
             entities: ['**/*.entity.js'],
-            synchronize: false,
-            migrations: [...dbConfig.migrations, 'migrations/development/*.js'],
-        });
+            migrationsRun: true,
+            migrations: ['migrations/*.js', 'migrations/development/*.js'],
+        } as TypeOrmModuleOptions);
         break;
     case 'test':
-        Object.assign(dbConfig, {
+        Object.assign(ORMConfig, {
             type: 'postgres',
             host: 'localhost',
             port: 5433,
@@ -29,19 +31,17 @@ switch (process.env.NODE_ENV) {
             password: 'test',
             database: 'test',
             entities: ['**/*.entity{.ts,.js}'],
-            synchronize: false,
             migrationsRun: true,
-            migrations: [...dbConfig.migrations, 'migrations/test/*.js'],
+            migrations: ['migrations/*.js', 'migrations/test/*.js'],
         });
         break;
     case 'production':
-        Object.assign(dbConfig, {
+        Object.assign(ORMConfig, {
             type: 'postgres',
             url: process.env.DATABASE_URL,
             entities: ['**/*.entity.js'],
-            synchronize: false,
             migrationsRun: true,
-            migrations: [...dbConfig.migrations, 'migrations/production/*.js'],
+            migrations: ['migrations/*.js', 'migrations/production/*.js'],
             ssl: {
                 rejectUnauthorized: false,
             },
@@ -51,4 +51,8 @@ switch (process.env.NODE_ENV) {
         throw new Error('Unknown environment');
 }
 
-module.exports = dbConfig;
+const dataSource = new DataSource(ORMConfig as any);
+
+dataSource.initialize();
+
+export default dataSource;

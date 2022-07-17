@@ -10,10 +10,12 @@ import { TrackRatingsModule } from './trackRatings/trackRatings.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { FilesModule } from './files/files.module';
 
+import dataSource from '../ormconfig';
+
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
-        TypeOrmModule.forRoot(),
+        TypeOrmModule.forRoot(dataSource.options),
         UsersModule,
         AuthModule,
         GenresModule,

@@ -7,12 +7,15 @@ import { cloneDeep, merge } from 'lodash';
 import { TelegramService } from '../telegram/telegram.service';
 import { getTime, subDays, subHours } from 'date-fns';
 import { FilesService } from '../files/files.service';
+import { getMockConfigService } from '../lib/testData/utils';
+import { ConfigService } from '@nestjs/config';
 
 describe('TracksController', () => {
     let controller: TracksController;
     let mockTrackService;
     let mockTelegramService;
     let mockFilesService;
+    let mockConfigService;
 
     const mockAdminGuard: CanActivate = { canActivate: jest.fn(() => true) };
     let mockSession = {};
@@ -34,6 +37,7 @@ describe('TracksController', () => {
     };
 
     beforeEach(async () => {
+        mockConfigService = getMockConfigService();
         mockSession = {};
         mockTelegramService = {
             sendAudio: jest.fn(),
@@ -66,6 +70,10 @@ describe('TracksController', () => {
                 {
                     provide: FilesService,
                     useValue: mockFilesService,
+                },
+                {
+                    provide: ConfigService,
+                    useValue: mockConfigService,
                 },
             ],
         })

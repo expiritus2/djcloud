@@ -107,7 +107,7 @@ describe('FilesService', () => {
 
             const result = await service.removeFile(1);
 
-            expect(mockFilesRepo.findOne).toBeCalledWith(1);
+            expect(mockFilesRepo.findOne).toBeCalledWith({ where: { id: 1 } });
             expect(mockFilesRepo.remove).toBeCalledWith(file);
             expect(mockSpacesService.deleteObject).toBeCalledWith(file);
 
@@ -121,7 +121,7 @@ describe('FilesService', () => {
 
             const result = await service.getFileById(1);
 
-            expect(mockFilesRepo.findOne).toBeCalledWith(1);
+            expect(mockFilesRepo.findOne).toBeCalledWith({ where: { id: 1 } });
             expect(result).toEqual({ id: 1, ...fileInfo });
         });
 

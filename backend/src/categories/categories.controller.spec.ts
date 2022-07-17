@@ -65,8 +65,8 @@ describe('CategoriesController', () => {
                 value: 'category_name',
             };
             mockCategoriesService.findOne.mockResolvedValueOnce(category);
-            const result = await controller.getById('1');
-            expect(mockCategoriesService.findOne).toBeCalledWith('1');
+            const result = await controller.getById(1);
+            expect(mockCategoriesService.findOne).toBeCalledWith(1);
             expect(result).toEqual(category);
         });
     });
@@ -84,9 +84,9 @@ describe('CategoriesController', () => {
 
     describe('update', () => {
         it('create should create new entity', async () => {
-            const result = await controller.update('1', { name: 'Updated Category' });
+            const result = await controller.update(1, { name: 'Updated Category' });
             expect(result).toEqual({
-                id: '1',
+                id: 1,
                 name: 'Updated Category',
                 value: 'updated_category',
             });
@@ -95,9 +95,9 @@ describe('CategoriesController', () => {
 
     describe('update', () => {
         it('create should create new entity', async () => {
-            const result = await controller.remove('1');
+            const result = await controller.remove(1);
             expect(result).toEqual({
-                id: '1',
+                id: 1,
                 name: 'Removed Category',
                 value: 'removed_category',
             });

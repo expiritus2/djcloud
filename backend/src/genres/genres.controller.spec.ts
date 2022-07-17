@@ -63,8 +63,8 @@ describe('GenresController', () => {
                 value: 'genre_name',
             };
             mockGenresService.findOne.mockResolvedValueOnce(category);
-            const result = await controller.getById('1');
-            expect(mockGenresService.findOne).toBeCalledWith('1');
+            const result = await controller.getById(1);
+            expect(mockGenresService.findOne).toBeCalledWith(1);
             expect(result).toEqual(category);
         });
     });
@@ -77,21 +77,21 @@ describe('GenresController', () => {
     });
 
     describe('update', () => {
-        it('create should create new entity', async () => {
-            const result = await controller.update('1', { name: 'Updated Genre' });
+        it('update should update entity', async () => {
+            const result = await controller.update(1, { name: 'Updated Genre' });
             expect(result).toEqual({
-                id: '1',
+                id: 1,
                 name: 'Updated Genre',
                 value: 'updated_genre',
             });
         });
     });
 
-    describe('update', () => {
-        it('create should create new entity', async () => {
-            const result = await controller.remove('1');
+    describe('remove', () => {
+        it('remove should remove entity', async () => {
+            const result = await controller.remove(1);
             expect(result).toEqual({
-                id: '1',
+                id: 1,
                 name: 'Removed Genre',
                 value: 'removed_genre',
             });

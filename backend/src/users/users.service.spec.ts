@@ -54,7 +54,7 @@ describe('UsersService', () => {
                 id: expect.anything(),
                 email: 'asdf@asdf.com',
                 password: 'asdf',
-                role: { id: 1, name: 'user' },
+                role: { id: 1 },
             });
         });
     });

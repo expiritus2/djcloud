@@ -12,13 +12,11 @@ jobs:
         node-version: [14.x]
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Unit test
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - name: Install
       - run: cd backend && npm install
-      - name: Unit test
       - run: cd backend && npm run unit-test
 #      - run: cd frontend && yarn install

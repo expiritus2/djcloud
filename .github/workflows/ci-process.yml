@@ -19,6 +19,10 @@ jobs:
           cache: 'npm'
       - run: cd backend && npm install
       - run: cd backend && npm run unit-test
+
       - name: Integration test
         uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
       - run: cd frontend && yarn install

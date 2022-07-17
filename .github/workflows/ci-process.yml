@@ -12,12 +12,11 @@ jobs:
         node-version: [14.x]
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/cache-dependencies
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: cd backend && npm install
-      - run: cd frontend && yarn install
-      - run: npm run unit-test
+      - run: cd backend && npm run test:cov
+#      - run: cd frontend && yarn install

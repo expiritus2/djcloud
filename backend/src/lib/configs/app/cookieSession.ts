@@ -4,6 +4,9 @@ const cookieSession = require('cookie-session');
 import helmet from 'helmet';
 
 export const setCookieSession = (app: INestApplication) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    app.set('trust proxy', 1);
     app.use(helmet());
     app.use(
         cookieSession({

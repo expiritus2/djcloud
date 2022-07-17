@@ -4,7 +4,7 @@ on:
     branches:
       - develop
 jobs:
-  application:
+  unit-test:
     runs-on: ubuntu-20.04
 
     strategy:
@@ -20,9 +20,28 @@ jobs:
       - run: cd backend && npm install
       - run: cd backend && npm run unit-test
 
-      - name: Integration test
+  integration-test:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DB: ci
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Unit test
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: cd frontend && yarn install

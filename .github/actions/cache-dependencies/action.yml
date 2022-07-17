@@ -1,0 +1,11 @@
+name: "CacheDependency"
+description: "Cache dependency to boost workflow"
+runs:
+  using: "composite"
+  steps:
+    - name: Application - Previous coverage
+      uses: actions/cache@v3
+      with:
+        path: |
+          **/node_modules
+        key: node-dependencies-${{ hashFiles('**/yarn.lock') }}

@@ -2,9 +2,6 @@ import { INestApplication } from '@nestjs/common';
 import session from 'express-session';
 
 export const setCookieSession = (app: INestApplication) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // app.set('trust proxy', 1);
     app.use(
         session({
             name: process.env.COOKIE_SESSION_NAME || 'session',

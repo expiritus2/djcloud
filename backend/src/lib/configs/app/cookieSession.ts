@@ -1,8 +1,10 @@
 import { INestApplication } from '@nestjs/common';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cookieSession = require('cookie-session');
+import helmet from 'helmet';
 
 export const setCookieSession = (app: INestApplication) => {
+    app.use(helmet());
     app.use(
         cookieSession({
             name: process.env.COOKIE_SESSION_NAME || 'session',

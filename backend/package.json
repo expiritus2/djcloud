@@ -43,6 +43,7 @@
         "class-validator": "^0.13.2",
         "cross-env": "^7.0.3",
         "date-fns": "^2.28.0",
+        "dotenv": "^16.0.1",
         "express-session": "^1.17.3",
         "get-audio-duration": "^3.1.0",
         "helmet": "^5.1.0",

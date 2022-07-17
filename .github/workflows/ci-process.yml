@@ -22,7 +22,8 @@ jobs:
 
   integration-test:
     runs-on: ubuntu-20.04
-
+    needs:
+      - unit-test
     strategy:
       matrix:
         node-version: [14.x]
@@ -40,7 +41,7 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v3
-      - name: Unit test
+      - name: Integration test
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}

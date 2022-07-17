@@ -13,7 +13,8 @@ export const setCookieSession = (app: INestApplication) => {
             name: process.env.COOKIE_SESSION_NAME || 'session',
             keys: [process.env.COOKIE_KEY],
             expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // one month
-            sameSite: false,
+            secure: true,
+            sameSite: 'none',
         }),
     );
 };

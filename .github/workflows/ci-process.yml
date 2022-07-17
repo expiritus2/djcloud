@@ -4,7 +4,7 @@ on:
     branches:
       - develop
 jobs:
-  build:
+  application:
     runs-on: ubuntu-20.04
 
     strategy:
@@ -19,4 +19,5 @@ jobs:
           cache: 'npm'
       - run: cd backend && npm install
       - run: cd backend && npm run unit-test
-#      - run: cd frontend && yarn install
+      - name: Integration test
+      - run: cd frontend && yarn install

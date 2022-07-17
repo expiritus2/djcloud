@@ -5,6 +5,7 @@ import { setPipe } from './lib/configs/app/pipes';
 import { setCookieSession } from './lib/configs/app/cookieSession';
 import { setHeaders } from './lib/configs/app/headers';
 import path from 'path';
+import helmet from 'helmet';
 
 global.__baseDir = path.resolve(__dirname, '..', '..');
 
@@ -18,6 +19,7 @@ export async function bootstrap() {
     setSwagger(app);
     setPipe(app);
     setCookieSession(app);
+    app.use(helmet());
     setHeaders(app);
     app.enableCors({ origin, credentials: true });
     await app.listen(PORT);

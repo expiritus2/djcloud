@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - name: Install
       - run: cd backend && npm install
-      - run: cd backend && npm run test:cov
+      - name: Unit test
+      - run: cd backend && npm run unit-test
 #      - run: cd frontend && yarn install

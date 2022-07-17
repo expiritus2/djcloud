@@ -8,6 +8,15 @@ export const setCookieSession = (app: INestApplication) => {
             secret: process.env.COOKIE_KEY,
             resave: false,
             saveUninitialized: false,
+            ...(process.env.NODE_ENV === 'production'
+                ? {
+                      cookie: {
+                          secure: true,
+                          sameSite: 'none',
+                          expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // one month
+                      },
+                  }
+                : {}),
         }),
     );
 };

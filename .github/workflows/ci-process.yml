@@ -11,19 +11,20 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-      - uses: actions/checkout@v3
-      - name: Unit test
-        uses: actions/setup-node@v3
+      - name: Check out repository code
+        uses: actions/checkout@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: cd backend && npm install
-      - run: cd backend && npm run unit-test
+
+      - name: Install dependencies
+        run: cd backend && npm install
+
+      - name: Unit test
+        run: cd backend && npm run unit-test
 
   integration-test:
     runs-on: ubuntu-20.04
-    needs:
-      - unit-test
     strategy:
       matrix:
         node-version: [14.x]

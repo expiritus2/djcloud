@@ -11,6 +11,7 @@ export const setCookieSession = (app: INestApplication) => {
             ...(process.env.NODE_ENV === 'production'
                 ? {
                       cookie: {
+                          secure: true,
                           sameSite: 'none',
                           expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30), // one month
                       },

@@ -41,6 +41,7 @@ export class SpacesService {
             };
             return { ...fileInfo, duration };
         } catch (error: any) {
+            await this.deleteObject({ name: filename } as FileEntity);
             throw new InternalServerErrorException(`DoSpacesService_ERROR: ${error.message || 'Something went wrong'}`);
         }
     }

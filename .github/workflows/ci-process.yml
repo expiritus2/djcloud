@@ -20,4 +20,5 @@ jobs:
       - run: cd backend && npm install
       - run: cd backend && npm run unit-test
       - name: Integration test
+        uses: actions/setup-node@v3
       - run: cd frontend && yarn install

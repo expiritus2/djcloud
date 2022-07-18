@@ -15,7 +15,12 @@ import dataSource from '../ormconfig';
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
-        TypeOrmModule.forRoot(dataSource.options),
+        TypeOrmModule.forRootAsync({
+            useFactory: async () => {
+                await dataSource.initialize();
+                return dataSource.options;
+            },
+        }),
         UsersModule,
         AuthModule,
         GenresModule,

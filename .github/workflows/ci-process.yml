@@ -62,10 +62,10 @@ jobs:
         working-directory: backend
         run: npm install
 
-      - name: Sleep for 30 seconds
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '30s'
+#      - name: Sleep for 30 seconds
+#        uses: jakejarvis/wait-action@master
+#        with:
+#          time: '30s'
 
       - name: Integration test
         id: integration_test

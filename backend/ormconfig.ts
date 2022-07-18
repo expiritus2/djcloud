@@ -35,19 +35,6 @@ switch (process.env.NODE_ENV) {
             migrations: ['migrations/*.js', 'migrations/test/*.js'],
         });
         break;
-    case 'ci':
-        Object.assign(ORMConfig, {
-            type: 'postgres',
-            host: 'localhost',
-            port: 5432,
-            username: 'test',
-            password: 'test',
-            database: 'test',
-            entities: ['**/*.entity{.ts,.js}'],
-            migrationsRun: true,
-            migrations: ['migrations/*.js', 'migrations/test/*.js'],
-        });
-        break;
     case 'production':
         Object.assign(ORMConfig, {
             type: 'postgres',

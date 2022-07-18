@@ -7,44 +7,56 @@ jobs:
   unit-test:
     runs-on: ubuntu-20.04
 
+    strategy:
+      matrix:
+        node-version: [ 14.x, 16.x ]
+
     steps:
       - uses: actions/checkout@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
 
       - name: Install dependencies
-        run: cd backend && npm install
+        working-directory: backend
+        run: npm install
 
       - name: Unit test
-        run: cd backend && npm run unit-test
+        working-directory: backend
+        run: npm run unit-test
 
   integration-test:
     runs-on: ubuntu-20.04
 
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_DB: test
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_PORT: 5432
-        ports:
-          - 5433:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    strategy:
+      matrix:
+        node-version: [ 14.x, 16.x ]
+#    services:
+#      postgres:
+#        image: postgres
+#        env:
+#          POSTGRES_DB: test
+#          POSTGRES_USER: test
+#          POSTGRES_PASSWORD: test
+#          POSTGRES_PORT: 5432
+#        ports:
+#          - 5433:5432
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
     steps:
       - uses: actions/checkout@v3
+      - name: Build the Postgres stack
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+        working-directory: backend
+        run: npm run docker:run
 
       - name: Install dependencies
-        run: cd backend && npm install
+        working-directory: backend
+        run: npm install
 
       - name: Integration test
-        run: cd backend && npm run test:e2e
+        working-directory: backend
+        run: npm run test:e2e

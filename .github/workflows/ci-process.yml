@@ -62,8 +62,9 @@ jobs:
         run: npm install
 
       - name: Sleep
-        run: sleep 30s
-        shell: bash
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
 
       - name: Integration test
         working-directory: backend

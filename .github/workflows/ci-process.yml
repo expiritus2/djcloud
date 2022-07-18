@@ -41,9 +41,7 @@ jobs:
       - name: Install dependencies
         working-directory: backend
         run: npm install
-#
-#      - name: Integration test
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#        working-directory: backend
-#        run: npm run test:e2e
+
+      - name: Integration test
+        working-directory: backend
+        run: npm run test:e2e

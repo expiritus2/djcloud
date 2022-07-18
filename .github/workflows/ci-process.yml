@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - develop
+  pull_request:
+    branches:
+      - master
 jobs:
   unit-test:
     runs-on: ubuntu-20.04
@@ -10,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          node-version: 14.x
+          node-version: 14
 
       - name: Install dependencies
         working-directory: backend
@@ -19,12 +22,20 @@ jobs:
       - name: Unit test
         working-directory: backend
         run: npm run unit-test
-  setup-database:
+
+  integration-test:
     runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          node-version: 14.x
+    needs: setup-database
+    env:
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
+      COOKIE_SESSION_NAME: ${{ secrets.COOKIE_SESSION_NAME }}
+      SALT: ${{ secrets.SALT }}
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      DO_BUCKET_NAME: ${{ secrets.DO_BUCKET_NAME }}
+      DO_ACCESS_KEY: ${{ secrets.DO_ACCESS_KEY }}
+      DO_SECRET_KEY: ${{ secrets.DO_SECRET_KEY }}
     services:
       postgres:
         image: postgres
@@ -41,20 +52,6 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-  integration-test:
-    runs-on: ubuntu-20.04
-    needs: setup-database
-    env:
-      NODE_ENV: ${{ secrets.NODE_ENV }}
-      COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
-      COOKIE_SESSION_NAME: ${{ secrets.COOKIE_SESSION_NAME }}
-      SALT: ${{ secrets.SALT }}
-      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      DO_BUCKET_NAME: ${{ secrets.DO_BUCKET_NAME }}
-      DO_ACCESS_KEY: ${{ secrets.DO_ACCESS_KEY }}
-      DO_SECRET_KEY: ${{ secrets.DO_SECRET_KEY }}
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -63,6 +60,10 @@ jobs:
       - name: Install dependencies
         working-directory: backend
         run: npm install
+
+      - name: Sleep
+        run: sleep 30s
+        shell: bash
 
       - name: Integration test
         working-directory: backend

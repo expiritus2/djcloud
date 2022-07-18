@@ -61,11 +61,6 @@ jobs:
         working-directory: backend
         run: npm install
 
-      - name: Sleep
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '30s'
-
       - name: Integration test
         working-directory: backend
         run: npm run test:e2e

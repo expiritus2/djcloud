@@ -24,24 +24,26 @@ jobs:
         working-directory: backend
         run: npm run unit-test
 
-#  integration-test:
-#    runs-on: ubuntu-20.04
-#
-#    strategy:
-#      matrix:
-#        node-version: [ 14.x, 16.x ]
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Build the Postgres stack
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#        working-directory: backend
-#        run: npm run docker:run
-#
-#      - name: Install dependencies
-#        working-directory: backend
-#        run: npm install
-#
-#      - name: Integration test
-#        working-directory: backend
-#        run: npm run test:e2e
+  integration-test:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Postgres stack
+        working-directory: backend
+        run: npm run docker:run
+
+      - name: Install dependencies
+        with:
+          node-version: ${{ matrix.node-version }}
+        working-directory: backend
+        run: npm install
+
+      - name: Integration test
+        with:
+          node-version: ${{ matrix.node-version }}
+        working-directory: backend
+        run: npm run test:e2e

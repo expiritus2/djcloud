@@ -4,7 +4,7 @@ import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, signupAdmin } from './utils';
 import { GenreEntity } from '../src/genres/genre.entity';
-import { UserEntity } from '../src/users/user.entity';
+import { UserEntity } from '../src/authentication/users/user.entity';
 import { snakeCase } from 'lodash';
 import { GenreDto } from '../src/genres/dtos/genre.dto';
 import { setCookieSession } from '../src/lib/configs/app/cookieSession';

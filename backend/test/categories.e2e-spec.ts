@@ -4,7 +4,7 @@ import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, signupAdmin } from './utils';
 import { CategoryEntity } from '../src/categories/category.entity';
-import { UserEntity } from '../src/users/user.entity';
+import { UserEntity } from '../src/authentication/users/user.entity';
 import { snakeCase } from 'lodash';
 import { CategoryDto } from '../src/categories/dtos/category.dto';
 import dataSource from '../ormconfig';

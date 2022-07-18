@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Session, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TracksService } from './tracks.service';
-import { AdminGuard } from '../lib/guards/adminGuard';
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { TrackDto } from './dtos/track.dto';
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { TrackEntity } from './track.entity';

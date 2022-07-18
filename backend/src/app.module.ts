@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { AuthModule } from './authentication/auth/auth.module';
+import { UsersModule } from './authentication/users/users.module';
 import { GenresModule } from './genres/genres.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TracksModule } from './tracks/tracks.module';

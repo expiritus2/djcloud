@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TracksController } from './tracks.controller';
 import { TracksService } from './tracks.service';
 import { CanActivate } from '@nestjs/common';
-import { AdminGuard } from '../lib/guards/adminGuard';
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { cloneDeep, merge } from 'lodash';
 import { TelegramService } from '../telegram/telegram.service';
 import { getTime, subDays, subHours } from 'date-fns';
@@ -94,6 +94,32 @@ describe('TracksController', () => {
 
             const result = await controller.createTrack(track);
             expect(result).toEqual({ id: 1, ...track });
+        });
+
+        it('should send audio to telegram if env is not test or ci', async () => {
+            mockTrackService.create.mockResolvedValueOnce({ id: 1, ...track });
+            jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('development');
+
+            await controller.createTrack(track);
+
+            expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url);
+        });
+
+        it('should not send audio to telegram if env is test', async () => {
+            mockTrackService.create.mockResolvedValueOnce({ id: 1, ...track });
+
+            await controller.createTrack(track);
+
+            expect(mockTelegramService.sendAudio).not.toBeCalled();
+        });
+
+        it('should not send audio to telegram if env is ci', async () => {
+            mockTrackService.create.mockResolvedValueOnce({ id: 1, ...track });
+            jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('ci');
+
+            await controller.createTrack(track);
+
+            expect(mockTelegramService.sendAudio).not.toBeCalled();
         });
     });
 

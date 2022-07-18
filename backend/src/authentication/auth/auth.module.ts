@@ -6,7 +6,7 @@ import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../users/user.entity';
 import { CurrentUserMiddleware } from '../lib/middlewares/current-user';
-import { RoleEntity } from '../roles/role.entity';
+import { RoleEntity } from '../../roles/role.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), UsersModule],

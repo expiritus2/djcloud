@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { UserEntity } from '../../src/users/user.entity';
+import { UserEntity } from '../../src/authentication/users/user.entity';
 import { RoleEntity } from '../../src/roles/role.entity';
 import { RolesEnum } from '../../src/roles/roles.enum';
 import dataSource from '../../ormconfig';

@@ -4,7 +4,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, signupAdmin } from './utils';
-import { UserEntity } from '../src/users/user.entity';
+import { UserEntity } from '../src/authentication/users/user.entity';
 import { FileEntity } from '../src/files/file.entity';
 import { removeFile, uploadFile } from './utils/tracks';
 import { SpacesService } from '../src/files/spaces.service';

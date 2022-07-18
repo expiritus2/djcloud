@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TrackRatingsController } from './trackRatings.controller';
 import { TrackRatingsService } from './trackRatings.service';
-import { AdminGuard } from '../lib/guards/adminGuard';
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { CanActivate } from '@nestjs/common';
 import { TracksService } from '../tracks/tracks.service';
 import { cloneDeep } from 'lodash';

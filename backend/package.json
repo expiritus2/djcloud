@@ -105,13 +105,13 @@
             "!lib/configs/**",
             "!app.module.ts",
             "!main.ts",
-            "!auth/auth.module.ts",
             "!genres/genres.module.ts",
             "!lib/common/**",
-            "!lib/interceptors/serialize.interceptor.ts",
             "!categories/categories.module.ts",
             "!lib/testData/utils/configService.ts",
-            "!users/users.controller.ts"
+            "!authentication/auth/auth.module.ts",
+            "!authentication/lib/interceptors/serialize.interceptor.ts",
+            "!authentication/users/users.controller.ts"
         ],
         "coverageDirectory": "../coverage",
         "testEnvironment": "node"

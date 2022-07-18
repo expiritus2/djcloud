@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
-import { AdminGuard } from '../lib/guards/adminGuard';
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { CreateGenreDto } from './dtos/create-genre.dto';
 import { GenresService } from './genres.service';
 import { GenreDto } from './dtos/genre.dto';

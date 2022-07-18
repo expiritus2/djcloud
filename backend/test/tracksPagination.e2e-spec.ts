@@ -10,7 +10,7 @@ import { CategoryEntity } from '../src/categories/category.entity';
 import { GenreEntity } from '../src/genres/genre.entity';
 import { TrackEntity } from '../src/tracks/track.entity';
 import { FileEntity } from '../src/files/file.entity';
-import { UserEntity } from '../src/users/user.entity';
+import { UserEntity } from '../src/authentication/users/user.entity';
 import request from 'supertest';
 import { removeFile } from './utils/tracks';
 

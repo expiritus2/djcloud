@@ -26,9 +26,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_DB: ci
-          POSTGRES_USER: ci
-          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -36,8 +36,8 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v3
-      - name: Integration test
-        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - name: Integration test
+        run: cd backend && npm run test:e2e

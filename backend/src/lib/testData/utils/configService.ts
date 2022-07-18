@@ -1,6 +1,6 @@
 export const getMockConfigService = () => {
     return {
-        get: (variable: string) => {
+        get: (variable: string): string => {
             switch (variable) {
                 case 'SALT':
                     return 'asdf';

@@ -5,7 +5,7 @@ import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
 import { CategoryEntity } from '../src/categories/category.entity';
-import { UserEntity } from '../src/users/user.entity';
+import { UserEntity } from '../src/authentication/users/user.entity';
 import { GenreEntity } from '../src/genres/genre.entity';
 import { TrackEntity } from '../src/tracks/track.entity';
 import { FileEntity } from '../src/files/file.entity';

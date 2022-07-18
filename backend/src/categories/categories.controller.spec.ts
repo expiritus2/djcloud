@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CategoriesController } from './categories.controller';
 import { CategoriesService } from './categories.service';
-import { AdminGuard } from '../lib/guards/adminGuard';
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { CanActivate } from '@nestjs/common';
 import { PaginationQueryDto } from '../lib/common/dtos';
 import { snakeCase } from 'lodash';

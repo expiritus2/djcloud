@@ -40,13 +40,6 @@ jobs:
       DO_BUCKET_NAME: ${{ secrets.DO_BUCKET_NAME }}
       DO_ACCESS_KEY: ${{ secrets.DO_ACCESS_KEY }}
       DO_SECRET_KEY: ${{ secrets.DO_SECRET_KEY }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-#      - name: Build the Postgres stack
-#        working-directory: backend
-#        run: npm run docker:run
     services:
       postgres:
         image: postgres
@@ -62,6 +55,13 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+#      - name: Build the Postgres stack
+#        working-directory: backend
+#        run: npm run docker:run
 
       - name: Install dependencies
         working-directory: backend

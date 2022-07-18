@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - develop
-#  pull_request:
-#    branches:
-#      - master
+  pull_request:
+    branches:
+      - master
 jobs:
   unit-test:
     runs-on: ubuntu-20.04
@@ -25,7 +25,6 @@ jobs:
 
   integration-test:
     runs-on: ubuntu-20.04
-    needs: setup-database
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
       COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
@@ -60,6 +59,11 @@ jobs:
       - name: Install dependencies
         working-directory: backend
         run: npm install
+
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '30s'
 
       - name: Integration test
         working-directory: backend

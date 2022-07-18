@@ -10,11 +10,14 @@ jobs:
   unit-test:
     runs-on: ubuntu-20.04
 
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
         working-directory: backend
@@ -26,6 +29,10 @@ jobs:
 
   integration-test:
     runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
       COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
@@ -36,33 +43,19 @@ jobs:
       DO_BUCKET_NAME: ${{ secrets.DO_BUCKET_NAME }}
       DO_ACCESS_KEY: ${{ secrets.DO_ACCESS_KEY }}
       DO_SECRET_KEY: ${{ secrets.DO_SECRET_KEY }}
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_DB: test
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
-          POSTGRES_PORT: 5432
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build the Postgres stack
+        working-directory: backend
+        run: npm run docker:run
 
       - name: Install dependencies
         working-directory: backend
         run: npm install
 
       - name: Integration test
-        id: integration_test
         working-directory: backend
-        run: npm run test:e2e:ci
+        run: npm run test:e2e

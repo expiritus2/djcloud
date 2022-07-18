@@ -1,4 +1,10 @@
 {
+  "name": "djcloud-project",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
   "scripts": {
     "build": "lerna run build",
     "start": "lerna run start",

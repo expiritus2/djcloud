@@ -39,5 +39,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+
+      - name: Install dependencies
+        run: cd backend && npm install
+
       - name: Integration test
         run: cd backend && npm run test:e2e

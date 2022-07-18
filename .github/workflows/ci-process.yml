@@ -70,11 +70,11 @@ jobs:
       - name: Integration test
         id: integration_test
         working-directory: backend
-        run: npm run test:e2e:c
+        run: npm run test:e2e:ci
 
       - name: Retry Integration test
         continue-on-error: true
-        id: retry2
+        id: integration_test_retry2
         if: steps.integration_test.outcome=='failure'   # check the step outcome, retry 2nd time
         run: |
           echo Retry Integration test 2nd time

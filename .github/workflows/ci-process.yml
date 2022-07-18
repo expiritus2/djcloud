@@ -39,7 +39,6 @@ jobs:
       - name: Install dependencies
         with:
           node-version: ${{ matrix.node-version }}
-        working-directory: backend
         run: npm install
 #
 #      - name: Integration test

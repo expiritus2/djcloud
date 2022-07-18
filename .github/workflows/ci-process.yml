@@ -29,6 +29,7 @@ jobs:
           POSTGRES_DB: test
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
+          POSTGRES_PORT: 5432
         ports:
           - 5433:5432
         options: >-

@@ -55,6 +55,4 @@ const dataSource = new DataSource(ORMConfig as any);
 
 dataSource.initialize();
 
-console.log('thisthisthsi', dataSource.options);
-
 export default dataSource;

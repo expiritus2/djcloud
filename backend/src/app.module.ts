@@ -12,6 +12,8 @@ import { FilesModule } from './files/files.module';
 
 import dataSource from '../ormconfig';
 
+console.log('dataSource.options', dataSource.options);
+
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),

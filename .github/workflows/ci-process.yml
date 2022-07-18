@@ -62,19 +62,7 @@ jobs:
         working-directory: backend
         run: npm install
 
-#      - name: Sleep for 30 seconds
-#        uses: jakejarvis/wait-action@master
-#        with:
-#          time: '30s'
-
       - name: Integration test
         id: integration_test
         working-directory: backend
         run: npm run test:e2e:ci
-
-      - name: Retry Integration test
-        continue-on-error: true
-        id: integration_test_retry2
-        if: steps.integration_test.outcome=='failure'   # check the step outcome, retry 2nd time
-        run: |
-          echo Retry Integration test 2nd time

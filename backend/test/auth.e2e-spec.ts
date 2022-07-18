@@ -8,6 +8,8 @@ import dataSource from '../ormconfig';
 import { setCookieSession } from '../src/lib/configs/app/cookieSession';
 import { setPipe } from '../src/lib/configs/app/pipes';
 
+jest.setTimeout(30000);
+
 describe('Authentication System', () => {
     let app: INestApplication;
 

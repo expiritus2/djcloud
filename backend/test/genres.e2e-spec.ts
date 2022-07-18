@@ -11,6 +11,8 @@ import { setCookieSession } from '../src/lib/configs/app/cookieSession';
 import { setPipe } from '../src/lib/configs/app/pipes';
 import dataSource from '../ormconfig';
 
+jest.setTimeout(30000);
+
 describe('Genres management', () => {
     let app: INestApplication;
     const listGenres: GenreDto[] = [];

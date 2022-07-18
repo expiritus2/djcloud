@@ -10,6 +10,7 @@ global.__baseDir = path.resolve(__dirname, '..', '..');
 
 const PORT = process.env.PORT || 8000;
 const ENV = process.env.NODE_ENV || 'development';
+
 const origin = ENV === 'development' ? 'http://localhost:3000' : process.env.FRONTEND_DOMAIN;
 
 export async function bootstrap() {

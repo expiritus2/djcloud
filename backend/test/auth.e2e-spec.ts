@@ -2,9 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { UserEntity } from '../src/users/user.entity';
+import { UserEntity } from '../src/authentication/users/user.entity';
 import { signup, clearTable } from './utils';
-import { getConnection } from 'typeorm';
+import dataSource from '../ormconfig';
+import { setCookieSession } from '../src/lib/configs/app/cookieSession';
+import { setPipe } from '../src/lib/configs/app/pipes';
+
+jest.setTimeout(30000);
 
 describe('Authentication System', () => {
     let app: INestApplication;
@@ -15,6 +19,8 @@ describe('Authentication System', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+        setPipe(app);
+        setCookieSession(app);
         await app.init();
 
         await clearTable(UserEntity);
@@ -25,8 +31,7 @@ describe('Authentication System', () => {
     });
 
     afterAll(async () => {
-        const conn = getConnection();
-        await conn.close();
+        await dataSource.destroy();
     });
 
     it('handles a signup request', async () => {

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoryDto } from './dtos/category.dto';
-import { AdminGuard } from '../lib/guards/adminGuard';
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { CategoryEntity } from './category.entity';
@@ -31,7 +31,7 @@ export class CategoriesController {
     @Get('/:id')
     @ApiOperation({ summary: 'Get category by id' })
     @ApiResponse({ status: 200, type: CategoryDto })
-    async getById(@Param('id') id: string): Promise<CategoryEntity> {
+    async getById(@Param('id') id: number): Promise<CategoryEntity> {
         return this.categoryService.findOne(id);
     }
 
@@ -39,7 +39,7 @@ export class CategoriesController {
     @ApiOperation({ summary: 'Update category by id' })
     @ApiResponse({ status: 200, type: CategoryDto })
     @UseGuards(AdminGuard)
-    async update(@Param('id') id: string, @Body() body: UpdateCategoryDto): Promise<CategoryEntity> {
+    async update(@Param('id') id: number, @Body() body: UpdateCategoryDto): Promise<CategoryEntity> {
         return this.categoryService.update(id, body);
     }
 
@@ -47,7 +47,7 @@ export class CategoriesController {
     @ApiOperation({ summary: 'Remove category' })
     @ApiResponse({ status: 200, type: CategoryDto })
     @UseGuards(AdminGuard)
-    async remove(@Param('id') id: string) {
+    async remove(@Param('id') id: number) {
         return this.categoryService.remove(id);
     }
 }

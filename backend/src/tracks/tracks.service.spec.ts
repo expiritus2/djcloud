@@ -144,8 +144,8 @@ describe('TracksService', () => {
             const result = await service.create(track);
 
             expect(mockTrackRepo.create).toBeCalledWith(track);
-            expect(mockGenresRepo.findOne).toBeCalledWith(track.genre.id);
-            expect(mockCategoriesRepo.findOne).toBeCalledWith(track.category.id);
+            expect(mockGenresRepo.findOne).toBeCalledWith({ where: { id: track.genre.id } });
+            expect(mockCategoriesRepo.findOne).toBeCalledWith({ where: { id: track.category.id } });
             expect(mockTrackRepo.save).toBeCalledWith(track);
             expect(result).toEqual({ id: 1, ...track });
         });

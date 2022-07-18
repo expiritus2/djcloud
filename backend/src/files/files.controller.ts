@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { AdminGuard } from '../lib/guards/adminGuard';
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FormDataRequest } from 'nestjs-form-data';
 import { TrackFileDto, UploadedFile } from './dtos/track-file.dto';

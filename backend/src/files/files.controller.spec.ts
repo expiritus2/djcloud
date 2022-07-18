@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FilesController } from './files.controller';
-import { UsersService } from '../users/users.service';
-import { AdminGuard } from '../lib/guards/adminGuard';
+import { UsersService } from '../authentication/users/users.service';
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { CanActivate } from '@nestjs/common';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FilesService } from './files.service';

@@ -28,8 +28,8 @@ export class GenresService {
         return genre;
     }
 
-    async findOne(id: string | number): Promise<GenreEntity> {
-        const genre = await this.genreRepo.findOne(id);
+    async findOne(id: number): Promise<GenreEntity> {
+        const genre = await this.genreRepo.findOne({ where: { id } });
 
         if (!genre) {
             throw new NotFoundException(`Genre with id: ${id} not found`);
@@ -67,7 +67,7 @@ export class GenresService {
         return this.genreRepo.save(newGenre);
     }
 
-    async update(id: string | number, attrs: UpdateGenreDto): Promise<GenreEntity> {
+    async update(id: number, attrs: UpdateGenreDto): Promise<GenreEntity> {
         const genre = await this.findOne(id);
 
         Object.assign(genre, { ...attrs, value: snakeCase(attrs.name) });
@@ -75,7 +75,7 @@ export class GenresService {
         return this.genreRepo.save(genre);
     }
 
-    async remove(id: string | number): Promise<GenreEntity> {
+    async remove(id: number): Promise<GenreEntity> {
         const genre = await this.findOne(id);
 
         return this.genreRepo.remove(genre);

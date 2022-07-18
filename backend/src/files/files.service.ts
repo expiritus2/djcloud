@@ -28,7 +28,7 @@ export class FilesService {
     }
 
     async getFileById(id: number): Promise<FileEntity> {
-        const storedFile = await this.fileRepo.findOne(id);
+        const storedFile = await this.fileRepo.findOne({ where: { id } });
         if (!storedFile) {
             throw new NotFoundException(`File with id: ${id} not found`);
         }

@@ -3,11 +3,15 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, signupAdmin } from './utils';
-import { getConnection } from 'typeorm';
 import { CategoryEntity } from '../src/categories/category.entity';
-import { UserEntity } from '../src/users/user.entity';
+import { UserEntity } from '../src/authentication/users/user.entity';
 import { snakeCase } from 'lodash';
 import { CategoryDto } from '../src/categories/dtos/category.dto';
+import dataSource from '../ormconfig';
+import { setCookieSession } from '../src/lib/configs/app/cookieSession';
+import { setPipe } from '../src/lib/configs/app/pipes';
+
+jest.setTimeout(30000);
 
 describe('Categories management', () => {
     let app: INestApplication;
@@ -20,19 +24,22 @@ describe('Categories management', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+        setPipe(app);
+        setCookieSession(app);
         await app.init();
 
         await clearTable(CategoryEntity);
         await clearTable(UserEntity);
+
+        const { cookie } = await signupAdmin(app);
+        adminCookie = cookie;
     });
 
     beforeEach(async () => {
-        const { cookie } = await signupAdmin(app);
-        adminCookie = cookie;
         for (let i = 0; i < 10; i++) {
             const { body } = await request(app.getHttpServer())
                 .post('/categories/create')
-                .set('Cookie', cookie)
+                .set('Cookie', adminCookie)
                 .send({ name: `Category ${i}` })
                 .expect(201);
             listCategories.push(body);
@@ -41,13 +48,12 @@ describe('Categories management', () => {
 
     afterEach(async () => {
         await clearTable(CategoryEntity);
-        await clearTable(UserEntity);
         listCategories.length = 0;
     });
 
     afterAll(async () => {
-        const conn = getConnection();
-        await conn.close();
+        await clearTable(UserEntity);
+        await dataSource.destroy();
     });
 
     describe('/categories/create', () => {

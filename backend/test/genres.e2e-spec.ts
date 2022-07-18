@@ -3,11 +3,15 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { clearTable, signupAdmin } from './utils';
-import { getConnection } from 'typeorm';
 import { GenreEntity } from '../src/genres/genre.entity';
-import { UserEntity } from '../src/users/user.entity';
+import { UserEntity } from '../src/authentication/users/user.entity';
 import { snakeCase } from 'lodash';
 import { GenreDto } from '../src/genres/dtos/genre.dto';
+import { setCookieSession } from '../src/lib/configs/app/cookieSession';
+import { setPipe } from '../src/lib/configs/app/pipes';
+import dataSource from '../ormconfig';
+
+jest.setTimeout(30000);
 
 describe('Genres management', () => {
     let app: INestApplication;
@@ -20,6 +24,8 @@ describe('Genres management', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+        setPipe(app);
+        setCookieSession(app);
         await app.init();
 
         await clearTable(GenreEntity);
@@ -46,8 +52,7 @@ describe('Genres management', () => {
     });
 
     afterAll(async () => {
-        const conn = getConnection();
-        await conn.close();
+        await dataSource.destroy();
     });
 
     describe('/genres/create', () => {

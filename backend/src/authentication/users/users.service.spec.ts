@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { UserEntity } from './user.entity';
-import { RoleEntity } from '../roles/role.entity';
+import { RoleEntity } from '../../roles/role.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
 
@@ -54,7 +54,7 @@ describe('UsersService', () => {
                 id: expect.anything(),
                 email: 'asdf@asdf.com',
                 password: 'asdf',
-                role: { id: 1, name: 'user' },
+                role: { id: 1 },
             });
         });
     });

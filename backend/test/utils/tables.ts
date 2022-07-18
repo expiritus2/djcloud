@@ -1,16 +1,14 @@
-import { getConnection } from 'typeorm';
 import { EntityTarget } from 'typeorm/common/EntityTarget';
 import { GenreEntity } from '../../src/genres/genre.entity';
 import { CategoryEntity } from '../../src/categories/category.entity';
+import dataSource from '../../ormconfig';
 
 export const clearTable = async <E>(Entity: EntityTarget<E>) => {
-    const connection = getConnection();
-    await connection.getRepository<E>(Entity).delete({});
+    await dataSource.getRepository<E>(Entity).delete({});
 };
 
 export const createGenres = async () => {
-    const connection = getConnection();
-    const genreRepo = await connection.getRepository(GenreEntity);
+    const genreRepo = await dataSource.getRepository(GenreEntity);
 
     const genres = [
         { name: 'Hip-Hop', value: 'hip_hop' },
@@ -24,8 +22,7 @@ export const createGenres = async () => {
 };
 
 export const createCategories = async () => {
-    const connection = getConnection();
-    const categoryRepo = await connection.getRepository(CategoryEntity);
+    const categoryRepo = await dataSource.getRepository(CategoryEntity);
 
     const categories = [
         { name: 'Mixs', value: 'mixs' },

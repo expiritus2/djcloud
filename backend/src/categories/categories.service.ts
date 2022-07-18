@@ -33,8 +33,8 @@ export class CategoriesService {
         return category;
     }
 
-    async findOne(id: string | number): Promise<CategoryEntity> {
-        const category = await this.categoryRepo.findOne(id);
+    async findOne(id: number): Promise<CategoryEntity> {
+        const category = await this.categoryRepo.findOne({ where: { id } });
 
         if (!category) {
             throw new NotFoundException(`Category with id: ${id} not found`);
@@ -72,7 +72,7 @@ export class CategoriesService {
         return this.categoryRepo.save(newCategory);
     }
 
-    async update(id: string | number, attrs: UpdateCategoryDto): Promise<CategoryEntity> {
+    async update(id: number, attrs: UpdateCategoryDto): Promise<CategoryEntity> {
         const category = await this.findOne(id);
 
         Object.assign(category, { ...attrs, value: snakeCase(attrs.name) });
@@ -80,7 +80,7 @@ export class CategoriesService {
         return this.categoryRepo.save(category);
     }
 
-    async remove(id: string | number): Promise<CategoryEntity> {
+    async remove(id: number): Promise<CategoryEntity> {
         const category = await this.findOne(id);
 
         return this.categoryRepo.remove(category);

@@ -53,6 +53,4 @@ switch (process.env.NODE_ENV) {
 
 const dataSource = new DataSource(ORMConfig as any);
 
-dataSource.initialize();
-
 export default dataSource;

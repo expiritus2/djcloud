@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SpacesService } from './spaces.service';
 import { envConfig } from '../lib/configs/envs';
-import { snakeCase } from 'lodash';
 
 @Injectable()
 export class FilesService {
@@ -17,11 +16,6 @@ export class FilesService {
     ) {}
 
     async storeFile(file: UploadFile): Promise<UploadedFile> {
-        const fileNameArr = file.originalName.split('.');
-        const ext = fileNameArr.pop();
-        const filename = fileNameArr.join('.');
-        file.originalName = `${snakeCase(filename)}.${ext}`;
-
         const fileInfo = await this.spacesService.putObject(file);
         const newFile = this.fileRepo.create({
             name: fileInfo.name,

@@ -20,7 +20,7 @@ export class SpacesService {
     }
 
     async putObject(file: UploadFile): Promise<Omit<UploadedFile, 'id'>> {
-        const key = `${this.configService.get('ENVIRONMENT')}/${uuid()}/${file.originalName}`;
+        const key = `${this.configService.get('NODE_ENV')}/${uuid()}/${file.originalName}`;
         const config = {
             Bucket: this.configService.get('DO_BUCKET_NAME'),
             Key: key,
@@ -61,7 +61,7 @@ export class SpacesService {
     async getObject(key: string) {
         const config = {
             Bucket: this.configService.get('DO_BUCKET_NAME'),
-            Key: `${this.configService.get('ENVIRONMENT')}/${key}`,
+            Key: `${this.configService.get('NODE_ENV')}/${key}`,
         };
 
         try {

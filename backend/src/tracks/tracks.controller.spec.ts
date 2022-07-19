@@ -32,8 +32,8 @@ describe('TracksController', () => {
         visible: true,
         duration: 435.34,
         file,
-        category: { id: 1 },
-        genre: { id: 1 },
+        category: { id: 1, name: 'Category Name', value: 'category_name' },
+        genre: { id: 1, name: 'Genre Name', value: 'genre_name' },
     };
 
     beforeEach(async () => {
@@ -102,7 +102,9 @@ describe('TracksController', () => {
 
             await controller.createTrack(track);
 
-            expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url);
+            expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url, {
+                caption: `${track.category.name} - ${track.genre.name}`,
+            });
         });
 
         it('should not send audio to telegram if env is test', async () => {

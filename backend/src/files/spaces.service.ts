@@ -5,7 +5,6 @@ import { UploadedFile, UploadFile } from './dtos/track-file.dto';
 import { v4 as uuid } from 'uuid';
 import { getAudioDurationInSeconds } from 'get-audio-duration';
 import { envConfig } from '../lib/configs/envs';
-import { FileEntity } from './file.entity';
 
 @Injectable()
 export class SpacesService {
@@ -21,41 +20,41 @@ export class SpacesService {
     }
 
     async putObject(file: UploadFile): Promise<Omit<UploadedFile, 'id'>> {
-        const filename = `${uuid()}-${file.originalName}`;
+        const key = `${this.configService.get('NODE_ENV')}/${uuid()}/${file.originalName}`;
         const config = {
             Bucket: this.configService.get('DO_BUCKET_NAME'),
-            Key: `${this.configService.get('NODE_ENV')}/${filename}`,
+            Key: key,
             Body: file.buffer,
             ACL: 'public-read',
         };
 
         try {
             await this.s3.putObject(config).promise();
-            const pathToFile = `${envConfig.cdn}/${this.configService.get('NODE_ENV')}/${filename}`;
+            const pathToFile = `${envConfig.cdn}/${key}`;
             const duration = await getAudioDurationInSeconds(pathToFile);
             const fileInfo = {
-                name: filename,
+                name: file.originalName,
                 url: pathToFile,
                 size: file.size,
                 mimetype: file.mimetype,
             };
             return { ...fileInfo, duration };
         } catch (error: any) {
-            await this.deleteObject({ name: filename } as FileEntity);
+            await this.deleteObject(key);
             throw new InternalServerErrorException(`DoSpacesService_ERROR: ${error.message || 'Something went wrong'}`);
         }
     }
 
-    async deleteObject(file: FileEntity) {
+    async deleteObject(key: string) {
         const config = {
             Bucket: this.configService.get('DO_BUCKET_NAME'),
-            Key: `${this.configService.get('NODE_ENV')}/${file.name}`,
+            Key: key,
         };
 
         try {
             return this.s3.deleteObject(config).promise();
         } catch (error: any) {
-            throw new InternalServerErrorException(`Can not delete file with id: ${file.id}`, error);
+            throw new InternalServerErrorException(`Can not delete file with key: ${key}`, error);
         }
     }
 

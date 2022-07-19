@@ -45,7 +45,7 @@ const LoginForm: FC<ComponentProps> = (props) => {
         <div className={classNames(styles.loginForm, className)}>
             <div className={classNames(styles.holder, className)}>
                 <div className={classNames(styles.meta, styles.header)}>Login</div>
-                <form className={styles.form} onSubmit={onClickSubmit}>
+                <form id="loginForm" className={styles.form} onSubmit={onClickSubmit}>
                     <InputText
                         onChange={onChangeFieldValue}
                         name="email"
@@ -79,6 +79,7 @@ const LoginForm: FC<ComponentProps> = (props) => {
                             label="Submit"
                             className={classNames(styles.button)}
                             variant="primary"
+                            form="loginForm"
                         />
                     </div>
                     <div className={styles.clear} />

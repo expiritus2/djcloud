@@ -7,7 +7,7 @@ on:
     branches:
       - master
 jobs:
-  unit-test-dev:
+  unit-test:
     runs-on: ubuntu-20.04
 
     strategy:
@@ -27,7 +27,7 @@ jobs:
         working-directory: backend
         run: npm run unit-test
 
-  integration-test-dev:
+  integration-test:
     runs-on: ubuntu-20.04
 
     strategy:

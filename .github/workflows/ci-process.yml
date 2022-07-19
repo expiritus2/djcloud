@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        run: npm install --force
+        run: npm install
 
       - name: Unit test
         working-directory: backend
@@ -54,7 +54,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        run: npm install --force
+        run: npm install
 
       - name: Integration test
         working-directory: backend

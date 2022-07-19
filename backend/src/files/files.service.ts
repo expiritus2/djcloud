@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SpacesService } from './spaces.service';
+import { envConfig } from '../lib/configs/envs';
 
 @Injectable()
 export class FilesService {
@@ -38,7 +39,8 @@ export class FilesService {
 
     async removeFile(id: number): Promise<FileEntity> {
         const file = await this.getFileById(id);
-        await this.spacesService.deleteObject(file);
+        const key = file.url.replace(`${envConfig.cdn}/`, '');
+        await this.spacesService.deleteObject(key);
 
         return this.fileRepo.remove(file);
     }

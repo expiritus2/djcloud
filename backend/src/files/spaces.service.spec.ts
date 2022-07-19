@@ -73,7 +73,7 @@ describe('SpacesService', () => {
 
             expect(service.s3.putObject).toBeCalledWith({
                 Bucket: 'DO_BUCKET_NAME',
-                Key: `test/uuid-${uploadFile.originalName}`,
+                Key: `test/uuid/${uploadFile.originalName}`,
                 Body: uploadFile.buffer,
                 ACL: 'public-read',
             });
@@ -81,9 +81,9 @@ describe('SpacesService', () => {
             expect(result).toEqual({
                 duration: 400.54,
                 mimetype: 'audio/mpeg',
-                name: 'uuid-fileOriginalName',
+                name: 'fileOriginalName',
                 size: 4000,
-                url: 'https://djcloud.fra1.cdn.digitaloceanspaces.com/test/uuid-fileOriginalName',
+                url: 'https://djcloud.fra1.cdn.digitaloceanspaces.com/test/uuid/fileOriginalName',
             });
         });
 
@@ -120,14 +120,16 @@ describe('SpacesService', () => {
 
     describe('deleteObject', () => {
         it('should delete object', async () => {
-            await service.deleteObject(file as any);
-
-            expect(service.s3.deleteObject).toBeCalledWith({
+            const key = `test/${file.name}`;
+            await service.deleteObject(key);
+            const config = {
                 Bucket: 'DO_BUCKET_NAME',
-                Key: `test/${file.name}`,
-            });
+                Key: key,
+            };
 
-            expect(service.s3.deleteObject(file as any).promise).toBeCalled();
+            expect(service.s3.deleteObject).toBeCalledWith(config);
+
+            expect(service.s3.deleteObject(config).promise).toBeCalled();
         });
 
         it('should throw error', async () => {
@@ -138,10 +140,10 @@ describe('SpacesService', () => {
             });
 
             try {
-                await service.deleteObject(file as any);
+                await service.deleteObject(file.url);
             } catch (error: any) {
                 expect(error instanceof InternalServerErrorException).toBeTruthy();
-                expect(error.message).toEqual(`Can not delete file with id: 1`);
+                expect(error.message).toEqual(`Can not delete file with key: http://example.com/test.mp3`);
             }
         });
     });

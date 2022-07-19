@@ -35,7 +35,9 @@ export class TracksController {
         const fileUrl = `${newTrack.file.url}`;
         const env = this.configService.get('NODE_ENV');
         if (track.visible && env !== 'test' && env !== 'ci') {
-            await this.telegramService.sendAudio(fileUrl);
+            await this.telegramService.sendAudio(fileUrl, {
+                caption: `${newTrack.category.name} - ${newTrack.genre.name}`,
+            });
         }
         return newTrack;
     }

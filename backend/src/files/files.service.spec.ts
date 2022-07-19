@@ -109,7 +109,7 @@ describe('FilesService', () => {
 
             expect(mockFilesRepo.findOne).toBeCalledWith({ where: { id: 1 } });
             expect(mockFilesRepo.remove).toBeCalledWith(file);
-            expect(mockSpacesService.deleteObject).toBeCalledWith(file);
+            expect(mockSpacesService.deleteObject).toBeCalledWith('http://example.com/test.mp3');
 
             expect(result).toEqual(file);
         });

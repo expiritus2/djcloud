@@ -46,13 +46,13 @@ const Rating: FC<ComponentProps> = (props) => {
             };
             if (currentRating && index <= currentRating - 1) {
                 return (
-                    <StarWrapper num={index + 1} isNumbers={isNumbers}>
+                    <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
                         <AiFillStar {...iconProps} />
                     </StarWrapper>
                 );
             }
             return (
-                <StarWrapper num={index + 1} isNumbers={isNumbers}>
+                <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
                     <AiOutlineStar {...iconProps} />
                 </StarWrapper>
             );

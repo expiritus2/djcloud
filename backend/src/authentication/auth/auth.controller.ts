@@ -44,7 +44,7 @@ export class AuthController {
         return user;
     }
 
-    @Post('/signout')
+    @Get('/signout')
     @Serialize(SuccessDto)
     @ApiOperation({ summary: 'Signout user' })
     signOut(@Session() session: any) {

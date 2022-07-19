@@ -1,8 +1,8 @@
 import { action, makeObservable } from 'mobx';
-import { RequestOptions } from '../../types/request';
+import { RequestOptions, RequestStateEnum } from '../../types/request';
 import { LoginProps, User } from './types';
 import Api from '../core/Api';
-import { currentUser, login } from '../../api/user';
+import { currentUser, login, logout } from 'api/user';
 import { BaseRequestStore } from '../core/BaseRequestStore';
 
 export class UsersStore extends BaseRequestStore<User> {
@@ -28,7 +28,13 @@ export class UsersStore extends BaseRequestStore<User> {
     }
 
     logoutAction() {
-        this.resetStore();
+        const sendRequest = new Api<User>({ store: this, method: logout }).execResult();
+
+        sendRequest(null, { silent: true }, (err: any) => {
+            if (!err) {
+                this.resetStore(RequestStateEnum.READY);
+            }
+        });
     }
 
     currentUser(cfg?: {}, options?: RequestOptions, cb?: Function) {

@@ -52,8 +52,8 @@ export abstract class BaseRequestStore<T> {
         }
     }
 
-    resetStore() {
-        this.state = cloneDeep(this.initStore.state);
+    resetStore(state?: RequestStateEnum) {
+        this.state = state ? state : cloneDeep(this.initStore.state);
         this.data = cloneDeep(this.initStore.data);
         this.meta = cloneDeep(this.initStore.meta);
     }

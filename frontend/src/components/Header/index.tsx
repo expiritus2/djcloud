@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
-import { Avatar, Search } from 'components';
+import { Search } from 'components';
 import { useNavigate } from 'react-router-dom';
-import { Logo, Navigation } from './components';
+import { LoginAvatar, Logo, Navigation } from './components';
 
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
@@ -26,10 +26,6 @@ const Header: FC<ComponentProps> = (props) => {
         }
     }, [categories.data?.data]); // eslint-disable-line
 
-    const onClickLogin = () => {
-        navigate(routes.login);
-    };
-
     const onLogoClick = () => {
         navigate(routes.index);
     };
@@ -40,7 +36,7 @@ const Header: FC<ComponentProps> = (props) => {
             <div className={styles.info}>
                 <Navigation />
                 <Search className={styles.search} />
-                <Avatar src="/images/default_avatar.png" className={styles.avatar} onClick={onClickLogin} />
+                <LoginAvatar />
             </div>
         </div>
     );

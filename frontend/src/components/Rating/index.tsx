@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import classNames from 'classnames';
 
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
@@ -10,39 +10,25 @@ import { observer } from 'mobx-react-lite';
 import { TrackRating } from 'types/track';
 import { ButtonType } from '../ContentModal';
 import StarWrapper from './StarWrapper';
-import { useScreen } from 'hooks';
 import styles from './styles.module.scss';
-import { MOBILE_SMALL } from '../../settings/constants/screen';
 
 type ComponentProps = {
     className?: string;
     trackId: number;
-    notActiveByClick?: boolean;
 } & TrackRating;
 
 const Rating: FC<ComponentProps> = (props) => {
-    const { className, trackId, rating, countRatings, isDidRating, notActiveByClick } = props;
+    const { className, trackId, rating, countRatings, isDidRating } = props;
     const { trackRating, tracks } = useStore();
-    const { screen } = useScreen();
     const [isConfirmRatingOpen, setIsConfirmRatingOpen] = useState(false);
     const [pending, setPending] = useState(false);
     const [currentRating, setCurrentRating] = useState(rating);
 
-    useEffect(() => {
-        setCurrentRating(rating);
-    }, [rating]);
-
-    const onMouseOver = (e: any, index: number, isNumbers?: boolean) => {
-        if (!isNumbers && notActiveByClick && isConfirmRatingOpen) {
-            return;
-        }
+    const onMouseOver = (e: any, index: number) => {
         setCurrentRating(index + 1);
     };
 
     const onMouseLeave = () => {
-        if (notActiveByClick && isConfirmRatingOpen) {
-            return;
-        }
         setCurrentRating(rating);
     };
 
@@ -51,39 +37,23 @@ const Rating: FC<ComponentProps> = (props) => {
     };
 
     const getStars = (isNumbers = false) => {
-        let array = new Array(10);
-
-        const isMobile = screen.width <= MOBILE_SMALL && !isNumbers;
-        if (isMobile) {
-            array = new Array(1);
-        }
-        return array.fill(null).map((_, index) => {
+        return new Array(10).fill(null).map((_, index) => {
             const iconProps = {
                 key: index,
-                onMouseOver: (e: any) => onMouseOver(e, index, isNumbers),
-                className: classNames(
-                    styles.star,
-                    isDidRating ? styles.isDidRating : '',
-                    isMobile ? styles.mobile : '',
-                ),
+                onMouseOver: (e: any) => onMouseOver(e, index),
+                className: classNames(styles.star, isDidRating ? styles.isDidRating : ''),
                 onClick,
             };
             if (currentRating && index <= currentRating - 1) {
                 return (
                     <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
-                        <>
-                            <AiFillStar {...iconProps} />
-                            {isMobile ? <span className={styles.mobileRating}>{rating}</span> : null}
-                        </>
+                        <AiFillStar {...iconProps} />
                     </StarWrapper>
                 );
             }
             return (
                 <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
-                    <>
-                        <AiOutlineStar {...iconProps} />
-                        {isMobile ? <span className={styles.mobileRating}>{rating}</span> : null}
-                    </>
+                    <AiOutlineStar {...iconProps} />
                 </StarWrapper>
             );
         });

@@ -6,3 +6,5 @@
 6. Enable/Disable visible track send to telegram
 7. Playlist?
 8. Cookie maxAge
+9. Remove console warnings
+10. Add validation to Dropzone (not empty)

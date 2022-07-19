@@ -10,7 +10,7 @@
     },
     "scripts": {
         "prebuild": "rimraf dist",
-        "build": "nest build",
+        "build": "npm install --force && nest build",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "docker:run": "docker-compose up -d",
         "start": "nest start",

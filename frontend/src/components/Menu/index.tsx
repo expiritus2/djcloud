@@ -34,7 +34,7 @@ const Menu: FC<ComponentProps> = (props) => {
                             to={item.path}
                             onClick={(e) => item.onClickItem?.(e, item.value)}
                         >
-                            <span>{item.label}</span>
+                            <span className={styles.label}>{item.label}</span>
                             {item.count && <span className={styles.count}>{`(${item.count})`}</span>}
                         </NavLink>
                     </li>

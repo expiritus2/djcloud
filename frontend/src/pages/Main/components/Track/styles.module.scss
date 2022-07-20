@@ -7,7 +7,11 @@
     justify-content: space-between;
     font-size: setUnit(14);
     border-radius: setUnit(5);
-    padding: setUnit(5) setUnit(15);
+    padding: setUnit(5) 0;
+
+    @media screen and (max-width: setUnit($mobile)) {
+        font-size: setUnit(12);
+    }
 
     .rating {
         margin-right: setUnit(15);
@@ -36,11 +40,21 @@
         .author {
             margin-bottom: setUnit(4);
         }
+
+        .trackName {
+            @media screen and (max-width: setUnit($mobile-small)) {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 40px;
+            }
+        }
     }
 
     .meta {
         display: flex;
         align-items: center;
+        margin-left: setUnit(15);
 
         .download {
             margin: 0 setUnit(10);

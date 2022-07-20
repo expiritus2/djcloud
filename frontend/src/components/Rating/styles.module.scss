@@ -3,6 +3,10 @@
 
 .stars {
     line-height: setUnit(14);
+    display: flex;
+    align-items: center;
+    position: relative;
+    white-space: nowrap;
 
     .starsWrapper {
         padding: setUnit(30) setUnit(10);
@@ -17,6 +21,14 @@
                 height: setUnit(35);
             }
         }
+    }
+
+    .mobileRating {
+        font-size: setUnit(12);
+        width: setUnit(20);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .star {
@@ -34,6 +46,11 @@
             path {
                 fill: darken($lightColor, 60);
             }
+        }
+
+        &.mobile {
+            width: setUnit(27);
+            height: setUnit(27);
         }
 
 

@@ -1,0 +1,59 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+.search {
+    position: relative;
+
+    &.small {
+        width: setUnit(30);
+        position: absolute;
+        right: setUnit(70);
+    }
+
+    &.full {
+
+    }
+
+    .input {
+        @include highlight-input;
+
+        &.small {
+            width: 0;
+            padding: 0;
+            display: none;
+            margin-left: 100%;
+            margin-right: setUnit(30);
+        }
+
+        &.open {
+            position: absolute;
+            right: 0;
+            bottom: setUnit(-13);
+            width: setUnit(250);
+            padding: setUnit(5) setUnit(15);
+            margin: 0;
+            display: block;
+        }
+
+        &.full {
+            width: 100%;
+            padding: setUnit(5) setUnit(15);
+        }
+    }
+
+    .searchIcon {
+        width: setUnit(30);
+        height: setUnit(30);
+        position: absolute;
+        right: setUnit(5);
+        bottom: setUnit(-15);
+        opacity: 0;
+        z-index: -9;
+
+        &.show {
+            opacity: 1;
+            z-index: 1;
+        }
+    }
+}

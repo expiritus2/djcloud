@@ -11,6 +11,11 @@
     cursor: pointer;
     font-size: setUnit(14);
 
+    @media screen and (max-width: setUnit($mobile-small)) {
+        padding: setUnit(5) setUnit(10);
+        font-size: setUnit(12);
+    }
+
     .active {
         font-weight: bold;
     }

@@ -5,4 +5,8 @@
     display: flex;
     border-top: 1px solid $whiteColor;
     height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)});
+
+    @media screen and (max-width: setUnit($large)) {
+        height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(16)});
+    }
 }

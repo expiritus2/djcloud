@@ -18,7 +18,7 @@ const PageTitle: FC<ComponentProps> = (props) => {
             <div className={styles.title}>
                 <span>{title}</span>
             </div>
-            <Button label="New" onClick={onClickNew} />
+            <Button label="New" onClick={onClickNew} className={styles.newButton} />
         </div>
     );
 };

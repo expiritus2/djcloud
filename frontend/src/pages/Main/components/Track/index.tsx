@@ -8,8 +8,10 @@ import { sign } from 'settings/sign';
 import { observer } from 'mobx-react-lite';
 import { downloadByRequest } from 'helpers/download';
 import { Rating, Play } from 'components';
+import { useScreen } from 'hooks';
 
 import styles from './styles.module.scss';
+import { MOBILE } from '../../../../settings/constants/screen';
 
 type ComponentProps = {
     className?: string;
@@ -17,6 +19,7 @@ type ComponentProps = {
 
 const TrackComponent: FC<ComponentProps> = (props) => {
     const { className, id, title, duration, createdAt, file, rating, countRatings, isDidRating } = props;
+    const { screen } = useScreen();
 
     const onDownload = () => {
         if (file.url) {
@@ -36,7 +39,7 @@ const TrackComponent: FC<ComponentProps> = (props) => {
             <div className={styles.meta}>
                 <div>{getDuration(duration)}</div>
                 <div className={styles.download}>
-                    <FaDownload onClick={onDownload} className={styles.icon} />
+                    <FaDownload onClick={onDownload} className={classNames(styles.icon)} />
                 </div>
                 <Rating
                     className={styles.rating}
@@ -45,7 +48,7 @@ const TrackComponent: FC<ComponentProps> = (props) => {
                     countRatings={countRatings}
                     isDidRating={isDidRating}
                 />
-                <div>{formatDate(createdAt)}</div>
+                {screen.width > MOBILE && <div>{formatDate(createdAt)}</div>}
             </div>
         </div>
     );

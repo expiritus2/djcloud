@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
-import { Search } from 'components';
+import { Search } from './components';
 import { useNavigate } from 'react-router-dom';
 import { LoginAvatar, Logo, Navigation } from './components';
 

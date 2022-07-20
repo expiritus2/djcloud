@@ -10,6 +10,11 @@
         transition: all .1s;
         vertical-align: middle;
 
+        &.mobile {
+            width: setUnit(30);
+            height: setUnit(30);
+        }
+
         &.pending {
             width: setUnit(45);
             height: setUnit(45);

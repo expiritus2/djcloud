@@ -3,8 +3,10 @@
 
 $sorColor: darken($lightColor, 60);
 
-.tableHolder {
+.tableWrapper {
     width: 100%;
+    overflow: auto;
+    height: calc(100% - #{setUnit(35)});
 
     .table {
         width: 100%;

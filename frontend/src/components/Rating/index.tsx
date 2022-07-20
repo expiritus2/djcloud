@@ -10,7 +10,9 @@ import { observer } from 'mobx-react-lite';
 import { TrackRating } from 'types/track';
 import { ButtonType } from '../ContentModal';
 import StarWrapper from './StarWrapper';
+import { useScreen } from 'hooks';
 import styles from './styles.module.scss';
+import { MOBILE_SMALL } from '../../settings/constants/screen';
 
 type ComponentProps = {
     className?: string;
@@ -20,6 +22,7 @@ type ComponentProps = {
 const Rating: FC<ComponentProps> = (props) => {
     const { className, trackId, rating, countRatings, isDidRating } = props;
     const { trackRating, tracks } = useStore();
+    const { screen } = useScreen();
     const [isConfirmRatingOpen, setIsConfirmRatingOpen] = useState(false);
     const [pending, setPending] = useState(false);
     const [currentRating, setCurrentRating] = useState(rating);
@@ -37,23 +40,39 @@ const Rating: FC<ComponentProps> = (props) => {
     };
 
     const getStars = (isNumbers = false) => {
-        return new Array(10).fill(null).map((_, index) => {
+        let array = new Array(10);
+
+        const isMobile = screen.width <= MOBILE_SMALL && !isNumbers;
+        if (isMobile) {
+            array = new Array(1);
+        }
+        return array.fill(null).map((_, index) => {
             const iconProps = {
                 key: index,
                 onMouseOver: (e: any) => onMouseOver(e, index),
-                className: classNames(styles.star, isDidRating ? styles.isDidRating : ''),
+                className: classNames(
+                    styles.star,
+                    isDidRating ? styles.isDidRating : '',
+                    isMobile ? styles.mobile : '',
+                ),
                 onClick,
             };
             if (currentRating && index <= currentRating - 1) {
                 return (
                     <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
-                        <AiFillStar {...iconProps} />
+                        <>
+                            <AiFillStar {...iconProps} />
+                            {isMobile ? <span className={styles.mobileRating}>{rating}</span> : null}
+                        </>
                     </StarWrapper>
                 );
             }
             return (
                 <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
-                    <AiOutlineStar {...iconProps} />
+                    <>
+                        <AiOutlineStar {...iconProps} />
+                        {isMobile ? <span className={styles.mobileRating}>{rating}</span> : null}
+                    </>
                 </StarWrapper>
             );
         });

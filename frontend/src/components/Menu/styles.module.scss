@@ -45,6 +45,14 @@
         }
     }
 
+    @media screen and (max-width: setUnit($mobile)) {
+        min-width: setUnit(200);
+    }
+
+    @media screen and (max-width: 450px) {
+        min-width: setUnit(150);
+    }
+
     .list {
         list-style: none;
         margin: setUnit(30) 0;
@@ -53,6 +61,16 @@
             padding: 0 setUnit(20);
             margin-bottom: setUnit(5);
             cursor: pointer;
+
+            .label {
+                white-space: nowrap;
+
+                @media screen and (max-width: setUnit($mobile)) {
+                    width: setUnit(100);
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
 
             .label {
                 white-space: nowrap;

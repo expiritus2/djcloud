@@ -5,7 +5,6 @@
     line-height: setUnit(14);
     display: flex;
     align-items: center;
-    justify-content: center;
     position: relative;
     white-space: nowrap;
 
@@ -20,7 +19,6 @@
             .star {
                 width: setUnit(35);
                 height: setUnit(35);
-                vertical-align: middle;
             }
         }
     }

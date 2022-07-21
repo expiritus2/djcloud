@@ -68,7 +68,6 @@ describe('TracksService', () => {
                     genre_name: 'name',
                     genre_value: 'value',
                     category_value: 'category_value',
-                    category_id: 'category_id',
                     countTracks: 2,
                 },
             ]),
@@ -180,15 +179,12 @@ describe('TracksService', () => {
                 'track.updatedAt',
                 'track.rating',
                 'track.countRatings',
-                'track.sentToTelegram',
                 '"title"',
                 '"visible"',
                 '"duration"',
                 '"createdAt"',
                 '"updatedAt"',
                 '"rating"',
-                '"countRatings"',
-                '"sentToTelegram"',
                 '"file"',
                 '"genre"',
                 '"category"',
@@ -336,7 +332,7 @@ describe('TracksService', () => {
             const result = await service.getTracksGenres(query);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
-            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(track.id)', 'countTracks');
+            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(genre.id)', 'countTracks');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: query.visible });
@@ -344,7 +340,7 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
 
-            expect(result).toEqual({ category_id: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
+            expect(result).toEqual({ category_value: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
         });
 
         it('should return visible with default value', async () => {
@@ -352,7 +348,7 @@ describe('TracksService', () => {
             const result = await service.getTracksGenres(query);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
-            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(track.id)', 'countTracks');
+            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(genre.id)', 'countTracks');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: true });
@@ -360,7 +356,7 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
 
-            expect(result).toEqual({ category_id: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
+            expect(result).toEqual({ category_value: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
         });
 
         it('should return visible with false value', async () => {
@@ -368,7 +364,7 @@ describe('TracksService', () => {
             const result = await service.getTracksGenres(query);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
-            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(track.id)', 'countTracks');
+            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(genre.id)', 'countTracks');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: false });
@@ -376,7 +372,7 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
 
-            expect(result).toEqual({ category_id: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
+            expect(result).toEqual({ category_value: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
         });
     });
 });

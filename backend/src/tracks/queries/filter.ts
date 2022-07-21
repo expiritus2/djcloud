@@ -8,20 +8,20 @@ export const filterTracks = <T>(
     query: GetAllDto,
     { searchFieldName = 'name' }: OptionsType = {},
 ) => {
-    if (query.categoryId && !query.genreId) {
-        queryBuilder.where('category.id = :category', {
-            category: query.categoryId,
+    if (query.category && !query.genre) {
+        queryBuilder.where('category.value = :category', {
+            category: query.category,
         });
     }
 
-    if (query.genreId && !query.categoryId) {
-        queryBuilder.where('genre.id = :genre', { genre: query.genreId });
+    if (query.genre && !query.category) {
+        queryBuilder.where('genre.value = :genre', { genre: query.genre });
     }
 
-    if (query.categoryId && query.genreId) {
+    if (query.category && query.genre) {
         queryBuilder
-            .where('category.id = :category', { category: query.categoryId })
-            .andWhere('genre.id = :genre', { genre: query.genreId });
+            .where('category.value = :category', { category: query.category })
+            .andWhere('genre.value = :genre', { genre: query.genre });
     }
 
     if (query.visible !== undefined) {

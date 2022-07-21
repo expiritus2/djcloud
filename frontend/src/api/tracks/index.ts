@@ -8,7 +8,7 @@ export const getAll = (cfg: PaginationParams) => {
 };
 
 export const getTracksGenres = (cfg: TrackGenreParams) => {
-    return apiServer.get('/tracks/tracks-genres', { params: cfg });
+    return apiServer.get('/tracks/tracks-genres', { params: { visible: cfg.visible } });
 };
 
 export const create = (cfg: CreateTrackDto) => {

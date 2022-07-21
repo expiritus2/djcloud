@@ -2,14 +2,14 @@ import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
 import { Header, PageWrapper } from 'components';
 import { MainMenu, Content } from './components';
-import { useLocation, useMatch } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { useStore } from 'store';
 
+import { link } from 'settings/navigation/link';
 import { routes } from 'settings/navigation/routes';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { GroupedTrackGenres } from 'store/TrackGenres';
 
 type ComponentProps = {
     className?: string;
@@ -17,20 +17,20 @@ type ComponentProps = {
 
 const Main: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracksGenres, categories, customerState, navCategories } = useStore();
+    const { tracksGenres, categories, customerState } = useStore();
     const location = useLocation();
+    const navigate = useNavigate();
     const match = useMatch({ path: routes.tracks });
 
     useEffect(() => {
-        if (location.pathname === '/' && navCategories.data?.data) {
-            const categoryId = navCategories.data.data?.[0]?.id;
-            const genreId = (tracksGenres.data as GroupedTrackGenres)?.[categoryId]?.[0]?.id;
-            if (categoryId && genreId) {
-                customerState.setTab(genreId.toString(), categoryId.toString());
-            }
-        } else {
-            customerState.setTab(match?.params.genreId!, match?.params.categoryId!);
+        if (location.pathname === '/' && categories.data?.data[0] && tracksGenres?.data) {
+            const category = categories.data?.data[0].value;
+            const genre = tracksGenres.data[category][0].value;
+            customerState.setTab(genre, category);
+            navigate(link.toTracks(category, genre));
         }
+
+        customerState.setTab(match?.params.genre!, match?.params.category!);
     }, [categories.data, tracksGenres.data]); // eslint-disable-line
 
     return (

@@ -11,30 +11,30 @@ describe('filter', () => {
     });
 
     it('should filter by category', () => {
-        const query = { categoryId: 'categoryId' } as any;
+        const query = { category: 'categoryName' } as any;
 
         filterTracks(mockQueryBuilder, query);
 
-        expect(mockQueryBuilder.where).toBeCalledWith('category.id = :category', { category: query.categoryId });
+        expect(mockQueryBuilder.where).toBeCalledWith('category.value = :category', { category: 'categoryName' });
     });
 
     it('should filter by genre', () => {
-        const query = { genreId: 'genreId' } as any;
+        const query = { genre: 'genreName' } as any;
 
         filterTracks(mockQueryBuilder, query);
 
-        expect(mockQueryBuilder.where).not.toBeCalledWith('category.id = :category', { categoryId: 'categoryId' });
-        expect(mockQueryBuilder.where).toBeCalledWith('genre.id = :genre', { genre: query.genreId });
+        expect(mockQueryBuilder.where).not.toBeCalledWith('category.value = :category', { category: 'categoryName' });
+        expect(mockQueryBuilder.where).toBeCalledWith('genre.value = :genre', { genre: query.genre });
         expect(mockQueryBuilder.andWhere).not.toBeCalledWith('track.visible = :visible', { visible: query.visible });
     });
 
     it('should filter by category and genre', () => {
-        const query = { categoryId: 'categoryId', genreId: 'genreId' } as any;
+        const query = { category: 'categoryName', genre: 'genreName' } as any;
 
         filterTracks(mockQueryBuilder, query);
 
-        expect(mockQueryBuilder.where).toBeCalledWith('category.id = :category', { category: query.categoryId });
-        expect(mockQueryBuilder.andWhere).toBeCalledWith('genre.id = :genre', { genre: query.genreId });
+        expect(mockQueryBuilder.where).toBeCalledWith('category.value = :category', { category: 'categoryName' });
+        expect(mockQueryBuilder.andWhere).toBeCalledWith('genre.value = :genre', { genre: query.genre });
     });
 
     it('should filter by visible value: true', () => {
@@ -74,12 +74,12 @@ describe('filter', () => {
     });
 
     it('should filter by all fields', () => {
-        const query = { categoryId: 'categoryId', genreId: 'genreId', visible: true, search: 'some search' } as any;
+        const query = { category: 'categoryName', genre: 'genreName', visible: true, search: 'some search' } as any;
 
         filterTracks(mockQueryBuilder, query);
 
-        expect(mockQueryBuilder.where).toBeCalledWith('category.id = :category', { category: query.categoryId });
-        expect(mockQueryBuilder.andWhere).toBeCalledWith('genre.id = :genre', { genre: query.genreId });
+        expect(mockQueryBuilder.where).toBeCalledWith('category.value = :category', { category: query.category });
+        expect(mockQueryBuilder.andWhere).toBeCalledWith('genre.value = :genre', { genre: query.genre });
         expect(mockQueryBuilder.andWhere).toBeCalledWith('track.visible = :visible', { visible: query.visible });
         expect(mockQueryBuilder.andWhere).toBeCalledWith(`name iLIKE :search`, {
             search: `%${query.search}%`,

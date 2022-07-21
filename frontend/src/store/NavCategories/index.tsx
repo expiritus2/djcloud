@@ -19,8 +19,4 @@ export class NavCategoriesStore extends BaseRequestStore<PaginatedItems<Category
 
         sendRequest({ limit: 5, ...this.meta, ...cfg }, options, cb);
     }
-
-    setData(categories: PaginatedItems<Category>) {
-        this.data = categories;
-    }
 }

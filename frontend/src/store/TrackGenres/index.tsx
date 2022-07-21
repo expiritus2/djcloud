@@ -6,17 +6,7 @@ import { getTracksGenres } from 'api/tracks';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import { Category } from 'types/track';
 
-export type GroupedTrackGenres = {
-    [key: Category['value']]: TrackGenre[];
-};
-
-export type NestedTrackGenres = {
-    [key: Category['value']]: {
-        [key: string]: TrackGenre[];
-    };
-};
-
-export class TracksGenresStore extends BaseRequestStore<GroupedTrackGenres | NestedTrackGenres> {
+export class TracksGenresStore extends BaseRequestStore<{ [key: Category['value']]: TrackGenre[] }> {
     constructor(color: string) {
         super(color);
 
@@ -26,7 +16,7 @@ export class TracksGenresStore extends BaseRequestStore<GroupedTrackGenres | Nes
     }
 
     getTracksGenres(cfg?: TrackGenreParams, options?: RequestOptions, cb?: Function): void {
-        const sendRequest = new Api<GroupedTrackGenres | NestedTrackGenres>({
+        const sendRequest = new Api<{ [key: Category['value']]: TrackGenre[] }>({
             store: this,
             method: getTracksGenres,
         }).execResult();

@@ -11,12 +11,14 @@ import { TracksGenresStore } from './TrackGenres';
 import { CurrentTrackStore } from './CurrentTrack';
 import { CustomerState } from './CustomerState';
 import { TrackRatingStore } from './TrackRating';
+import { NavCategoriesStore } from './NavCategories';
 
 configure({ enforceActions: 'never' });
 
 const store = {
     user: new UsersStore('blue'),
     categories: new CategoriesStore('red'),
+    navCategories: new NavCategoriesStore('red'),
     modifyCategory: new ModifyCategoryStore('#FFB703'),
     modifyGenre: new ModifyGenreStore('#FFCB47'),
     modifyTrack: new ModifyTrackStore('#0B132B'),

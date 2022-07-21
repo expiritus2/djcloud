@@ -3,7 +3,8 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 import { RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';
 import { cloneDeep } from 'lodash';
-import { logStore } from '../../settings';
+import { logStore } from 'settings';
+import { toJS } from 'mobx';
 
 export abstract class BaseRequestStore<T> {
     color: string = '';
@@ -48,7 +49,7 @@ export abstract class BaseRequestStore<T> {
 
     logStore(propertyName: string, data: any) {
         if (process.env.NODE_ENV === 'development' && logStore) {
-            console.log(`%c ${this.constructor.name}`, `color: ${this.color}`, propertyName, cloneDeep(data));
+            console.log(`%c ${this.constructor.name}`, `color: ${this.color}`, propertyName, toJS(data));
         }
     }
 

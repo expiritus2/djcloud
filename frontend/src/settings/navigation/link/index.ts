@@ -1,13 +1,13 @@
 import { routes } from '../routes';
 
 export const link = {
-    toTracks: (category: string, genre: string) =>
+    toTracks: (category: string, genre: string | undefined) =>
         routes.tracks.replace(/(:category|:genre)/g, (match): string => {
-            if (match === ':category') {
+            if (match === ':category' && category) {
                 return category;
             }
 
-            if (match === ':genre') {
+            if (match === ':genre' && genre) {
                 return genre;
             }
             return '';

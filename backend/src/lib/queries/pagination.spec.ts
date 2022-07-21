@@ -16,17 +16,6 @@ describe('paginationQuery', () => {
             };
         });
 
-        it('should include search query', () => {
-            const query = { search: 'some search' } as PaginationQueryDto;
-
-            const queryBuilder = simplePaginateQuery(mockQueryBuilder as SelectQueryBuilder<any>, query);
-
-            expect(mockQueryBuilder.where).toBeCalledWith('name iLIKE :search', {
-                search: '%some search%',
-            });
-            expect(queryBuilder).toEqual(mockQueryBuilder);
-        });
-
         it('should include limit query', () => {
             const query = { limit: '10' } as PaginationQueryDto;
 
@@ -102,9 +91,6 @@ describe('paginationQuery', () => {
 
             const queryBuilder = simplePaginateQuery(mockQueryBuilder as SelectQueryBuilder<any>, query);
 
-            expect(mockQueryBuilder.where).toBeCalledWith('name iLIKE :search', {
-                search: `%${query.search}%`,
-            });
             expect(mockQueryBuilder.take).toBeCalledWith(toNumber(query.limit));
             expect(mockQueryBuilder.skip).toBeCalledWith(toNumber(query.page) * toNumber(query.limit));
             expect(mockQueryBuilder.orderBy).toBeCalledWith(`"${query.field}"`, query.sort);

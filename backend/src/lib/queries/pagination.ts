@@ -2,19 +2,11 @@ import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
 import { toNumber } from 'lodash';
 import { PaginationQueryDto } from '../common/dtos';
 
-type OptionsType = { searchFieldName?: string };
-
 export const simplePaginateQuery = <Entity>(
     queryBuilder: SelectQueryBuilder<Entity>,
     query: PaginationQueryDto,
-    { searchFieldName = 'name' }: OptionsType = {},
 ): SelectQueryBuilder<Entity> => {
-    const { search, limit = 10, page, sort, field } = query;
-    if (search) {
-        queryBuilder.where(`${searchFieldName} iLIKE :search`, {
-            search: `%${search}%`,
-        });
-    }
+    const { limit = 10, page, sort, field } = query;
 
     if (limit) {
         queryBuilder.take(toNumber(limit));

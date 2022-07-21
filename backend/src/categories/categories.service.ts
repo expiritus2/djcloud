@@ -8,6 +8,7 @@ import { snakeCase } from 'lodash';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
 import { CategoryEntity } from './category.entity';
 import { GenreEntity } from '../genres/genre.entity';
+import { filterTracks } from '../tracks/queries/filter';
 
 interface Category {
     id?: number;
@@ -45,7 +46,8 @@ export class CategoriesService {
 
     async getAll(query: PaginationQueryDto): Promise<{ data: CategoryEntity[]; count: number }> {
         const queryBuilder = this.categoryRepo.createQueryBuilder('category');
-        const paginateQueryBuilder = simplePaginateQuery<CategoryEntity>(queryBuilder, query);
+        const filteredCategories = filterTracks<CategoryEntity>(queryBuilder, query);
+        const paginateQueryBuilder = simplePaginateQuery<CategoryEntity>(filteredCategories, query);
 
         const [data, count] = await paginateQueryBuilder.getManyAndCount();
         return { data, count };

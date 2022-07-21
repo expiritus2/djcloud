@@ -9,6 +9,7 @@ import { link } from 'settings/navigation/link';
 import styles from './styles.module.scss';
 import { MenuItem } from 'components/Menu';
 import { routes } from 'settings/navigation/routes';
+import { TrackGenre } from 'store/TrackGenres/types';
 
 type ComponentProps = {
     className?: string;
@@ -29,7 +30,7 @@ const MainMenu: FC<ComponentProps> = (props) => {
         }
     };
 
-    const menuItems = (tracksGenres.genres[match?.params.category!] || []).map((genre, index) => {
+    const menuItems = (tracksGenres.data?.[match?.params.category!] || []).map((genre: TrackGenre, index: number) => {
         return {
             path: link.toTracks(match?.params.category!, genre.value),
             label: genre.name,

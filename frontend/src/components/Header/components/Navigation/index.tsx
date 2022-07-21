@@ -5,10 +5,10 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from 'store';
 import { useScreen } from 'hooks';
 import FullNav from './FullNav';
+import SmallNav from './SmallNav';
+import { MOBILE_SMALL } from 'settings/constants/screen';
 
 import styles from './styles.module.scss';
-import SmallNav from './SmallNav';
-import { MOBILE_SMALL } from '../../../../settings/constants/screen';
 
 type ComponentProps = {
     className?: string;
@@ -17,11 +17,11 @@ type ComponentProps = {
 const Navigation: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { screen } = useScreen();
-    const { categories, genres } = useStore();
+    const { navCategories, tracksGenres } = useStore();
 
     useEffect(() => {
-        categories.getAll({ limit: 5 });
-        genres.getAll();
+        navCategories.getAll();
+        tracksGenres.getTracksGenres();
     }, []); // eslint-disable-line
 
     return (

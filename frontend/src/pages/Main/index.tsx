@@ -23,9 +23,9 @@ const Main: FC<ComponentProps> = (props) => {
     const match = useMatch({ path: routes.tracks });
 
     useEffect(() => {
-        if (location.pathname === '/' && categories.data?.data[0] && tracksGenres.data?.[0]?.value) {
+        if (location.pathname === '/' && categories.data?.data[0] && tracksGenres?.data) {
             const category = categories.data?.data[0].value;
-            const genre = tracksGenres.genres[category][0].value;
+            const genre = tracksGenres.data[category][0].value;
             customerState.setTab(genre, category);
             navigate(link.toTracks(category, genre));
         }

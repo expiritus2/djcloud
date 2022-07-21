@@ -204,8 +204,8 @@ describe('TracksController', () => {
     describe('getTracksGenres', () => {
         it('should return tracks genres', async () => {
             mockTrackService.getTracksGenres.mockResolvedValueOnce(track);
-            const result = await controller.getTracksGenres({ category: 'category', visible: true });
-            expect(mockTrackService.getTracksGenres).toBeCalledWith({ category: 'category', visible: true });
+            const result = await controller.getTracksGenres({ visible: true });
+            expect(mockTrackService.getTracksGenres).toBeCalledWith({ visible: true });
             expect(result).toEqual(track);
         });
     });

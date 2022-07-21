@@ -15,7 +15,7 @@ type ComponentProps = {
 
 const Visible: FC<ComponentProps> = (props) => {
     const { className, track } = props;
-    const { modifyTrack } = useStore();
+    const { modifyTrack, tracksGenres } = useStore();
     const [pending, setPending] = useState(false);
 
     const onVisibleChange = (e: any, id: number) => {
@@ -23,6 +23,7 @@ const Visible: FC<ComponentProps> = (props) => {
         modifyTrack.updateVisible({ id, visible: e.target.value }, {}, (err: AxiosError) => {
             if (!err) {
                 setPending(false);
+                tracksGenres.getTracksGenres();
             }
         });
     };

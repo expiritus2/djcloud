@@ -12,6 +12,10 @@ const commonRoutes: INavigation[] = [
         Component: Main,
     },
     {
+        path: routes.categoryPage,
+        Component: Main,
+    },
+    {
         path: routes.login,
         Component: Login,
         roles: [],

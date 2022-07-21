@@ -7,6 +7,7 @@ import { snakeCase } from 'lodash';
 import { UpdateGenreDto } from './dtos/update-genre.dto';
 import { GenreEntity } from './genre.entity';
 import { PaginationQueryDto } from '../lib/common/dtos';
+import { filterTracks } from '../tracks/queries/filter';
 
 interface Genre {
     id?: number;
@@ -40,7 +41,8 @@ export class GenresService {
 
     async getAll(query: PaginationQueryDto): Promise<{ data: GenreEntity[]; count: number }> {
         const queryBuilder = this.genreRepo.createQueryBuilder('genre');
-        const paginateQueryBuilder = simplePaginateQuery<GenreEntity>(queryBuilder, query);
+        const filteredGenres = filterTracks<GenreEntity>(queryBuilder, query);
+        const paginateQueryBuilder = simplePaginateQuery<GenreEntity>(filteredGenres, query);
 
         const [data, count] = await paginateQueryBuilder.getManyAndCount();
         return { data, count };

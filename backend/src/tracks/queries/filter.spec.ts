@@ -53,13 +53,36 @@ describe('filter', () => {
         expect(mockQueryBuilder.andWhere).toBeCalledWith('track.visible = :visible', { visible: query.visible });
     });
 
+    it('should filter by search', () => {
+        const query = { search: 'some search' } as any;
+
+        filterTracks(mockQueryBuilder, query);
+
+        expect(mockQueryBuilder.andWhere).toBeCalledWith(`name iLIKE :search`, {
+            search: `%${query.search}%`,
+        });
+    });
+
+    it('should filter by search with custom searchFieldName', () => {
+        const query = { search: 'some search' } as any;
+
+        filterTracks(mockQueryBuilder, query, { searchFieldName: 'customFieldName' });
+
+        expect(mockQueryBuilder.andWhere).toBeCalledWith(`customFieldName iLIKE :search`, {
+            search: `%${query.search}%`,
+        });
+    });
+
     it('should filter by all fields', () => {
-        const query = { category: 'categoryName', genre: 'genreName', visible: true } as any;
+        const query = { category: 'categoryName', genre: 'genreName', visible: true, search: 'some search' } as any;
 
         filterTracks(mockQueryBuilder, query);
 
         expect(mockQueryBuilder.where).toBeCalledWith('category.value = :category', { category: query.category });
         expect(mockQueryBuilder.andWhere).toBeCalledWith('genre.value = :genre', { genre: query.genre });
         expect(mockQueryBuilder.andWhere).toBeCalledWith('track.visible = :visible', { visible: query.visible });
+        expect(mockQueryBuilder.andWhere).toBeCalledWith(`name iLIKE :search`, {
+            search: `%${query.search}%`,
+        });
     });
 });

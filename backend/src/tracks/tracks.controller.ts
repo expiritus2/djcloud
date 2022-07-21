@@ -8,7 +8,7 @@ import { TrackEntity } from './track.entity';
 import { GenreDto } from '../genres/dtos/genre.dto';
 import { UpdateTrackDto } from './dtos/update-track.dto';
 import { GetAllDto } from './dtos/get-all.dto';
-import { GetTracksGenresDto } from './dtos/get-tracks-genres.dto';
+import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
 import { TracksGenresDto } from './dtos/tracks-genres.dto';
 import { GetAllResponseDto } from './dtos/get-all-response.dto';
 import { differenceInDays } from 'date-fns';
@@ -63,9 +63,7 @@ export class TracksController {
     @Get('/tracks-genres')
     @ApiOperation({ summary: 'Get tracks genres with count' })
     @ApiResponse({ status: 200, type: TracksGenresDto })
-    async getTracksGenres(
-        @Query() query: GetTracksGenresDto,
-    ): Promise<{ id: number; name: string; value: string; countTracks: number }[]> {
+    async getTracksGenres(@Query() query: GetTracksGenresDto): Promise<TrackGenresResponse> {
         return this.tracksService.getTracksGenres(query);
     }
 

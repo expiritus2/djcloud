@@ -5,13 +5,14 @@ import { Repository } from 'typeorm';
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { simplePaginateQuery } from '../lib/queries/pagination';
 import { UpdateTrackDto } from './dtos/update-track.dto';
-import { cloneDeep, groupBy, merge } from 'lodash';
+import { cloneDeep, merge } from 'lodash';
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { GetAllDto } from './dtos/get-all.dto';
 import { filterTracks } from './queries/filter';
 import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
 import { FilesService } from '../files/files.service';
+import { groupBy } from 'lodash';
 
 @Injectable()
 export class TracksService {
@@ -23,7 +24,7 @@ export class TracksService {
         private fileService: FilesService,
     ) {}
 
-    async create(track: CreateTrackDto): Promise<TrackEntity> {
+    async create(track: CreateTrackDto) {
         const genre = await this.genreRepo.findOne({ where: { id: track.genre.id } });
         const category = await this.categoryRepo.findOne({ where: { id: track.category.id } });
         const newTrack = this.trackRepo.create({
@@ -49,15 +50,12 @@ export class TracksService {
                 'track.updatedAt',
                 'track.rating',
                 'track.countRatings',
-                'track.sentToTelegram',
                 '"title"',
                 '"visible"',
                 '"duration"',
                 '"createdAt"',
                 '"updatedAt"',
                 '"rating"',
-                '"countRatings"',
-                '"sentToTelegram"',
                 '"file"',
                 '"genre"',
                 '"category"',
@@ -78,23 +76,21 @@ export class TracksService {
 
     async getTracksGenres(query: GetTracksGenresDto): Promise<TrackGenresResponse> {
         const visible = query.visible !== undefined ? query.visible : true;
-
-        const queryBuilder = this.trackRepo
+        const trackGenres = await this.trackRepo
             .createQueryBuilder('track')
-            .select('COUNT(track.id)', 'countTracks')
+            .select('COUNT(genre.id)', 'countTracks')
             .leftJoinAndSelect('track.category', 'category')
             .leftJoinAndSelect('track.genre', 'genre')
             .where('track.visible = :visible', { visible })
             .groupBy('genre.id')
-            .addGroupBy('category.id');
+            .addGroupBy('category.id')
+            .getRawMany();
+        const grouped = groupBy(trackGenres, 'category_value');
 
-        const trackGenres = await queryBuilder.getRawMany();
-        const groupedByCategory = groupBy(trackGenres, 'category_id');
-
-        return Object.entries(groupedByCategory).reduce((acc, [key, rawTracks]) => {
+        return Object.entries(grouped).reduce((acc, [key, val]) => {
             return {
                 ...acc,
-                [key]: rawTracks.map((v) => ({
+                [key]: val.map((v) => ({
                     id: v.genre_id,
                     name: v.genre_name,
                     value: v.genre_value,

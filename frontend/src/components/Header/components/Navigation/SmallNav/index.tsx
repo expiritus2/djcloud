@@ -9,6 +9,8 @@ import { useStore } from 'store';
 import { routes } from 'settings/navigation/routes';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useOutsideClick } from 'hooks';
+import { observer } from 'mobx-react-lite';
+import { Category } from '../../../../../types/track';
 
 type ComponentProps = {
     className?: string;
@@ -17,7 +19,7 @@ type ComponentProps = {
 const FullNav: FC<ComponentProps> = (props) => {
     const { className } = props;
     const [open, setOpen] = useState(false);
-    const { user, categories, customerState, tracksGenres } = useStore();
+    const { user, navCategories, customerState, tracksGenres } = useStore();
     const match = useMatch({ path: routes.tracks });
     const location = useLocation();
     const listRef = useRef(null);
@@ -45,7 +47,7 @@ const FullNav: FC<ComponentProps> = (props) => {
             </div>
             {open && (
                 <ul ref={listRef} className={styles.list}>
-                    {(categories.data?.data || []).map((category, index) => {
+                    {(navCategories.data?.data || []).map((category: Category, index: number) => {
                         return (
                             <li key={category.value} className={styles.item}>
                                 <NavLink
@@ -59,7 +61,7 @@ const FullNav: FC<ComponentProps> = (props) => {
                                     to={link.toTracks(
                                         category.value,
                                         customerState.tab[category.value] ||
-                                            tracksGenres.genres[category.value]?.[0]?.value,
+                                            tracksGenres.data?.[category.value]?.[0]?.value,
                                     )}
                                 >
                                     {category.name}
@@ -86,4 +88,4 @@ const FullNav: FC<ComponentProps> = (props) => {
     );
 };
 
-export default FullNav;
+export default observer(FullNav);

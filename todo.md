@@ -10,3 +10,4 @@
 10. Menus view on mobile
 11. ~~Remove console warnings~~
 12. Add validation to Dropzone (not empty)
+13. Remove all files from test spaces after each e2e test

@@ -96,7 +96,7 @@ describe('TracksController', () => {
             expect(result).toEqual({ id: 1, ...track });
         });
 
-        it('should send audio to telegram if env is not test or ci', async () => {
+        it('should send audio to telegram and update sentToTelegram in database if env is not test or ci', async () => {
             mockTrackService.create.mockResolvedValueOnce({ id: 1, ...track });
             jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('development');
 
@@ -105,6 +105,7 @@ describe('TracksController', () => {
             expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url, {
                 caption: `${track.category.name} - ${track.genre.name}`,
             });
+            expect(mockTrackService.update).toBeCalledWith(1, { sentToTelegram: true });
         });
 
         it('should not send audio to telegram if env is test', async () => {
@@ -113,6 +114,7 @@ describe('TracksController', () => {
             await controller.createTrack(track);
 
             expect(mockTelegramService.sendAudio).not.toBeCalled();
+            expect(mockTrackService.update).not.toBeCalled();
         });
 
         it('should not send audio to telegram if env is ci', async () => {
@@ -122,6 +124,7 @@ describe('TracksController', () => {
             await controller.createTrack(track);
 
             expect(mockTelegramService.sendAudio).not.toBeCalled();
+            expect(mockTrackService.update).not.toBeCalled();
         });
     });
 
@@ -180,14 +183,50 @@ describe('TracksController', () => {
     });
 
     describe('update', () => {
-        it('should update track', async () => {
+        it('should update track send to telegram and update sentToTelegram in database', async () => {
             const id = 1;
-            const newTrackData = { title: 'Updated track title' };
+            const newTrackData = { title: 'Updated track title', visible: true };
             const updatedTrack = merge(track, newTrackData);
-            mockTrackService.update.mockResolvedValueOnce({ id, ...updatedTrack });
+            mockTrackService.update
+                .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: false })
+                .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: true });
 
             const result = await controller.update(id, newTrackData);
-            expect(result).toEqual({ id: 1, ...track, title: newTrackData.title });
+
+            expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url, {
+                caption: `${track.category.name} - ${track.genre.name}`,
+            });
+            expect(mockTrackService.update).toBeCalledWith(id, newTrackData);
+            expect(mockTrackService.update).toBeCalledWith(id, { sentToTelegram: true });
+            expect(result).toEqual({ id: 1, ...track, title: newTrackData.title, sentToTelegram: true });
+        });
+
+        it('should update track and not send to telegram and update sentToTelegram in database', async () => {
+            const id = 1;
+            const newTrackData = { title: 'Updated track title', visible: false };
+            const updatedTrack = merge(track, newTrackData);
+            mockTrackService.update.mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: false });
+
+            const result = await controller.update(id, newTrackData);
+
+            expect(mockTrackService.update).toBeCalledWith(id, newTrackData);
+            expect(mockTelegramService.sendAudio).not.toBeCalled();
+            expect(mockTrackService.update).not.toBeCalledWith(id, { sentToTelegram: true });
+            expect(result).toEqual({ id: 1, ...track, title: newTrackData.title, sentToTelegram: false });
+        });
+
+        it('should not send to telegram and update sentToTelegram in database if visible true but sentToTelegram true', async () => {
+            const id = 1;
+            const newTrackData = { title: 'Updated track title', visible: true };
+            const updatedTrack = merge(track, newTrackData);
+            mockTrackService.update.mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: true });
+
+            const result = await controller.update(id, newTrackData);
+
+            expect(mockTrackService.update).toBeCalledWith(id, newTrackData);
+            expect(mockTelegramService.sendAudio).not.toBeCalled();
+            expect(mockTrackService.update).not.toBeCalledWith(id, { sentToTelegram: true });
+            expect(result).toEqual({ id: 1, ...track, title: newTrackData.title, sentToTelegram: true });
         });
     });
 

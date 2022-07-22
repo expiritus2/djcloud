@@ -81,7 +81,7 @@ export class TracksService {
         const visible = query.visible !== undefined ? query.visible : true;
         const trackGenres = await this.trackRepo
             .createQueryBuilder('track')
-            .select('COUNT(genre.id)', 'countTracks')
+            .select('COUNT(track.id)', 'countTracks')
             .leftJoinAndSelect('track.category', 'category')
             .leftJoinAndSelect('track.genre', 'genre')
             .where('track.visible = :visible', { visible })

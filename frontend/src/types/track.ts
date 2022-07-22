@@ -30,6 +30,7 @@ export type Track = {
     id: number;
     title: string;
     visible: boolean;
+    sentToTelegram: boolean;
     duration: number;
     file: File;
     category: Category;

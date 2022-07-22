@@ -70,19 +70,20 @@ module.exports = class initialSchema1652384901361 {
         await queryRunner.query(`
             create table tracks
             (
-                id             serial
+                id               serial
                     constraint tracks_pk
                         primary key,
-                title          varchar(300) not null,
-                visible        boolean               default true,
-                duration       float        not null,
-                rating         float                 default 0,
-                "countRatings" int                   default 0,
-                "fileId"       int references files (id),
-                "categoryId"   int references categories (id),
-                "genreId"      int          references genres (id) on delete set null,
-                "createdAt"    timestamptz  NOT NULL DEFAULT now(),
-                "updatedAt"    timestamptz  NOT NULL DEFAULT now()
+                title            varchar(300) not null,
+                visible          boolean               default true,
+                duration         float        not null,
+                rating           float                 default 0,
+                "sentToTelegram" bool                  default false,
+                "countRatings"   int                   default 0,
+                "fileId"         int references files (id),
+                "categoryId"     int references categories (id),
+                "genreId"        int          references genres (id) on delete set null,
+                "createdAt"      timestamptz  NOT NULL DEFAULT now(),
+                "updatedAt"      timestamptz  NOT NULL DEFAULT now()
             );
         `);
         await queryRunner.query(`

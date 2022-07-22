@@ -48,6 +48,11 @@ export class UpdateTrackDto {
     visible?: boolean;
 
     @IsOptional()
+    @IsBoolean()
+    @ApiProperty()
+    sentToTelegram?: boolean;
+
+    @IsOptional()
     @IsNumber()
     @ApiProperty()
     duration?: number;

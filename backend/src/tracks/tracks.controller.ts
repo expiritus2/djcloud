@@ -16,6 +16,10 @@ import { TelegramService } from '../telegram/telegram.service';
 import { FilesService } from '../files/files.service';
 import { ConfigService } from '@nestjs/config';
 
+export const getCaption = (track: TrackEntity): string => {
+    return `${track.category.name} - ${track.genre.name}`;
+};
+
 @ApiTags('Tracks')
 @Controller('tracks')
 export class TracksController {
@@ -36,8 +40,9 @@ export class TracksController {
         const env = this.configService.get('NODE_ENV');
         if (track.visible && env !== 'test' && env !== 'ci') {
             await this.telegramService.sendAudio(fileUrl, {
-                caption: `${newTrack.category.name} - ${newTrack.genre.name}`,
+                caption: getCaption(newTrack),
             });
+            await this.tracksService.update(newTrack.id, { sentToTelegram: true });
         }
         return newTrack;
     }
@@ -79,7 +84,17 @@ export class TracksController {
     @ApiOperation({ summary: 'Update track by id' })
     @ApiResponse({ status: 200, type: TrackDto })
     async update(@Param('id') id: string | number, @Body() body: UpdateTrackDto): Promise<TrackEntity> {
-        return this.tracksService.update(id, body);
+        const updatedTrack = await this.tracksService.update(id, body);
+
+        if (body.visible && !updatedTrack.sentToTelegram) {
+            await this.telegramService.sendAudio(updatedTrack.file.url, {
+                caption: getCaption(updatedTrack),
+            });
+
+            return this.tracksService.update(updatedTrack.id, { sentToTelegram: true });
+        }
+
+        return updatedTrack;
     }
 
     @UseGuards(AdminGuard)

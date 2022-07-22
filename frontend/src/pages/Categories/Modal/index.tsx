@@ -23,7 +23,7 @@ type ComponentProps = {
 const initValues = { name: '' };
 
 const CategoryModal: FC<ComponentProps> = (props) => {
-    const { modifyCategory, categories } = useStore();
+    const { modifyCategory, categories, navCategories } = useStore();
     const { className, title, modalState, setModalState } = props;
     const [values, setValues] = useState(initValues);
     const [inputError, setInputError] = useState('');
@@ -48,6 +48,7 @@ const CategoryModal: FC<ComponentProps> = (props) => {
     const refreshTable = () => {
         resetModal();
         categories.getAll();
+        navCategories.getAll();
     };
 
     const createCategory = () => {

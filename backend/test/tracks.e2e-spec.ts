@@ -87,6 +87,7 @@ describe('Tracks management', () => {
                 visible: true,
                 duration,
                 file: fileInfo,
+                sentToTelegram: false,
                 category: categories.data[0],
                 genre: genres.data[0],
                 createdAt: expect.anything(),

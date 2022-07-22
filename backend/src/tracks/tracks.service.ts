@@ -24,7 +24,7 @@ export class TracksService {
         private fileService: FilesService,
     ) {}
 
-    async create(track: CreateTrackDto) {
+    async create(track: CreateTrackDto): Promise<TrackEntity> {
         const genre = await this.genreRepo.findOne({ where: { id: track.genre.id } });
         const category = await this.categoryRepo.findOne({ where: { id: track.category.id } });
         const newTrack = this.trackRepo.create({
@@ -50,12 +50,15 @@ export class TracksService {
                 'track.updatedAt',
                 'track.rating',
                 'track.countRatings',
+                'track.sentToTelegram',
                 '"title"',
                 '"visible"',
                 '"duration"',
                 '"createdAt"',
                 '"updatedAt"',
                 '"rating"',
+                '"countRatings"',
+                '"sentToTelegram"',
                 '"file"',
                 '"genre"',
                 '"category"',

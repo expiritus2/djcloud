@@ -16,7 +16,7 @@ type ComponentProps = {
     modalState: InitModalStateType;
 };
 
-const initValues: any = { visible: true, title: '', category: null, genre: null, file: null };
+const initValues: any = { visible: false, title: '', category: null, genre: null, file: null };
 const initialErrors: any = { title: '', category: '', genre: '', file: '' };
 
 const Form: FC<ComponentProps> = (props) => {

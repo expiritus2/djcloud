@@ -25,6 +25,9 @@ export class TrackEntity {
     @Column({ default: true })
     visible: boolean;
 
+    @Column({ default: false })
+    sentToTelegram: boolean;
+
     @Column({ type: 'float' })
     duration: number;
 

@@ -16,7 +16,7 @@ type ComponentProps = {
     className?: string;
 };
 
-const FullNav: FC<ComponentProps> = (props) => {
+const SmallNav: FC<ComponentProps> = (props) => {
     const { className } = props;
     const [open, setOpen] = useState(false);
     const { user, navCategories, customerState, tracksGenres } = useStore();
@@ -88,4 +88,4 @@ const FullNav: FC<ComponentProps> = (props) => {
     );
 };
 
-export default observer(FullNav);
+export default observer(SmallNav);

@@ -335,7 +335,7 @@ describe('TracksService', () => {
             const result = await service.getTracksGenres(query);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
-            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(genre.id)', 'countTracks');
+            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(track.id)', 'countTracks');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: query.visible });
@@ -351,7 +351,7 @@ describe('TracksService', () => {
             const result = await service.getTracksGenres(query);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
-            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(genre.id)', 'countTracks');
+            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(track.id)', 'countTracks');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: true });
@@ -367,7 +367,7 @@ describe('TracksService', () => {
             const result = await service.getTracksGenres(query);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
-            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(genre.id)', 'countTracks');
+            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(track.id)', 'countTracks');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: false });

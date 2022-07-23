@@ -37,7 +37,7 @@ const Play: FC<ComponentProps> = (props) => {
 
     return (
         <div className={classNames(styles.play, className)}>
-            {!currentTrack.pause && currentTrack.data?.id == trackId ? (
+            {!currentTrack.pause && currentTrack.data?.id === trackId ? (
                 <AiFillPauseCircle
                     onClick={onPause}
                     className={classNames(styles.headIcon, mobileClass, iconClassName)}

@@ -19,7 +19,7 @@ import {
     isVeryLastTrack,
     requestPageTracks,
 } from './utils';
-import { adminPageTracksLimit, mainPageTrackLimit } from '../../settings';
+import { adminPageTableLimit, mainPageTrackLimit } from '../../settings';
 
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
@@ -121,7 +121,7 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
                         const prevPageTracks = response.data.data || [];
 
                         if (!err && prevPageTracks.length) {
-                            this.setPrevTrack(isAdmin ? adminPageTracksLimit : mainPageTrackLimit, prevPageTracks);
+                            this.setPrevTrack(isAdmin ? adminPageTableLimit : mainPageTrackLimit, prevPageTracks);
                         }
                     });
                 }

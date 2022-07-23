@@ -1,6 +1,6 @@
 import { Track } from 'types/track';
 import store from '..';
-import { adminPageTracksLimit, mainPageTrackLimit } from 'settings';
+import { adminPageTableLimit, mainPageTrackLimit } from 'settings';
 
 export const getCurrentTrackIndex = (): number => {
     const tracks = store.tracks.data?.data || [];
@@ -56,5 +56,5 @@ export const isNotFirstTrackOnFirstPage = (actualTrackIndex: number) => {
 };
 
 export const requestPageTracks = (nextPage: number, isAdmin = false, cb: Function) => {
-    store.tracks.getAll({ page: nextPage, limit: isAdmin ? adminPageTracksLimit : mainPageTrackLimit }, {}, cb);
+    store.tracks.getAll({ page: nextPage, limit: isAdmin ? adminPageTableLimit : mainPageTrackLimit }, {}, cb);
 };

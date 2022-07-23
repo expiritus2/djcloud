@@ -5,6 +5,7 @@ import Api from 'store/core/Api';
 import { getAll } from 'api/categories';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import store from '..';
+import { adminPageTableLimit } from 'settings';
 
 export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
     constructor(color: string) {
@@ -23,6 +24,6 @@ export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
 
-        sendRequest({ limit: 12, ...this.meta, ...cfg }, options, cb);
+        sendRequest({ limit: adminPageTableLimit, ...this.meta, ...cfg }, options, cb);
     }
 }

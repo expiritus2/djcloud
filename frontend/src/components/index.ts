@@ -21,3 +21,4 @@ export { default as Menu } from './Menu';
 export { default as Player } from './Player';
 export { default as Rating } from './Rating';
 export { default as Play } from './Play';
+export { default as TableWrapper } from './TableWrapper';

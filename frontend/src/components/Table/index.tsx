@@ -24,7 +24,7 @@ const Table: FC<ComponentProps> = (props) => {
     const { className, columns, rows, onSortClick } = props;
 
     return (
-        <div className={classNames(styles.tableWrapper, className)}>
+        <div className={classNames(styles.tableHolder, className)}>
             <table className={styles.table}>
                 <thead>
                     <tr className={styles.theadItem}>

@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Session, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Session, UseGuards } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { TrackDto } from './dtos/track.dto';
@@ -37,7 +37,7 @@ export class TracksController {
     async createTrack(@Body() track: CreateTrackDto) {
         const newTrack = await this.tracksService.create(track);
         const fileUrl = `${newTrack.file.url}`;
-        const env = this.configService.get('NODE_ENV');
+        const env = this.configService.get('ENVIRONMENT');
         if (track.visible && env !== 'test' && env !== 'ci') {
             await this.telegramService.sendAudio(fileUrl, {
                 caption: getCaption(newTrack),
@@ -87,9 +87,13 @@ export class TracksController {
         const updatedTrack = await this.tracksService.update(id, body);
 
         if (body.visible && !updatedTrack.sentToTelegram) {
-            await this.telegramService.sendAudio(updatedTrack.file.url, {
-                caption: getCaption(updatedTrack),
-            });
+            try {
+                await this.telegramService.sendAudio(updatedTrack.file.url, {
+                    caption: getCaption(updatedTrack),
+                });
+            } catch (error: any) {
+                await this.telegramService.sendMessage(`${updatedTrack.file.url}\n${getCaption(updatedTrack)}`);
+            }
 
             return this.tracksService.update(updatedTrack.id, { sentToTelegram: true });
         }

@@ -3,10 +3,8 @@
 
 $sorColor: darken($lightColor, 60);
 
-.tableWrapper {
+.tableHolder {
     width: 100%;
-    overflow: auto;
-    height: calc(100% - #{setUnit($header-height)} - #{setUnit($player-height)});
 
     .table {
         width: 100%;

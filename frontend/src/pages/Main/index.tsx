@@ -10,6 +10,7 @@ import { routes } from 'settings/navigation/routes';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
+import { GroupedTrackGenres } from '../../store/TrackGenres';
 
 type ComponentProps = {
     className?: string;
@@ -25,7 +26,7 @@ const Main: FC<ComponentProps> = (props) => {
     useEffect(() => {
         if (location.pathname === '/' && categories.data?.data[0] && tracksGenres?.data) {
             const category = categories.data?.data[0].value;
-            const genre = tracksGenres.data[category][0].value;
+            const genre = (tracksGenres.data as GroupedTrackGenres)[category][0].value;
             customerState.setTab(genre, category);
             navigate(link.toTracks(category, genre));
         }

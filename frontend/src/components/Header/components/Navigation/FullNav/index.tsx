@@ -8,7 +8,8 @@ import { UserRoleEnum } from 'types/user';
 import { useStore } from 'store';
 import { routes } from 'settings/navigation/routes';
 import { observer } from 'mobx-react-lite';
-import { Category } from '../../../../../types/track';
+import { Category } from 'types/track';
+import { GroupedTrackGenres } from '../../../../../store/TrackGenres';
 
 type ComponentProps = {
     className?: string;
@@ -41,7 +42,7 @@ const FullNav: FC<ComponentProps> = (props) => {
                                 to={link.toTracks(
                                     category.value,
                                     customerState.tab[category.value] ||
-                                        tracksGenres.data?.[category.value]?.[0]?.value,
+                                        (tracksGenres.data as GroupedTrackGenres)?.[category.value]?.[0]?.value,
                                 )}
                             >
                                 {category.name}

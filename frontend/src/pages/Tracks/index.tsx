@@ -19,7 +19,7 @@ import TrackModal from './components/Modal';
 import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
 import { Column } from 'components/Table';
-import { Filter, Title, Visible } from './components';
+import { Title, Visible } from './components';
 import { Track } from 'types/track';
 
 import { formatDate, getDuration } from 'helpers/formatters';
@@ -128,7 +128,6 @@ const Tracks: FC<ComponentProps> = (props) => {
                 createdAt: formatDate(track.createdAt),
                 actions: (
                     <TableActions
-                        track={track}
                         onClickEdit={(e: any, cb: Function) => onClickEdit(e, track.id, cb)}
                         onClickDelete={(e: any, cb: Function) => onClickDelete(e, track.id, cb)}
                     />
@@ -166,7 +165,6 @@ const Tracks: FC<ComponentProps> = (props) => {
                         <PendingWrapper state={tracks.state} className={styles.pendingWrapper}>
                             <>
                                 <AdminPageTitle title="Tracks" onClickNew={onClickNew} />
-                                <Filter />
                                 <TableWrapper>
                                     <Table
                                         columns={getColumns()}

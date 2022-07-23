@@ -10,7 +10,6 @@ import { sign } from 'settings/sign';
 import styles from './styles.module.scss';
 import './styles.scss';
 import { useLocation } from 'react-router-dom';
-import { Rating } from 'components';
 
 type ComponentProps = {
     className?: string;
@@ -28,7 +27,7 @@ const Player: FC<ComponentProps> = (props) => {
                 // @ts-ignore
                 player.current.audio?.current?.pause();
             } else if (!currentTrack.pause && currentTrack.data) {
-                //@ts-ignore
+                // @ts-ignore
                 player.current.audio?.current?.play();
             }
         }
@@ -65,16 +64,7 @@ const Player: FC<ComponentProps> = (props) => {
     const renderHeader = () => {
         return (
             <div className={styles.title}>
-                <span>{currentTrack.data?.title ? `${sign} - ${currentTrack.data?.title}` : ''}</span>
-                {currentTrack.data && (
-                    <Rating
-                        trackId={currentTrack.data?.id!}
-                        rating={currentTrack.data?.rating!}
-                        isDidRating={currentTrack.data?.isDidRating!}
-                        countRatings={currentTrack.data?.countRatings!}
-                        notActiveByClick
-                    />
-                )}
+                {currentTrack.data?.title ? `${sign} - ${currentTrack.data?.title}` : ''}
             </div>
         );
     };

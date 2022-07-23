@@ -7,7 +7,11 @@
     justify-content: space-between;
     font-size: setUnit(14);
     border-radius: setUnit(5);
-    padding: setUnit(5) 0;
+    padding: setUnit(5) setUnit(5);
+
+    &.active {
+        box-shadow: setUnit(2) setUnit(2) setUnit(8) rgba(0,0,0,.5);
+    }
 
     @media screen and (max-width: setUnit($mobile)) {
         font-size: setUnit(12);

@@ -6,44 +6,6 @@
     min-width: setUnit(300);
     color: $whiteColor;
     overflow: auto;
-    position: relative;
-
-    @media screen and (max-width: setUnit($mobile)) {
-        min-width: setUnit(200);
-    }
-
-    @media screen and (max-width: setUnit($mobile-small)) {
-        transition: margin-left .3s;
-
-        .openIcon {
-            display: none;
-        }
-
-        &.open {
-            margin-left: 0;
-
-            .list {
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
-
-        &.closed{
-            margin-left: setUnit(-170);
-
-            .list {
-                opacity: 0;
-                pointer-events: none;
-            }
-
-            .openIcon {
-                position: absolute;
-                right: setUnit(7);
-                top: setUnit(10);
-                display: block;
-            }
-        }
-    }
 
     @media screen and (max-width: setUnit($mobile)) {
         min-width: setUnit(200);

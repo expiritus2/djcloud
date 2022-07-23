@@ -30,18 +30,24 @@ export class TracksController {
         private configService: ConfigService,
     ) {}
 
+    private async sendToTelegram(track: TrackEntity) {
+        const caption = getCaption(track);
+        try {
+            await this.telegramService.sendAudio(track.file.url, { caption });
+        } catch (error: any) {
+            await this.telegramService.sendMessage(`${track.file.url}\n${caption}`);
+        }
+    }
+
     @UseGuards(AdminGuard)
     @Post('/create')
     @ApiOperation({ summary: 'Create new track' })
     @ApiResponse({ status: 201, type: TrackDto })
     async createTrack(@Body() track: CreateTrackDto) {
         const newTrack = await this.tracksService.create(track);
-        const fileUrl = `${newTrack.file.url}`;
         const env = this.configService.get('ENVIRONMENT');
         if (track.visible && env !== 'test' && env !== 'ci') {
-            await this.telegramService.sendAudio(fileUrl, {
-                caption: getCaption(newTrack),
-            });
+            await this.sendToTelegram(newTrack);
             await this.tracksService.update(newTrack.id, { sentToTelegram: true });
         }
         return newTrack;
@@ -87,14 +93,7 @@ export class TracksController {
         const updatedTrack = await this.tracksService.update(id, body);
 
         if (body.visible && !updatedTrack.sentToTelegram) {
-            try {
-                await this.telegramService.sendAudio(updatedTrack.file.url, {
-                    caption: getCaption(updatedTrack),
-                });
-            } catch (error: any) {
-                await this.telegramService.sendMessage(`${updatedTrack.file.url}\n${getCaption(updatedTrack)}`);
-            }
-
+            await this.sendToTelegram(updatedTrack);
             return this.tracksService.update(updatedTrack.id, { sentToTelegram: true });
         }
 

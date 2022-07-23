@@ -9,6 +9,7 @@ import {
     PendingWrapper,
     Table,
     TableActions,
+    TableWrapper,
 } from 'components';
 import { useStore } from 'store';
 import Pagination from './components/Pagination';
@@ -21,10 +22,10 @@ import { Column } from 'components/Table';
 import { Title, Visible } from './components';
 import { Track } from 'types/track';
 
-import styles from './styles.module.scss';
-import { formatDate, getDuration } from '../../helpers/formatters';
+import { formatDate, getDuration } from 'helpers/formatters';
 import { useLocation } from 'react-router-dom';
-import { getQuery } from '../../helpers/query';
+import { getQuery } from 'helpers/query';
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
@@ -164,13 +165,15 @@ const Tracks: FC<ComponentProps> = (props) => {
                         <PendingWrapper state={tracks.state} className={styles.pendingWrapper}>
                             <>
                                 <AdminPageTitle title="Tracks" onClickNew={onClickNew} />
-                                <Table
-                                    columns={getColumns()}
-                                    rows={getRows()}
-                                    onSortClick={onSortClick}
-                                    className={styles.table}
-                                />
-                                <Pagination />
+                                <TableWrapper>
+                                    <Table
+                                        columns={getColumns()}
+                                        rows={getRows()}
+                                        onSortClick={onSortClick}
+                                        className={styles.table}
+                                    />
+                                    <Pagination />
+                                </TableWrapper>
                                 <TrackModal
                                     title={getModalTitle()}
                                     modalState={modalState}

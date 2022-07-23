@@ -9,6 +9,7 @@ import {
     PendingWrapper,
     Table,
     TableActions,
+    TableWrapper,
 } from 'components';
 import { useStore } from 'store';
 import Pagination from './Pagination';
@@ -127,13 +128,15 @@ const Categories: FC<ComponentProps> = (props) => {
                         <PendingWrapper state={categories.state} className={styles.pendingWrapper}>
                             <>
                                 <AdminPageTitle title="Categories" onClickNew={onClickNew} />
-                                <Table
-                                    columns={getColumns()}
-                                    rows={getRows()}
-                                    onSortClick={onSortClick}
-                                    className={styles.table}
-                                />
-                                <Pagination />
+                                <TableWrapper>
+                                    <Table
+                                        columns={getColumns()}
+                                        rows={getRows()}
+                                        onSortClick={onSortClick}
+                                        className={styles.table}
+                                    />
+                                    <Pagination />
+                                </TableWrapper>
                                 <CategoryModal
                                     title={getModalTitle()}
                                     modalState={modalState}

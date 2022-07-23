@@ -72,26 +72,6 @@
                 }
             }
 
-            .label {
-                white-space: nowrap;
-
-                @media screen and (max-width: setUnit($mobile)) {
-                    width: setUnit(100);
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-            }
-
-            .label {
-                white-space: nowrap;
-
-                @media screen and (max-width: setUnit($mobile)) {
-                    width: setUnit(100);
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-            }
-
             &:last-child {
                 margin-bottom: 0;
             }

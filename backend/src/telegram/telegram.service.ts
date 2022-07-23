@@ -24,4 +24,8 @@ export class TelegramService {
     async sendAudio(url: string, extra: tt.ExtraAudio = {}, chatId: string = this.options.chatId) {
         await this.bot.telegram.sendAudio(chatId, url, extra);
     }
+
+    async sendDocument(url: string, extra: tt.ExtraAudio = {}, chatId: string = this.options.chatId) {
+        await this.bot.telegram.sendDocument(chatId, url, extra);
+    }
 }

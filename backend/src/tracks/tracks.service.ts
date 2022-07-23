@@ -5,14 +5,13 @@ import { Repository } from 'typeorm';
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { simplePaginateQuery } from '../lib/queries/pagination';
 import { UpdateTrackDto } from './dtos/update-track.dto';
-import { cloneDeep, merge } from 'lodash';
+import { cloneDeep, groupBy, merge } from 'lodash';
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { GetAllDto } from './dtos/get-all.dto';
 import { filterTracks } from './queries/filter';
-import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
+import { GetTracksGenresDto, TrackGenresResponse, TrackGenresViewEnum } from './dtos/get-tracks-genres.dto';
 import { FilesService } from '../files/files.service';
-import { groupBy } from 'lodash';
 
 @Injectable()
 export class TracksService {
@@ -77,20 +76,18 @@ export class TracksService {
         return { data, count };
     }
 
-    async getTracksGenres(query: GetTracksGenresDto): Promise<TrackGenresResponse> {
-        const visible = query.visible !== undefined ? query.visible : true;
-        const trackGenres = await this.trackRepo
-            .createQueryBuilder('track')
-            .select('COUNT(genre.id)', 'countTracks')
-            .leftJoinAndSelect('track.category', 'category')
-            .leftJoinAndSelect('track.genre', 'genre')
-            .where('track.visible = :visible', { visible })
-            .groupBy('genre.id')
-            .addGroupBy('category.id')
-            .getRawMany();
-        const grouped = groupBy(trackGenres, 'category_value');
+    byGenres(rawTracks: any) {
+        return rawTracks.map((v) => ({
+            id: v.genre_id,
+            name: v.genre_name,
+            value: v.genre_value,
+            countTracks: v.countTracks,
+        }));
+    }
 
-        return Object.entries(grouped).reduce((acc, [key, val]) => {
+    byDate(rawTracks: any) {
+        const groupedByCreatedAt = groupBy(rawTracks, 'createdAt');
+        return Object.entries(groupedByCreatedAt).reduce((acc, [key, val]) => {
             return {
                 ...acc,
                 [key]: val.map((v) => ({
@@ -100,6 +97,36 @@ export class TracksService {
                     countTracks: v.countTracks,
                 })),
             };
+        }, {});
+    }
+
+    async getTracksGenres(query: GetTracksGenresDto): Promise<TrackGenresResponse> {
+        const visible = query.visible !== undefined ? query.visible : true;
+        const view = query.view ? query.view : TrackGenresViewEnum.GENRE;
+
+        const queryBuilder = this.trackRepo.createQueryBuilder('track');
+        queryBuilder.select('COUNT(track.id)', 'countTracks');
+
+        if (view === TrackGenresViewEnum.DATE) {
+            queryBuilder.addSelect('CAST(track.createdAt as date)', 'createdAt');
+        }
+
+        queryBuilder
+            .leftJoinAndSelect('track.category', 'category')
+            .leftJoinAndSelect('track.genre', 'genre')
+            .where('track.visible = :visible', { visible })
+            .groupBy('genre.id')
+            .addGroupBy('category.id');
+
+        if (view === TrackGenresViewEnum.DATE) {
+            queryBuilder.addGroupBy('CAST(track.createdAt as date)');
+        }
+
+        const trackGenres = await queryBuilder.getRawMany();
+        const groupedByCategory = groupBy(trackGenres, 'category_value');
+
+        return Object.entries(groupedByCategory).reduce((acc, [key, val]) => {
+            return { ...acc, [key]: query.view === TrackGenresViewEnum.DATE ? this.byDate(val) : this.byGenres(val) };
         }, {});
     }
 

@@ -98,7 +98,7 @@ describe('TracksController', () => {
 
         it('should send audio to telegram and update sentToTelegram in database if env is not test or ci', async () => {
             mockTrackService.create.mockResolvedValueOnce({ id: 1, ...track });
-            jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('development');
+            jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('dev');
 
             await controller.createTrack(track);
 

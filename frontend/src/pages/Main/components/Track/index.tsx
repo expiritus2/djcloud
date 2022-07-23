@@ -7,9 +7,10 @@ import { sign } from 'settings/sign';
 import { observer } from 'mobx-react-lite';
 import { Rating, Play, DownloadTrack } from 'components';
 import { useScreen } from 'hooks';
+import { MOBILE } from 'settings/constants/screen';
+import { useStore } from 'store';
 
 import styles from './styles.module.scss';
-import { MOBILE } from '../../../../settings/constants/screen';
 
 type ComponentProps = {
     className?: string;
@@ -18,9 +19,16 @@ type ComponentProps = {
 const TrackComponent: FC<ComponentProps> = (props) => {
     const { className, id, title, duration, file, createdAt, rating, countRatings, isDidRating } = props;
     const { screen } = useScreen();
+    const { currentTrack } = useStore();
 
     return (
-        <div className={classNames(styles.track, className)}>
+        <div
+            className={classNames(
+                styles.track,
+                !currentTrack.pause && currentTrack.data?.id === id ? styles.active : '',
+                className,
+            )}
+        >
             <div className={styles.head}>
                 <Play trackId={id} />
                 <div className={styles.info}>

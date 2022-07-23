@@ -19,8 +19,7 @@ import {
     isVeryLastTrack,
     requestPageTracks,
 } from './utils';
-import { adminPageTableLimit, mainPageTrackLimit } from '../../settings';
-import { TrackRating } from '../TrackRating/types';
+import { adminPageTracksLimit, mainPageTrackLimit } from '../../settings';
 
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
@@ -41,16 +40,7 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
             setPause: action,
             setPlay: action,
             onNext: action,
-            updateRating: action,
         });
-    }
-
-    updateRating(trackRating: TrackRating | null) {
-        if (trackRating && this.data?.id === trackRating?.trackId) {
-            this.data.rating = trackRating.rating;
-            this.data.countRatings = trackRating.countRatings;
-            this.data.isDidRating = trackRating.isDidRating;
-        }
     }
 
     getTrackById(cfg: GetTrackByIdParamsDto, options?: RequestOptions, cb?: Function) {
@@ -131,7 +121,7 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
                         const prevPageTracks = response.data.data || [];
 
                         if (!err && prevPageTracks.length) {
-                            this.setPrevTrack(isAdmin ? adminPageTableLimit : mainPageTrackLimit, prevPageTracks);
+                            this.setPrevTrack(isAdmin ? adminPageTracksLimit : mainPageTrackLimit, prevPageTracks);
                         }
                     });
                 }

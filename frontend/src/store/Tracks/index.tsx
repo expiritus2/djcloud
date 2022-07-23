@@ -6,7 +6,7 @@ import Api from 'store/core/Api';
 import { getAll } from 'api/tracks';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import { cloneDeep } from 'lodash';
-import { adminPageTableLimit } from '../../settings';
+import { adminPageTracksLimit } from '../../settings';
 
 export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
     constructor(color: string) {
@@ -22,7 +22,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
         const sendRequest = new Api<PaginatedItems<Track>>({ store: this, method: getAll }).execResult();
 
         sendRequest(
-            { limit: adminPageTableLimit, field: 'createdAt', sort: 'DESC', ...this.meta, ...cfg },
+            { limit: adminPageTracksLimit, field: 'createdAt', sort: 'DESC', ...this.meta, ...cfg },
             { silent: false, ...options },
             cb,
         );

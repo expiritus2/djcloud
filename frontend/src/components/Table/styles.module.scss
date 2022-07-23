@@ -6,7 +6,7 @@ $sorColor: darken($lightColor, 60);
 .tableWrapper {
     width: 100%;
     overflow: auto;
-    height: calc(100% - #{setUnit(35)});
+    height: calc(100% - #{setUnit($header-height)} - #{setUnit($player-height)});
 
     .table {
         width: 100%;

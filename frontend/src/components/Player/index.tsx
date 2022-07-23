@@ -9,6 +9,7 @@ import { observer } from 'mobx-react-lite';
 import { sign } from 'settings/sign';
 import styles from './styles.module.scss';
 import './styles.scss';
+import { useLocation } from 'react-router-dom';
 
 type ComponentProps = {
     className?: string;
@@ -18,6 +19,7 @@ const Player: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { currentTrack } = useStore();
     const player = useRef();
+    const location = useLocation();
 
     useEffect(() => {
         if (player.current) {
@@ -44,7 +46,19 @@ const Player: FC<ComponentProps> = (props) => {
     };
 
     const onEnded = () => {
-        currentTrack.onEnd();
+        currentTrack.onNext();
+    };
+
+    const isAdminPage = () => {
+        return location.pathname.includes('/admin/');
+    };
+
+    const onClickNext = () => {
+        currentTrack.onNext(isAdminPage());
+    };
+
+    const onClickPrevious = () => {
+        currentTrack.onPrev(isAdminPage());
     };
 
     const renderHeader = () => {
@@ -67,6 +81,9 @@ const Player: FC<ComponentProps> = (props) => {
                 onEnded={onEnded}
                 header={renderHeader()}
                 className={styles.playerContainer}
+                showSkipControls
+                onClickNext={onClickNext}
+                onClickPrevious={onClickPrevious}
             />
         </div>,
         document.body,

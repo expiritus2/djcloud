@@ -1,6 +1,6 @@
 import { Track } from 'types/track';
 import store from '..';
-import { mainPageTrackLimit } from 'settings';
+import { adminPageTracksLimit, mainPageTrackLimit } from 'settings';
 
 export const getCurrentTrackIndex = (): number => {
     const tracks = store.tracks.data?.data || [];
@@ -16,14 +16,28 @@ export const isVeryLastTrack = (currentEndTrackIndex: number, tracks: Track[]): 
     return currentEndTrackIndex === tracks.length - 1;
 };
 
+export const isVeryFirstTrack = (currentEndTrackIndex: number): boolean => {
+    return currentEndTrackIndex === 0;
+};
+
 export const isNotLastTrack = (currentTrackIndex: number, tracks: Track[]) => {
     return currentTrackIndex !== tracks.length - 1;
+};
+
+export const isNotFirstTrack = (currentTrackIndex: number) => {
+    return currentTrackIndex > 0;
 };
 
 export const getTracksNextPage = (): number => {
     const tracksMeta = store.tracks.meta;
     const currentPage = tracksMeta.page || 0;
     return currentPage + 1;
+};
+
+export const getTracksPrevPage = (): number => {
+    const tracksMeta = store.tracks.meta;
+    const currentPage = tracksMeta.page || 0;
+    return currentPage - 1;
 };
 
 export const getActualTrackIndex = () => {
@@ -37,6 +51,10 @@ export const isNotLastTrackOnLastPage = (actualTrackIndex: number) => {
     return store.tracks.data && actualTrackIndex < store.tracks.data?.count;
 };
 
-export const requestNextPageTracks = (nextPage: number, cb: Function) => {
-    store.tracks.getAll({ page: nextPage, limit: mainPageTrackLimit }, {}, cb);
+export const isNotFirstTrackOnFirstPage = (actualTrackIndex: number) => {
+    return store.tracks.data && actualTrackIndex !== 1;
+};
+
+export const requestPageTracks = (nextPage: number, isAdmin = false, cb: Function) => {
+    store.tracks.getAll({ page: nextPage, limit: isAdmin ? adminPageTracksLimit : mainPageTrackLimit }, {}, cb);
 };

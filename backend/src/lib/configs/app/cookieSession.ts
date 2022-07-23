@@ -19,8 +19,6 @@ export const setCookieSession = (app: INestApplication) => {
                   }
                 : {
                       cookie: {
-                          secure: false,
-                          sameSite: false,
                           maxAge: 1000 * 60 * 60 * 24 * 30, // one month
                       },
                   }),

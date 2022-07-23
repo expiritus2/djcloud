@@ -10,11 +10,16 @@ import {
     getCurrentPageTracks,
     getCurrentTrackIndex,
     getTracksNextPage,
+    getTracksPrevPage,
+    isNotFirstTrack,
+    isNotFirstTrackOnFirstPage,
     isNotLastTrack,
     isNotLastTrackOnLastPage,
+    isVeryFirstTrack,
     isVeryLastTrack,
-    requestNextPageTracks,
+    requestPageTracks,
 } from './utils';
+import { adminPageTracksLimit, mainPageTrackLimit } from '../../settings';
 
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
@@ -34,7 +39,7 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
             getTrackById: action,
             setPause: action,
             setPlay: action,
-            onEnd: action,
+            onNext: action,
         });
     }
 
@@ -63,7 +68,12 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
         this.setPlay();
     }
 
-    onEnd() {
+    setPrevTrack(currentEndTrackIndex: number, tracks: Track[]) {
+        this.data = tracks[currentEndTrackIndex - 1];
+        this.setPlay();
+    }
+
+    onNext(isAdmin = false) {
         const tracks = getCurrentPageTracks();
 
         if (tracks.length) {
@@ -79,11 +89,39 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
                 if (isNotLastTrackOnLastPage(actualTrackIndex)) {
                     const nextPage = getTracksNextPage();
 
-                    requestNextPageTracks(nextPage, (err: any, response: any) => {
+                    requestPageTracks(nextPage, isAdmin, (err: any, response: any) => {
                         const nextPageTracks = response.data.data || [];
 
                         if (!err && nextPageTracks.length) {
                             this.setNextTrack(-1, nextPageTracks);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    onPrev(isAdmin = false) {
+        const tracks = getCurrentPageTracks();
+
+        if (tracks.length) {
+            const currentTrackIndex = getCurrentTrackIndex();
+
+            if (isNotFirstTrack(currentTrackIndex)) {
+                this.setPrevTrack(currentTrackIndex, tracks);
+            }
+
+            if (isVeryFirstTrack(currentTrackIndex)) {
+                const actualTrackIndex = getActualTrackIndex();
+
+                if (isNotFirstTrackOnFirstPage(actualTrackIndex)) {
+                    const prevPage = getTracksPrevPage();
+
+                    requestPageTracks(prevPage, isAdmin, (err: any, response: any) => {
+                        const prevPageTracks = response.data.data || [];
+
+                        if (!err && prevPageTracks.length) {
+                            this.setPrevTrack(isAdmin ? adminPageTracksLimit : mainPageTrackLimit, prevPageTracks);
                         }
                     });
                 }

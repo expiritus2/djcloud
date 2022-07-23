@@ -127,13 +127,13 @@ describe('Files management', () => {
     describe('/files/file-remove', () => {
         it('should remove file info from database and s3', async () => {
             const { body: file } = await uploadFile(app, adminCookie);
-            const key = file.url.replace(`${envConfig.cdn}/${process.env.NODE_ENV}/`, '');
+            const key = file.url.replace(`${envConfig.cdn}/${process.env.ENVIRONMENT}/`, '');
 
             const configService = new Map();
             configService.set('DO_BUCKET_NAME', process.env.DO_BUCKET_NAME);
             configService.set('DO_ACCESS_KEY', process.env.DO_ACCESS_KEY);
             configService.set('DO_SECRET_KEY', process.env.DO_SECRET_KEY);
-            configService.set('NODE_ENV', process.env.NODE_ENV);
+            configService.set('ENVIRONMENT', process.env.ENVIRONMENT);
             const spacesService = new SpacesService(configService as any);
             const uploadedObject = await spacesService.getObject(key);
 

@@ -1,10 +1,10 @@
-import devConfig from './development.json';
-import prodConfig from './production.json';
+import devConfig from './dev.json';
+import prodConfig from './prod.json';
 import testConfig from './test.json';
 
-enum EnvEnums {
-    DEVELOPMENT = 'development',
-    PRODUCTION = 'production',
+export enum EnvEnums {
+    DEVELOPMENT = 'dev',
+    PRODUCTION = 'prod',
     TEST = 'test',
 }
 
@@ -14,6 +14,6 @@ const envMap = {
     [EnvEnums.TEST]: testConfig,
 };
 
-export const env = process.env.NODE_ENV || 'development';
+export const env = process.env.ENVIRONMENT || 'dev';
 
 export const envConfig = envMap[env];

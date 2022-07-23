@@ -1,7 +1,12 @@
-import { IsBoolean, IsOptional } from 'class-validator';
+import { IsBoolean, IsEnum, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { Category } from './track.dto';
+
+export enum TrackGenresViewEnum {
+    GENRE = 'GENRE',
+    DATE = 'DATE',
+}
 
 export class GetTracksGenresDto {
     @IsOptional()
@@ -9,6 +14,11 @@ export class GetTracksGenresDto {
     @ApiProperty({ required: false })
     @Type(() => Boolean)
     visible?: boolean;
+
+    @IsOptional()
+    @IsEnum(TrackGenresViewEnum)
+    @ApiProperty({ required: false })
+    view?: TrackGenresViewEnum;
 }
 
 export type TrackGenresResponse = {

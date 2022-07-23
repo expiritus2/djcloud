@@ -2,9 +2,13 @@
 @import "src/styles/variables";
 
 .login {
-  .content {
-    height: calc(100vh - #{setUnit(70)});
-    display: flex;
-    justify-content: center;
-  }
+    .content {
+        height: calc(100vh - #{setUnit(70)});
+        display: flex;
+        justify-content: center;
+
+        &.withPlayer {
+            height: calc(100vh - #{setUnit(70)} - #{setUnit($player-height)} - #{setUnit(1)});
+        }
+    }
 }

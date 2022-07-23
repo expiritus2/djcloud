@@ -1,5 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { EnvEnums } from './src/lib/configs/envs';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const ORMConfig = {
     synchronize: false,
@@ -8,8 +12,8 @@ const ORMConfig = {
     },
 } as TypeOrmModuleOptions;
 
-switch (process.env.NODE_ENV) {
-    case 'development':
+switch (process.env.ENVIRONMENT) {
+    case EnvEnums.DEVELOPMENT:
         Object.assign(ORMConfig, {
             type: 'postgres',
             host: 'localhost',
@@ -22,7 +26,7 @@ switch (process.env.NODE_ENV) {
             migrations: ['migrations/*.js', 'migrations/development/*.js'],
         } as TypeOrmModuleOptions);
         break;
-    case 'test':
+    case EnvEnums.TEST:
         Object.assign(ORMConfig, {
             type: 'postgres',
             host: 'localhost',
@@ -35,7 +39,7 @@ switch (process.env.NODE_ENV) {
             migrations: ['migrations/*.js', 'migrations/test/*.js'],
         });
         break;
-    case 'production':
+    case EnvEnums.PRODUCTION:
         Object.assign(ORMConfig, {
             type: 'postgres',
             url: process.env.DATABASE_URL,

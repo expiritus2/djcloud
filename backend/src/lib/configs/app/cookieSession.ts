@@ -1,5 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import session from 'express-session';
+import { EnvEnums } from '../envs';
 
 export const setCookieSession = (app: INestApplication) => {
     app.use(
@@ -9,7 +10,7 @@ export const setCookieSession = (app: INestApplication) => {
             resave: false,
             saveUninitialized: false,
             proxy: true,
-            ...(process.env.NODE_ENV === 'production'
+            ...(process.env.ENVIRONMENT === EnvEnums.PRODUCTION
                 ? {
                       cookie: {
                           secure: true,

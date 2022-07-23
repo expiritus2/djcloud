@@ -10,7 +10,7 @@ import { RequestStateEnum } from 'types/request';
 import { Player } from 'components';
 
 const AppRouter: FC = () => {
-    const { user } = useStore();
+    const { user, currentTrack } = useStore();
 
     return (
         <BrowserRouter>
@@ -19,7 +19,7 @@ const AppRouter: FC = () => {
                     const userRole = user.data?.role?.name as UserRoleEnum;
                     const isCanActivate = canActivate(userRole, pathRoles as UserRoleEnum[]);
                     let Page = null;
-                    const exceptPlayerPaths = [routes.login, '*'];
+                    const exceptPlayerPaths = [!currentTrack.data ? routes.login : undefined, '*'];
 
                     if (isCanActivate) {
                         Page = (

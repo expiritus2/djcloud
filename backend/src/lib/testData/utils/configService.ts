@@ -4,7 +4,7 @@ export const getMockConfigService = () => {
             switch (variable) {
                 case 'SALT':
                     return 'asdf';
-                case 'NODE_ENV':
+                case 'ENVIRONMENT':
                     return 'test';
                 case 'TELEGRAM_TOKEN':
                     return 'TELEGRAM_TOKEN';

@@ -7,6 +7,7 @@ export const getDuration = (durationSeconds: number) => {
 
 export enum DateFormat {
     dd_MMMM_yyyy_HH_mm = 'dd MMMM yyyy HH:mm',
+    dd_MMMM_yyyy = 'dd MMMM yyyy',
 }
 
 export const formatDate = (date: string, format: DateFormat = DateFormat.dd_MMMM_yyyy_HH_mm) => {

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TracksController } from './tracks.controller';
+import { getCaption, TracksController } from './tracks.controller';
 import { TracksService } from './tracks.service';
 import { CanActivate } from '@nestjs/common';
 import { AdminGuard } from '../authentication/lib/guards/adminGuard';
@@ -9,6 +9,7 @@ import { getTime, subDays, subHours } from 'date-fns';
 import { FilesService } from '../files/files.service';
 import { getMockConfigService } from '../lib/testData/utils';
 import { ConfigService } from '@nestjs/config';
+import { TrackEntity } from './track.entity';
 
 describe('TracksController', () => {
     let controller: TracksController;
@@ -41,6 +42,7 @@ describe('TracksController', () => {
         mockSession = {};
         mockTelegramService = {
             sendAudio: jest.fn(),
+            sendMessage: jest.fn(),
         };
 
         mockFilesService = {
@@ -186,7 +188,7 @@ describe('TracksController', () => {
         it('should update track send to telegram and update sentToTelegram in database', async () => {
             const id = 1;
             const newTrackData = { title: 'Updated track title', visible: true };
-            const updatedTrack = merge(track, newTrackData);
+            const updatedTrack = merge(cloneDeep(track), newTrackData);
             mockTrackService.update
                 .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: false })
                 .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: true });
@@ -204,7 +206,7 @@ describe('TracksController', () => {
         it('should update track and not send to telegram and update sentToTelegram in database', async () => {
             const id = 1;
             const newTrackData = { title: 'Updated track title', visible: false };
-            const updatedTrack = merge(track, newTrackData);
+            const updatedTrack = merge(cloneDeep(track), newTrackData);
             mockTrackService.update.mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: false });
 
             const result = await controller.update(id, newTrackData);
@@ -212,13 +214,19 @@ describe('TracksController', () => {
             expect(mockTrackService.update).toBeCalledWith(id, newTrackData);
             expect(mockTelegramService.sendAudio).not.toBeCalled();
             expect(mockTrackService.update).not.toBeCalledWith(id, { sentToTelegram: true });
-            expect(result).toEqual({ id: 1, ...track, title: newTrackData.title, sentToTelegram: false });
+            expect(result).toEqual({
+                id: 1,
+                ...track,
+                visible: false,
+                title: newTrackData.title,
+                sentToTelegram: false,
+            });
         });
 
         it('should not send to telegram and update sentToTelegram in database if visible true but sentToTelegram true', async () => {
             const id = 1;
             const newTrackData = { title: 'Updated track title', visible: true };
-            const updatedTrack = merge(track, newTrackData);
+            const updatedTrack = merge(cloneDeep(track), newTrackData);
             mockTrackService.update.mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: true });
 
             const result = await controller.update(id, newTrackData);
@@ -246,6 +254,29 @@ describe('TracksController', () => {
             const result = await controller.getTracksGenres({ visible: true });
             expect(mockTrackService.getTracksGenres).toBeCalledWith({ visible: true });
             expect(result).toEqual(track);
+        });
+    });
+
+    describe('sendToTelegram', () => {
+        it('should send audio to telegram', async () => {
+            const caption = getCaption(track as TrackEntity);
+            await controller.sendToTelegram(track as TrackEntity);
+
+            expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url, { caption });
+        });
+
+        it('should send message to telegram with correct link if sendAudio is fails', async () => {
+            const caption = getCaption(track as TrackEntity);
+            mockTelegramService.sendAudio.mockRejectedValueOnce(new Error('Some error message'));
+
+            await controller.sendToTelegram(track as TrackEntity);
+
+            expect(mockTelegramService.sendMessage).toBeCalledWith(
+                `<a href="http://localhost:3000/tracks/category_name/genre_name?search=Track title">http://localhost:3000/tracks/category_name/genre_name?search=Track title</a>\n${caption}`,
+                {
+                    parse_mode: 'HTML',
+                },
+            );
         });
     });
 });

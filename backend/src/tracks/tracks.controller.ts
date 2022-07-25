@@ -15,6 +15,7 @@ import { differenceInDays } from 'date-fns';
 import { TelegramService } from '../telegram/telegram.service';
 import { FilesService } from '../files/files.service';
 import { ConfigService } from '@nestjs/config';
+import { envConfig } from '../lib/configs/envs';
 
 export const getCaption = (track: TrackEntity): string => {
     return `${track.category.name} - ${track.genre.name}`;
@@ -30,18 +31,28 @@ export class TracksController {
         private configService: ConfigService,
     ) {}
 
+    async sendToTelegram(track: TrackEntity) {
+        const caption = getCaption(track);
+        try {
+            await this.telegramService.sendAudio(track.file.url, { caption });
+        } catch (error: any) {
+            const link = `${envConfig.frontendDomain}/tracks/${track.category.value}/${track.genre.value}?search=${track.title}`;
+            const tag = `<a href="${link}">${link}</a>`;
+            await this.telegramService.sendMessage(`${tag}\n${caption}`, {
+                parse_mode: 'HTML',
+            });
+        }
+    }
+
     @UseGuards(AdminGuard)
     @Post('/create')
     @ApiOperation({ summary: 'Create new track' })
     @ApiResponse({ status: 201, type: TrackDto })
     async createTrack(@Body() track: CreateTrackDto) {
         const newTrack = await this.tracksService.create(track);
-        const fileUrl = `${newTrack.file.url}`;
         const env = this.configService.get('ENVIRONMENT');
         if (track.visible && env !== 'test' && env !== 'ci') {
-            await this.telegramService.sendAudio(fileUrl, {
-                caption: getCaption(newTrack),
-            });
+            await this.sendToTelegram(newTrack);
             await this.tracksService.update(newTrack.id, { sentToTelegram: true });
         }
         return newTrack;
@@ -87,14 +98,7 @@ export class TracksController {
         const updatedTrack = await this.tracksService.update(id, body);
 
         if (body.visible && !updatedTrack.sentToTelegram) {
-            try {
-                await this.telegramService.sendAudio(updatedTrack.file.url, {
-                    caption: getCaption(updatedTrack),
-                });
-            } catch (error: any) {
-                await this.telegramService.sendMessage(`${updatedTrack.file.url}\n${getCaption(updatedTrack)}`);
-            }
-
+            await this.sendToTelegram(updatedTrack);
             return this.tracksService.update(updatedTrack.id, { sentToTelegram: true });
         }
 

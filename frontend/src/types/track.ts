@@ -38,8 +38,3 @@ export type Track = {
     createdAt: string;
     updatedAt: string;
 } & TrackRating;
-
-export enum TrackGenresViewEnum {
-    GENRE = 'GENRE',
-    DATE = 'DATE',
-}

@@ -49,15 +49,15 @@ describe('TelegramService', () => {
 
     describe('sendMessage', () => {
         it('should send message to telegram with default chatId', async () => {
-            await service.sendMessage('Some message');
+            await service.sendMessage('Some message', {});
 
-            expect(service.bot.telegram.sendMessage).toBeCalledWith(service.options.chatId, 'Some message');
+            expect(service.bot.telegram.sendMessage).toBeCalledWith(service.options.chatId, 'Some message', {});
         });
 
         it('should send message to telegram with custom chatId', async () => {
-            await service.sendMessage('Some message', 'customChatId');
+            await service.sendMessage('Some message', {}, 'customChatId');
 
-            expect(service.bot.telegram.sendMessage).toBeCalledWith('customChatId', 'Some message');
+            expect(service.bot.telegram.sendMessage).toBeCalledWith('customChatId', 'Some message', {});
         });
     });
 

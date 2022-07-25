@@ -27,7 +27,7 @@ const Player: FC<ComponentProps> = (props) => {
                 // @ts-ignore
                 player.current.audio?.current?.pause();
             } else if (!currentTrack.pause && currentTrack.data) {
-                // @ts-ignore
+                //@ts-ignore
                 player.current.audio?.current?.play();
             }
         }

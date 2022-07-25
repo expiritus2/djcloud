@@ -10,9 +10,7 @@ import styles from './styles.module.scss';
 import { MenuItem } from 'components/Menu';
 import { routes } from 'settings/navigation/routes';
 import { TrackGenre } from 'store/TrackGenres/types';
-// import Switcher from './Switcher';
-import { TrackGenresViewEnum } from 'types/track';
-import { GroupedTrackGenres, NestedTrackGenres } from 'store/TrackGenres';
+import { GroupedTrackGenres } from 'store/TrackGenres';
 
 type ComponentProps = {
     className?: string;
@@ -55,22 +53,10 @@ const MainMenu: FC<ComponentProps> = (props) => {
     );
 
     const menuItems = useMemo(() => {
-        if (tracksGenres.meta.view === TrackGenresViewEnum.DATE) {
-            return Object.entries((tracksGenres.data as NestedTrackGenres)?.[match?.params.category!]).reduce(
-                (acc, [key, value]) => ({ ...acc, [key]: value.map(convertMenuItem) }),
-                {},
-            );
-        }
         return ((tracksGenres.data as GroupedTrackGenres)?.[match?.params.category!] || []).map(convertMenuItem);
-    }, [match?.params.category, tracksGenres.data, tracksGenres.meta.view, convertMenuItem]);
+    }, [match?.params.category, tracksGenres.data, convertMenuItem]);
 
-    return (
-        <Menu
-            listItems={menuItems}
-            className={classNames(styles.mainMenu, className)}
-            // switcher={<Switcher onClick={onSwitchView} active={tracksGenres.meta.view} />}
-        />
-    );
+    return <Menu listItems={menuItems} className={classNames(styles.mainMenu, className)} />;
 };
 
 export default observer(MainMenu);

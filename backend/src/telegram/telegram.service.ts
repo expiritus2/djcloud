@@ -17,15 +17,11 @@ export class TelegramService {
         this.bot = new Telegraf(this.options.token);
     }
 
-    async sendMessage(message: string, chatId: string = this.options.chatId) {
-        await this.bot.telegram.sendMessage(chatId, message);
+    async sendMessage(message: string, extra?: tt.ExtraReplyMessage, chatId: string = this.options.chatId) {
+        await this.bot.telegram.sendMessage(chatId, message, extra);
     }
 
     async sendAudio(url: string, extra: tt.ExtraAudio = {}, chatId: string = this.options.chatId) {
         await this.bot.telegram.sendAudio(chatId, url, extra);
-    }
-
-    async sendDocument(url: string, extra: tt.ExtraAudio = {}, chatId: string = this.options.chatId) {
-        await this.bot.telegram.sendDocument(chatId, url, extra);
     }
 }

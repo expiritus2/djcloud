@@ -4,12 +4,13 @@
 4. ~~Fix bug with search on categories on Admin page~~
 5. ~~Enable/Disable visible track send to telegram~~
 6. ~~Next/Prev track button on player~~
-7. View by Date/Genres?
-8. Send link to track on site if can't send to telegram
-9. ~~Cookie maxAge~~
-10. Menus view on mobile
-11. ~~Remove console warnings~~
+7. ~~Cookie maxAge~~
+8. ~~Remove console warnings~~
+9. ~~Send link to track on site if can't send to telegram~~
+10. Show progressbar by upload track file
+11. Menus view on mobile
 12. Add validation to Dropzone (not empty)
 13. Remove all files from test spaces after each e2e test
-14. Get current played track page
-15. Show progressbar by upload track file
+14. Add ability to do rating on player for current track
+15. Get current played track page
+16. Correct link by click logo

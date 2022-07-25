@@ -15,6 +15,7 @@ import { differenceInDays } from 'date-fns';
 import { TelegramService } from '../telegram/telegram.service';
 import { FilesService } from '../files/files.service';
 import { ConfigService } from '@nestjs/config';
+import { envConfig } from '../lib/configs/envs';
 
 export const getCaption = (track: TrackEntity): string => {
     return `${track.category.name} - ${track.genre.name}`;
@@ -30,12 +31,16 @@ export class TracksController {
         private configService: ConfigService,
     ) {}
 
-    private async sendToTelegram(track: TrackEntity) {
+    async sendToTelegram(track: TrackEntity) {
         const caption = getCaption(track);
         try {
             await this.telegramService.sendAudio(track.file.url, { caption });
         } catch (error: any) {
-            await this.telegramService.sendMessage(`${track.file.url}\n${caption}`);
+            const link = `${envConfig.frontendDomain}/tracks/${track.category.value}/${track.genre.value}?search=${track.title}`;
+            const tag = `<a href="${link}">${link}</a>`;
+            await this.telegramService.sendMessage(`${tag}\n${caption}`, {
+                parse_mode: 'HTML',
+            });
         }
     }
 

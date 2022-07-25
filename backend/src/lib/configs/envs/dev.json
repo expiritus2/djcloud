@@ -1,3 +1,4 @@
 {
-  "cdn": "https://djcloud.fra1.cdn.digitaloceanspaces.com"
+    "cdn": "https://djcloud.fra1.cdn.digitaloceanspaces.com",
+    "frontendDomain": "http://localhost:3000"
 }

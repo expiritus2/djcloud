@@ -12,8 +12,6 @@
   }
 
   .error {
-    font-size: setUnit(12);
-    color: $dangerColor;
-    margin-top: setUnit(4);
+    @include inputError;
   }
 }

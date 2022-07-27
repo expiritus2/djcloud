@@ -1,0 +1,26 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.telegramLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .link {
+        display: inline-block;
+    }
+
+    .icon {
+        width: setUnit(28.5);
+        height: setUnit(28.5);
+        vertical-align: middle;
+
+        svg {
+            stroke: red;
+        }
+
+        path {
+            fill: $whiteColor;
+        }
+    }
+}

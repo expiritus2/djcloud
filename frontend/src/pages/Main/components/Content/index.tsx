@@ -13,6 +13,7 @@ import { mainPageTrackLimit } from 'settings';
 
 import styles from './styles.module.scss';
 import { getQuery } from 'helpers/query';
+import { GroupedTrackGenres } from '../../../../store/TrackGenres';
 
 type ComponentProps = {
     className?: string;
@@ -20,14 +21,14 @@ type ComponentProps = {
 
 const Content: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracks } = useStore();
+    const { tracks, navCategories, tracksGenres } = useStore();
     const match = useMatch({ path: routes.tracks });
-    const category = match?.params.category;
-    const genre = match?.params.genre;
     const location = useLocation();
     const query = getQuery(location);
 
     useEffect(() => {
+        const category = match?.params.category || navCategories.data?.data?.[0]?.value || '';
+        const genre = match?.params.genre || (tracksGenres.data as GroupedTrackGenres)?.[category]?.[0].value;
         if ((category !== tracks.meta.category || genre !== tracks.meta.genre) && category && genre) {
             tracks.getAll({
                 category,
@@ -39,7 +40,14 @@ const Content: FC<ComponentProps> = (props) => {
         }
 
         return () => tracks.resetStore();
-    }, [category, genre, tracks, query.search]); // eslint-disable-line
+    }, [
+        tracks,
+        query.search,
+        match?.params.category,
+        navCategories.data?.data,
+        tracksGenres.data,
+        match?.params.genre,
+    ]);
 
     return (
         <div className={classNames(styles.content, className)}>

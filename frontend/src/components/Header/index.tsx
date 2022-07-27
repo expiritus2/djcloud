@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import classNames from 'classnames';
 import { Search } from './components';
 import { useNavigate } from 'react-router-dom';
-import { LoginAvatar, Logo, Navigation } from './components';
+import { LoginAvatar, Logo, Navigation, TelegramLink } from './components';
 
 import { routes } from 'settings/navigation/routes';
 
@@ -26,6 +26,7 @@ const Header: FC<ComponentProps> = (props) => {
             <div className={styles.info}>
                 <Navigation />
                 <Search className={styles.search} />
+                <TelegramLink className={styles.telegram} />
                 <LoginAvatar />
             </div>
         </div>

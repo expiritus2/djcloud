@@ -12,7 +12,15 @@
     border-radius: setUnit(8);
     cursor: pointer;
 
+    &.error {
+        border-color: $dangerColor;
+    }
+
     .label {
         @include simple-label;
+    }
+
+    .error {
+        @include inputError;
     }
 }

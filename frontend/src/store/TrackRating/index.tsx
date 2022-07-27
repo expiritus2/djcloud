@@ -1,9 +1,10 @@
-import { action, makeObservable } from 'mobx';
+import { action, makeObservable, reaction } from 'mobx';
 import { AddTrackRatingDto, GetTrackRatingDto, TrackRating } from './types';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import Api from 'store/core/Api';
 import { addRating, getRating } from 'api/trackRating';
 import { RequestOptions } from 'types/request';
+import store from 'store';
 
 export class TrackRatingStore extends BaseRequestStore<TrackRating> {
     constructor(color?: string) {
@@ -13,6 +14,13 @@ export class TrackRatingStore extends BaseRequestStore<TrackRating> {
             addTrackRating: action,
             getRating: action,
         });
+
+        reaction(
+            () => this.data,
+            (data) => {
+                store.currentTrack.updateRating(data);
+            },
+        );
     }
 
     addTrackRating(cfg: AddTrackRatingDto, options?: RequestOptions, cb?: Function) {

@@ -11,4 +11,8 @@
     .label {
         @include simple-label;
     }
+
+    .error {
+        @include inputError;
+    }
 }

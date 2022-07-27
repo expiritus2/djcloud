@@ -10,10 +10,11 @@ type ComponentProps = {
     onDrop: any;
     name: string;
     value: File;
+    error?: string;
 };
 
 const DropZone: FC<ComponentProps> = (props) => {
-    const { className, name, onDrop, multiple = false, value } = props;
+    const { className, name, onDrop, multiple = false, value, error } = props;
 
     const onDropHandler = useCallback(
         (acceptedFiles: any) => {
@@ -37,11 +38,15 @@ const DropZone: FC<ComponentProps> = (props) => {
             return 'Drop the files here ...';
         }
 
-        return "Drag 'n' drop some files here, or click to select files";
+        return error ? (
+            <div className={styles.error}>{error}</div>
+        ) : (
+            "Drag 'n' drop some files here, or click to select files"
+        );
     };
 
     return (
-        <div {...getRootProps()} className={classNames(styles.dropzone, className)}>
+        <div {...getRootProps()} className={classNames(styles.dropzone, error ? styles.error : '', className)}>
             <input {...getInputProps()} />
             <p className={styles.label}>{getText()}</p>
         </div>

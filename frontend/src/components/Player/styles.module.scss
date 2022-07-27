@@ -4,6 +4,9 @@
 .player {
     .title {
         min-height: setUnit(20);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .playerContainer {

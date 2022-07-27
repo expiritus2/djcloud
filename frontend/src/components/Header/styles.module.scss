@@ -2,24 +2,32 @@
 @import "src/styles/variables";
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: $darkColor;
-  padding: setUnit(10) setUnit(30);
-  color: $lightColor;
-
-  .logo {
-    cursor: pointer;
-  }
-
-  .search {
-    margin: 0 setUnit(20);
-    width: setUnit(250);
-  }
-
-  .info {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-  }
+    background-color: $darkColor;
+    padding: setUnit(10) setUnit(30);
+    color: $lightColor;
+
+    .logo {
+        cursor: pointer;
+    }
+
+    .search {
+        margin: 0 setUnit(20);
+        width: setUnit(250);
+    }
+
+    .telegram {
+        margin-right: setUnit(15);
+        @media screen and (max-width: 900px) {
+            position: relative;
+            bottom: setUnit(1);
+        }
+    }
+
+    .info {
+        display: flex;
+        align-items: center;
+    }
 }

@@ -1,6 +1,8 @@
 import { TrackEntity } from '../track.entity';
 
+export type TrackData = TrackEntity & { isDidRating: boolean; rating: number; countRatings: number };
+
 export type GetAllResponseDto = {
-    data: (TrackEntity & { isDidRating: boolean; rating: number; countRatings: number })[];
+    data: TrackData[];
     count: number;
 };

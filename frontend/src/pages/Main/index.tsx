@@ -2,15 +2,14 @@ import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
 import { Header, PageWrapper } from 'components';
 import { MainMenu, Content } from './components';
-import { useLocation, useMatch, useNavigate } from 'react-router-dom';
+import { useLocation, useMatch } from 'react-router-dom';
 import { useStore } from 'store';
 
-import { link } from 'settings/navigation/link';
 import { routes } from 'settings/navigation/routes';
 
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { GroupedTrackGenres } from '../../store/TrackGenres';
+import { GroupedTrackGenres } from 'store/TrackGenres';
 
 type ComponentProps = {
     className?: string;
@@ -18,20 +17,18 @@ type ComponentProps = {
 
 const Main: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracksGenres, categories, customerState } = useStore();
+    const { tracksGenres, categories, customerState, navCategories } = useStore();
     const location = useLocation();
-    const navigate = useNavigate();
     const match = useMatch({ path: routes.tracks });
 
     useEffect(() => {
-        if (location.pathname === '/' && categories.data?.data[0] && tracksGenres?.data) {
-            const category = categories.data?.data[0].value;
+        if (location.pathname === '/' && navCategories.data?.data) {
+            const category = navCategories.data.data?.[0]?.value;
             const genre = (tracksGenres.data as GroupedTrackGenres)[category][0].value;
             customerState.setTab(genre, category);
-            navigate(link.toTracks(category, genre));
+        } else {
+            customerState.setTab(match?.params.genre!, match?.params.category!);
         }
-
-        customerState.setTab(match?.params.genre!, match?.params.category!);
     }, [categories.data, tracksGenres.data]); // eslint-disable-line
 
     return (

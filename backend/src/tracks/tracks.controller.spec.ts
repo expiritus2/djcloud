@@ -179,8 +179,8 @@ describe('TracksController', () => {
     describe('getById', () => {
         it('should return track by id', async () => {
             mockTrackService.findOne.mockResolvedValueOnce({ id: 1, ...track });
-            const result = await controller.getById(1);
-            expect(result).toEqual({ id: 1, ...track });
+            const result = await controller.getById(1, {});
+            expect(result).toEqual({ id: 1, ...track, isDidRating: false });
         });
     });
 

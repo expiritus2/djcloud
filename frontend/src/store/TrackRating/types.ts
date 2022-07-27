@@ -12,10 +12,10 @@ export type Track = {
 };
 
 export type TrackRating = {
-    id: number;
-    track: Track;
+    countRatings: number;
+    isDidRating: boolean;
     rating: number;
-    ipAddress: string;
+    trackId: number;
 };
 
 export type AddTrackRatingDto = {

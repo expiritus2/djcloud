@@ -10,7 +10,7 @@ import { UpdateTrackDto } from './dtos/update-track.dto';
 import { GetAllDto } from './dtos/get-all.dto';
 import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
 import { TracksGenresDto } from './dtos/tracks-genres.dto';
-import { GetAllResponseDto } from './dtos/get-all-response.dto';
+import { GetAllResponseDto, TrackData } from './dtos/get-all-response.dto';
 import { differenceInDays } from 'date-fns';
 import { TelegramService } from '../telegram/telegram.service';
 import { FilesService } from '../files/files.service';
@@ -30,6 +30,11 @@ export class TracksController {
         private fileService: FilesService,
         private configService: ConfigService,
     ) {}
+
+    isDidRating(session: any, trackId: number) {
+        const days = differenceInDays(Date.now(), session.ratings?.[trackId]?.ratingDate);
+        return days < 1;
+    }
 
     async sendToTelegram(track: TrackEntity) {
         const caption = getCaption(track);
@@ -67,10 +72,9 @@ export class TracksController {
         return {
             ...tracks,
             data: tracks.data.map((track) => {
-                const days = differenceInDays(Date.now(), session.ratings?.[track.id]?.ratingDate);
                 return {
                     ...track,
-                    isDidRating: days < 1,
+                    isDidRating: this.isDidRating(session, track.id),
                 };
             }),
         };
@@ -86,8 +90,10 @@ export class TracksController {
     @Get('/:id')
     @ApiOperation({ summary: 'Get track by id' })
     @ApiResponse({ status: 200, type: GenreDto })
-    async getById(@Param('id') id: string | number): Promise<TrackEntity> {
-        return this.tracksService.findOne(id);
+    async getById(@Param('id') id: string | number, @Session() session: any): Promise<TrackData> {
+        const track = await this.tracksService.findOne(id);
+
+        return { ...track, isDidRating: this.isDidRating(session, track.id) };
     }
 
     @UseGuards(AdminGuard)

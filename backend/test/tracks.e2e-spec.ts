@@ -112,7 +112,7 @@ describe('Tracks management', () => {
 
             track = createdTrack;
 
-            expect(body).toEqual({ ...createdTrack, countRatings: 0, rating: 0 });
+            expect(body).toEqual({ ...createdTrack, countRatings: 0, rating: 0, isDidRating: false });
         });
     });
 

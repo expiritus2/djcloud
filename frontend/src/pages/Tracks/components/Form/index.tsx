@@ -61,22 +61,38 @@ const Form: FC<ComponentProps> = (props) => {
         });
     };
 
+    const validateInputs = (): boolean => {
+        let isErrors = false;
+        if (modalState.type !== ModalStateEnum.DELETE) {
+            const { title, category, genre, file } = values;
+            isErrors = !title || !category || !genre;
+            setInputError({
+                ...inputError,
+                title: !title && 'Required',
+                category: !category && 'Required',
+                genre: !genre && 'Required',
+                file: !file && 'Required',
+            });
+        }
+        return isErrors;
+    };
+
     const onClickSubmitHandler = (e: any) => {
         e.preventDefault();
 
-        if (!values.title && modalState.type !== ModalStateEnum.DELETE) {
-            return setInputError({ ...inputError, title: 'Required' });
-        }
+        let isErrors = validateInputs();
 
-        if (modalState.type === ModalStateEnum.CREATE) {
+        if (!isErrors && modalState.type === ModalStateEnum.CREATE) {
             createTrack();
         }
 
-        if (modalState.type === ModalStateEnum.UPDATE) {
+        if (!isErrors && modalState.type === ModalStateEnum.UPDATE) {
             updateTrack();
         }
 
-        onClickSubmit(e);
+        if (!isErrors) {
+            onClickSubmit(e);
+        }
     };
 
     const resetError = (name: string, value: any) => {
@@ -110,13 +126,26 @@ const Form: FC<ComponentProps> = (props) => {
                     onChange={onChangeValue}
                 />
                 <CategoryInput
+                    error={inputError.category}
                     className={styles.input}
                     onChange={onChangeValue}
                     name="category"
                     value={values.category}
                 />
-                <GenreInput className={styles.input} onChange={onChangeValue} name="genre" value={values.genre} />
-                <DropZone onDrop={onChangeValue} name="file" className={styles.dropzone} value={values.file} />
+                <GenreInput
+                    error={inputError.genre}
+                    className={styles.input}
+                    onChange={onChangeValue}
+                    name="genre"
+                    value={values.genre}
+                />
+                <DropZone
+                    error={inputError.file}
+                    onDrop={onChangeValue}
+                    name="file"
+                    className={styles.dropzone}
+                    value={values.file}
+                />
             </form>
         </div>
     );

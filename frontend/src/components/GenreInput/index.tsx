@@ -14,10 +14,11 @@ type ComponentProps = {
     onChange: any;
     value: Category | null;
     label?: string;
+    error?: string;
 };
 
 const GenreInput: FC<ComponentProps> = (props) => {
-    const { className, name, onChange, value, label = 'Genre' } = props;
+    const { className, name, onChange, value, label = 'Genre', error } = props;
     const { genres } = useStore();
 
     useEffect(() => {
@@ -46,6 +47,7 @@ const GenreInput: FC<ComponentProps> = (props) => {
                     </option>
                 ))}
             </select>
+            {error && <div className={styles.error}>{error}</div>}
         </div>
     );
 };

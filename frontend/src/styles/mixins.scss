@@ -29,6 +29,12 @@
   }
 }
 
+@mixin inputError() {
+    font-size: setUnit(12);
+    color: $dangerColor;
+    margin-top: setUnit(4);
+}
+
 @mixin simple-label($color: $darkColor) {
   font-size: setUnit(14);
   color: $color;

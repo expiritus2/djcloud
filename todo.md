@@ -8,9 +8,10 @@
 8. ~~Remove console warnings~~
 9. ~~Send link to track on site if can't send to telegram~~
 10. Show progressbar by upload track file
-11. Menus view on mobile
-12. Add validation to Dropzone (not empty)
-13. Remove all files from test spaces after each e2e test
-14. Add ability to do rating on player for current track
-15. Get current played track page
-16. Correct link by click logo
+11. ~~Link to telegram~~
+12. Menus view on mobile
+13. ~~Add validation to Dropzone (not empty)~~
+14. Remove all files from test spaces after each e2e test
+15. ~~Add ability to do rating on player for current track~~
+16. Get current played track page
+17. ~~Correct link by click logo~~

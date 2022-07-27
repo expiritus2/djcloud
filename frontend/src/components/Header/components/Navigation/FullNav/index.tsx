@@ -9,7 +9,7 @@ import { useStore } from 'store';
 import { routes } from 'settings/navigation/routes';
 import { observer } from 'mobx-react-lite';
 import { Category } from 'types/track';
-import { GroupedTrackGenres } from '../../../../../store/TrackGenres';
+import { GroupedTrackGenres } from 'store/TrackGenres';
 
 type ComponentProps = {
     className?: string;

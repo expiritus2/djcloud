@@ -17,21 +17,28 @@ import { MOBILE_SMALL } from '../../settings/constants/screen';
 type ComponentProps = {
     className?: string;
     trackId: number;
+    notActiveByClick?: boolean;
 } & TrackRating;
 
 const Rating: FC<ComponentProps> = (props) => {
-    const { className, trackId, rating, countRatings, isDidRating } = props;
+    const { className, trackId, rating, countRatings, isDidRating, notActiveByClick } = props;
     const { trackRating, tracks } = useStore();
     const { screen } = useScreen();
     const [isConfirmRatingOpen, setIsConfirmRatingOpen] = useState(false);
     const [pending, setPending] = useState(false);
     const [currentRating, setCurrentRating] = useState(rating);
 
-    const onMouseOver = (e: any, index: number) => {
+    const onMouseOver = (e: any, index: number, isNumbers?: boolean) => {
+        if (!isNumbers && notActiveByClick && isConfirmRatingOpen) {
+            return;
+        }
         setCurrentRating(index + 1);
     };
 
     const onMouseLeave = () => {
+        if (notActiveByClick && isConfirmRatingOpen) {
+            return;
+        }
         setCurrentRating(rating);
     };
 
@@ -49,7 +56,7 @@ const Rating: FC<ComponentProps> = (props) => {
         return array.fill(null).map((_, index) => {
             const iconProps = {
                 key: index,
-                onMouseOver: (e: any) => onMouseOver(e, index),
+                onMouseOver: (e: any) => onMouseOver(e, index, isNumbers),
                 className: classNames(
                     styles.star,
                     isDidRating ? styles.isDidRating : '',

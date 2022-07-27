@@ -22,7 +22,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
         const sendRequest = new Api<PaginatedItems<Track>>({ store: this, method: getAll }).execResult();
 
         sendRequest(
-            { limit: adminPageTableLimit, field: 'createdAt', sort: 'ASC', ...this.meta, ...cfg },
+            { limit: adminPageTableLimit, field: 'createdAt', sort: 'DESC', ...this.meta, ...cfg },
             { silent: false, ...options },
             cb,
         );

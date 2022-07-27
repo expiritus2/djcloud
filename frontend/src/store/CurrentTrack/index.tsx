@@ -20,6 +20,7 @@ import {
     requestPageTracks,
 } from './utils';
 import { adminPageTableLimit, mainPageTrackLimit } from '../../settings';
+import { TrackRating } from '../TrackRating/types';
 
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
@@ -40,7 +41,16 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
             setPause: action,
             setPlay: action,
             onNext: action,
+            updateRating: action,
         });
+    }
+
+    updateRating(trackRating: TrackRating | null) {
+        if (trackRating && this.data?.id === trackRating?.trackId) {
+            this.data.rating = trackRating.rating;
+            this.data.countRatings = trackRating.countRatings;
+            this.data.isDidRating = trackRating.isDidRating;
+        }
     }
 
     getTrackById(cfg: GetTrackByIdParamsDto, options?: RequestOptions, cb?: Function) {

@@ -1,5 +1,3 @@
-import { TrackGenresViewEnum } from 'types/track';
-
 export type TrackGenre = {
     id: number;
     name: string;
@@ -9,5 +7,4 @@ export type TrackGenre = {
 
 export type TrackGenreParams = {
     visible?: boolean;
-    view?: TrackGenresViewEnum;
 };

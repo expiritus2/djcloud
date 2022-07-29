@@ -52,6 +52,11 @@ const Form: FC<ComponentProps> = (props) => {
         setProgressValue(progress);
     };
 
+    const onUploadProgress = (progressEvent: any) => {
+        const progress = (progressEvent.loaded / progressEvent.total) * 100;
+        setProgressValue(progress);
+    };
+
     const createTrack = () => {
         modifyTrack.create(values, { onUploadProgress }, (err: AxiosError) => {
             if (!err) {

@@ -5,12 +5,13 @@
     max-width: setUnit(500) !important;
 
     .content {
-        padding: 0 setUnit(40);
-        margin: setUnit(25) 0 setUnit(40);
+        padding: 0 setUnit(40) 0;
+        margin: setUnit(25) 0 0;
     }
 
     .deleteText {
         line-height: setUnit(22);
+        padding-bottom: setUnit(40);
     }
 
     .accent {

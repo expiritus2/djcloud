@@ -1,3 +1,5 @@
+import { AxiosRequestConfig } from 'axios';
+
 export enum RequestStateEnum {
     IDLE = 'IDLE',
     PENDING = 'PENDING',
@@ -8,7 +10,7 @@ export enum RequestStateEnum {
 export type RequestOptions = {
     silent?: boolean;
     showError?: boolean;
-};
+} & AxiosRequestConfig;
 
 export enum SortEnum {
     ASC = 'ASC',

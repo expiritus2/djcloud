@@ -24,6 +24,7 @@ const Form: FC<ComponentProps> = (props) => {
     const { modifyTrack, tracks } = useStore();
     const [values, setValues] = useState(initValues);
     const [inputError, setInputError] = useState(initialErrors);
+    const [progressValue, setProgressValue] = useState(0);
 
     useEffect(() => {
         if (modalState.type === ModalStateEnum.UPDATE) {
@@ -45,8 +46,13 @@ const Form: FC<ComponentProps> = (props) => {
         tracks.getAll();
     };
 
+    const onUploadProgress = (progressEvent: any) => {
+        const progress = (progressEvent.loaded / progressEvent.total) * 100;
+        setProgressValue(progress);
+    };
+
     const createTrack = () => {
-        modifyTrack.create(values, {}, (err: AxiosError) => {
+        modifyTrack.create(values, { onUploadProgress }, (err: AxiosError) => {
             if (!err) {
                 refreshTable();
             }
@@ -147,6 +153,10 @@ const Form: FC<ComponentProps> = (props) => {
                     value={values.file}
                 />
             </form>
+            <div
+                style={{ width: `${progressValue}%` }}
+                className={classNames(styles.progress, progressValue === 100 ? styles.hide : '')}
+            ></div>
         </div>
     );
 };

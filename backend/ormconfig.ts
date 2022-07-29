@@ -48,6 +48,7 @@ switch (process.env.ENVIRONMENT) {
             migrations: ['migrations/*.js', `migrations/${EnvEnums.PRODUCTION}/*.js`],
             ssl: {
                 rejectUnauthorized: false,
+                ca: process.env.CA_CERT,
             },
         });
         break;

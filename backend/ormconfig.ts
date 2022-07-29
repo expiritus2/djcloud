@@ -47,7 +47,7 @@ switch (process.env.ENVIRONMENT) {
             migrationsRun: true,
             migrations: ['migrations/*.js', 'migrations/prod/*.js'],
             ssl: {
-                rejectUnauthorized: true,
+                rejectUnauthorized: false,
                 ca: process.env.CA_CERT,
             },
         });

@@ -24,7 +24,7 @@ const Main: FC<ComponentProps> = (props) => {
     useEffect(() => {
         if (location.pathname === '/' && navCategories.data?.data) {
             const category = navCategories.data.data?.[0]?.value;
-            const genre = (tracksGenres.data as GroupedTrackGenres)[category][0].value;
+            const genre = (tracksGenres.data as GroupedTrackGenres)?.[category]?.[0]?.value;
             customerState.setTab(genre, category);
         } else {
             customerState.setTab(match?.params.genre!, match?.params.category!);

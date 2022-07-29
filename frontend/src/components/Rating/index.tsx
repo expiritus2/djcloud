@@ -112,7 +112,7 @@ const Rating: FC<ComponentProps> = (props) => {
         {
             id: 'submit',
             onClick: onClickSubmit,
-            label: 'Submit',
+            label: 'submit',
             variant: 'primary',
             pending,
         },

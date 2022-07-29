@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
@@ -27,6 +27,10 @@ const Rating: FC<ComponentProps> = (props) => {
     const [isConfirmRatingOpen, setIsConfirmRatingOpen] = useState(false);
     const [pending, setPending] = useState(false);
     const [currentRating, setCurrentRating] = useState(rating);
+
+    useEffect(() => {
+        setCurrentRating(rating);
+    }, [rating]);
 
     const onMouseOver = (e: any, index: number, isNumbers?: boolean) => {
         if (!isNumbers && notActiveByClick && isConfirmRatingOpen) {

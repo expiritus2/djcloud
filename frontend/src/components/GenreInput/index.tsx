@@ -10,9 +10,9 @@ import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
-    name: string;
+    name?: string;
     onChange: any;
-    value: Category | null;
+    value: Category | null | undefined;
     label?: string;
     error?: string;
 };
@@ -38,7 +38,7 @@ const GenreInput: FC<ComponentProps> = (props) => {
                 name={name}
                 className={styles.input}
                 onChange={(e) => onChangeValue(e)}
-                value={value?.value}
+                value={value?.value || ''}
             >
                 <option value="null">---</option>
                 {(genres.data?.data || []).map((genre) => (

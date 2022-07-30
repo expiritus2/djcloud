@@ -10,9 +10,9 @@ import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
-    name: string;
+    name?: string;
     onChange: any;
-    value: Category | null;
+    value: Category | null | undefined;
     label?: string;
     error?: string;
 };
@@ -33,7 +33,7 @@ const CategoryInput: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.categoryInput, className)}>
             <label className={styles.label}>{label}</label>
-            <select name={name} className={styles.input} onChange={(e) => onChangeValue(e)} value={value?.value}>
+            <select name={name} className={styles.input} onChange={(e) => onChangeValue(e)} value={value?.value || ''}>
                 <option value="null">---</option>
                 {(categories.data?.data || []).map((category) => (
                     <option key={category.id} value={category.value}>

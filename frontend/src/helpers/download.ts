@@ -17,7 +17,7 @@ export const getUrlExtension = (url: string) => {
     return ext;
 };
 
-export const downloadByRequest = (fileUrl: string, name: string) => {
+export const downloadByRequest = (fileUrl: string, name: string, cb?: Function) => {
     axios({ url: fileUrl, method: 'GET', responseType: 'blob' }).then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
@@ -25,5 +25,6 @@ export const downloadByRequest = (fileUrl: string, name: string) => {
         link.setAttribute('download', `${name}.${getUrlExtension(fileUrl)}`); //or any other extension
         document.body.appendChild(link);
         link.click();
+        cb?.();
     });
 };

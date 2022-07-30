@@ -22,3 +22,4 @@ export { default as Player } from './Player';
 export { default as Rating } from './Rating';
 export { default as Play } from './Play';
 export { default as TableWrapper } from './TableWrapper';
+export { default as DownloadTrack } from './DownloadTrack';

@@ -5,6 +5,19 @@
     display: flex;
     align-items: center;
 
+    .download {
+        position: relative;
+        bottom: setUnit(-2);
+        margin-right: setUnit(25);
+        margin-left: 0;
+    }
+
+    .download,
+    .remove,
+    .edit {
+        vertical-align: middle;
+    }
+
     .icon {
         cursor: pointer;
         transition: all .2s;
@@ -28,7 +41,6 @@
     .remove {
         width: setUnit(20);
         height: setUnit(20);
-        vertical-align: middle;
 
         path {
             fill: $dangerColor;
@@ -44,7 +56,6 @@
     .edit {
         width: setUnit(20);
         height: setUnit(20);
-        vertical-align: middle;
         position: relative;
         top: setUnit(-1);
         fill: $darkColor;

@@ -1,0 +1,29 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.download {
+    margin: 0 setUnit(10);
+
+    .icon {
+        width: setUnit(15);
+        height: setUnit(15);
+        cursor: pointer;
+        transition: all .2s;
+        fill: lighten($darkColor, 5);
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    .loaderWrapper {
+        min-height: setUnit(15);
+        min-width: setUnit(15);
+
+        .loader {
+            font-size: setUnit(1.5);
+            position: relative;
+            bottom: setUnit(4);
+        }
+    }
+}

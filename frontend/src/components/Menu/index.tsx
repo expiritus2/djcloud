@@ -1,9 +1,12 @@
-import React, { FC, Fragment, ReactNode } from 'react';
+import React, { FC, Fragment, ReactNode, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import styles from './styles.module.scss';
 import { NavLink } from 'react-router-dom';
-import { DateFormat, formatDate } from '../../helpers/formatters';
+import { DateFormat, formatDate } from 'helpers/formatters';
+import { GiHamburgerMenu } from 'react-icons/gi';
+
+import { useScreen, useOutsideClick } from 'hooks';
+import styles from './styles.module.scss';
 
 export type MenuItem = {
     label: string;
@@ -26,6 +29,11 @@ type ComponentProps = {
 
 const Menu: FC<ComponentProps> = (props) => {
     const { className, listItems, switcher } = props;
+    const { screen } = useScreen();
+    const [open, setOpen] = useState(!screen.mobileSmallWidth);
+    const menuRef = useRef(null);
+
+    useOutsideClick([menuRef], () => setOpen(false));
 
     const getActiveClassName = ({ isActive }: { isActive: boolean }) => {
         return classNames(styles.link, isActive ? styles.active : '');
@@ -56,8 +64,17 @@ const Menu: FC<ComponentProps> = (props) => {
         ));
     };
 
+    const onClickMenu = () => {
+        setOpen(true);
+    };
+
     return (
-        <div className={classNames(styles.menu, className)}>
+        <div
+            ref={menuRef}
+            onClick={onClickMenu}
+            className={classNames(styles.menu, open ? styles.open : styles.closed, className)}
+        >
+            {screen.mobileSmallWidth && <GiHamburgerMenu className={styles.openIcon} />}
             {switcher}
             <ul className={styles.list}>{renderItems(listItems)}</ul>
         </div>

@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactNode, useRef, useState } from 'react';
+import React, { FC, Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { NavLink } from 'react-router-dom';
@@ -32,6 +32,10 @@ const Menu: FC<ComponentProps> = (props) => {
     const { screen } = useScreen();
     const [open, setOpen] = useState(!screen.mobileSmallWidth);
     const menuRef = useRef(null);
+
+    useEffect(() => {
+        setOpen(!screen.mobileSmallWidth);
+    }, [screen.mobileSmallWidth]);
 
     useOutsideClick([menuRef], () => setOpen(false));
 

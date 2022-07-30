@@ -1,4 +1,4 @@
 {
-    "cdn": "https://djcloud.fra1.cdn.digitaloceanspaces.com",
+    "cdn": "https://djcloud-prod.fra1.cdn.digitaloceanspaces.com",
     "frontendDomain": "https://djcloud.cloud"
 }

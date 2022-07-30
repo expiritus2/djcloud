@@ -23,7 +23,7 @@ switch (process.env.ENVIRONMENT) {
             database: 'local',
             entities: ['**/*.entity.js'],
             migrationsRun: true,
-            migrations: ['migrations/*.js', 'migrations/dev/*.js'],
+            migrations: ['migrations/*.js', `migrations/${EnvEnums.DEVELOPMENT}/*.js`],
         } as TypeOrmModuleOptions);
         break;
     case EnvEnums.TEST:
@@ -36,7 +36,7 @@ switch (process.env.ENVIRONMENT) {
             database: 'test',
             entities: ['**/*.entity{.ts,.js}'],
             migrationsRun: true,
-            migrations: ['migrations/*.js', 'migrations/test/*.js'],
+            migrations: ['migrations/*.js', `migrations/${EnvEnums.TEST}/*.js`],
         });
         break;
     case EnvEnums.PRODUCTION:
@@ -45,7 +45,7 @@ switch (process.env.ENVIRONMENT) {
             url: process.env.DATABASE_URL,
             entities: ['**/*.entity.js'],
             migrationsRun: true,
-            migrations: ['migrations/*.js', 'migrations/prod/*.js'],
+            migrations: ['migrations/*.js', `migrations/${EnvEnums.PRODUCTION}/*.js`],
             ssl: {
                 rejectUnauthorized: false,
             },

@@ -14,6 +14,7 @@
 14. ~~Display updated rating on the fly~~
 15. ~~Add link to the site along with ability to play in telegram~~
 16. ~~Show progressbar by upload track file~~
-17. Menus view on mobile
-18. Remove all files from test spaces after each e2e test
-19. Play all
+17. ~~Filter track on admin page~~
+18. ~~Menus view on mobile~~
+19. ~~Download track on admin page~~
+20. Play all (Shuffle)

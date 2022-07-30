@@ -26,7 +26,7 @@ const GenreInput: FC<ComponentProps> = (props) => {
     }, []); // eslint-disable-line
 
     const onChangeValue = (e: any) => {
-        const genre = (genres.data?.data || []).find((cat) => cat.id === +e.target.value);
+        const genre = (genres.data?.data || []).find((cat) => cat.value === e.target.value);
         onChange({ ...e, target: { name, value: cloneDeep(genre) || null } });
     };
 
@@ -34,15 +34,15 @@ const GenreInput: FC<ComponentProps> = (props) => {
         <div className={classNames(styles.genreInput, className)}>
             <label className={styles.label}>{label}</label>
             <select
-                defaultValue={value?.id}
+                defaultValue={value?.value}
                 name={name}
                 className={styles.input}
                 onChange={(e) => onChangeValue(e)}
-                value={value?.id || ''}
+                value={value?.value || ''}
             >
                 <option value="null">---</option>
                 {(genres.data?.data || []).map((genre) => (
-                    <option key={genre.id} value={genre.id}>
+                    <option key={genre.id} value={genre.value}>
                         {genre.name}
                     </option>
                 ))}

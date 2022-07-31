@@ -22,7 +22,7 @@ type ComponentProps = {
 };
 
 const TrackModal: FC<ComponentProps> = (props) => {
-    const { modifyTrack, tracks } = useStore();
+    const { modifyTrack, tracks, currentTrack } = useStore();
     const { className, title, modalState, setModalState } = props;
 
     const resetModal = () => {
@@ -43,6 +43,9 @@ const TrackModal: FC<ComponentProps> = (props) => {
         modifyTrack.remove({ id: modalState.id as any }, {}, (err: AxiosError) => {
             if (!err) {
                 refreshTable();
+                if (currentTrack.data?.id === modalState.id) {
+                    currentTrack.resetStore();
+                }
             }
         });
     };

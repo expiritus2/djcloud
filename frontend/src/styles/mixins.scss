@@ -3,30 +3,31 @@
 
 
 @mixin highlight-input($highlightColor: $lightColor) {
-  outline: none;
-  border: none;
-  border-radius: setUnit(3);
-  padding: setUnit(5) setUnit(15);
-  color: $darkColor;
-  width: 100%;
+    outline: none;
+    border: none;
+    border-radius: setUnit(3);
+    padding: setUnit(5) setUnit(15);
+    color: $darkColor;
+    width: 100%;
 
-  &:focus {
-    box-shadow: 0 0 setUnit(7) $highlightColor;
-  }
+    &:focus {
+        box-shadow: 0 0 setUnit(7) $highlightColor;
+    }
 }
 
 @mixin simple-input($highlightColor: $lightColor) {
-  outline: none;
-  border: 1px solid $darkColor;
-  border-radius: setUnit(3);
-  padding: setUnit(5) setUnit(15);
-  color: $darkColor;
-  width: 100%;
+    outline: none;
+    border: 1px solid $darkColor;
+    border-radius: setUnit(3);
+    background: $whiteColor;
+    padding: setUnit(5) setUnit(15);
+    color: $darkColor;
+    width: 100%;
 
-  &:focus {
-    box-shadow: 0 0 setUnit(7) lighten($highlightColor, 40);
-    border-color: lighten($darkColor, 40);
-  }
+    &:focus {
+        box-shadow: 0 0 setUnit(7) lighten($highlightColor, 40);
+        border-color: lighten($darkColor, 40);
+    }
 }
 
 @mixin inputError() {
@@ -36,8 +37,8 @@
 }
 
 @mixin simple-label($color: $darkColor) {
-  font-size: setUnit(14);
-  color: $color;
-  margin-bottom: setUnit(4);
-  display: inline-block;
+    font-size: setUnit(14);
+    color: $color;
+    margin-bottom: setUnit(4);
+    display: inline-block;
 }

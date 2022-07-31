@@ -7,5 +7,6 @@ export const routes = {
     adminGenresList: '/admin/genres',
     adminTracksList: '/admin/tracks',
     tracks: '/tracks/:categoryId/:genreId',
+    allTracks: '/tracks/all',
     categoryPage: '/tracks/:categoryId',
 };

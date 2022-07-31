@@ -21,7 +21,9 @@ const TableActions: FC<ComponentProps> = (props) => {
 
     return (
         <div className={classNames(styles.tableActions, className)}>
-            <DownloadTrack url={track?.file?.url || ''} title={track?.title || ''} className={styles.download} />
+            {track && (
+                <DownloadTrack url={track?.file?.url || ''} title={track?.title || ''} className={styles.download} />
+            )}
             {editPending ? (
                 <Spinner
                     loaderWrapperClassName={classNames(styles.loaderWrapper, styles.editLoader)}

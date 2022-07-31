@@ -14,6 +14,7 @@ import { mainPageTrackLimit } from 'settings';
 import styles from './styles.module.scss';
 import { getQuery } from 'helpers/query';
 import { GroupedTrackGenres } from '../../../../store/TrackGenres';
+import { cloneDeep } from 'lodash';
 
 type ComponentProps = {
     className?: string;
@@ -23,11 +24,13 @@ const Content: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks, navCategories, tracksGenres } = useStore();
     const match = useMatch({ path: routes.tracks });
+    const altMatch = useMatch({ path: routes.categoryPage });
     const location = useLocation();
     const query = getQuery(location);
 
     useEffect(() => {
-        const categoryId = match?.params.categoryId || navCategories.data?.data?.[0]?.id;
+        const categoryId = match?.params.categoryId || altMatch?.params.categoryId || navCategories.data?.data?.[0]?.id;
+
         if (categoryId) {
             const genreId = match?.params.genreId || (tracksGenres.data as GroupedTrackGenres)?.[+categoryId]?.[0].id;
             if ((categoryId !== tracks.meta.categoryId || genreId !== tracks.meta.genreId) && categoryId && genreId) {

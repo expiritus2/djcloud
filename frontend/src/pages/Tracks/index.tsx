@@ -43,6 +43,8 @@ const Tracks: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         tracks.getAll({ search: query.search as string }, { silent: false });
+
+        return () => tracks.resetStore();
     }, [query.search]); // eslint-disable-line
 
     const onClickEdit = (e: any, id: number, cb: Function) => {

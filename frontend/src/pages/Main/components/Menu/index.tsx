@@ -11,6 +11,7 @@ import { MenuItem } from 'components/Menu';
 import { routes } from 'settings/navigation/routes';
 import { TrackGenre } from 'store/TrackGenres/types';
 import { GroupedTrackGenres } from 'store/TrackGenres';
+import { groupBy } from 'lodash';
 
 type ComponentProps = {
     className?: string;
@@ -49,6 +50,29 @@ const MainMenu: FC<ComponentProps> = (props) => {
     );
 
     const menuItems = useMemo(() => {
+        if (location.pathname === routes.allTracks) {
+            const groupedGenres = groupBy(
+                Object.values(tracksGenres.data || ({} as GroupedTrackGenres))
+                    .map((g) => g)
+                    .flat(1),
+                'name',
+            );
+
+            return Object.entries(tracksGenres.data || ({} as GroupedTrackGenres))
+                .map(([categoryId, genres]) => {
+                    return genres.map((genre: TrackGenre, index: number) => {
+                        const item = convertMenuItem(genre, index, categoryId);
+                        const cat = (navCategories.data?.data || []).find((category) => +category.id === +categoryId);
+
+                        if (cat && groupedGenres[genre.name]?.length > 1) {
+                            item.label = `${item.label} - ${cat.name}`;
+                        }
+                        return item;
+                    });
+                })
+                .flat(1);
+        }
+
         let categoryId = match?.params.categoryId || '';
         if (location.pathname === '/' && navCategories.data?.data) {
             categoryId = navCategories.data?.data?.[0]?.id.toString();

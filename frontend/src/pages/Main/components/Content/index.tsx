@@ -28,18 +28,28 @@ const Content: FC<ComponentProps> = (props) => {
     const query = getQuery(location);
 
     useEffect(() => {
-        const categoryId = match?.params.categoryId || altMatch?.params.categoryId || navCategories.data?.data?.[0]?.id;
+        if (location.pathname === routes.allTracks) {
+            tracks.getAll({ categoryId: undefined, genreId: undefined, visible: true });
+        } else {
+            const categoryId =
+                match?.params.categoryId || altMatch?.params.categoryId || navCategories.data?.data?.[0]?.id;
 
-        if (categoryId) {
-            const genreId = match?.params.genreId || (tracksGenres.data as GroupedTrackGenres)?.[+categoryId]?.[0].id;
-            if ((categoryId !== tracks.meta.categoryId || genreId !== tracks.meta.genreId) && categoryId && genreId) {
-                tracks.getAll({
-                    categoryId: +categoryId,
-                    genreId: +genreId,
-                    visible: true,
-                    limit: mainPageTrackLimit,
-                    search: query.search as string,
-                });
+            if (categoryId) {
+                const genreId =
+                    match?.params.genreId || (tracksGenres.data as GroupedTrackGenres)?.[+categoryId]?.[0].id;
+                if (
+                    (categoryId !== tracks.meta.categoryId || genreId !== tracks.meta.genreId) &&
+                    categoryId &&
+                    genreId
+                ) {
+                    tracks.getAll({
+                        categoryId: +categoryId,
+                        genreId: +genreId,
+                        visible: true,
+                        limit: mainPageTrackLimit,
+                        search: query.search as string,
+                    });
+                }
             }
         }
 
@@ -52,6 +62,7 @@ const Content: FC<ComponentProps> = (props) => {
         navCategories.data?.data,
         tracksGenres.data,
         match?.params.genreId,
+        location.pathname,
     ]);
 
     return (

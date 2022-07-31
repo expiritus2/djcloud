@@ -18,3 +18,5 @@
 18. ~~Menus view on mobile~~
 19. ~~Download track on admin page~~
 20. Play all (Shuffle)
+21. Add button send to telegram
+22. Error handlers

@@ -89,7 +89,7 @@ export class TracksService {
             .addGroupBy('category.id');
 
         const trackGenres = await queryBuilder.getRawMany();
-        const groupedByCategory = groupBy(trackGenres, 'category_value');
+        const groupedByCategory = groupBy(trackGenres, 'category_id');
 
         return Object.entries(groupedByCategory).reduce((acc, [key, rawTracks]) => {
             return {

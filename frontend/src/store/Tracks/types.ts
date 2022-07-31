@@ -5,8 +5,8 @@ export type TrackGenreParams = {
 };
 
 export type GetAllByParams = {
-    category?: string;
-    genre?: string;
+    categoryId?: number;
+    genreId?: number;
     visible?: boolean;
 } & PaginationParams;
 

@@ -103,7 +103,7 @@ describe('TracksController', () => {
             mockTrackService.create.mockResolvedValueOnce({ id: 1, ...track });
             jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('dev');
             const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${track.category.value}/${track.genre.value}?search=${track.title}`;
+            const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}?search=${track.title}`;
             const tagLink = `<a href="${link}">${caption}</a>`;
 
             await controller.createTrack(track);
@@ -198,7 +198,7 @@ describe('TracksController', () => {
                 .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: false })
                 .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: true });
             const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${updatedTrack.category.value}/${updatedTrack.genre.value}?search=${updatedTrack.title}`;
+            const link = `${envConfig.frontendDomain}/tracks/${updatedTrack.category.id}/${updatedTrack.genre.id}?search=${updatedTrack.title}`;
             const tagLink = `<a href="${link}">${caption}</a>`;
 
             const result = await controller.update(id, newTrackData);
@@ -269,7 +269,7 @@ describe('TracksController', () => {
     describe('sendToTelegram', () => {
         it('should send audio to telegram', async () => {
             const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${track.category.value}/${track.genre.value}?search=${track.title}`;
+            const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}?search=${track.title}`;
             const tagLink = `<a href="${link}">${caption}</a>`;
             await controller.sendToTelegram(track as TrackEntity);
 
@@ -286,7 +286,7 @@ describe('TracksController', () => {
             await controller.sendToTelegram(track as TrackEntity);
 
             expect(mockTelegramService.sendMessage).toBeCalledWith(
-                `<a href="http://localhost:3000/tracks/category_name/genre_name?search=Track title">http://localhost:3000/tracks/category_name/genre_name?search=Track title</a>\n${caption}`,
+                `<a href="http://localhost:3000/tracks/1/1?search=Track title">http://localhost:3000/tracks/1/1?search=Track title</a>\n${caption}`,
                 {
                     parse_mode: 'HTML',
                 },

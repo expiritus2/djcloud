@@ -10,7 +10,7 @@ export class CustomerState {
         });
     }
 
-    setTab(tabValue: string, category: string) {
-        this.tab = { ...this.tab, [category]: tabValue };
+    setTab(tabValue: string, categoryId: string) {
+        this.tab = { ...this.tab, [categoryId]: tabValue };
     }
 }

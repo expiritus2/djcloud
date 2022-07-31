@@ -23,11 +23,13 @@ const Main: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         if (location.pathname === '/' && navCategories.data?.data) {
-            const category = navCategories.data.data?.[0]?.value;
-            const genre = (tracksGenres.data as GroupedTrackGenres)[category][0].value;
-            customerState.setTab(genre, category);
+            const categoryId = navCategories.data.data?.[0]?.id;
+            const genreId = (tracksGenres.data as GroupedTrackGenres)?.[categoryId]?.[0]?.id;
+            if (categoryId && genreId) {
+                customerState.setTab(genreId.toString(), categoryId.toString());
+            }
         } else {
-            customerState.setTab(match?.params.genre!, match?.params.category!);
+            customerState.setTab(match?.params.genreId!, match?.params.categoryId!);
         }
     }, [categories.data, tracksGenres.data]); // eslint-disable-line
 

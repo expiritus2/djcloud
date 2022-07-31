@@ -35,14 +35,14 @@ const FullNav: FC<ComponentProps> = (props) => {
                             <NavLink
                                 className={({ isActive }) => {
                                     return getLinkClassName({
-                                        isActive: isActive || match?.params.category === category.value,
+                                        isActive: isActive || +match?.params.categoryId! === category.id,
                                         index,
                                     });
                                 }}
                                 to={link.toTracks(
-                                    category.value,
-                                    customerState.tab[category.value] ||
-                                        (tracksGenres.data as GroupedTrackGenres)?.[category.value]?.[0]?.value,
+                                    category.id.toString(),
+                                    customerState.tab[category.id.toString()] ||
+                                        (tracksGenres.data as GroupedTrackGenres)?.[category.id]?.[0]?.id.toString(),
                                 )}
                             >
                                 {category.name}

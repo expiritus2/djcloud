@@ -13,8 +13,7 @@ import { mainPageTrackLimit } from 'settings';
 
 import styles from './styles.module.scss';
 import { getQuery } from 'helpers/query';
-import { GroupedTrackGenres } from '../../../../store/TrackGenres';
-import { cloneDeep } from 'lodash';
+import { GroupedTrackGenres } from 'store/TrackGenres';
 
 type ComponentProps = {
     className?: string;
@@ -49,6 +48,7 @@ const Content: FC<ComponentProps> = (props) => {
         tracks,
         query.search,
         match?.params.categoryId,
+        altMatch?.params.categoryId,
         navCategories.data?.data,
         tracksGenres.data,
         match?.params.genreId,

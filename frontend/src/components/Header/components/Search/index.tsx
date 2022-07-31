@@ -30,7 +30,7 @@ const Search: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         setInputValue((query.search || '') as string);
-    }, []); // eslint-disable-line
+    }, [query.search]); // eslint-disable-line
 
     const onChange = (e: any) => {
         const { value } = e.target;

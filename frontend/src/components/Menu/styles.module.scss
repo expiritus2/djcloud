@@ -24,6 +24,7 @@
 
             .list {
                 opacity: 1;
+                pointer-events: auto;
             }
         }
 
@@ -32,11 +33,12 @@
 
             .list {
                 opacity: 0;
+                pointer-events: none;
             }
 
             .openIcon {
                 position: absolute;
-                right: setUnit(10);
+                right: setUnit(7.5);
                 top: setUnit(10);
                 display: block;
             }

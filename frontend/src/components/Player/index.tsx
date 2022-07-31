@@ -8,9 +8,10 @@ import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 import { sign } from 'settings/sign';
 import styles from './styles.module.scss';
-import './styles.scss';
 import { useLocation } from 'react-router-dom';
 import { Rating } from 'components';
+
+import './styles.scss';
 
 type ComponentProps = {
     className?: string;
@@ -85,7 +86,7 @@ const Player: FC<ComponentProps> = (props) => {
                 // @ts-ignore
                 ref={player}
                 autoPlay
-                src={currentTrack.data?.file?.url}
+                src={currentTrack.data?.file?.url || ''}
                 onPlay={onPlay}
                 onPause={onPause}
                 onEnded={onEnded}

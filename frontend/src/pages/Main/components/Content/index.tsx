@@ -27,26 +27,28 @@ const Content: FC<ComponentProps> = (props) => {
     const query = getQuery(location);
 
     useEffect(() => {
-        const category = match?.params.category || navCategories.data?.data?.[0]?.value || '';
-        const genre = match?.params.genre || (tracksGenres.data as GroupedTrackGenres)?.[category]?.[0].value;
-        if ((category !== tracks.meta.category || genre !== tracks.meta.genre) && category && genre) {
-            tracks.getAll({
-                category,
-                genre,
-                visible: true,
-                limit: mainPageTrackLimit,
-                search: query.search as string,
-            });
+        const categoryId = match?.params.categoryId || navCategories.data?.data?.[0]?.id;
+        if (categoryId) {
+            const genreId = match?.params.genreId || (tracksGenres.data as GroupedTrackGenres)?.[+categoryId]?.[0].id;
+            if ((categoryId !== tracks.meta.categoryId || genreId !== tracks.meta.genreId) && categoryId && genreId) {
+                tracks.getAll({
+                    categoryId: +categoryId,
+                    genreId: +genreId,
+                    visible: true,
+                    limit: mainPageTrackLimit,
+                    search: query.search as string,
+                });
+            }
         }
 
         return () => tracks.resetStore();
     }, [
         tracks,
         query.search,
-        match?.params.category,
+        match?.params.categoryId,
         navCategories.data?.data,
         tracksGenres.data,
-        match?.params.genre,
+        match?.params.genreId,
     ]);
 
     return (

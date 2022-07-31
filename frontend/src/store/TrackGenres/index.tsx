@@ -4,14 +4,13 @@ import { TrackGenre, TrackGenreParams } from './types';
 import Api from 'store/core/Api';
 import { getTracksGenres } from 'api/tracks';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
-import { Category } from 'types/track';
 
 export type GroupedTrackGenres = {
-    [key: Category['value']]: TrackGenre[];
+    [key: number]: TrackGenre[];
 };
 
 export type NestedTrackGenres = {
-    [key: Category['value']]: {
+    [key: string]: {
         [key: string]: TrackGenre[];
     };
 };

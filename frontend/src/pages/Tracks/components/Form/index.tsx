@@ -21,7 +21,7 @@ const initialErrors: any = { title: '', category: '', genre: '', file: '' };
 
 const Form: FC<ComponentProps> = (props) => {
     const { className, resetModal, modalState, onClickSubmit } = props;
-    const { modifyTrack, tracks } = useStore();
+    const { modifyTrack, tracks, tracksGenres } = useStore();
     const [values, setValues] = useState(initValues);
     const [inputError, setInputError] = useState(initialErrors);
     const [progressValue, setProgressValue] = useState(0);
@@ -41,9 +41,10 @@ const Form: FC<ComponentProps> = (props) => {
         setValues(initValues);
     };
 
-    const refreshTable = () => {
+    const refresh = () => {
         resetForm();
         tracks.getAll();
+        tracksGenres.getTracksGenres();
     };
 
     const onUploadProgress = (progressEvent: any) => {
@@ -54,7 +55,7 @@ const Form: FC<ComponentProps> = (props) => {
     const createTrack = () => {
         modifyTrack.create(values, { onUploadProgress }, (err: AxiosError) => {
             if (!err) {
-                refreshTable();
+                refresh();
             }
         });
     };
@@ -62,7 +63,7 @@ const Form: FC<ComponentProps> = (props) => {
     const updateTrack = () => {
         modifyTrack.update({ id: modalState.id as any, ...values }, {}, (err: AxiosError) => {
             if (!err) {
-                refreshTable();
+                refresh();
             }
         });
     };

@@ -11,7 +11,6 @@ import { MenuItem } from 'components/Menu';
 import { routes } from 'settings/navigation/routes';
 import { TrackGenre } from 'store/TrackGenres/types';
 import { GroupedTrackGenres } from 'store/TrackGenres';
-import { Category } from 'types/track';
 
 type ComponentProps = {
     className?: string;
@@ -25,22 +24,22 @@ const MainMenu: FC<ComponentProps> = (props) => {
 
     const onClickItem = useCallback(
         (e: any, tab: string) => {
-            if (match?.params.category) {
+            if (match?.params.categoryId) {
                 customerState.tab = {
                     ...customerState.tab,
-                    [match?.params.category]: tab,
+                    [match?.params.categoryId]: tab,
                 };
             }
         },
-        [customerState, match?.params.category],
+        [customerState, match?.params.categoryId],
     );
 
     const convertMenuItem = useCallback(
-        (genre: TrackGenre, index: number, category: Category['value']) => {
+        (genre: TrackGenre, index: number, categoryId: string) => {
             return {
-                path: link.toTracks(category, genre.value),
+                path: link.toTracks(categoryId, genre.id?.toString()),
                 label: genre.name,
-                value: genre.value,
+                value: genre.id?.toString(),
                 count: genre.countTracks,
                 active: location.pathname === '/' && index === 0,
                 onClickItem,
@@ -50,14 +49,14 @@ const MainMenu: FC<ComponentProps> = (props) => {
     );
 
     const menuItems = useMemo(() => {
-        let category = match?.params.category || '';
+        let categoryId = match?.params.categoryId || '';
         if (location.pathname === '/' && navCategories.data?.data) {
-            category = navCategories.data?.data?.[0]?.value;
+            categoryId = navCategories.data?.data?.[0]?.id.toString();
         }
-        return ((tracksGenres.data as GroupedTrackGenres)?.[category] || []).map((genre, index) =>
-            convertMenuItem(genre, index, category),
+        return ((tracksGenres.data as GroupedTrackGenres)?.[+categoryId] || []).map((genre, index) =>
+            convertMenuItem(genre, index, categoryId),
         );
-    }, [match?.params.category, tracksGenres.data, convertMenuItem, location.pathname, navCategories.data?.data]);
+    }, [match?.params.categoryId, tracksGenres.data, convertMenuItem, location.pathname, navCategories.data?.data]);
 
     return <Menu listItems={menuItems} className={classNames(styles.mainMenu, className)} />;
 };

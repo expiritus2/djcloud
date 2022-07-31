@@ -7,12 +7,12 @@ export class GetAllDto extends PaginationQueryDto {
     @IsOptional()
     @IsString()
     @ApiProperty({ required: false })
-    category?: string;
+    categoryId?: string;
 
     @IsOptional()
     @IsString()
     @ApiProperty({ required: false })
-    genre?: string;
+    genreId?: string;
 
     @IsOptional()
     @IsBoolean()

@@ -68,6 +68,7 @@ describe('TracksService', () => {
                     genre_name: 'name',
                     genre_value: 'value',
                     category_value: 'category_value',
+                    category_id: 'category_id',
                     countTracks: 2,
                 },
             ]),
@@ -343,7 +344,7 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
 
-            expect(result).toEqual({ category_value: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
+            expect(result).toEqual({ category_id: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
         });
 
         it('should return visible with default value', async () => {
@@ -359,7 +360,7 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
 
-            expect(result).toEqual({ category_value: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
+            expect(result).toEqual({ category_id: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
         });
 
         it('should return visible with false value', async () => {
@@ -375,7 +376,7 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
 
-            expect(result).toEqual({ category_value: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
+            expect(result).toEqual({ category_id: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
         });
     });
 });

@@ -7,6 +7,9 @@ import { link } from 'settings/navigation/link';
 import { UserRoleEnum } from 'types/user';
 import { useStore } from 'store';
 import { routes } from 'settings/navigation/routes';
+import { observer } from 'mobx-react-lite';
+import { Category } from 'types/track';
+import { GroupedTrackGenres } from 'store/TrackGenres';
 
 type ComponentProps = {
     className?: string;
@@ -14,7 +17,7 @@ type ComponentProps = {
 
 const FullNav: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { user, categories, customerState, tracksGenres } = useStore();
+    const { user, navCategories, customerState, tracksGenres } = useStore();
     const match = useMatch({ path: routes.tracks });
     const location = useLocation();
 
@@ -26,20 +29,20 @@ const FullNav: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.fullNav, className)}>
             <ul className={styles.list}>
-                {(categories.data?.data || []).map((category, index) => {
+                {(navCategories.data?.data || []).map((category: Category, index: number) => {
                     return (
                         <li key={category.value} className={styles.item}>
                             <NavLink
                                 className={({ isActive }) => {
                                     return getLinkClassName({
-                                        isActive: isActive || match?.params.category === category.value,
+                                        isActive: isActive || +match?.params.categoryId! === category.id,
                                         index,
                                     });
                                 }}
                                 to={link.toTracks(
-                                    category.value,
-                                    customerState.tab[category.value] ||
-                                        tracksGenres.genres[category.value]?.[0]?.value,
+                                    category.id.toString(),
+                                    customerState.tab[category.id.toString()] ||
+                                        (tracksGenres.data as GroupedTrackGenres)?.[category.id]?.[0]?.id.toString(),
                                 )}
                             >
                                 {category.name}
@@ -64,4 +67,4 @@ const FullNav: FC<ComponentProps> = (props) => {
     );
 };
 
-export default FullNav;
+export default observer(FullNav);

@@ -1,0 +1,5 @@
+.idea
+/node_modules/
+/lerna-debug.log
+/cypress/videos/
+/cypress/screenshots/

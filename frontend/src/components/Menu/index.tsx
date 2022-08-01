@@ -9,6 +9,7 @@ import { useScreen, useOutsideClick } from 'hooks';
 import styles from './styles.module.scss';
 
 export type MenuItem = {
+    id?: string;
     label: string;
     path: string;
     value?: string;
@@ -57,6 +58,7 @@ const Menu: FC<ComponentProps> = (props) => {
         return (list as MenuItem[]).map((item) => (
             <li key={item.path} className={styles.item}>
                 <NavLink
+                    id={item.id}
                     className={({ isActive }) => getActiveClassName({ isActive: item.active || isActive })}
                     to={item.path}
                     onClick={(e) => item.onClickItem?.(e, item.value)}

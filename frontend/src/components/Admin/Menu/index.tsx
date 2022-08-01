@@ -26,6 +26,7 @@ const AdminMenu: FC<ComponentProps> = (props) => {
             onClickItem,
         },
         {
+            id: 'genresMenuItem',
             path: routes.adminGenresList,
             label: 'Genres',
             value: 'genres',

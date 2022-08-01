@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start:dev": "lerna run start:dev --parallel",
+    "start:test": "lerna run start:test --parallel",
     "prepare": "husky install",
     "format": "lerna run format",
     "lint": "lerna run lint"

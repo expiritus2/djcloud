@@ -24,6 +24,6 @@ export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
 
-        sendRequest({ limit: adminPageTableLimit, ...this.meta, ...cfg }, options, cb);
+        sendRequest({ limit: adminPageTableLimit, field: 'id', sort: 'DESC', ...this.meta, ...cfg }, options, cb);
     }
 }

@@ -31,6 +31,7 @@ const TableActions: FC<ComponentProps> = (props) => {
                 />
             ) : (
                 <FaRegEdit
+                    id="editIcon"
                     onClick={(e: any) => onClickEdit(e, setEditPending)}
                     className={classNames(styles.edit, styles.icon)}
                 />
@@ -42,6 +43,7 @@ const TableActions: FC<ComponentProps> = (props) => {
                 />
             ) : (
                 <AiFillDelete
+                    id="deleteIcon"
                     onClick={(e: any) => onClickDelete(e, setDeletePending)}
                     className={classNames(styles.remove, styles.icon)}
                 />

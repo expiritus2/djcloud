@@ -27,6 +27,7 @@ switch (process.env.ENVIRONMENT) {
         } as TypeOrmModuleOptions);
         break;
     case EnvEnums.TEST:
+        const entities = process.env.TEST_TYPE === 'e2e' ? ['**/*.entity.js'] : ['**/*.entity{.js,.ts}'];
         Object.assign(ORMConfig, {
             type: 'postgres',
             host: 'localhost',
@@ -34,7 +35,7 @@ switch (process.env.ENVIRONMENT) {
             username: 'test',
             password: 'test',
             database: 'test',
-            entities: ['**/*.entity{.ts,.js}'],
+            entities,
             migrationsRun: true,
             migrations: ['migrations/*.js', `migrations/${EnvEnums.TEST}/*.js`],
         });

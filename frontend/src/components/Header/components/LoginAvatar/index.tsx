@@ -37,7 +37,7 @@ const LoginAvatar: FC<ComponentProps> = (props) => {
     };
 
     return (
-        <div className={classNames(styles.avatarWrapper, className)}>
+        <div id="avatarWrapper" className={classNames(styles.avatarWrapper, className)}>
             <Avatar ref={avatarRef} src="/images/default_avatar.png" className={styles.avatar} onClick={onClickLogin} />
             {open && (
                 <div ref={menuRef} className={styles.menu}>

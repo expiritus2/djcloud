@@ -12,7 +12,7 @@ global.__baseDir = path.resolve(__dirname, '..', '..');
 const PORT = process.env.PORT || 8000;
 const ENV = process.env.ENVIRONMENT || EnvEnums.DEVELOPMENT;
 
-const origin = ENV === EnvEnums.DEVELOPMENT ? 'http://localhost:3000' : process.env.FRONTEND_DOMAIN;
+const origin = ENV === EnvEnums.DEVELOPMENT || EnvEnums.TEST ? 'http://localhost:3000' : process.env.FRONTEND_DOMAIN;
 
 export async function bootstrap() {
     const app = await NestFactory.create(AppModule);

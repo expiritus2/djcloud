@@ -3,66 +3,31 @@ on:
 #  push:
 #    branches:
 #      - develop
-  push:
-    branches:
-      - e2e-tests/cypress
   pull_request:
     branches:
       - master
 jobs:
-#  unit-test:
-#    runs-on: ubuntu-20.04
-#
-#    strategy:
-#      matrix:
-#        node-version: [ 14.x ]
-#
-#    steps:
-#      - uses: actions/checkout@v3
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#
-#      - name: Install dependencies
-#        working-directory: backend
-#        run: yarn install
-#
-#      - name: Unit test
-#        working-directory: backend
-#        run: yarn run unit-test
+  unit-test:
+    runs-on: ubuntu-20.04
 
-#  integration-test:
-#    runs-on: ubuntu-20.04
-#
-#    strategy:
-#      matrix:
-#        node-version: [ 14.x ]
-#    env:
-#      NODE_ENV: ${{ secrets.NODE_ENV }}
-#      COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
-#      COOKIE_SESSION_NAME: ${{ secrets.COOKIE_SESSION_NAME }}
-#      SALT: ${{ secrets.SALT }}
-#      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-#      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-#      DO_BUCKET_NAME: ${{ secrets.DO_BUCKET_NAME }}
-#      DO_ACCESS_KEY: ${{ secrets.DO_ACCESS_KEY }}
-#      DO_SECRET_KEY: ${{ secrets.DO_SECRET_KEY }}
-#    steps:
-#      - uses: actions/checkout@v3
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#
-#      - name: Build the Postgres stack
-#        working-directory: backend
-#        run: yarn run docker:run
-#
-#      - name: Install dependencies
-#        working-directory: backend
-#        run: yarn install
-#
-#      - name: Integration test
-#        working-directory: backend
-#        run: yarn run test:e2e
-  e2e-test:
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        working-directory: backend
+        run: yarn install
+
+      - name: Unit test
+        working-directory: backend
+        run: yarn run unit-test
+
+  integration-test:
     runs-on: ubuntu-20.04
 
     strategy:
@@ -87,18 +52,10 @@ jobs:
         working-directory: backend
         run: yarn run docker:run
 
-      - name: Install backend dependencies
+      - name: Install dependencies
         working-directory: backend
         run: yarn install
 
-      - name: Install frontend dependencies
-        working-directory: frontend
-        run: yarn install
-
-      - name: Run backend
+      - name: Integration test
         working-directory: backend
-        run: yarn run start:test
-
-      - name: Run frontend
-        working-directory: frontend
-        run: yarn run start:test
+        run: yarn run test:e2e

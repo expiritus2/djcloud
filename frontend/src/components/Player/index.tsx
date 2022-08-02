@@ -7,10 +7,10 @@ import 'react-h5-audio-player/src/styles.scss';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 import { sign } from 'settings/sign';
-import styles from './styles.module.scss';
 import { useLocation } from 'react-router-dom';
 import { Rating } from 'components';
 
+import styles from './styles.module.scss';
 import './styles.scss';
 
 type ComponentProps = {
@@ -86,6 +86,7 @@ const Player: FC<ComponentProps> = (props) => {
                 // @ts-ignore
                 ref={player}
                 autoPlay
+                autoPlayAfterSrcChange={false}
                 src={currentTrack.data?.file?.url || ''}
                 onPlay={onPlay}
                 onPause={onPause}

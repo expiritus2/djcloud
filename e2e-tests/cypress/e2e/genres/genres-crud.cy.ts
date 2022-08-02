@@ -1,6 +1,6 @@
 import { addNewGenre, updateGenre, deleteGenre } from '../../common/genres';
 
-context('Categories', () => {
+context('Genres', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3000');
       cy.login();

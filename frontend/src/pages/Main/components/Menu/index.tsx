@@ -6,12 +6,14 @@ import { observer } from 'mobx-react-lite';
 import { useMatch, useLocation } from 'react-router-dom';
 
 import { link } from 'settings/navigation/link';
-import styles from './styles.module.scss';
 import { MenuItem } from 'components/Menu';
 import { routes } from 'settings/navigation/routes';
 import { TrackGenre } from 'store/TrackGenres/types';
 import { GroupedTrackGenres } from 'store/TrackGenres';
-import { groupBy } from 'lodash';
+
+import { groupTrackGenres } from '../../helpers';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
@@ -51,12 +53,7 @@ const MainMenu: FC<ComponentProps> = (props) => {
 
     const menuItems = useMemo(() => {
         if (location.pathname === routes.allTracks) {
-            const groupedGenres = groupBy(
-                Object.values(tracksGenres.data || ({} as GroupedTrackGenres))
-                    .map((g) => g)
-                    .flat(1),
-                'name',
-            );
+            const groupedGenres = groupTrackGenres(tracksGenres.data);
 
             return Object.entries(tracksGenres.data || ({} as GroupedTrackGenres))
                 .map(([categoryId, genres]) => {

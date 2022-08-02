@@ -5,7 +5,7 @@ import { InputText, CategoryInput, GenreInput, DropZone, Checkbox } from 'compon
 import { ModalStateEnum } from 'types/modal';
 import { AxiosError } from 'axios';
 import { useStore } from 'store';
-import { InitModalStateType } from '../../index';
+import { InitModalStateType } from '../..';
 
 import styles from './styles.module.scss';
 

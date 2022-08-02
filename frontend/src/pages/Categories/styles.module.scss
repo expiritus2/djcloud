@@ -2,10 +2,6 @@
 @import "src/styles/variables";
 
 .categories {
-    .table {
-        min-height: calc(100vh - #{setUnit($player-offset)});
-    }
-
     .pendingWrapper {
         position: relative;
     }

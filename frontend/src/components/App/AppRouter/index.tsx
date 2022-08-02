@@ -18,9 +18,9 @@ const AppRouter: FC = () => {
                 {routesConfig.map(({ path, Component, roles: pathRoles }) => {
                     const userRole = user.data?.role?.name as UserRoleEnum;
                     const isCanActivate = canActivate(userRole, pathRoles as UserRoleEnum[]);
-                    let Page = null;
                     const exceptPlayerPaths = [!currentTrack.data ? routes.login : undefined, '*'];
 
+                    let Page = null;
                     if (isCanActivate) {
                         Page = (
                             <>

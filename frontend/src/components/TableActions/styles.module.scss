@@ -12,6 +12,11 @@
         margin-left: 0;
     }
 
+    .downloadLoaderWrapper {
+        position: relative;
+        bottom: setUnit(2);
+    }
+
     .download,
     .remove,
     .edit {

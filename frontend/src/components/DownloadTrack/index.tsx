@@ -12,10 +12,11 @@ type ComponentProps = {
     className?: string;
     url: string;
     title: string;
+    loaderWrapperClassName?: string;
 };
 
 const DownloadTrack: FC<ComponentProps> = (props) => {
-    const { className, url, title } = props;
+    const { className, url, title, loaderWrapperClassName } = props;
     const [pending, setPending] = useState(false);
 
     const onDownload = () => {
@@ -30,7 +31,10 @@ const DownloadTrack: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.download, className)}>
             {pending ? (
-                <Spinner className={styles.loader} loaderWrapperClassName={styles.loaderWrapper} />
+                <Spinner
+                    className={styles.loader}
+                    loaderWrapperClassName={classNames(styles.loaderWrapper, loaderWrapperClassName)}
+                />
             ) : (
                 <FaDownload onClick={onDownload} className={classNames(styles.icon)} />
             )}

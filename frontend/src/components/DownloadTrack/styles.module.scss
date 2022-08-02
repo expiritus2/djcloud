@@ -19,8 +19,6 @@
     .loaderWrapper {
         min-height: setUnit(15);
         min-width: setUnit(15);
-        position: relative;
-        bottom: setUnit(2);
 
         .loader {
             font-size: setUnit(1.5);

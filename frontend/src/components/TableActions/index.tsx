@@ -23,7 +23,12 @@ const TableActions: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.tableActions, className)}>
             {track && (
-                <DownloadTrack url={track?.file?.url || ''} title={track?.title || ''} className={styles.download} />
+                <DownloadTrack
+                    url={track?.file?.url || ''}
+                    title={track?.title || ''}
+                    className={styles.download}
+                    loaderWrapperClassName={styles.downloadLoaderWrapper}
+                />
             )}
             <Action isPending={editPending} loaderClassName={styles.editLoader}>
                 <FaRegEdit

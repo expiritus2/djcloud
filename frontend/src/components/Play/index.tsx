@@ -23,6 +23,7 @@ const Play: FC<ComponentProps> = (props) => {
 
     const onPlay = () => {
         if (trackId) {
+            currentTrack.resetStore();
             currentTrack.getTrackById({ id: trackId });
         }
     };

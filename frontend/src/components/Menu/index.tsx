@@ -1,8 +1,7 @@
-import React, { FC, Fragment, ReactNode, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { NavLink } from 'react-router-dom';
-import { DateFormat, formatDate } from 'helpers/formatters';
 import { GiHamburgerMenu } from 'react-icons/gi';
 
 import { useScreen, useOutsideClick } from 'hooks';
@@ -18,18 +17,13 @@ export type MenuItem = {
     onClickItem?: Function;
 };
 
-export type NestedMenuItem = {
-    [key: string]: MenuItem[];
-};
-
 type ComponentProps = {
     className?: string;
-    listItems: MenuItem[] | NestedMenuItem;
-    switcher?: ReactNode;
+    listItems: MenuItem[];
 };
 
 const Menu: FC<ComponentProps> = (props) => {
-    const { className, listItems, switcher } = props;
+    const { className, listItems } = props;
     const { screen } = useScreen();
     const [open, setOpen] = useState(!screen.mobileSmallWidth);
     const menuRef = useRef(null);
@@ -44,17 +38,7 @@ const Menu: FC<ComponentProps> = (props) => {
         return classNames(styles.link, isActive ? styles.active : '');
     };
 
-    const renderItems = (list: MenuItem[] | NestedMenuItem) => {
-        if (!Array.isArray(list) && Object.keys(list).length) {
-            return Object.entries(list).map(([key, val]) => (
-                <Fragment key={key}>
-                    <li className={styles.item}>{formatDate(new Date(key).toISOString(), DateFormat.dd_MMMM_yyyy)}</li>
-                    <li className={styles.item}>
-                        <ul className={styles.list}>{renderItems(val as MenuItem[])}</ul>
-                    </li>
-                </Fragment>
-            ));
-        }
+    const renderItems = (list: MenuItem[]) => {
         return (list as MenuItem[]).map((item) => (
             <li key={item.path} className={styles.item}>
                 <NavLink
@@ -81,7 +65,6 @@ const Menu: FC<ComponentProps> = (props) => {
             className={classNames(styles.menu, open ? styles.open : styles.closed, className)}
         >
             {screen.mobileSmallWidth && <GiHamburgerMenu className={styles.openIcon} />}
-            {switcher}
             <ul className={styles.list}>{renderItems(listItems)}</ul>
         </div>
     );

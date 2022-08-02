@@ -7,22 +7,15 @@ import {
     PageWrapper,
     Header,
     PendingWrapper,
-    Table,
-    TableActions,
     TableWrapper,
 } from 'components';
 import { useStore } from 'store';
-import Pagination from './components/Pagination';
 
 import { observer } from 'mobx-react-lite';
 import TrackModal from './components/Modal';
 import { ModalStateEnum } from 'types/modal';
-import { SortEnum } from 'types/request';
-import { Column } from 'components/Table';
-import { Filter, Title, Visible } from './components';
-import { Track } from 'types/track';
+import { Filter, Table } from './components';
 
-import { formatDate, getDuration } from 'helpers/formatters';
 import { useLocation } from 'react-router-dom';
 import { getQuery } from 'helpers/query';
 import styles from './styles.module.scss';
@@ -36,7 +29,7 @@ export const initModalState: InitModalStateType = { id: undefined, type: null, o
 
 const Tracks: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracks, modifyTrack } = useStore();
+    const { tracks } = useStore();
     const [modalState, setModalState] = useState(initModalState);
     const location = useLocation();
     const query = getQuery(location);
@@ -47,96 +40,8 @@ const Tracks: FC<ComponentProps> = (props) => {
         return () => tracks.resetStore();
     }, [query.search]); // eslint-disable-line
 
-    const onClickEdit = (e: any, id: number, cb: Function) => {
-        cb(true);
-        modifyTrack.getById({ id }, {}, (err: any) => {
-            if (!err) {
-                cb(false);
-                setModalState({ id, type: ModalStateEnum.UPDATE, open: true });
-            }
-        });
-    };
-
-    const onClickDelete = (e: any, id: number, cb: Function) => {
-        cb(true);
-        modifyTrack.getById({ id }, {}, (err: any) => {
-            if (!err) {
-                cb(false);
-                setModalState({ id, type: ModalStateEnum.DELETE, open: true });
-            }
-        });
-    };
-
     const onClickNew = () => {
         setModalState({ type: ModalStateEnum.CREATE, open: true });
-    };
-
-    const getFieldSort = (fieldKey: string) => {
-        return tracks.meta.field === fieldKey ? tracks.meta.sort : undefined;
-    };
-
-    const getColumns = () => {
-        return [
-            {
-                key: 'track_id',
-                title: 'Id',
-                sort: getFieldSort('track_id'),
-            },
-            {
-                key: 'title',
-                title: 'Title',
-                width: '25%',
-                sort: getFieldSort('title'),
-            },
-            {
-                key: 'duration',
-                title: 'Duration',
-                sort: getFieldSort('duration'),
-            },
-            {
-                key: 'category',
-                title: 'Category',
-                sort: getFieldSort('category'),
-            },
-            {
-                key: 'genre',
-                title: 'Genre',
-                sort: getFieldSort('genre'),
-            },
-            {
-                key: 'visible',
-                title: 'Visible',
-                sort: getFieldSort('visible'),
-            },
-            {
-                key: 'createdAt',
-                title: 'CreatedAt',
-                sort: getFieldSort('createdAt'),
-            },
-            { key: 'actions', title: 'Actions', isSort: false },
-        ];
-    };
-
-    const getRows = () => {
-        return (
-            tracks.data?.data?.map((track: Track) => ({
-                track_id: track.id,
-                id: track.id,
-                title: <Title {...track} />,
-                duration: getDuration(track.duration),
-                category: track.category.name,
-                genre: track.genre.name,
-                visible: <Visible track={track} />,
-                createdAt: formatDate(track.createdAt),
-                actions: (
-                    <TableActions
-                        track={track}
-                        onClickEdit={(e: any, cb: Function) => onClickEdit(e, track.id, cb)}
-                        onClickDelete={(e: any, cb: Function) => onClickDelete(e, track.id, cb)}
-                    />
-                ),
-            })) || []
-        );
     };
 
     const getModalTitle = () => {
@@ -151,13 +56,6 @@ const Tracks: FC<ComponentProps> = (props) => {
         return 'Create Track';
     };
 
-    const onSortClick = (e: any, column: Column) => {
-        tracks.getAll(
-            { field: column.key, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
-            { silent: true },
-        );
-    };
-
     return (
         <div className={classNames(styles.tracks, className)}>
             <Header />
@@ -170,13 +68,7 @@ const Tracks: FC<ComponentProps> = (props) => {
                                 <AdminPageTitle title="Tracks" onClickNew={onClickNew} />
                                 <Filter />
                                 <TableWrapper>
-                                    <Table
-                                        columns={getColumns()}
-                                        rows={getRows()}
-                                        onSortClick={onSortClick}
-                                        className={styles.table}
-                                    />
-                                    <Pagination />
+                                    <Table setModalState={setModalState} />
                                 </TableWrapper>
                                 <TrackModal
                                     title={getModalTitle()}

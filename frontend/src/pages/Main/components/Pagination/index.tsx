@@ -3,9 +3,9 @@ import classNames from 'classnames';
 import { TablePagination } from 'components';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'store';
+import { mainPageTrackLimit } from 'settings';
 
 import styles from './styles.module.scss';
-import { mainPageTrackLimit } from '../../../../settings';
 
 type ComponentProps = {
     className?: string;

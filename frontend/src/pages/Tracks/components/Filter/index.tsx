@@ -1,10 +1,11 @@
 import React, { FC, useState } from 'react';
 import classNames from 'classnames';
 
-import styles from './styles.module.scss';
 import { CategoryInput, GenreInput } from 'components';
 import { Category, Genre } from 'types/track';
-import { useStore } from '../../../../store';
+import { useStore } from 'store';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

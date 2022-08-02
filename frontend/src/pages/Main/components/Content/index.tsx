@@ -11,9 +11,10 @@ import { Pagination } from '..';
 import { PendingWrapper } from 'components';
 import { mainPageTrackLimit } from 'settings';
 
-import styles from './styles.module.scss';
 import { getQuery } from 'helpers/query';
-import { GroupedTrackGenres } from 'store/TrackGenres';
+
+import styles from './styles.module.scss';
+import { getCategoryIdFromParams, getGenreIdFromParams } from '../../helpers';
 
 type ComponentProps = {
     className?: string;
@@ -31,17 +32,11 @@ const Content: FC<ComponentProps> = (props) => {
         if (location.pathname === routes.allTracks) {
             tracks.getAll({ categoryId: undefined, genreId: undefined, visible: true });
         } else {
-            const categoryId =
-                match?.params.categoryId || altMatch?.params.categoryId || navCategories.data?.data?.[0]?.id;
+            const categoryId = getCategoryIdFromParams(match, altMatch, navCategories);
 
             if (categoryId) {
-                const genreId =
-                    match?.params.genreId || (tracksGenres.data as GroupedTrackGenres)?.[+categoryId]?.[0].id;
-                if (
-                    (categoryId !== tracks.meta.categoryId || genreId !== tracks.meta.genreId) &&
-                    categoryId &&
-                    genreId
-                ) {
+                const genreId = getGenreIdFromParams(match, tracksGenres, categoryId);
+                if (categoryId !== tracks.meta.categoryId || genreId !== tracks.meta.genreId) {
                     tracks.getAll({
                         categoryId: +categoryId,
                         genreId: +genreId,
@@ -54,6 +49,7 @@ const Content: FC<ComponentProps> = (props) => {
         }
 
         return () => tracks.resetStore();
+        // eslint-disable-next-line
     }, [
         tracks,
         query.search,

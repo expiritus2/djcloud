@@ -1,7 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
-
-import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import { ContentModal } from 'components';
 
 import { useStore } from 'store';
@@ -11,8 +9,12 @@ import { TrackRating } from 'types/track';
 import { ButtonType } from '../ContentModal';
 import StarWrapper from './StarWrapper';
 import { useScreen } from 'hooks';
+import { MOBILE_SMALL } from 'settings/constants/screen';
+
+import { createStars } from './helpers';
+
 import styles from './styles.module.scss';
-import { MOBILE_SMALL } from '../../settings/constants/screen';
+import StarIcon from './StarIcon';
 
 type ComponentProps = {
     className?: string;
@@ -51,15 +53,10 @@ const Rating: FC<ComponentProps> = (props) => {
     };
 
     const getStars = (isNumbers = false) => {
-        let array = new Array(10);
-
         const isMobile = screen.width <= MOBILE_SMALL && !isNumbers;
-        if (isMobile) {
-            array = new Array(1);
-        }
-        return array.fill(null).map((_, index) => {
+
+        return createStars(screen, isNumbers).map((_, index) => {
             const iconProps = {
-                key: index,
                 onMouseOver: (e: any) => onMouseOver(e, index, isNumbers),
                 className: classNames(
                     styles.star,
@@ -68,22 +65,15 @@ const Rating: FC<ComponentProps> = (props) => {
                 ),
                 onClick,
             };
-            if (currentRating && index <= currentRating - 1) {
-                return (
-                    <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
-                        <>
-                            <AiFillStar {...iconProps} />
-                            {isMobile ? <span className={styles.mobileRating}>{rating}</span> : null}
-                        </>
-                    </StarWrapper>
-                );
-            }
             return (
                 <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
-                    <>
-                        <AiOutlineStar {...iconProps} />
-                        {isMobile ? <span className={styles.mobileRating}>{rating}</span> : null}
-                    </>
+                    <StarIcon
+                        iconProps={iconProps}
+                        rating={rating}
+                        currentRating={currentRating}
+                        index={index}
+                        isNumbers={isNumbers}
+                    />
                 </StarWrapper>
             );
         });

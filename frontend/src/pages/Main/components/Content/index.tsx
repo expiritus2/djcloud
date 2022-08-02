@@ -49,7 +49,7 @@ const Content: FC<ComponentProps> = (props) => {
         }
 
         return () => tracks.resetStore();
-    }, [ // eslint-disable-line
+    }, [// eslint-disable-line
         tracks,
         query.search,
         match?.params.categoryId,

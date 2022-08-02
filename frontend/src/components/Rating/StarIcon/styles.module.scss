@@ -4,4 +4,12 @@
 .starIcon {
     display: flex;
     align-items: center;
+
+    .mobileRating {
+        font-size: setUnit(12);
+        width: setUnit(20);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

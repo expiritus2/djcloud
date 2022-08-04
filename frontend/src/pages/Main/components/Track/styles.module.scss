@@ -60,5 +60,10 @@
         display: flex;
         align-items: center;
         margin-left: setUnit(15);
+
+        .date {
+            min-width: setUnit(150);
+            text-align: right;
+        }
     }
 }

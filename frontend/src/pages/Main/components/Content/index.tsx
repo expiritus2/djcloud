@@ -30,7 +30,7 @@ const Content: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         if (location.pathname === routes.allTracks) {
-            tracks.getAll({ categoryId: undefined, genreId: undefined, visible: true });
+            tracks.getAll({ categoryId: undefined, genreId: undefined, visible: true, search: query.search as string });
         } else {
             const categoryId = getCategoryIdFromParams(match, altMatch, navCategories);
 

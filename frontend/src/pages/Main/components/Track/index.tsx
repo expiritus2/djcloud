@@ -46,7 +46,7 @@ const TrackComponent: FC<ComponentProps> = (props) => {
                     countRatings={countRatings}
                     isDidRating={isDidRating}
                 />
-                {screen.width > MOBILE && <div>{formatDate(createdAt)}</div>}
+                {screen.width > MOBILE && <div className={styles.date}>{formatDate(createdAt)}</div>}
             </div>
         </div>
     );

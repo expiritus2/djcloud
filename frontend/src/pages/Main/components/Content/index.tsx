@@ -14,7 +14,7 @@ import { mainPageTrackLimit } from 'settings';
 import { getQuery } from 'helpers/query';
 
 import styles from './styles.module.scss';
-import { getCategoryIdFromParams, getGenreIdFromParams } from '../../helpers';
+import { getCategoryIdFromParams } from '../../helpers';
 
 type ComponentProps = {
     className?: string;
@@ -30,12 +30,18 @@ const Content: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         if (location.pathname === routes.allTracks) {
-            tracks.getAll({ categoryId: undefined, genreId: undefined, visible: true, search: query.search as string });
+            tracks.getAll({
+                categoryId: undefined,
+                genreId: undefined,
+                visible: true,
+                search: query.search as string,
+                limit: mainPageTrackLimit,
+            });
         } else {
             const categoryId = getCategoryIdFromParams(match, altMatch, navCategories);
 
             if (categoryId) {
-                const genreId = getGenreIdFromParams(match, tracksGenres, categoryId);
+                const genreId = match?.params.genreId;
                 if (categoryId !== tracks.meta.categoryId || genreId !== tracks.meta.genreId) {
                     tracks.getAll({
                         categoryId: +categoryId,

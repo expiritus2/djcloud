@@ -5,7 +5,6 @@
     background-color: $darkColor;
     min-width: setUnit(300);
     color: $whiteColor;
-    overflow: auto;
     position: relative;
 
     @media screen and (max-width: setUnit($mobile)) {
@@ -47,7 +46,9 @@
 
     .list {
         list-style: none;
-        margin: setUnit(30) 0;
+        padding: setUnit(30) 0;
+        overflow: auto;
+        height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(41)});
 
         .item {
             padding: 0 setUnit(20);

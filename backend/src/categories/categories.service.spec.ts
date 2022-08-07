@@ -105,7 +105,7 @@ describe('CategoryService', () => {
             const query = {};
             mocked(simplePaginateQuery).mockReturnValueOnce(mockQueryBuilder);
             mockQueryBuilder.getManyAndCount.mockReturnValueOnce([
-                { id: 1, name: 'Category Name', value: 'category_name' },
+                [{ id: 1, name: 'Category Name', value: 'category_name' }],
                 1,
             ]);
             const categories = await service.getAll({});
@@ -114,7 +114,7 @@ describe('CategoryService', () => {
             expect(simplePaginateQuery).toBeCalledWith(mockQueryBuilder, query);
             expect(mockQueryBuilder.getManyAndCount).toBeCalled();
             expect(categories).toEqual({
-                data: { id: 1, name: 'Category Name', value: 'category_name' },
+                data: [{ id: 1, name: 'Category Name', value: 'category_name' }],
                 count: 1,
             });
         });

@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { Category } from 'types/track';
 import { NavLink, useLocation, useMatch } from 'react-router-dom';
 import { link } from 'settings/navigation/link';
-import { GroupedTrackGenres } from 'store/TrackGenres';
 import { UserRoleEnum } from 'types/user';
 import { useStore } from 'store';
 import { routes } from 'settings/navigation/routes';
@@ -18,7 +17,7 @@ type ComponentProps = {
 
 const List: FC<ComponentProps> = forwardRef<any, ComponentProps>((props, ref) => {
     const { className, styles, navCategories, onClickLink } = props;
-    const { user, customerState, tracksGenres } = useStore();
+    const { user, customerState } = useStore();
     const match = useMatch({ path: routes.tracks });
     const location = useLocation();
 
@@ -55,11 +54,7 @@ const List: FC<ComponentProps> = forwardRef<any, ComponentProps>((props, ref) =>
                                     index,
                                 });
                             }}
-                            to={link.toTracks(
-                                category.id.toString(),
-                                customerState.tab[category.id.toString()] ||
-                                    (tracksGenres.data as GroupedTrackGenres)?.[category.id]?.[0]?.id.toString(),
-                            )}
+                            to={link.toAllCategoryTracks(category.id.toString())}
                         >
                             {category.name}
                         </NavLink>

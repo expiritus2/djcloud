@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useCallback } from 'react';
 import classNames from 'classnames';
-import { Menu } from 'components';
+import { Menu, MenuSwitcher } from 'components';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 import { useMatch, useLocation } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { routes } from 'settings/navigation/routes';
 import { TrackGenre } from 'store/TrackGenres/types';
 import { GroupedTrackGenres } from 'store/TrackGenres';
 
-import { groupTrackGenres } from '../../helpers';
+import { groupByNameTrackGenres } from '../../helpers';
 
 import styles from './styles.module.scss';
 
@@ -23,6 +23,7 @@ const MainMenu: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracksGenres, customerState, navCategories } = useStore();
     const match = useMatch({ path: routes.tracks });
+    const altMatch = useMatch({ path: routes.categoryPage });
     const location = useLocation();
 
     const onClickItem = useCallback(
@@ -44,30 +45,49 @@ const MainMenu: FC<ComponentProps> = (props) => {
                 label: genre.name,
                 value: genre.id?.toString(),
                 count: genre.countTracks,
-                active: location.pathname === '/' && index === 0,
                 onClickItem,
             } as MenuItem;
         },
-        [location.pathname, onClickItem],
+        [onClickItem],
+    );
+
+    const mapTrackGenresByCategory = useCallback(
+        ([categoryId, genres]: [string, TrackGenre[]], groupedGenres: { [key: string]: TrackGenre[] }) => {
+            return genres
+                .map((genre: TrackGenre, index: number) => {
+                    const item = convertMenuItem(genre, index, categoryId);
+                    const cat = (navCategories.data?.data || []).find((category) => +category.id === +categoryId);
+
+                    if (cat && groupedGenres[genre.name]?.length > 1) {
+                        item.label = `${item.label} - ${cat.name}`;
+                    }
+                    return item;
+                })
+                .flat(1);
+        },
+        [convertMenuItem, navCategories.data?.data],
     );
 
     const menuItems = useMemo(() => {
         if (location.pathname === routes.allTracks) {
-            const groupedGenres = groupTrackGenres(tracksGenres.data);
-
+            const groupedGenres = groupByNameTrackGenres(tracksGenres.data);
             return Object.entries(tracksGenres.data || ({} as GroupedTrackGenres))
-                .map(([categoryId, genres]) => {
-                    return genres.map((genre: TrackGenre, index: number) => {
-                        const item = convertMenuItem(genre, index, categoryId);
-                        const cat = (navCategories.data?.data || []).find((category) => +category.id === +categoryId);
-
-                        if (cat && groupedGenres[genre.name]?.length > 1) {
-                            item.label = `${item.label} - ${cat.name}`;
-                        }
-                        return item;
-                    });
-                })
+                .map((entries) => mapTrackGenresByCategory(entries, groupedGenres))
                 .flat(1);
+        }
+
+        if (altMatch?.params.categoryId) {
+            const categoryId = +altMatch?.params.categoryId;
+            if (tracksGenres.data?.[categoryId]) {
+                const categoryGenres = {
+                    [categoryId]: tracksGenres.data?.[categoryId],
+                };
+                const groupedGenres = groupByNameTrackGenres(categoryGenres);
+                return Object.entries(categoryGenres || ({} as GroupedTrackGenres))
+                    .map((entries) => mapTrackGenresByCategory(entries, groupedGenres))
+                    .flat(1);
+            }
+            return [];
         }
 
         let categoryId = match?.params.categoryId || '';
@@ -77,9 +97,23 @@ const MainMenu: FC<ComponentProps> = (props) => {
         return ((tracksGenres.data as GroupedTrackGenres)?.[+categoryId] || []).map((genre, index) =>
             convertMenuItem(genre, index, categoryId),
         );
-    }, [match?.params.categoryId, tracksGenres.data, convertMenuItem, location.pathname, navCategories.data?.data]);
+    }, [
+        match?.params.categoryId,
+        tracksGenres.data,
+        convertMenuItem,
+        location.pathname,
+        navCategories.data?.data,
+        mapTrackGenresByCategory,
+        altMatch?.params.categoryId,
+    ]);
 
-    return <Menu listItems={menuItems} className={classNames(styles.mainMenu, className)} />;
+    return (
+        <Menu
+            listItems={menuItems}
+            className={classNames(styles.mainMenu, className)}
+            switcher={location.pathname !== routes.allTracks ? <MenuSwitcher /> : null}
+        />
+    );
 };
 
 export default observer(MainMenu);

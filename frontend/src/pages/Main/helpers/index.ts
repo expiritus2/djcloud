@@ -1,9 +1,10 @@
 import { groupBy } from 'lodash';
-import { GroupedTrackGenres, TracksGenresStore } from 'store/TrackGenres';
+import { GroupedTrackGenres } from 'store/TrackGenres';
 import { NavCategoriesStore } from 'store/NavCategories';
 import { PathMatch } from 'react-router/lib/router';
+import { TrackGenre } from '../../../store/TrackGenres/types';
 
-export const groupTrackGenres = (tracksGenres: GroupedTrackGenres | null) => {
+export const groupByNameTrackGenres = (tracksGenres: GroupedTrackGenres | null): { [key: string]: TrackGenre[] } => {
     return groupBy(
         Object.values(tracksGenres || {})
             .map((g) => g)
@@ -18,12 +19,4 @@ export const getCategoryIdFromParams = (
     navCategories: NavCategoriesStore,
 ) => {
     return match?.params.categoryId || altMatch?.params.categoryId || navCategories.data?.data?.[0]?.id;
-};
-
-export const getGenreIdFromParams = (
-    match: PathMatch | null,
-    tracksGenres: TracksGenresStore,
-    categoryId: string | number,
-) => {
-    return match?.params.genreId || (tracksGenres.data as GroupedTrackGenres)?.[+categoryId]?.[0].id;
 };

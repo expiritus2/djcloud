@@ -1,5 +1,5 @@
 import { action, makeObservable } from 'mobx';
-import { PaginatedItems, RequestOptions } from 'types/request';
+import { PaginatedItems, RequestOptions, SortEnum } from 'types/request';
 import { GetAllByParams } from './types';
 import { Track, TrackRating } from 'types/track';
 import Api from 'store/core/Api';
@@ -25,7 +25,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
             {
                 limit: adminPageTableLimit,
                 field: 'createdAt',
-                sort: 'DESC',
+                sort: SortEnum.DESC,
                 ...this.meta,
                 ...cfg,
             },

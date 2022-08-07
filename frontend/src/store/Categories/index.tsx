@@ -1,5 +1,5 @@
 import { action, makeObservable, reaction } from 'mobx';
-import { PaginationParams, RequestOptions, PaginatedItems } from 'types/request';
+import { PaginationParams, RequestOptions, PaginatedItems, SortEnum } from 'types/request';
 import { Category } from 'types/track';
 import Api from 'store/core/Api';
 import { getAll } from 'api/categories';
@@ -24,6 +24,10 @@ export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
 
-        sendRequest({ limit: adminPageTableLimit, field: 'id', sort: 'DESC', ...this.meta, ...cfg }, options, cb);
+        sendRequest(
+            { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
+            options,
+            cb,
+        );
     }
 }

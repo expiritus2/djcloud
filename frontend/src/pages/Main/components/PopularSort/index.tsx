@@ -19,7 +19,8 @@ const PopularSort: FC<ComponentProps> = (props) => {
     const isRatingField = tracks.meta.field === 'rating';
 
     const onSort = () => {
-        const newSort = tracks.meta.sort === SortEnum.DESC ? SortEnum.ASC : SortEnum.DESC;
+        const newSort =
+            tracks.meta.sort === SortEnum.DESC && tracks.meta.field === 'rating' ? SortEnum.ASC : SortEnum.DESC;
         tracks.getAll({ sort: newSort, limit: mainPageTrackLimit, field: 'rating' });
     };
 

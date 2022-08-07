@@ -33,7 +33,11 @@ const Menu: FC<ComponentProps> = (props) => {
         setOpen(!screen.mobileSmallWidth);
     }, [screen.mobileSmallWidth]);
 
-    useOutsideClick([menuRef], () => setOpen(false));
+    useOutsideClick([menuRef], () => {
+        if (screen.mobileSmallWidth) {
+            setOpen(false);
+        }
+    });
 
     const getActiveClassName = ({ isActive }: { isActive: boolean }) => {
         return classNames(styles.link, isActive ? styles.active : '');

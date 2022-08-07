@@ -70,7 +70,7 @@ const Switcher: FC<ComponentProps> = (props) => {
                     match?.params.genreId && match.params.categoryId ? styles.active : '',
                 )}
             >
-                Genres
+                By Genres
             </div>
         </div>
     );

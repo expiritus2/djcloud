@@ -1,8 +1,8 @@
 import { routes } from '../routes';
 
 export const link = {
-    toTracks: (categoryId: string, genreId: string | undefined) =>
-        routes.tracks.replace(/(:categoryId|:genreId)/g, (match): string => {
+    toTracks: (categoryId: string, genreId: string | undefined) => {
+        return routes.tracks.replace(/(:categoryId|:genreId)/g, (match): string => {
             if (match === ':categoryId' && categoryId) {
                 return categoryId;
             }
@@ -11,7 +11,8 @@ export const link = {
                 return genreId;
             }
             return '';
-        }),
+        });
+    },
     toAdminPage: (tab: string | null) => {
         if (tab === 'tracks') {
             return routes.adminTracksList;
@@ -21,5 +22,14 @@ export const link = {
             return routes.adminGenresList;
         }
         return routes.adminCategoriesList;
+    },
+
+    toAllCategoryTracks: (categoryId: string | undefined) => {
+        return routes.categoryPage.replace(/(:categoryId)/g, (match): string => {
+            if (match === ':categoryId' && categoryId) {
+                return categoryId;
+            }
+            return '';
+        });
     },
 };

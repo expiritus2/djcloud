@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { NavLink } from 'react-router-dom';
@@ -20,10 +20,11 @@ export type MenuItem = {
 type ComponentProps = {
     className?: string;
     listItems: MenuItem[];
+    switcher?: ReactNode;
 };
 
 const Menu: FC<ComponentProps> = (props) => {
-    const { className, listItems } = props;
+    const { className, listItems, switcher } = props;
     const { screen } = useScreen();
     const [open, setOpen] = useState(!screen.mobileSmallWidth);
     const menuRef = useRef(null);
@@ -65,6 +66,7 @@ const Menu: FC<ComponentProps> = (props) => {
             className={classNames(styles.menu, open ? styles.open : styles.closed, className)}
         >
             {screen.mobileSmallWidth && <GiHamburgerMenu className={styles.openIcon} />}
+            {open ? switcher : null}
             <ul className={styles.list}>{renderItems(listItems)}</ul>
         </div>
     );

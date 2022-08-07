@@ -63,20 +63,22 @@ const Tracks: FC<ComponentProps> = (props) => {
                 <>
                     <AdminMenu />
                     <AdminContentWrapper>
-                        <PendingWrapper state={tracks.state} className={styles.pendingWrapper}>
-                            <>
-                                <AdminPageTitle title="Tracks" onClickNew={onClickNew} />
-                                <Filter />
-                                <TableWrapper>
-                                    <Table setModalState={setModalState} />
-                                </TableWrapper>
-                                <TrackModal
-                                    title={getModalTitle()}
-                                    modalState={modalState}
-                                    setModalState={setModalState}
-                                />
-                            </>
-                        </PendingWrapper>
+                        <>
+                            <AdminPageTitle title="Tracks" onClickNew={onClickNew} />
+                            <Filter />
+                            <PendingWrapper state={tracks.state} className={styles.pendingWrapper}>
+                                <>
+                                    <TableWrapper>
+                                        <Table setModalState={setModalState} />
+                                    </TableWrapper>
+                                    <TrackModal
+                                        title={getModalTitle()}
+                                        modalState={modalState}
+                                        setModalState={setModalState}
+                                    />
+                                </>
+                            </PendingWrapper>
+                        </>
                     </AdminContentWrapper>
                 </>
             </PageWrapper>

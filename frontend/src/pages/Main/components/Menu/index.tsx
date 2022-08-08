@@ -24,6 +24,7 @@ const MainMenu: FC<ComponentProps> = (props) => {
     const { tracksGenres, customerState, navCategories } = useStore();
     const match = useMatch({ path: routes.tracks });
     const altMatch = useMatch({ path: routes.categoryPage });
+    const oneTrackMatch = useMatch({ path: routes.track });
     const location = useLocation();
 
     const onClickItem = useCallback(
@@ -76,6 +77,20 @@ const MainMenu: FC<ComponentProps> = (props) => {
                 .flat(1);
         }
 
+        if (oneTrackMatch?.params.trackId && oneTrackMatch?.params.categoryId) {
+            const categoryId = +oneTrackMatch?.params.categoryId;
+            if (tracksGenres.data?.[categoryId]) {
+                const categoryGenres = {
+                    [categoryId]: tracksGenres.data?.[categoryId],
+                };
+                const groupedGenres = groupByNameTrackGenres(categoryGenres);
+                return Object.entries(categoryGenres || ({} as GroupedTrackGenres))
+                    .map((entries) => mapTrackGenresByCategory(entries, groupedGenres))
+                    .flat(1);
+            }
+            return [];
+        }
+
         if (altMatch?.params.categoryId) {
             const categoryId = +altMatch?.params.categoryId;
             if (tracksGenres.data?.[categoryId]) {
@@ -98,6 +113,8 @@ const MainMenu: FC<ComponentProps> = (props) => {
             convertMenuItem(genre, index, categoryId),
         );
     }, [
+        oneTrackMatch?.params.categoryId,
+        oneTrackMatch?.params.trackId,
         match?.params.categoryId,
         tracksGenres.data,
         convertMenuItem,

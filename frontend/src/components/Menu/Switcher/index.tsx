@@ -19,8 +19,9 @@ const Switcher: FC<ComponentProps> = (props) => {
     const navigate = useNavigate();
     const location = useLocation();
     const match = useMatch({ path: routes.tracks });
+    const oneTrackMatch = useMatch({ path: routes.track });
     const altMatch = useMatch({ path: routes.categoryPage });
-    const categoryId = match?.params.categoryId || altMatch?.params.categoryId;
+    const categoryId = match?.params.categoryId || altMatch?.params.categoryId || oneTrackMatch?.params.categoryId;
 
     const onClickAll = () => {
         if (location.pathname === routes.index) {
@@ -68,7 +69,10 @@ const Switcher: FC<ComponentProps> = (props) => {
                 onClick={onClickGenres}
                 className={classNames(
                     styles.tab,
-                    match?.params.genreId && match.params.categoryId ? styles.active : '',
+                    (match?.params.genreId && match.params.categoryId) ||
+                        (oneTrackMatch?.params.genreId && oneTrackMatch.params.categoryId)
+                        ? styles.active
+                        : '',
                 )}
             >
                 Genres

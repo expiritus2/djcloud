@@ -20,5 +20,5 @@
 20. Play all (Shuffle)
 21. Add button send to telegram
 22. Error handlers
-23. Sort categories and genres
+23. ~~Sort categories and genres~~
 24. Optimise count requests

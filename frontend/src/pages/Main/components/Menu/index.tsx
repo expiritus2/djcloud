@@ -70,9 +70,10 @@ const MainMenu: FC<ComponentProps> = (props) => {
     );
 
     const menuItems = useMemo(() => {
+        let list: MenuItem[] = [];
         if (location.pathname === routes.allTracks) {
             const groupedGenres = groupByNameTrackGenres(tracksGenres.data);
-            return Object.entries(tracksGenres.data || ({} as GroupedTrackGenres))
+            list = Object.entries(tracksGenres.data || ({} as GroupedTrackGenres))
                 .map((entries) => mapTrackGenresByCategory(entries, groupedGenres))
                 .flat(1);
         }
@@ -84,11 +85,10 @@ const MainMenu: FC<ComponentProps> = (props) => {
                     [categoryId]: tracksGenres.data?.[categoryId],
                 };
                 const groupedGenres = groupByNameTrackGenres(categoryGenres);
-                return Object.entries(categoryGenres || ({} as GroupedTrackGenres))
+                list = Object.entries(categoryGenres || ({} as GroupedTrackGenres))
                     .map((entries) => mapTrackGenresByCategory(entries, groupedGenres))
                     .flat(1);
             }
-            return [];
         }
 
         if (altMatch?.params.categoryId) {
@@ -98,20 +98,21 @@ const MainMenu: FC<ComponentProps> = (props) => {
                     [categoryId]: tracksGenres.data?.[categoryId],
                 };
                 const groupedGenres = groupByNameTrackGenres(categoryGenres);
-                return Object.entries(categoryGenres || ({} as GroupedTrackGenres))
+                list = Object.entries(categoryGenres || ({} as GroupedTrackGenres))
                     .map((entries) => mapTrackGenresByCategory(entries, groupedGenres))
                     .flat(1);
             }
-            return [];
         }
 
-        let categoryId = match?.params.categoryId || '';
-        if (location.pathname === '/' && navCategories.data?.data) {
-            categoryId = navCategories.data?.data?.[0]?.id.toString();
+        if (match?.params.categoryId || (location.pathname === '/' && navCategories.data?.data)) {
+            const categoryId = match?.params.categoryId || navCategories.data?.data?.[0]?.id.toString() || '';
+            if (categoryId) {
+                list = ((tracksGenres.data as GroupedTrackGenres)?.[+categoryId] || []).map((genre, index) =>
+                    convertMenuItem(genre, index, categoryId),
+                );
+            }
         }
-        return ((tracksGenres.data as GroupedTrackGenres)?.[+categoryId] || []).map((genre, index) =>
-            convertMenuItem(genre, index, categoryId),
-        );
+        return list.sort((a, b) => a.label.localeCompare(b.label));
     }, [
         oneTrackMatch?.params.categoryId,
         oneTrackMatch?.params.trackId,

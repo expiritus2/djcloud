@@ -19,7 +19,7 @@ const Filter: FC<ComponentProps> = (props) => {
 
     const onChangeCategory = (e: any) => {
         const val = e?.target?.value as Category;
-        tracks.getAll({ categoryId: val?.id }, { silent: true }, (err: any) => {
+        tracks.getAll({ categoryId: val?.id, page: 0 }, { silent: true }, (err: any) => {
             if (!err) {
                 setCategoryValue(val);
             }
@@ -28,7 +28,7 @@ const Filter: FC<ComponentProps> = (props) => {
 
     const onChangeGenre = (e: any) => {
         const val = e?.target?.value as Genre;
-        tracks.getAll({ genreId: val?.id }, { silent: true }, (err: any) => {
+        tracks.getAll({ genreId: val?.id, page: 0 }, { silent: true }, (err: any) => {
             if (!err) {
                 setGenreValue(val);
             }

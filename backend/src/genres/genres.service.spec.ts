@@ -142,13 +142,15 @@ describe('GenreService', () => {
         };
 
         it('should create and return genre', async () => {
-            jest.spyOn(GenresService.prototype, 'findByName').mockResolvedValueOnce(null);
             mockGenreRepo.create.mockReturnValueOnce(newGenre);
             mockGenreRepo.save.mockReturnValue(newGenre);
+            mockQueryBuilder.getOne.mockResolvedValueOnce(null);
 
             const genre = await service.create(newGenre);
 
-            expect(service.findByName).toBeCalledWith(newGenre.name);
+            expect(mockGenreRepo.createQueryBuilder).toBeCalledWith('genre');
+            expect(mockQueryBuilder.where).toBeCalledWith('name iLIKE :name', { name: newGenre.name });
+            expect(mockQueryBuilder.getOne).toBeCalled();
             expect(mockGenreRepo.create).toBeCalledWith(newGenre);
             expect(mockGenreRepo.save).toBeCalledWith(newGenre);
             expect(genre).toEqual(newGenre);

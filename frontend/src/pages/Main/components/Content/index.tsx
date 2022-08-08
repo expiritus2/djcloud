@@ -40,6 +40,7 @@ const Content: FC<ComponentProps> = (props) => {
                 visible: true,
                 search: query.search as string,
                 limit: mainPageTrackLimit,
+                page: 0,
             });
         } else {
             const categoryId = getCategoryIdFromParams(match, altMatch, navCategories);
@@ -53,6 +54,7 @@ const Content: FC<ComponentProps> = (props) => {
                         visible: true,
                         limit: mainPageTrackLimit,
                         search: query.search as string,
+                        page: 0,
                     });
                 }
             }

@@ -36,6 +36,12 @@ class Genre {
     id: number;
 }
 
+export class SendTrackToTelegramDto {
+    @IsNumber()
+    @ApiProperty()
+    trackId: number;
+}
+
 export class UpdateTrackDto {
     @IsOptional()
     @IsString()

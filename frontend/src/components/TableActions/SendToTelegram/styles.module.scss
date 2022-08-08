@@ -1,0 +1,19 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.sendToTelegram {
+
+}
+
+.modal {
+    .content {
+        padding: 0 setUnit(40) 0;
+        margin: setUnit(25) 0;
+
+        .message {
+            .accent {
+                font-weight: 700;
+            }
+        }
+    }
+}

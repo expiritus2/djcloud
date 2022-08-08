@@ -5,12 +5,13 @@ import { CanActivate } from '@nestjs/common';
 import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { cloneDeep, merge } from 'lodash';
 import { TelegramService } from '../telegram/telegram.service';
-import { getTime, subDays, subHours } from 'date-fns';
+import { subDays, subHours } from 'date-fns';
 import { FilesService } from '../files/files.service';
 import { getMockConfigService } from '../lib/testData/utils';
 import { ConfigService } from '@nestjs/config';
 import { TrackEntity } from './track.entity';
 import { envConfig } from '../lib/configs/envs';
+import { mocked } from 'jest-mock';
 
 describe('TracksController', () => {
     let controller: TracksController;
@@ -30,6 +31,7 @@ describe('TracksController', () => {
         mimetype: 'audio/mpeg4',
     };
     const track = {
+        id: 1,
         title: 'Track title',
         visible: true,
         duration: 435.34,
@@ -103,7 +105,7 @@ describe('TracksController', () => {
             mockTrackService.create.mockResolvedValueOnce({ id: 1, ...track });
             jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('dev');
             const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}?search=${track.title}`;
+            const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}/${track.id}`;
             const tagLink = `<a href="${link}">${caption}</a>`;
 
             await controller.createTrack(track);
@@ -141,20 +143,22 @@ describe('TracksController', () => {
             const copySession = cloneDeep(mockSession) as any;
             copySession.ratings = {
                 1: { ratingDate: subHours(Date.now(), 1) },
-                2: { ratingDate: getTime(subDays(Date.now(), 1)) },
+                2: { ratingDate: subDays(Date.now(), 1) },
             };
             mockTrackService.getAll.mockResolvedValueOnce({
                 data: [
-                    { id: 1, ...track },
-                    { id: 2, ...track },
+                    { ...track, id: 1 },
+                    { ...track, id: 2 },
                 ],
                 count: 2,
             });
+
             const result = await controller.getAll(query, copySession);
+
             expect(result).toEqual({
                 data: [
-                    { id: 1, isDidRating: true, ...track },
-                    { id: 2, isDidRating: false, ...track },
+                    { ...track, isDidRating: true, id: 1 },
+                    { ...track, isDidRating: false, id: 2 },
                 ],
                 count: 2,
             });
@@ -198,7 +202,7 @@ describe('TracksController', () => {
                 .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: false })
                 .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: true });
             const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${updatedTrack.category.id}/${updatedTrack.genre.id}?search=${updatedTrack.title}`;
+            const link = `${envConfig.frontendDomain}/tracks/${updatedTrack.category.id}/${updatedTrack.genre.id}/${updatedTrack.id}`;
             const tagLink = `<a href="${link}">${caption}</a>`;
 
             const result = await controller.update(id, newTrackData);
@@ -269,7 +273,7 @@ describe('TracksController', () => {
     describe('sendToTelegram', () => {
         it('should send audio to telegram', async () => {
             const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}?search=${track.title}`;
+            const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}/${track.id}`;
             const tagLink = `<a href="${link}">${caption}</a>`;
             await controller.sendToTelegram(track as TrackEntity);
 
@@ -286,11 +290,26 @@ describe('TracksController', () => {
             await controller.sendToTelegram(track as TrackEntity);
 
             expect(mockTelegramService.sendMessage).toBeCalledWith(
-                `<a href="http://localhost:3000/tracks/1/1?search=Track title">http://localhost:3000/tracks/1/1?search=Track title</a>\n${caption}`,
+                `<a href="http://localhost:3000/tracks/1/1/1">http://localhost:3000/tracks/1/1/1</a>\n${caption}`,
                 {
                     parse_mode: 'HTML',
                 },
             );
+        });
+    });
+
+    describe('sendTrackToTelegram', () => {
+        it('should send track to telegram', async () => {
+            mockTrackService.findOne.mockResolvedValueOnce(track);
+            jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('dev');
+            mocked(jest.spyOn(controller, 'sendToTelegram'));
+
+            const result = await controller.sendTrackToTelegram({ trackId: track.id });
+
+            expect(mockTrackService.findOne).toBeCalledWith(track.id);
+            expect(controller.sendToTelegram).toBeCalledWith(track);
+            expect(mockTrackService.update).toBeCalledWith(track.id, { sentToTelegram: true });
+            expect(result).toEqual(track);
         });
     });
 });

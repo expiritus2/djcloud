@@ -6,7 +6,7 @@ import { TrackDto } from './dtos/track.dto';
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { TrackEntity } from './track.entity';
 import { GenreDto } from '../genres/dtos/genre.dto';
-import { UpdateTrackDto } from './dtos/update-track.dto';
+import { SendTrackToTelegramDto, UpdateTrackDto } from './dtos/update-track.dto';
 import { GetAllDto } from './dtos/get-all.dto';
 import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
 import { TracksGenresDto } from './dtos/tracks-genres.dto';
@@ -38,7 +38,7 @@ export class TracksController {
 
     async sendToTelegram(track: TrackEntity) {
         const caption = getCaption(track);
-        const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}?search=${track.title}`;
+        const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}/${track.id}`;
         try {
             const tagLink = `<a href="${link}">${caption}</a>`;
             await this.telegramService.sendAudio(track.file.url, { caption: tagLink, parse_mode: 'HTML' });
@@ -62,6 +62,20 @@ export class TracksController {
             await this.tracksService.update(newTrack.id, { sentToTelegram: true });
         }
         return newTrack;
+    }
+
+    @UseGuards(AdminGuard)
+    @Post('/send-to-telegram')
+    @ApiOperation({ summary: 'Send track to telegram' })
+    @ApiResponse({ status: 201, type: TrackDto })
+    async sendTrackToTelegram(@Body() { trackId }: SendTrackToTelegramDto) {
+        const storedTrack = await this.tracksService.findOne(trackId);
+        const env = this.configService.get('ENVIRONMENT');
+        if (env !== 'test' && env !== 'ci') {
+            await this.sendToTelegram(storedTrack);
+            await this.tracksService.update(storedTrack.id, { sentToTelegram: true });
+        }
+        return storedTrack;
     }
 
     @Get('/list')

@@ -19,7 +19,8 @@
 
     .download,
     .remove,
-    .edit {
+    .edit,
+    .telegram {
         vertical-align: middle;
     }
 
@@ -29,6 +30,11 @@
 
         &:hover {
             transform: scale(1.1);
+        }
+
+        &.telegramIcon {
+            width: 100%;
+            height: 100%;
         }
     }
 
@@ -53,5 +59,11 @@
         position: relative;
         top: setUnit(-1);
         fill: $darkColor;
+    }
+
+    .telegram {
+        width: setUnit(18);
+        height: setUnit(18);
+        margin-right: setUnit(20);
     }
 }

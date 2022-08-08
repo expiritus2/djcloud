@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { useMatch, useLocation } from 'react-router-dom';
+import { useMatch, useLocation, useNavigate } from 'react-router-dom';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
@@ -15,6 +15,7 @@ import { getQuery } from 'helpers/query';
 
 import styles from './styles.module.scss';
 import { getCategoryIdFromParams } from '../../helpers';
+import { link } from '../../../../settings/navigation/link';
 
 type ComponentProps = {
     className?: string;
@@ -25,6 +26,8 @@ const Content: FC<ComponentProps> = (props) => {
     const { tracks, navCategories, tracksGenres } = useStore();
     const match = useMatch({ path: routes.tracks });
     const altMatch = useMatch({ path: routes.categoryPage });
+    const oneTrackMatch = useMatch({ path: routes.track });
+    const navigate = useNavigate();
     const location = useLocation();
     const query = getQuery(location);
 
@@ -42,6 +45,16 @@ const Content: FC<ComponentProps> = (props) => {
                 limit: mainPageTrackLimit,
                 page: 0,
             });
+        } else if (oneTrackMatch?.params.trackId) {
+            if (query.search) {
+                const categoryId = oneTrackMatch?.params.categoryId;
+                const genreId = oneTrackMatch?.params.genreId;
+                if (categoryId && genreId) {
+                    navigate(`${link.toTracks(categoryId, genreId)}?search=${query.search}`);
+                }
+            } else {
+                tracks.getById({ id: +oneTrackMatch.params.trackId });
+            }
         } else {
             const categoryId = getCategoryIdFromParams(match, altMatch, navCategories);
 

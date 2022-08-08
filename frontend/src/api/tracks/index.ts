@@ -1,7 +1,7 @@
 import { apiServer } from 'settings/web-services/api';
 import { PaginationParams } from 'types/request';
 import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto } from 'store/ModifyTrack/types';
-import { TrackGenreParams } from 'store/Tracks/types';
+import { SendToTelegramDto, TrackGenreParams } from 'store/Tracks/types';
 
 export const getAll = (cfg: PaginationParams) => {
     return apiServer.get('/tracks/list', { params: cfg });
@@ -26,4 +26,8 @@ export const remove = (cfg: RemoveTrackDto) => {
 
 export const getById = (cfg: GetTrackDto) => {
     return apiServer.get(`/tracks/${cfg.id}`);
+};
+
+export const sendToTelegram = (cfg: SendToTelegramDto) => {
+    return apiServer.post(`/tracks/send-to-telegram`, cfg);
 };

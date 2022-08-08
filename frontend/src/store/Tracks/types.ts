@@ -10,6 +10,6 @@ export type GetAllByParams = {
     visible?: boolean;
 } & PaginationParams;
 
-export type AddTrackRating = {
-    id: number;
+export type SendToTelegramDto = {
+    trackId: number;
 };

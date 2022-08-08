@@ -1,12 +1,14 @@
 import { action, makeObservable } from 'mobx';
 import { PaginatedItems, RequestOptions, SortEnum } from 'types/request';
-import { GetAllByParams } from './types';
+import { GetAllByParams, SendToTelegramDto } from './types';
 import { Track, TrackRating } from 'types/track';
 import Api from 'store/core/Api';
-import { getAll } from 'api/tracks';
+import { getAll, sendToTelegram } from 'api/tracks';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import { cloneDeep } from 'lodash';
-import { adminPageTableLimit } from '../../settings';
+import { adminPageTableLimit } from 'settings';
+import { GetTrackDto } from '../ModifyTrack/types';
+import { getById } from 'api/tracks';
 
 export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
     constructor(color: string) {
@@ -45,5 +47,25 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
         }
 
         this.data = clonedData;
+    }
+
+    getById(cfg: GetTrackDto, options?: RequestOptions, cb?: Function) {
+        const sendRequest = new Api<Track>({ store: { data: {} } as any, method: getById }).execResult();
+
+        sendRequest(cfg, options, (err: any, response: any) => {
+            if (!err) {
+                this.data = {
+                    data: [response.data],
+                    count: 1,
+                };
+            }
+            cb?.(err, response);
+        });
+    }
+
+    sendToTelegram(cfg: SendToTelegramDto, options?: RequestOptions, cb?: Function) {
+        const sendRequest = new Api<Track>({ store: { data: {} } as any, method: sendToTelegram }).execResult();
+
+        sendRequest(cfg, options, cb);
     }
 }

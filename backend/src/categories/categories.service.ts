@@ -61,7 +61,10 @@ export class CategoriesService {
     }
 
     async create(category: CreateCategoryDto): Promise<CategoryEntity> {
-        const storedCategory = await this.findByName(category.name);
+        const storedCategory = await this.categoryRepo
+            .createQueryBuilder('category')
+            .where('name iLIKE :name', { name: category.name })
+            .getOne();
 
         if (storedCategory) {
             throw new BadRequestException(`Category with name: ${category.name} already exists`);

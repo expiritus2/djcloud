@@ -141,13 +141,15 @@ describe('CategoryService', () => {
         };
 
         it('should create and return category', async () => {
-            jest.spyOn(CategoriesService.prototype, 'findByName').mockResolvedValueOnce(null);
             mockCategoryRepo.create.mockReturnValueOnce(newCategory);
             mockCategoryRepo.save.mockReturnValue(newCategory);
+            mockQueryBuilder.getOne.mockResolvedValueOnce(null);
 
             const category = await service.create(newCategory);
 
-            expect(service.findByName).toBeCalledWith(newCategory.name);
+            expect(mockCategoryRepo.createQueryBuilder).toBeCalledWith('category');
+            expect(mockQueryBuilder.where).toBeCalledWith('name iLIKE :name', { name: category.name });
+            expect(mockQueryBuilder.getOne).toBeCalled();
             expect(mockCategoryRepo.create).toBeCalledWith(newCategory);
             expect(mockCategoryRepo.save).toBeCalledWith(newCategory);
             expect(category).toEqual(newCategory);

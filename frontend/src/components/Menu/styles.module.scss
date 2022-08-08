@@ -57,6 +57,9 @@
 
             .label {
                 white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: setUnit(200);
+                overflow: hidden;
 
                 @media screen and (max-width: setUnit($mobile)) {
                     width: setUnit(100);

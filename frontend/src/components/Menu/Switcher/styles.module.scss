@@ -10,6 +10,11 @@
         padding: setUnit(10) setUnit(20);
         text-align: center;
         border: 1px solid $darkColor;
+        border-bottom: none;
+
+        &.all {
+            border-right: none;
+        }
 
         &.active,
         &:hover {

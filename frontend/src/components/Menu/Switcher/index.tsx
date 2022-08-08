@@ -58,6 +58,7 @@ const Switcher: FC<ComponentProps> = (props) => {
                 onClick={onClickAll}
                 className={classNames(
                     styles.tab,
+                    styles.all,
                     altMatch?.params.categoryId || location.pathname === routes.index ? styles.active : '',
                 )}
             >

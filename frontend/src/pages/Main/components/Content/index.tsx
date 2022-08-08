@@ -29,6 +29,10 @@ const Content: FC<ComponentProps> = (props) => {
     const query = getQuery(location);
 
     useEffect(() => {
+        return () => tracks.resetStore();
+    }, []); // eslint-disable-line
+
+    useEffect(() => {
         if (location.pathname === routes.allTracks) {
             tracks.getAll({
                 categoryId: undefined,
@@ -53,8 +57,6 @@ const Content: FC<ComponentProps> = (props) => {
                 }
             }
         }
-
-        return () => tracks.resetStore();
         // eslint-disable-next-line
     }, [
         tracks,

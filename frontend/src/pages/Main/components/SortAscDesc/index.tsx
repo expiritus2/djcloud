@@ -8,6 +8,9 @@ import { mainPageTrackLimit } from 'settings';
 import { BsSortDown, BsSortUp } from 'react-icons/bs';
 import { SortFieldEnum } from '../SortField';
 
+import { useMatch } from 'react-router-dom';
+import { routes } from 'settings/navigation/routes';
+
 import styles from './styles.module.scss';
 
 type ComponentProps = {
@@ -17,16 +20,32 @@ type ComponentProps = {
 const SortAscDesc: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks } = useStore();
+    const oneTrackMatch = useMatch({ path: routes.track });
     const isDesc = tracks.meta.sort === SortEnum.DESC;
 
     const onSort = () => {
+        let paramsCategoryId = undefined;
+        let paramsGenreId = undefined;
+        if (oneTrackMatch) {
+            const { categoryId, genreId } = oneTrackMatch.params;
+            if (categoryId && genreId) {
+                paramsCategoryId = +categoryId;
+                paramsGenreId = +genreId;
+            }
+        }
         const newSort = tracks.meta.sort === SortEnum.DESC ? SortEnum.ASC : SortEnum.DESC;
         tracks.getAll({
             sort: newSort,
-            field: tracks.meta.sort === undefined ? SortFieldEnum.CREATED_AT : tracks.meta.field,
+            field:
+                tracks.meta.sort === undefined || oneTrackMatch?.params.trackId
+                    ? SortFieldEnum.CREATED_AT
+                    : tracks.meta.field,
             limit: mainPageTrackLimit,
+            categoryId: paramsCategoryId || tracks.meta.categoryId,
+            genreId: paramsGenreId || tracks.meta.genreId,
             page: 0,
             shuffle: undefined,
+            visible: true,
         });
     };
 

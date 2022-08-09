@@ -7,6 +7,8 @@
         @include simple-input($darkColor);
         cursor: pointer;
         min-width: setUnit(96);
+        font-size: setUnit(14);
+        height: setUnit(33);
 
         @media screen and (max-width: setUnit($mobile-small)) {
             font-size: setUnit(12);

@@ -1,4 +1,5 @@
 import { Category, Genre, File as TrackFile } from 'types/track';
+import { SortEnum } from 'types/request';
 
 export type CreateTrackDto = {
     title: string;
@@ -22,6 +23,7 @@ export type UpdateVisibleTrackDto = {
 
 export type GetTrackDto = {
     id: number;
+    sort?: SortEnum;
 };
 
 export type RemoveTrackDto = {

@@ -68,4 +68,8 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
 
         sendRequest(cfg, options, cb);
     }
+
+    setMeta(meta: typeof this.initStore.meta) {
+        this.meta = { ...this.meta, ...meta };
+    }
 }

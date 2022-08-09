@@ -4,6 +4,7 @@ import { Category } from 'types/track';
 import Api from 'store/core/Api';
 import { getAll } from 'api/categories';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
+import { cloneDeep } from 'lodash';
 
 export class NavCategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
     constructor(color: string) {
@@ -21,7 +22,8 @@ export class NavCategoriesStore extends BaseRequestStore<PaginatedItems<Category
     }
 
     setData(categories: PaginatedItems<Category>) {
-        categories.data.sort((a, b) => b.name.localeCompare(a.name));
-        this.data = categories;
+        const clonedCategories = cloneDeep(categories);
+        clonedCategories.data.sort((a, b) => b.name.localeCompare(a.name));
+        this.data = clonedCategories;
     }
 }

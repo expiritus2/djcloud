@@ -9,7 +9,7 @@ import { AxiosError } from 'axios';
 import { initModalState, InitModalStateType } from '../index';
 import { observer } from 'mobx-react-lite';
 import { ModalStateEnum } from 'types/modal';
-import { RequestStateEnum } from 'types/request';
+import { RequestStateEnum, SortEnum } from 'types/request';
 
 import styles from './styles.module.scss';
 
@@ -47,7 +47,7 @@ const CategoryModal: FC<ComponentProps> = (props) => {
 
     const refreshTable = () => {
         resetModal();
-        categories.getAll();
+        categories.getAll({ sort: SortEnum.DESC });
     };
 
     const createCategory = () => {

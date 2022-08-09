@@ -7,16 +7,17 @@ import { RequestStateEnum } from '../../types/request';
 
 type ComponentProps = {
     className?: string;
+    loaderClassName?: string;
     children: ReactElement;
     state: RequestStateEnum;
 };
 
 const PendingWrapper: FC<ComponentProps> = (props) => {
-    const { className, state, children } = props;
+    const { className, state, children, loaderClassName } = props;
 
     return (
         <div className={classNames(styles.pendingWrapper, className)}>
-            {state === RequestStateEnum.PENDING ? <Spinner /> : children}
+            {state === RequestStateEnum.PENDING ? <Spinner className={loaderClassName} /> : children}
         </div>
     );
 };

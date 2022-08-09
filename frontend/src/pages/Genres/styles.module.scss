@@ -2,11 +2,7 @@
 @import "src/styles/variables";
 
 .genres {
-    .table {
-        min-height: calc(100vh - #{setUnit($player-offset)});
-    }
-
     .pendingWrapper {
-        position: relative;
+        height: calc(100% - #{setUnit(47)});
     }
 }

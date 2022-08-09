@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
 
-export class CustomerState {
+export class AdminState {
     tab: { [key: string]: string | null } = {};
 
     constructor() {

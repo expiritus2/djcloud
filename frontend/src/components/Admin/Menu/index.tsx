@@ -4,7 +4,7 @@ import { Menu } from 'components';
 import { routes } from 'settings/navigation/routes';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '../../../store';
+import { useStore } from 'store';
 
 type ComponentProps = {
     className?: string;
@@ -12,10 +12,10 @@ type ComponentProps = {
 
 const AdminMenu: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { customerState } = useStore();
+    const { adminState } = useStore();
 
     const onClickItem = (e: any, tab: string) => {
-        customerState.tab = { ...customerState.tab, admin: tab };
+        adminState.tab = { ...adminState.tab, admin: tab };
     };
 
     const menuItems = [

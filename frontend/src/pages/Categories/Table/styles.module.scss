@@ -3,6 +3,6 @@
 
 .categoriesTable {
     .table {
-        min-height: calc(100vh - #{setUnit($player-offset)});
+        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(138)});
     }
 }

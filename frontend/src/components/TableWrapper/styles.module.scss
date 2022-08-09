@@ -3,5 +3,5 @@
 
 .tableWrapper {
     overflow: auto;
-    height: calc(100% - (#{setUnit($header-height)} - #{setUnit(20)}));
+    height: 100%;
 }

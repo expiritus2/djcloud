@@ -2,5 +2,7 @@
 @import "src/styles/variables";
 
 .tracksTable {
-
+    .table {
+        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(238)});
+    }
 }

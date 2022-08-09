@@ -5,6 +5,9 @@ import { BsShuffle } from 'react-icons/bs';
 import { useStore } from 'store';
 
 import styles from './styles.module.scss';
+import { observer } from 'mobx-react-lite';
+import { useMatch } from 'react-router-dom';
+import { routes } from 'settings/navigation/routes';
 
 type ComponentProps = {
     className?: string;
@@ -13,10 +16,28 @@ type ComponentProps = {
 const Shuffle: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks } = useStore();
+    const oneTrackMatch = useMatch({ path: routes.track });
     const isShuffleField = tracks.meta.shuffle === true;
 
     const onShuffle = () => {
-        tracks.getAll({ limit: 100, shuffle: true, page: 0, field: undefined });
+        let paramsCategoryId = undefined;
+        let paramsGenreId = undefined;
+        if (oneTrackMatch) {
+            const { categoryId, genreId } = oneTrackMatch.params;
+            if (categoryId && genreId) {
+                paramsCategoryId = +categoryId;
+                paramsGenreId = +genreId;
+            }
+        }
+        tracks.getAll({
+            limit: 100,
+            shuffle: true,
+            page: 0,
+            categoryId: paramsCategoryId || tracks.meta.categoryId,
+            genreId: paramsGenreId || tracks.meta.genreId,
+            field: undefined,
+            sort: undefined,
+        });
     };
 
     return (
@@ -27,4 +48,4 @@ const Shuffle: FC<ComponentProps> = (props) => {
     );
 };
 
-export default Shuffle;
+export default observer(Shuffle);

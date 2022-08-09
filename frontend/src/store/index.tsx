@@ -9,7 +9,7 @@ import { ModifyGenreStore } from './ModifyGenre';
 import { ModifyTrackStore } from './ModifyTrack';
 import { TracksGenresStore } from './TrackGenres';
 import { CurrentTrackStore } from './CurrentTrack';
-import { CustomerState } from './CustomerState';
+import { AdminState } from './AdminState';
 import { TrackRatingStore } from './TrackRating';
 import { NavCategoriesStore } from './NavCategories';
 
@@ -26,7 +26,7 @@ const store = {
     tracks: new TracksStore('purple'),
     tracksGenres: new TracksGenresStore('yellow'),
     currentTrack: new CurrentTrackStore('aqua'),
-    customerState: new CustomerState(),
+    adminState: new AdminState(),
     trackRating: new TrackRatingStore(),
 };
 

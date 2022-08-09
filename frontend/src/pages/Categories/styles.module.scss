@@ -3,6 +3,6 @@
 
 .categories {
     .pendingWrapper {
-        position: relative;
+        height: calc(100% - #{setUnit(47)});
     }
 }

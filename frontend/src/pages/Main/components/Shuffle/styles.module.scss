@@ -15,6 +15,7 @@
     @media screen and (max-width: setUnit($mobile-small)) {
         padding: setUnit(5) setUnit(10);
         font-size: setUnit(12);
+        height: setUnit(28);
     }
 
     &.active {

@@ -165,7 +165,7 @@ describe('TracksService', () => {
             const query = {};
             mocked(simplePaginateQuery).mockReturnValueOnce(mockQueryBuilder);
             mockQueryBuilder.getManyAndCount.mockReturnValueOnce([
-                { id: 1, name: 'Genre Name', value: 'genre_name' },
+                [{ id: 1, name: 'Genre Name', value: 'genre_name' }],
                 1,
             ]);
             const genres = await service.getAll({});
@@ -199,7 +199,52 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(genres).toEqual({
-                data: { id: 1, name: 'Genre Name', value: 'genre_name' },
+                data: [{ id: 1, name: 'Genre Name', value: 'genre_name' }],
+                count: 1,
+            });
+        });
+    });
+
+    describe('getAllShuffle', () => {
+        it('should get all shuffled tracks', async () => {
+            const query = { limit: 10 };
+            mocked(simplePaginateQuery).mockReturnValueOnce(mockQueryBuilder);
+            mockQueryBuilder.getManyAndCount.mockReturnValueOnce([
+                [{ id: 1, name: 'Genre Name', value: 'genre_name' }],
+                1,
+            ]);
+            const genres = await service.getAllShuffle(query as any);
+
+            expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
+            expect(mockQueryBuilder.select).toBeCalledWith([
+                'track.id',
+                'track.title',
+                'track.visible',
+                'track.duration',
+                'track.createdAt',
+                'track.updatedAt',
+                'track.rating',
+                'track.countRatings',
+                'track.sentToTelegram',
+                '"title"',
+                '"visible"',
+                '"duration"',
+                '"createdAt"',
+                '"updatedAt"',
+                '"rating"',
+                '"countRatings"',
+                '"sentToTelegram"',
+                '"file"',
+                '"genre"',
+                '"category"',
+            ]);
+            expect(simplePaginateQuery).not.toBeCalledWith(mockQueryBuilder, query);
+            expect(mockQueryBuilder.getManyAndCount).toBeCalled();
+            expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.file', 'file');
+            expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
+            expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
+            expect(genres).toEqual({
+                data: [{ id: 1, name: 'Genre Name', value: 'genre_name' }],
                 count: 1,
             });
         });

@@ -54,6 +54,7 @@ describe('TracksController', () => {
         mockTrackService = {
             storeFile: jest.fn(),
             getAll: jest.fn(),
+            getAllShuffle: jest.fn(),
             create: jest.fn(),
             findOne: jest.fn(),
             update: jest.fn(),
@@ -182,6 +183,24 @@ describe('TracksController', () => {
                 ],
                 count: 2,
             });
+        });
+
+        it('should return shuffled tracks', async () => {
+            const query = { shuffle: true };
+            const copySession = cloneDeep(mockSession) as any;
+            copySession.ratings = undefined;
+            mockTrackService.getAllShuffle.mockResolvedValueOnce({
+                data: [
+                    { id: 1, ...track },
+                    { id: 2, ...track },
+                ],
+                count: 2,
+            });
+
+            await controller.getAll(query, copySession);
+
+            expect(mockTrackService.getAll).not.toBeCalled();
+            expect(mockTrackService.getAllShuffle).toBeCalledWith(query);
         });
     });
 

@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { simplePaginateQuery } from '../lib/queries/pagination';
 import { UpdateTrackDto } from './dtos/update-track.dto';
-import { cloneDeep, groupBy, merge } from 'lodash';
+import { cloneDeep, groupBy, merge, shuffle } from 'lodash';
 import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { GetAllDto } from './dtos/get-all.dto';
@@ -37,7 +37,7 @@ export class TracksService {
         return this.trackRepo.save(newTrack);
     }
 
-    async getAll(query: GetAllDto): Promise<{ data: TrackEntity[]; count: number }> {
+    getAllQuery(query: GetAllDto) {
         const queryBuilder = this.trackRepo
             .createQueryBuilder('track')
             .select([
@@ -66,11 +66,22 @@ export class TracksService {
             .leftJoinAndSelect('track.category', 'category')
             .leftJoinAndSelect('track.genre', 'genre');
 
-        const filteredTracks = filterTracks<TrackEntity>(queryBuilder, query, {
+        return filterTracks<TrackEntity>(queryBuilder, query, {
             searchFieldName: 'title',
         });
-        const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(filteredTracks, query);
+    }
 
+    async getAllShuffle(query: GetAllDto): Promise<{ data: TrackEntity[]; count: number }> {
+        const filteredTracks = this.getAllQuery(query);
+        const [data, count] = await filteredTracks.getManyAndCount();
+        const shuffledData = shuffle(data).slice(0, +query.limit);
+
+        return { data: shuffledData, count };
+    }
+
+    async getAll(query: GetAllDto): Promise<{ data: TrackEntity[]; count: number }> {
+        const filteredTracks = this.getAllQuery(query);
+        const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(filteredTracks, query);
         const [data, count] = await paginateQueryBuilder.getManyAndCount();
 
         return { data, count };

@@ -5,3 +5,4 @@ export { default as Pagination } from './Pagination';
 export { default as CreatedSort } from './CreatedSort';
 export { default as Tracks } from './Tracks';
 export { default as PopularSort } from './PopularSort';
+export { default as Shuffle } from './Shuffle';

@@ -1,7 +1,7 @@
 @import "src/styles/functions";
 @import "src/styles/variables";
 
-.createdSort {
+.shuffle {
     display: flex;
     align-items: center;
     border: 1px solid $darkColor;
@@ -17,13 +17,20 @@
         font-size: setUnit(12);
     }
 
-    .active {
+    &.active {
         font-weight: bold;
+        background-color: $accentColor;
+        border-color: $accentColor;
+        color: $whiteColor;
+
+        &:hover {
+            background-color: lighten($accentColor, 5);
+        }
     }
 
     .icon {
-        width: setUnit(20);
-        height: setUnit(20);
+        width: setUnit(15);
+        height: setUnit(15);
         margin-left: setUnit(10);
     }
 }

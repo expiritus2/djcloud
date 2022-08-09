@@ -5,7 +5,7 @@ import { useMatch, useLocation, useNavigate } from 'react-router-dom';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
-import { CreatedSort, PopularSort, Tracks } from '..';
+import { CreatedSort, PopularSort, Shuffle, Tracks } from '..';
 import { Pagination } from '..';
 
 import { PendingWrapper } from 'components';
@@ -44,6 +44,8 @@ const Content: FC<ComponentProps> = (props) => {
                 search: query.search as string,
                 limit: mainPageTrackLimit,
                 page: 0,
+                field: 'createdAt',
+                shuffle: undefined,
             });
         } else if (oneTrackMatch?.params.trackId) {
             if (query.search) {
@@ -68,6 +70,8 @@ const Content: FC<ComponentProps> = (props) => {
                         limit: mainPageTrackLimit,
                         search: query.search as string,
                         page: 0,
+                        field: 'createdAt',
+                        shuffle: undefined,
                     });
                 }
             }
@@ -92,6 +96,7 @@ const Content: FC<ComponentProps> = (props) => {
                         <div className={styles.sorts}>
                             <CreatedSort className={styles.createSort} />
                             <PopularSort className={styles.popularSort} />
+                            <Shuffle className={styles.shuffle} />
                         </div>
                         <Tracks />
                     </div>

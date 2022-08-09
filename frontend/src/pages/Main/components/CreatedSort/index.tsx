@@ -20,7 +20,7 @@ const CreatedSort: FC<ComponentProps> = (props) => {
 
     const onSort = () => {
         const newSort = tracks.meta.sort === SortEnum.DESC ? SortEnum.ASC : SortEnum.DESC;
-        tracks.getAll({ sort: newSort, limit: mainPageTrackLimit, field: 'createdAt', page: 0 });
+        tracks.getAll({ sort: newSort, limit: mainPageTrackLimit, field: 'createdAt', page: 0, shuffle: undefined });
     };
 
     return (

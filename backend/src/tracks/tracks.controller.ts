@@ -67,7 +67,7 @@ export class TracksController {
     @UseGuards(AdminGuard)
     @Post('/send-to-telegram')
     @ApiOperation({ summary: 'Send track to telegram' })
-    @ApiResponse({ status: 201, type: TrackDto })
+    @ApiResponse({ status: 200, type: TrackDto })
     async sendTrackToTelegram(@Body() { trackId }: SendTrackToTelegramDto) {
         const storedTrack = await this.tracksService.findOne(trackId);
         const env = this.configService.get('ENVIRONMENT');
@@ -82,7 +82,12 @@ export class TracksController {
     @ApiOperation({ summary: 'Get all tracks with pagination' })
     @ApiResponse({ status: 200, type: TrackDto })
     async getAll(@Query() query: GetAllDto, @Session() session: any): Promise<GetAllResponseDto> {
-        const tracks = await this.tracksService.getAll(query);
+        let tracks;
+        if (query.shuffle) {
+            tracks = await this.tracksService.getAllShuffle(query);
+        } else {
+            tracks = await this.tracksService.getAll(query);
+        }
 
         return {
             ...tracks,

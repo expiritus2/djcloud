@@ -1,21 +1,20 @@
 import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { useMatch, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
-import { CreatedSort, PopularSort, Shuffle, Tracks } from '..';
-import { Pagination } from '..';
-
+import { Pagination, Shuffle, SortAscDesc, SortField, Tracks } from '..';
 import { PendingWrapper } from 'components';
 import { mainPageTrackLimit } from 'settings';
-
 import { getQuery } from 'helpers/query';
+import { link } from 'settings/navigation/link';
+import { getCategoryIdFromParams } from '../../helpers';
+import { SortFieldEnum } from '../SortField';
+import { SortEnum } from 'types/request';
 
 import styles from './styles.module.scss';
-import { getCategoryIdFromParams } from '../../helpers';
-import { link } from '../../../../settings/navigation/link';
 
 type ComponentProps = {
     className?: string;
@@ -36,7 +35,7 @@ const Content: FC<ComponentProps> = (props) => {
     }, []); // eslint-disable-line
 
     useEffect(() => {
-        if (location.pathname === routes.allTracks) {
+        if (location.pathname === routes.allTracks || location.pathname === routes.index) {
             tracks.getAll({
                 categoryId: undefined,
                 genreId: undefined,
@@ -44,7 +43,8 @@ const Content: FC<ComponentProps> = (props) => {
                 search: query.search as string,
                 limit: mainPageTrackLimit,
                 page: 0,
-                field: 'createdAt',
+                field: SortFieldEnum.CREATED_AT,
+                sort: SortEnum.DESC,
                 shuffle: undefined,
             });
         } else if (oneTrackMatch?.params.trackId) {
@@ -70,7 +70,8 @@ const Content: FC<ComponentProps> = (props) => {
                         limit: mainPageTrackLimit,
                         search: query.search as string,
                         page: 0,
-                        field: 'createdAt',
+                        field: SortFieldEnum.CREATED_AT,
+                        sort: SortEnum.DESC,
                         shuffle: undefined,
                     });
                 }
@@ -94,8 +95,8 @@ const Content: FC<ComponentProps> = (props) => {
                 <>
                     <div className={styles.innerHolder}>
                         <div className={styles.sorts}>
-                            <CreatedSort className={styles.createSort} />
-                            <PopularSort className={styles.popularSort} />
+                            <SortField />
+                            <SortAscDesc className={styles.sortAscDesc} />
                             <Shuffle className={styles.shuffle} />
                         </div>
                         <Tracks />

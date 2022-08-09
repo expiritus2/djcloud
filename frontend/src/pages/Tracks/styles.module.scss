@@ -2,11 +2,12 @@
 @import "src/styles/variables";
 
 .tracks {
-    .table {
-        min-height: calc(100vh - #{setUnit($player-offset)});
-    }
-
     .pendingWrapper {
-        position: relative;
+        height: calc(100% - #{setUnit(102)});
+
+        .loader {
+            position: relative;
+            bottom: setUnit(50);
+        }
     }
 }

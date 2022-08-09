@@ -11,7 +11,7 @@
     overflow: auto;
 
     &.active {
-        box-shadow: setUnit(2) setUnit(2) setUnit(8) rgba(0,0,0,.5);
+        box-shadow: 0 0 setUnit(8) rgba(darken($lightColor, 60),.5);
     }
 
     @media screen and (max-width: setUnit($mobile)) {
@@ -23,8 +23,11 @@
     }
 
     &:nth-child(even) {
-        background: $lightColor;
-        border: 1px solid darken($lightColor, 10);
+        border: setUnit(1) solid darken($lightColor, 30);
+    }
+
+    &:nth-child(odd) {
+        border: setUnit(1) solid darken($lightColor, 30);
     }
 
     .head {

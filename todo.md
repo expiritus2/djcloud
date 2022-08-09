@@ -17,8 +17,8 @@
 17. ~~Filter track on admin page~~
 18. ~~Menus view on mobile~~
 19. ~~Download track on admin page~~
-20. Play all (Shuffle)
-21. Add button send to telegram
+20. ~~Play all (Shuffle)~~
+21. ~~Add button send to telegram~~
 22. Error handlers
 23. ~~Sort categories and genres~~
 24. Optimise count requests

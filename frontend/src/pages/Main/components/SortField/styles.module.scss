@@ -1,0 +1,16 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+@import "src/styles/mixins";
+
+.sortField {
+    .input {
+        @include simple-input($darkColor);
+        cursor: pointer;
+        min-width: setUnit(96);
+
+        @media screen and (max-width: setUnit($mobile-small)) {
+            font-size: setUnit(12);
+            height: setUnit(28);
+        }
+    }
+}

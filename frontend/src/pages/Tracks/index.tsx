@@ -4,8 +4,8 @@ import {
     AdminContentWrapper,
     AdminMenu,
     AdminPageTitle,
-    PageWrapper,
     Header,
+    PageWrapper,
     PendingWrapper,
     TableWrapper,
 } from 'components';
@@ -66,7 +66,11 @@ const Tracks: FC<ComponentProps> = (props) => {
                         <>
                             <AdminPageTitle title="Tracks" onClickNew={onClickNew} />
                             <Filter />
-                            <PendingWrapper state={tracks.state} className={styles.pendingWrapper}>
+                            <PendingWrapper
+                                state={tracks.state}
+                                className={styles.pendingWrapper}
+                                loaderClassName={styles.loader}
+                            >
                                 <>
                                     <TableWrapper>
                                         <Table setModalState={setModalState} />

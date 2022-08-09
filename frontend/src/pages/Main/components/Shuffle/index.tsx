@@ -5,6 +5,7 @@ import { BsShuffle } from 'react-icons/bs';
 import { useStore } from 'store';
 
 import styles from './styles.module.scss';
+import { observer } from 'mobx-react-lite';
 
 type ComponentProps = {
     className?: string;
@@ -16,7 +17,7 @@ const Shuffle: FC<ComponentProps> = (props) => {
     const isShuffleField = tracks.meta.shuffle === true;
 
     const onShuffle = () => {
-        tracks.getAll({ limit: 100, shuffle: true, page: 0, field: undefined });
+        tracks.getAll({ limit: 100, shuffle: true, page: 0, field: undefined, sort: undefined });
     };
 
     return (
@@ -27,4 +28,4 @@ const Shuffle: FC<ComponentProps> = (props) => {
     );
 };
 
-export default Shuffle;
+export default observer(Shuffle);

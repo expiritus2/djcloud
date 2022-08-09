@@ -21,36 +21,20 @@ type ComponentProps = {
 
 const MainMenu: FC<ComponentProps> = (props) => {
     const { className } = props;
-    const { tracksGenres, customerState, navCategories } = useStore();
+    const { tracksGenres, navCategories } = useStore();
     const match = useMatch({ path: routes.tracks });
     const altMatch = useMatch({ path: routes.categoryPage });
     const oneTrackMatch = useMatch({ path: routes.track });
     const location = useLocation();
 
-    const onClickItem = useCallback(
-        (e: any, tab: string) => {
-            if (match?.params.categoryId) {
-                customerState.tab = {
-                    ...customerState.tab,
-                    [match?.params.categoryId]: tab,
-                };
-            }
-        },
-        [customerState, match?.params.categoryId],
-    );
-
-    const convertMenuItem = useCallback(
-        (genre: TrackGenre, index: number, categoryId: string) => {
-            return {
-                path: link.toTracks(categoryId, genre.id?.toString()),
-                label: genre.name,
-                value: genre.id?.toString(),
-                count: genre.countTracks,
-                onClickItem,
-            } as MenuItem;
-        },
-        [onClickItem],
-    );
+    const convertMenuItem = useCallback((genre: TrackGenre, index: number, categoryId: string) => {
+        return {
+            path: link.toTracks(categoryId, genre.id?.toString()),
+            label: genre.name,
+            value: genre.id?.toString(),
+            count: genre.countTracks,
+        } as MenuItem;
+    }, []);
 
     const mapTrackGenresByCategory = useCallback(
         ([categoryId, genres]: [string, TrackGenre[]], groupedGenres: { [key: string]: TrackGenre[] }) => {
@@ -71,7 +55,10 @@ const MainMenu: FC<ComponentProps> = (props) => {
 
     const menuItems = useMemo(() => {
         let list: MenuItem[] = [];
-        if (location.pathname === routes.allTracks) {
+        if (
+            location.pathname === routes.allTracks ||
+            (location.pathname === routes.index && navCategories.data?.data)
+        ) {
             const groupedGenres = groupByNameTrackGenres(tracksGenres.data);
             list = Object.entries(tracksGenres.data || ({} as GroupedTrackGenres))
                 .map((entries) => mapTrackGenresByCategory(entries, groupedGenres))
@@ -104,7 +91,7 @@ const MainMenu: FC<ComponentProps> = (props) => {
             }
         }
 
-        if (match?.params.categoryId || (location.pathname === '/' && navCategories.data?.data)) {
+        if (match?.params.categoryId) {
             const categoryId = match?.params.categoryId || navCategories.data?.data?.[0]?.id.toString() || '';
             if (categoryId) {
                 list = ((tracksGenres.data as GroupedTrackGenres)?.[+categoryId] || []).map((genre, index) =>
@@ -129,7 +116,9 @@ const MainMenu: FC<ComponentProps> = (props) => {
         <Menu
             listItems={menuItems}
             className={classNames(styles.mainMenu, className)}
-            switcher={location.pathname !== routes.allTracks ? <MenuSwitcher /> : null}
+            switcher={
+                location.pathname !== routes.allTracks && location.pathname !== routes.index ? <MenuSwitcher /> : null
+            }
         />
     );
 };

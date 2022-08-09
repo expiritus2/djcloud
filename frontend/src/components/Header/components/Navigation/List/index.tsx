@@ -17,13 +17,12 @@ type ComponentProps = {
 
 const List: FC<ComponentProps> = forwardRef<any, ComponentProps>((props, ref) => {
     const { className, styles, navCategories, onClickLink } = props;
-    const { user, customerState } = useStore();
+    const { user, adminState } = useStore();
     const match = useMatch({ path: routes.tracks });
     const location = useLocation();
 
-    const getLinkClassName = ({ isActive, index }: { isActive: boolean; index?: number }) => {
-        const active = isActive || (location.pathname === '/' && index === 0);
-        return classNames(styles.link, active ? styles.active : '');
+    const getLinkClassName = ({ isActive }: { isActive: boolean }) => {
+        return classNames(styles.link, isActive ? styles.active : '');
     };
 
     const onClickAll = (e: any) => {
@@ -36,14 +35,17 @@ const List: FC<ComponentProps> = forwardRef<any, ComponentProps>((props, ref) =>
                 <NavLink
                     onClick={onClickAll}
                     className={({ isActive }) => {
-                        return classNames(styles.link, isActive ? styles.active : '');
+                        return classNames(
+                            styles.link,
+                            isActive || location.pathname === routes.index ? styles.active : '',
+                        );
                     }}
                     to={routes.allTracks}
                 >
                     All
                 </NavLink>
             </li>
-            {(navCategories || []).map((category: Category, index: number) => {
+            {(navCategories || []).map((category: Category) => {
                 return (
                     <li key={category.value} className={styles.item}>
                         <NavLink
@@ -51,7 +53,6 @@ const List: FC<ComponentProps> = forwardRef<any, ComponentProps>((props, ref) =>
                             className={({ isActive }) => {
                                 return getLinkClassName({
                                     isActive: isActive || +match?.params.categoryId! === category.id,
-                                    index,
                                 });
                             }}
                             to={link.toAllCategoryTracks(category.id.toString())}
@@ -67,7 +68,7 @@ const List: FC<ComponentProps> = forwardRef<any, ComponentProps>((props, ref) =>
                         className={({ isActive }) =>
                             getLinkClassName({ isActive: isActive || location.pathname.startsWith('/admin') })
                         }
-                        to={link.toAdminPage(customerState.tab.admin)}
+                        to={link.toAdminPage(adminState.tab.admin)}
                     >
                         Admin
                     </NavLink>

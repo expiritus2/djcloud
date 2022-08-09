@@ -56,6 +56,7 @@ const Content: FC<ComponentProps> = (props) => {
                 }
             } else {
                 tracks.getById({ id: +oneTrackMatch.params.trackId });
+                tracks.setMeta({ sort: SortEnum.DESC });
             }
         } else {
             const categoryId = getCategoryIdFromParams(match, altMatch, navCategories);

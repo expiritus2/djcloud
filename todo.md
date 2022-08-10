@@ -23,4 +23,4 @@
 23. ~~Sort categories and genres~~
 24. Optimise count requests
 25. Trashold for unit tests
-26. Total duration all tracks
+26. ~~Total duration all tracks~~

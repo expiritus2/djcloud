@@ -37,7 +37,7 @@ const Filter: FC<ComponentProps> = (props) => {
 
     return (
         <div className={classNames(styles.filter, className)}>
-            <CategoryInput onChange={onChangeCategory} value={categoryValue} />
+            <CategoryInput className={styles.category} onChange={onChangeCategory} value={categoryValue} />
             <GenreInput className={styles.genre} onChange={onChangeGenre} value={genreValue} />
         </div>
     );

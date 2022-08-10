@@ -1,0 +1,12 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+.tableHeaderActions {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+
+    .totalDuration {
+        padding: 0 setUnit(15) setUnit(8) setUnit(20);
+    }
+}

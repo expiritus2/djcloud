@@ -6,6 +6,12 @@
     align-items: center;
     width: fit-content;
 
+    .genre,
+    .category {
+        min-width: setUnit(100);
+        max-width: setUnit(200);
+    }
+
     .genre {
         margin-left: setUnit(15);
     }

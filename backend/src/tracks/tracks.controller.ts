@@ -16,6 +16,7 @@ import { TelegramService } from '../telegram/telegram.service';
 import { FilesService } from '../files/files.service';
 import { ConfigService } from '@nestjs/config';
 import { envConfig } from '../lib/configs/envs';
+import { StatsService } from '../stats/stats.service';
 
 export const getCaption = (track: TrackEntity): string => {
     return `${track.category.name} - ${track.genre.name}`;
@@ -29,6 +30,7 @@ export class TracksController {
         private telegramService: TelegramService,
         private fileService: FilesService,
         private configService: ConfigService,
+        private statsService: StatsService,
     ) {}
 
     isDidRating(session: any, trackId: number) {
@@ -82,15 +84,15 @@ export class TracksController {
     @ApiOperation({ summary: 'Get all tracks with pagination' })
     @ApiResponse({ status: 200, type: TrackDto })
     async getAll(@Query() query: GetAllDto, @Session() session: any): Promise<GetAllResponseDto> {
-        let tracks;
-        if (query.shuffle) {
-            tracks = await this.tracksService.getAllShuffle(query);
-        } else {
-            tracks = await this.tracksService.getAll(query);
-        }
+        const tracks = query.shuffle
+            ? await this.tracksService.getAllShuffle(query)
+            : await this.tracksService.getAll(query);
+
+        const stats = query.withStats ? await this.statsService.getTrackStats(query) : {};
 
         return {
             ...tracks,
+            ...stats,
             data: tracks.data.map((track) => {
                 return {
                     ...track,

@@ -10,11 +10,12 @@ import { TelegramService } from '../telegram/telegram.service';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FilesService } from '../files/files.service';
 import { SpacesService } from '../files/spaces.service';
+import { StatsService } from '../stats/stats.service';
 
 @Module({
     imports: [NestjsFormDataModule, TypeOrmModule.forFeature([TrackEntity, FileEntity, GenreEntity, CategoryEntity])],
     controllers: [TracksController],
-    providers: [TracksService, TelegramService, FilesService, SpacesService],
+    providers: [TracksService, TelegramService, FilesService, SpacesService, StatsService],
     exports: [TracksService],
 })
 export class TracksModule {}

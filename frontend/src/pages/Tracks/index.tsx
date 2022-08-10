@@ -14,7 +14,7 @@ import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 import TrackModal from './components/Modal';
 import { ModalStateEnum } from 'types/modal';
-import { Filter, Table } from './components';
+import { Table, TableHeaderActions } from './components';
 
 import { useLocation } from 'react-router-dom';
 import { getQuery } from 'helpers/query';
@@ -35,7 +35,7 @@ const Tracks: FC<ComponentProps> = (props) => {
     const query = getQuery(location);
 
     useEffect(() => {
-        tracks.getAll({ search: query.search as string }, { silent: false });
+        tracks.getAll({ search: query.search as string, withStats: true }, { silent: false });
 
         return () => tracks.resetStore();
     }, [query.search]); // eslint-disable-line
@@ -65,7 +65,7 @@ const Tracks: FC<ComponentProps> = (props) => {
                     <AdminContentWrapper>
                         <>
                             <AdminPageTitle title="Tracks" onClickNew={onClickNew} />
-                            <Filter />
+                            <TableHeaderActions />
                             <PendingWrapper
                                 state={tracks.state}
                                 className={styles.pendingWrapper}

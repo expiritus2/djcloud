@@ -26,6 +26,10 @@
             .item {
                 padding: setUnit(7) setUnit(15);
                 cursor: pointer;
+                display: inline-block;
+                width: 100%;
+                text-decoration: none;
+                color: $darkColor;
 
                 &:hover {
                     background-color: darken($lightColor, 20);

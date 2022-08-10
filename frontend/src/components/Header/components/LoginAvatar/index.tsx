@@ -1,10 +1,10 @@
 import React, { FC, useRef, useState } from 'react';
 import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
 
 import { Avatar } from 'components';
 import { routes } from 'settings/navigation/routes';
 
-import { useNavigate } from 'react-router-dom';
 import { useOutsideClick } from 'hooks';
 import { useStore } from 'store';
 
@@ -18,7 +18,6 @@ const LoginAvatar: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { user } = useStore();
     const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
     const menuRef = useRef(null);
     const avatarRef = useRef(null);
 
@@ -26,10 +25,6 @@ const LoginAvatar: FC<ComponentProps> = (props) => {
 
     const onClickLogin = () => {
         setOpen(!open);
-    };
-
-    const onLogin = () => {
-        navigate(routes.login);
     };
 
     const onLogout = () => {
@@ -42,12 +37,14 @@ const LoginAvatar: FC<ComponentProps> = (props) => {
             {open && (
                 <div ref={menuRef} className={styles.menu}>
                     <ul className={styles.list}>
-                        <li className={styles.item} onClick={onLogin}>
-                            Login
+                        <li>
+                            <NavLink className={styles.item} to={routes.login}>
+                                Login
+                            </NavLink>
                         </li>
                         {user.data && (
-                            <li className={styles.item} onClick={onLogout}>
-                                Logout
+                            <li onClick={onLogout}>
+                                <span className={styles.item}>Logout</span>
                             </li>
                         )}
                     </ul>

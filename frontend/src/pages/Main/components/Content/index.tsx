@@ -6,7 +6,7 @@ import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
 import { Pagination, Shuffle, SortAscDesc, SortField, Tracks } from '..';
-import { PendingWrapper } from 'components';
+import { PendingWrapper, TotalDuration } from 'components';
 import { mainPageTrackLimit } from 'settings';
 import { getQuery } from 'helpers/query';
 import { link } from 'settings/navigation/link';
@@ -96,9 +96,12 @@ const Content: FC<ComponentProps> = (props) => {
                 <>
                     <div className={styles.innerHolder}>
                         <div className={styles.sorts}>
-                            <SortField />
-                            <SortAscDesc className={styles.sortAscDesc} />
-                            <Shuffle className={styles.shuffle} />
+                            <div className={styles.actions}>
+                                <SortField />
+                                <SortAscDesc className={styles.sortAscDesc} />
+                                <Shuffle className={styles.shuffle} />
+                            </div>
+                            <TotalDuration className={styles.totalDuration} />
                         </div>
                         <Tracks />
                     </div>

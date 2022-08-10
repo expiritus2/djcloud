@@ -73,12 +73,6 @@ describe('TracksService', () => {
                 },
             ]),
         };
-        mockFileRepo = {
-            create: jest.fn(),
-            save: jest.fn(),
-            findOne: jest.fn(),
-            remove: jest.fn(),
-        };
         mockTrackRepo = {
             create: jest.fn(),
             save: jest.fn(),
@@ -86,6 +80,12 @@ describe('TracksService', () => {
             findOne: jest.fn(),
             find: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
+        };
+        mockFileRepo = {
+            create: jest.fn(),
+            save: jest.fn(),
+            findOne: jest.fn(),
+            remove: jest.fn(),
         };
         mockGenresRepo = {
             findOne: jest.fn(),

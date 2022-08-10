@@ -1,6 +1,6 @@
 import React, { FC, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Avatar } from 'components';
 import { routes } from 'settings/navigation/routes';
@@ -38,9 +38,9 @@ const LoginAvatar: FC<ComponentProps> = (props) => {
                 <div ref={menuRef} className={styles.menu}>
                     <ul className={styles.list}>
                         <li>
-                            <NavLink className={styles.item} to={routes.login}>
+                            <Link className={styles.item} to={routes.login}>
                                 Login
-                            </NavLink>
+                            </Link>
                         </li>
                         {user.data && (
                             <li onClick={onLogout}>

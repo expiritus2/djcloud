@@ -1,7 +1,7 @@
 import { action, makeObservable } from 'mobx';
 import { PaginatedItems, RequestOptions, SortEnum } from 'types/request';
 import { GetAllByParams, SendToTelegramDto } from './types';
-import { Track, TrackRating } from 'types/track';
+import { Track, TrackRating, TrackStats } from 'types/track';
 import Api from 'store/core/Api';
 import { getAll, sendToTelegram } from 'api/tracks';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
@@ -10,7 +10,7 @@ import { adminPageTableLimit } from 'settings';
 import { GetTrackDto } from '../ModifyTrack/types';
 import { getById } from 'api/tracks';
 
-export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
+export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackStats> {
     constructor(color: string) {
         super(color);
 
@@ -28,6 +28,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track>> {
                 limit: adminPageTableLimit,
                 field: 'createdAt',
                 sort: SortEnum.DESC,
+                withStats: true,
                 ...this.meta,
                 ...cfg,
             },

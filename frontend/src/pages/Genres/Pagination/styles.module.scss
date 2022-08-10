@@ -1,9 +1,13 @@
-@import "../../../styles/functions";
-@import "../../../styles/variables";
+@import "src/styles/functions";
+@import "src/styles/variables";
 
 .pagination {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: setUnit(40) 0;
+
+    @media screen and (max-width: #{setUnit($mobile)}) {
+        padding: setUnit(20) 0;
+    }
 }

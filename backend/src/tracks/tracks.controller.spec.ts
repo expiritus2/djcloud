@@ -12,6 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { TrackEntity } from './track.entity';
 import { envConfig } from '../lib/configs/envs';
 import { mocked } from 'jest-mock';
+import { StatsService } from '../stats/stats.service';
 
 describe('TracksController', () => {
     let controller: TracksController;
@@ -19,6 +20,7 @@ describe('TracksController', () => {
     let mockTelegramService;
     let mockFilesService;
     let mockConfigService;
+    let mockStatsService;
 
     const mockAdminGuard: CanActivate = { canActivate: jest.fn(() => true) };
     let mockSession = {};
@@ -46,6 +48,10 @@ describe('TracksController', () => {
         mockTelegramService = {
             sendAudio: jest.fn(),
             sendMessage: jest.fn(),
+        };
+
+        mockStatsService = {
+            getTrackStats: jest.fn(),
         };
 
         mockFilesService = {
@@ -80,6 +86,10 @@ describe('TracksController', () => {
                 {
                     provide: ConfigService,
                     useValue: mockConfigService,
+                },
+                {
+                    provide: StatsService,
+                    useValue: mockStatsService,
                 },
             ],
         })
@@ -201,6 +211,27 @@ describe('TracksController', () => {
 
             expect(mockTrackService.getAll).not.toBeCalled();
             expect(mockTrackService.getAllShuffle).toBeCalledWith(query);
+        });
+
+        it('should return all tracks with stats', async () => {
+            const query = { withStats: true };
+            mockStatsService.getTrackStats.mockResolvedValueOnce({ totalDuration: 500.25 });
+            mockTrackService.getAll.mockResolvedValueOnce({
+                data: [
+                    { id: 1, ...track },
+                    { id: 2, ...track },
+                ],
+                count: 2,
+            });
+            const result = await controller.getAll(query, {});
+            expect(result).toEqual({
+                data: [
+                    { id: 1, isDidRating: false, ...track },
+                    { id: 2, isDidRating: false, ...track },
+                ],
+                count: 2,
+                totalDuration: 500.25,
+            });
         });
     });
 

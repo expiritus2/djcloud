@@ -9,6 +9,7 @@ export type GetAllByParams = {
     genreId?: number;
     visible?: boolean;
     shuffle?: boolean;
+    withStats?: boolean;
 } & PaginationParams;
 
 export type SendToTelegramDto = {

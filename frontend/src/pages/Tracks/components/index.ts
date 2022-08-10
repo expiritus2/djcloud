@@ -5,3 +5,4 @@ export { default as Visible } from './Visible';
 export { default as Title } from './Title';
 export { default as Filter } from './Filter';
 export { default as Table } from './Table';
+export { default as TableHeaderActions } from './TableHederActions';

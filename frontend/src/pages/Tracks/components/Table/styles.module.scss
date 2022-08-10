@@ -2,7 +2,14 @@
 @import "src/styles/variables";
 
 .tracksTable {
+    height: 100%;
     .table {
+        height: calc(100% - #{setUnit($header-height)} - #{setUnit($player-height)});
         min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(238)});
+        overflow: auto;
+
+        @media screen and (max-width: #{setUnit($mobile)}) {
+            height: calc(100% - #{setUnit($header-height)});
+        }
     }
 }

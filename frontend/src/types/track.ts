@@ -38,3 +38,7 @@ export type Track = {
     createdAt: string;
     updatedAt: string;
 } & TrackRating;
+
+export type TrackStats = {
+    totalDuration?: number;
+};

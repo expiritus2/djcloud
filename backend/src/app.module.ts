@@ -9,6 +9,7 @@ import { TracksModule } from './tracks/tracks.module';
 import { TrackRatingsModule } from './trackRatings/trackRatings.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { FilesModule } from './files/files.module';
+import { StatsModule } from './stats/stats.module';
 
 import dataSource from '../ormconfig';
 
@@ -29,6 +30,7 @@ import dataSource from '../ormconfig';
         TrackRatingsModule,
         TelegramModule,
         FilesModule,
+        StatsModule,
     ],
     providers: [],
 })

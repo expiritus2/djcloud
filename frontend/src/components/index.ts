@@ -24,3 +24,4 @@ export { default as Play } from './Play';
 export { default as TableWrapper } from './TableWrapper';
 export { default as DownloadTrack } from './DownloadTrack';
 export { default as MenuSwitcher } from './Menu/Switcher';
+export { default as TotalDuration } from './TotalDuration';

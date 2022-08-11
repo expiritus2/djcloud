@@ -6,7 +6,7 @@ import { currentUser, login, logout } from 'api/user';
 import { BaseRequestStore } from '../core/BaseRequestStore';
 
 export class UsersStore extends BaseRequestStore<User> {
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         makeObservable(this, {

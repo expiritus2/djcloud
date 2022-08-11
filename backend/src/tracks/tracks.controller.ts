@@ -88,7 +88,7 @@ export class TracksController {
             ? await this.tracksService.getAllShuffle(query)
             : await this.tracksService.getAll(query);
 
-        const stats = query.withStats ? await this.statsService.getTrackStats(query) : {};
+        const stats = query.withStats ? { totalDuration: await this.statsService.getTracksTotalDuration(query) } : {};
 
         return {
             ...tracks,

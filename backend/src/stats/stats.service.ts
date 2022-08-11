@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TrackEntity } from '../tracks/track.entity';
 import { Repository } from 'typeorm';
-import { TrackStatsDto } from './dtos/track-stats.dto';
 import { filterTracks } from '../tracks/queries/filter';
 import { GetAllDto } from '../tracks/dtos/get-all.dto';
+import { SuccessDto } from '../authentication/auth/dtos/success';
 
 @Injectable()
 export class StatsService {
     constructor(@InjectRepository(TrackEntity) private trackRepo: Repository<TrackEntity>) {}
 
-    async getTrackStats(query: GetAllDto): Promise<TrackStatsDto> {
+    async getTracksTotalDuration(query: GetAllDto): Promise<number> {
         const searchFieldName = { searchFieldName: 'title' };
         const queryBuilder = this.trackRepo
             .createQueryBuilder('track')
@@ -23,8 +23,11 @@ export class StatsService {
             .addGroupBy('genre.id')
             .getRawMany();
 
-        const totalDuration = result.reduce((acc, item) => acc + item.totalDuration, 0);
+        return result.reduce((acc, item) => acc + item.totalDuration, 0);
+    }
 
-        return { totalDuration };
+    async addCountListen(trackId: number): Promise<SuccessDto> {
+        console.log(trackId);
+        return { success: true };
     }
 }

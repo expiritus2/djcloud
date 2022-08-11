@@ -51,7 +51,7 @@ describe('TracksController', () => {
         };
 
         mockStatsService = {
-            getTrackStats: jest.fn(),
+            getTracksTotalDuration: jest.fn(),
         };
 
         mockFilesService = {
@@ -215,7 +215,7 @@ describe('TracksController', () => {
 
         it('should return all tracks with stats', async () => {
             const query = { withStats: true };
-            mockStatsService.getTrackStats.mockResolvedValueOnce({ totalDuration: 500.25 });
+            mockStatsService.getTracksTotalDuration.mockResolvedValueOnce(500.25);
             mockTrackService.getAll.mockResolvedValueOnce({
                 data: [
                     { id: 1, ...track },

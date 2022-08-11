@@ -7,7 +7,7 @@ import { create, getById, update, remove } from 'api/categories';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 
 export class ModifyCategoryStore extends BaseRequestStore<Category> {
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         makeObservable(this, {

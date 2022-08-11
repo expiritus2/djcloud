@@ -11,7 +11,7 @@ import { GetTrackDto } from '../ModifyTrack/types';
 import { getById } from 'api/tracks';
 
 export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackStats> {
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         makeObservable(this, {

@@ -25,7 +25,7 @@ import { TrackRating } from '../TrackRating/types';
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
 
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         reaction(

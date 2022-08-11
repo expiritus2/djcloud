@@ -7,7 +7,7 @@ import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import { cloneDeep } from 'lodash';
 
 export class NavCategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         makeObservable(this, {

@@ -9,7 +9,7 @@ import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import store from 'store/index';
 
 export class ModifyTrackStore extends BaseRequestStore<Track> {
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         makeObservable(this, {

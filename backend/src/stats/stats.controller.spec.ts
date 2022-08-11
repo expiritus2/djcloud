@@ -14,7 +14,7 @@ describe('StatsController', () => {
 
     beforeEach(async () => {
         mockStatsService = {
-            getTrackStats: jest.fn(),
+            getTracksTotalDuration: jest.fn(),
         };
         const module: TestingModule = await Test.createTestingModule({
             controllers: [StatsController],
@@ -38,10 +38,10 @@ describe('StatsController', () => {
 
     describe('getStats', () => {
         it('should call getTrackStats service method', async () => {
-            mockStatsService.getTrackStats.mockResolvedValueOnce({ totalDuration: 400.45 });
+            mockStatsService.getTracksTotalDuration.mockResolvedValueOnce(400.45);
             const result = await controller.getStats(query as unknown as GetAllDto);
 
-            expect(mockStatsService.getTrackStats).toBeCalledWith(query);
+            expect(mockStatsService.getTracksTotalDuration).toBeCalledWith(query);
             expect(result).toEqual({ totalDuration: 400.45 });
         });
     });

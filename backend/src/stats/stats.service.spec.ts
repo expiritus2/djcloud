@@ -78,7 +78,7 @@ describe('StatsService', () => {
         it('should query from database and sum durations', async () => {
             mocked(filterTracks).mockReturnValueOnce(mockQueryBuilder);
 
-            const result = await service.getTrackStats(query as unknown as GetAllDto);
+            const result = await service.getTracksTotalDuration(query as unknown as GetAllDto);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
             expect(mockQueryBuilder.select).toBeCalledWith('SUM(track.duration)', 'totalDuration');
@@ -88,9 +88,7 @@ describe('StatsService', () => {
             expect(mockQueryBuilder.groupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('genre.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
-            expect(result).toEqual({
-                totalDuration: durationResult.reduce((acc, item) => acc + item.totalDuration, 0),
-            });
+            expect(result).toEqual(durationResult.reduce((acc, item) => acc + item.totalDuration, 0));
         });
     });
 });

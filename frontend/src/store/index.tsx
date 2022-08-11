@@ -12,22 +12,24 @@ import { CurrentTrackStore } from './CurrentTrack';
 import { AdminState } from './AdminState';
 import { TrackRatingStore } from './TrackRating';
 import { NavCategoriesStore } from './NavCategories';
+import { Stats } from './Stats';
 
 configure({ enforceActions: 'never' });
 
 const store = {
-    user: new UsersStore('blue'),
-    categories: new CategoriesStore('red'),
-    navCategories: new NavCategoriesStore('red'),
-    modifyCategory: new ModifyCategoryStore('#FFB703'),
-    modifyGenre: new ModifyGenreStore('#FFCB47'),
-    modifyTrack: new ModifyTrackStore('#0B132B'),
-    genres: new GenresStore('green'),
-    tracks: new TracksStore('purple'),
-    tracksGenres: new TracksGenresStore('yellow'),
-    currentTrack: new CurrentTrackStore('aqua'),
+    user: new UsersStore(),
+    categories: new CategoriesStore(),
+    navCategories: new NavCategoriesStore(),
+    modifyCategory: new ModifyCategoryStore(),
+    modifyGenre: new ModifyGenreStore(),
+    modifyTrack: new ModifyTrackStore(),
+    genres: new GenresStore(),
+    tracks: new TracksStore(),
+    tracksGenres: new TracksGenresStore(),
+    currentTrack: new CurrentTrackStore(),
     adminState: new AdminState(),
     trackRating: new TrackRatingStore(),
+    stats: new Stats(),
 };
 
 export const StoreContext = createContext(store);

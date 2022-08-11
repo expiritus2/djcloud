@@ -10,7 +10,7 @@ export type GroupedTrackGenres = {
 };
 
 export class TracksGenresStore extends BaseRequestStore<GroupedTrackGenres> {
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         makeObservable(this, {

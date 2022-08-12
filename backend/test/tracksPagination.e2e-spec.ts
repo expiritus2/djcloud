@@ -105,7 +105,13 @@ describe('/tracks/list', () => {
             const skip = i * limit;
             const dbTracks = listTracks.sort((a, b) => b.id - a.id).slice(skip, skip + limit);
             expect(tracks).toEqual({
-                data: dbTracks.map((dbTrack) => ({ ...dbTrack, countRatings: 0, isDidRating: false, rating: 0 })),
+                data: dbTracks.map((dbTrack) => ({
+                    ...dbTrack,
+                    countRatings: 0,
+                    isDidRating: false,
+                    rating: 0,
+                    listenStats: null,
+                })),
                 count: 10,
             });
         }

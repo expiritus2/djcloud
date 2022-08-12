@@ -7,7 +7,7 @@ import { create, getById, update, remove } from 'api/genres';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 
 export class ModifyGenreStore extends BaseRequestStore<Genre> {
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         makeObservable(this, {

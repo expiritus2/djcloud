@@ -81,6 +81,11 @@ const TableComponent: FC<ComponentProps> = (props) => {
                 sort: getFieldSort('visible'),
             },
             {
+                key: 'listenCount',
+                title: 'Listened',
+                sort: getFieldSort('listenCount'),
+            },
+            {
                 key: 'createdAt',
                 title: 'CreatedAt',
                 sort: getFieldSort('createdAt'),
@@ -91,23 +96,26 @@ const TableComponent: FC<ComponentProps> = (props) => {
 
     const getRows = () => {
         return (
-            tracks.data?.data?.map((track: Track) => ({
-                track_id: track.id,
-                id: track.id,
-                title: <Title {...track} />,
-                duration: getDuration(track.duration),
-                category: track.category.name,
-                genre: track.genre.name,
-                visible: <Visible track={track} />,
-                createdAt: formatDate(track.createdAt),
-                actions: (
-                    <TableActions
-                        track={track}
-                        onClickEdit={(e: any, cb: Function) => onClickEdit(e, track.id, cb)}
-                        onClickDelete={(e: any, cb: Function) => onClickDelete(e, track.id, cb)}
-                    />
-                ),
-            })) || []
+            tracks.data?.data?.map((track: Track) => {
+                return {
+                    track_id: track.id,
+                    id: track.id,
+                    title: <Title {...track} />,
+                    duration: getDuration(track.duration),
+                    category: track.category.name,
+                    genre: track.genre.name,
+                    visible: <Visible track={track} />,
+                    createdAt: formatDate(track.createdAt),
+                    listenCount: track.listenStats?.listenCount || 0,
+                    actions: (
+                        <TableActions
+                            track={track}
+                            onClickEdit={(e: any, cb: Function) => onClickEdit(e, track.id, cb)}
+                            onClickDelete={(e: any, cb: Function) => onClickDelete(e, track.id, cb)}
+                        />
+                    ),
+                };
+            }) || []
         );
     };
 

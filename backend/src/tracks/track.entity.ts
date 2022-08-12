@@ -13,6 +13,7 @@ import { GenreEntity } from '../genres/genre.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { FileEntity } from '../files/file.entity';
 import { TrackRatingEntity } from '../trackRatings/trackRating.entity';
+import { ListenStatsEntity } from '../stats/listenStats.entity';
 
 @Entity('tracks')
 export class TrackEntity {
@@ -51,6 +52,9 @@ export class TrackEntity {
 
     @OneToMany(() => TrackRatingEntity, (trackRatings) => trackRatings.track)
     trackRatings: TrackRatingEntity[];
+
+    @OneToOne(() => ListenStatsEntity, (listenStats) => listenStats.track)
+    listenStats: ListenStatsEntity;
 
     @CreateDateColumn({ type: 'timestamptz', nullable: false })
     createdAt: Date;

@@ -51,6 +51,7 @@ export class TracksService {
                 'track.countRatings',
                 'track.sentToTelegram',
                 '"title"',
+                '"listenCount"',
                 '"visible"',
                 '"duration"',
                 '"createdAt"',
@@ -64,7 +65,8 @@ export class TracksService {
             ])
             .leftJoinAndSelect('track.file', 'file')
             .leftJoinAndSelect('track.category', 'category')
-            .leftJoinAndSelect('track.genre', 'genre');
+            .leftJoinAndSelect('track.genre', 'genre')
+            .leftJoinAndSelect('track.listenStats', 'listenStats');
 
         return filterTracks<TrackEntity>(queryBuilder, query, {
             searchFieldName: 'title',

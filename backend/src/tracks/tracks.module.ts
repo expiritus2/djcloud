@@ -11,9 +11,13 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
 import { FilesService } from '../files/files.service';
 import { SpacesService } from '../files/spaces.service';
 import { StatsService } from '../stats/stats.service';
+import { ListenStatsEntity } from '../stats/listenStats.entity';
 
 @Module({
-    imports: [NestjsFormDataModule, TypeOrmModule.forFeature([TrackEntity, FileEntity, GenreEntity, CategoryEntity])],
+    imports: [
+        NestjsFormDataModule,
+        TypeOrmModule.forFeature([TrackEntity, FileEntity, GenreEntity, CategoryEntity, ListenStatsEntity]),
+    ],
     controllers: [TracksController],
     providers: [TracksService, TelegramService, FilesService, SpacesService, StatsService],
     exports: [TracksService],

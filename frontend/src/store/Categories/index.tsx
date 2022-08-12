@@ -8,7 +8,7 @@ import store from '..';
 import { adminPageTableLimit } from 'settings';
 
 export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
-    constructor(color: string) {
+    constructor(color?: string) {
         super(color);
 
         makeObservable(this, {

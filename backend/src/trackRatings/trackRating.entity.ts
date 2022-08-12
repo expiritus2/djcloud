@@ -9,7 +9,7 @@ export class TrackRatingEntity {
     @Column()
     rating: number;
 
-    @ManyToOne(() => TrackEntity, (trackRatings) => trackRatings.trackRatings)
+    @ManyToOne(() => TrackEntity, (track) => track.trackRatings)
     @JoinColumn({ name: 'trackId' })
     track: TrackEntity;
 }

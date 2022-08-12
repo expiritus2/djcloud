@@ -45,7 +45,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
             {
                 key: 'id',
                 title: 'Id',
-                width: '33%',
+                width: '10%',
                 sort: genres.meta.field === 'id' ? genres.meta.sort : undefined,
             },
             {

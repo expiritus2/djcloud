@@ -26,6 +26,12 @@ export type TrackRating = {
     countRatings: number;
 };
 
+export type ListenStats = {
+    id: number;
+    trackId: number;
+    listenCount: number;
+};
+
 export type Track = {
     id: number;
     title: string;
@@ -37,6 +43,7 @@ export type Track = {
     genre: Genre;
     createdAt: string;
     updatedAt: string;
+    listenStats: ListenStats;
 } & TrackRating;
 
 export type TrackStats = {

@@ -4,7 +4,7 @@ import { TrackDto } from '../tracks/dtos/track.dto';
 import { StatsService } from './stats.service';
 import { TrackStatsDto } from './dtos/track-stats.dto';
 import { GetAllDto } from '../tracks/dtos/get-all.dto';
-import { SuccessDto } from '../authentication/auth/dtos/success';
+import { ListenStatsEntity } from './listenStats.entity';
 
 @ApiTags('Stats')
 @Controller('stats')
@@ -22,7 +22,7 @@ export class StatsController {
     @Post('/track/:trackId/listen')
     @ApiOperation({ summary: 'Add count listen' })
     @ApiResponse({ status: 200, type: TrackDto })
-    async addCountListen(@Param('trackId') trackId: number): Promise<SuccessDto> {
+    async addCountListen(@Param('trackId') trackId: number): Promise<ListenStatsEntity> {
         return this.statsService.addCountListen(trackId);
     }
 }

@@ -4,11 +4,14 @@ import { TrackEntity } from '../tracks/track.entity';
 import { Repository } from 'typeorm';
 import { filterTracks } from '../tracks/queries/filter';
 import { GetAllDto } from '../tracks/dtos/get-all.dto';
-import { SuccessDto } from '../authentication/auth/dtos/success';
+import { ListenStatsEntity } from './listenStats.entity';
 
 @Injectable()
 export class StatsService {
-    constructor(@InjectRepository(TrackEntity) private trackRepo: Repository<TrackEntity>) {}
+    constructor(
+        @InjectRepository(TrackEntity) private trackRepo: Repository<TrackEntity>,
+        @InjectRepository(ListenStatsEntity) private listenStatsRepo: Repository<ListenStatsEntity>,
+    ) {}
 
     async getTracksTotalDuration(query: GetAllDto): Promise<number> {
         const searchFieldName = { searchFieldName: 'title' };
@@ -26,8 +29,24 @@ export class StatsService {
         return result.reduce((acc, item) => acc + item.totalDuration, 0);
     }
 
-    async addCountListen(trackId: number): Promise<SuccessDto> {
-        console.log(trackId);
-        return { success: true };
+    async addCountListen(trackId: number): Promise<ListenStatsEntity> {
+        const storedTrack = await this.trackRepo.findOne({ where: { id: trackId } });
+        if (storedTrack) {
+            const existingStat = await this.listenStatsRepo.findOne({ where: { trackId: trackId } });
+            if (!existingStat) {
+                const newStat = this.listenStatsRepo.create({
+                    trackId,
+                    listenCount: 1,
+                });
+                return this.listenStatsRepo.save(newStat);
+            } else {
+                return this.listenStatsRepo.save({
+                    ...existingStat,
+                    listenCount: existingStat.listenCount + 1,
+                });
+            }
+        }
+
+        return null;
     }
 }

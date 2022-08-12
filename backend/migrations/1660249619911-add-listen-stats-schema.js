@@ -1,12 +1,12 @@
-module.exports = class addStatsSchema1660249619911 {
-    name = 'addStatsSchema1660249619911';
+module.exports = class addListenStatsSchema1660249619911 {
+    name = 'addListenStatsSchema1660249619911';
 
     async up(queryRunner) {
         await queryRunner.query(`
-            create table stats
+            create table "listenStats"
             (
                 id            serial
-                    constraint stats_pk
+                    constraint listenstats_pk
                         primary key,
                 "trackId"     int references tracks (id) on delete cascade,
                 "listenCount" int
@@ -15,6 +15,6 @@ module.exports = class addStatsSchema1660249619911 {
     }
 
     async down(queryRunner) {
-        await queryRunner.query('drop table stats');
+        await queryRunner.query('drop table "listenStats"');
     }
 };

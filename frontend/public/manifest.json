@@ -10,7 +10,7 @@
         {
             "src": "images/logo-circle-white.png",
             "type": "image/png",
-            "sizes": "128x128 256x256 512x512 64x64 32x32 24x24"
+            "sizes": "512x512 256x256 128x128 64x64 32x32 24x24"
         }
     ],
     "start_url": ".",

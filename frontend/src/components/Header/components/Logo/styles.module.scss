@@ -2,10 +2,12 @@
 @import "src/styles/variables";
 
 .logo {
-  font-family: 'Lobster Two', sans-serif;
-  font-size: setUnit(40);
-  color: $lightColor;
-  text-shadow: setUnit(2) setUnit(2) $primaryColor;
-  position: relative;
-  bottom: setUnit(4);
+    height: setUnit(35);
+    width: setUnit(113);
+
+    .logoImage {
+        vertical-align: middle;
+        height: 100%;
+        width: 100%;
+    }
 }

@@ -1,6 +1,5 @@
 import React, { FC, MouseEventHandler } from 'react';
 import classNames from 'classnames';
-import { sign } from 'settings/sign';
 
 import styles from './styles.module.scss';
 
@@ -14,7 +13,7 @@ const Logo: FC<ComponentProps> = (props) => {
 
     return (
         <div onClick={onClick} className={classNames(styles.logo, className)}>
-            {sign}
+            <img src="/images/logo.png" alt="Logo" className={styles.logoImage} />
         </div>
     );
 };

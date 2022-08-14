@@ -58,7 +58,7 @@ describe('paginationQuery', () => {
 
             const queryBuilder = simplePaginateQuery(mockQueryBuilder as SelectQueryBuilder<any>, query);
 
-            expect(mockQueryBuilder.orderBy).toBeCalledWith(`"${query.field}"`, query.sort);
+            expect(mockQueryBuilder.orderBy).toBeCalledWith(`"${query.field}"`, query.sort, 'NULLS FIRST');
             expect(queryBuilder).toEqual(mockQueryBuilder);
         });
 
@@ -93,7 +93,7 @@ describe('paginationQuery', () => {
 
             expect(mockQueryBuilder.take).toBeCalledWith(toNumber(query.limit));
             expect(mockQueryBuilder.skip).toBeCalledWith(toNumber(query.page) * toNumber(query.limit));
-            expect(mockQueryBuilder.orderBy).toBeCalledWith(`"${query.field}"`, query.sort);
+            expect(mockQueryBuilder.orderBy).toBeCalledWith(`"${query.field}"`, query.sort, 'NULLS LAST');
             expect(queryBuilder).toEqual(mockQueryBuilder);
         });
     });

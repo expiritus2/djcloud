@@ -4,6 +4,7 @@ context('Categories', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3000');
       cy.login();
+      cy.get('#categoriesMenuItem').click();
       cy.url().should('include', '/admin/categories');
     });
 
@@ -18,9 +19,9 @@ context('Categories', () => {
       updateCategory(1, 'Mixs Updated');
       cy.get('tbody tr').contains('Mixs Updated');
 
-      deleteCategory(0, 'Created Updated')
+      deleteCategory(0)
       cy.get('tbody tr').should('have.length', 1);
-      deleteCategory(0, 'Mixs Updated');
+      deleteCategory(0);
       cy.get('tbody tr').should('have.length', 0);
     });
 });

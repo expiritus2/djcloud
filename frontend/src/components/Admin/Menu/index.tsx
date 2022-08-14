@@ -21,12 +21,14 @@ const AdminMenu: FC<ComponentProps> = (props) => {
 
     const menuItems = [
         {
+            id: 'tracksMenuItem',
             path: routes.adminTracksList,
             label: 'Tracks',
             value: AdminTabsEnum.TRACKS,
             onClickItem,
         },
         {
+            id: 'categoriesMenuItem',
             path: routes.adminCategoriesList,
             label: 'Categories',
             value: AdminTabsEnum.CATEGORIES,

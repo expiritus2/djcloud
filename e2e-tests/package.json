@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start:open": "cypress open",
-    "start:headless": "cypress run --headless --config videoRecording=false"
+    "start:headless": "cypress run --headless --config videoRecording=false",
+    "docker:run": "docker-compose up -d"
   },
   "dependencies": {
     "cypress": "^10.3.1",

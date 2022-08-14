@@ -8,7 +8,8 @@ export type User = {
     role: Role;
 } | null;
 
-export type LoginProps = {
-    email: string;
-    password: string;
-};
+export enum AdminTabsEnum {
+    TRACKS = 'tracks',
+    GENRES = 'genres',
+    CATEGORIES = 'categories',
+}

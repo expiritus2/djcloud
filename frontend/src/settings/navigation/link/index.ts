@@ -1,4 +1,5 @@
 import { routes } from '../routes';
+import { AdminTabsEnum } from '../../../store/AdminState/types';
 
 export const link = {
     toTracks: (categoryId: string, genreId: string | undefined) => {
@@ -14,14 +15,14 @@ export const link = {
         });
     },
     toAdminPage: (tab: string | null) => {
-        if (tab === 'tracks') {
-            return routes.adminTracksList;
+        if (tab === AdminTabsEnum.CATEGORIES) {
+            return routes.adminCategoriesList;
         }
 
-        if (tab === 'genres') {
+        if (tab === AdminTabsEnum.GENRES) {
             return routes.adminGenresList;
         }
-        return routes.adminCategoriesList;
+        return routes.adminTracksList;
     },
 
     toAllCategoryTracks: (categoryId: string | undefined) => {

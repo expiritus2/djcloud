@@ -58,4 +58,4 @@ jobs:
 
       - name: Integration test
         working-directory: backend
-        run: yarn run test:e2e
+        run: yarn run test:integration

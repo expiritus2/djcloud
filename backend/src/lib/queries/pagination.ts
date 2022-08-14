@@ -1,6 +1,7 @@
 import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
 import { toNumber } from 'lodash';
 import { PaginationQueryDto } from '../common/dtos';
+import { SortEnum } from '../common/enums';
 
 export const simplePaginateQuery = <Entity>(
     queryBuilder: SelectQueryBuilder<Entity>,
@@ -17,7 +18,7 @@ export const simplePaginateQuery = <Entity>(
     }
 
     if (field && sort) {
-        queryBuilder.orderBy(`"${field}"`, sort);
+        queryBuilder.orderBy(`"${field}"`, sort, sort === SortEnum.ASC ? 'NULLS FIRST' : 'NULLS LAST');
     }
 
     return queryBuilder;

@@ -29,7 +29,7 @@ const LoginForm: FC<ComponentProps> = (props) => {
         setPending(true);
         user.loginAction(values, {}, (err: AxiosError) => {
             if (!err) {
-                navigate(routes.adminCategoriesList);
+                navigate(routes.adminTracksList);
             }
             setPending(false);
         });

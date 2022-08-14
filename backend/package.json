@@ -23,7 +23,7 @@
         "test:watch": "cross-env ENVIRONMENT=test jest --watch --setupFiles dotenv/config",
         "test:cov": "cross-env ENVIRONMENT=test jest --coverage --setupFiles dotenv/config",
         "test:debug": "cross-env ENVIRONMENT=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-        "test:e2e": "cross-env ENVIRONMENT=test jest --config ./test/jest-e2e.json --maxWorkers=1",
+        "test:integration": "cross-env ENVIRONMENT=test jest --config ./test/jest-e2e.json --maxWorkers=1",
         "typeorm": "cross-env ENVIRONMENT=dev node --require ts-node/register ./node_modules/typeorm/cli.js",
         "migration:run": "cross-env ENVIRONMENT=dev npm run typeorm migration:run -- -d ormconfig.ts"
     },

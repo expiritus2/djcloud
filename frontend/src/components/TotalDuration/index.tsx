@@ -15,6 +15,8 @@ const TotalDuration: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks } = useStore();
 
+    if (!tracks.data) return null;
+
     return (
         <div className={classNames(styles.totalDuration, className)}>
             <span className={styles.totalText}>Total Duration: </span>

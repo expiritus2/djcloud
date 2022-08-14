@@ -5,6 +5,7 @@ import { routes } from 'settings/navigation/routes';
 import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'store';
+import { AdminTabsEnum } from '../../../store/AdminState/types';
 
 type ComponentProps = {
     className?: string;
@@ -14,28 +15,28 @@ const AdminMenu: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { adminState } = useStore();
 
-    const onClickItem = (e: any, tab: string) => {
+    const onClickItem = (e: any, tab: AdminTabsEnum) => {
         adminState.tab = { ...adminState.tab, admin: tab };
     };
 
     const menuItems = [
         {
+            path: routes.adminTracksList,
+            label: 'Tracks',
+            value: AdminTabsEnum.TRACKS,
+            onClickItem,
+        },
+        {
             path: routes.adminCategoriesList,
             label: 'Categories',
-            value: 'categories',
+            value: AdminTabsEnum.CATEGORIES,
             onClickItem,
         },
         {
             id: 'genresMenuItem',
             path: routes.adminGenresList,
             label: 'Genres',
-            value: 'genres',
-            onClickItem,
-        },
-        {
-            path: routes.adminTracksList,
-            label: 'Tracks',
-            value: 'tracks',
+            value: AdminTabsEnum.GENRES,
             onClickItem,
         },
     ];

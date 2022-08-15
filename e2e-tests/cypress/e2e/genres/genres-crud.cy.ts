@@ -2,7 +2,7 @@ import { addNewGenre, updateGenre, deleteGenre } from '../../common/genres';
 
 context('Genres', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:3000');
+      cy.visit('http://frontend:3000');
       cy.login();
       cy.get('#genresMenuItem').click();
       cy.url().should('include', '/admin/genres');

@@ -2,7 +2,7 @@ import { addNewCategory, updateCategory, deleteCategory } from '../../common/cat
 
 context('Categories', () => {
     beforeEach(() => {
-      cy.visit('http://frontend:3000');
+      cy.visit('http://127.0.0.1:3000');
       cy.login();
       cy.get('#categoriesMenuItem').click();
       cy.url().should('include', '/admin/categories');

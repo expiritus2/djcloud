@@ -14,7 +14,7 @@ services:
     container_name: backend
     image: ftcs/djcloud:backend
     ports:
-      - 8000:8000
+      - "127.0.0.1:8000:8000"
     depends_on:
       - db
   frontend:
@@ -22,6 +22,6 @@ services:
     image: ftcs/djcloud:frontend
     restart: on-failure
     ports:
-      - 3000:3000
+      - "127.0.0.1:3000:3000"
     depends_on:
       - backend

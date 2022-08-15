@@ -1,8 +1,9 @@
 import { addNewGenre, updateGenre, deleteGenre } from '../../common/genres';
+import domains from '../../common/domain';
 
 context('Genres', () => {
     beforeEach(() => {
-      cy.visit('http://127.0.0.1:3000');
+      cy.visit(domains.frontend);
       cy.login();
       cy.get('#genresMenuItem').click();
       cy.url().should('include', '/admin/genres');

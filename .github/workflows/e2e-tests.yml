@@ -32,17 +32,14 @@ jobs:
         working-directory: e2e-tests
         run: yarn run docker:run
 
-      - name: Install dependencies
-        working-directory: e2e-tests
-        run: yarn install
-
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Cypress run
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: e2e-tests
-          start: yarn run start:headless
-
-      - name: Get networks
-        run: docker network ls
+#      - name: Install dependencies
+#        working-directory: e2e-tests
+#        run: yarn install
+#
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Cypress run
+#        uses: cypress-io/github-action@v4
+#        with:
+#          working-directory: e2e-tests
+#          start: yarn run start:headless

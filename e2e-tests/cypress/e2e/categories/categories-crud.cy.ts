@@ -1,9 +1,12 @@
 import { addNewCategory, updateCategory, deleteCategory } from '../../common/categories';
+import domains from '../../common/domain'
 
 context('Categories', () => {
-    beforeEach(() => {
-      cy.visit('http://127.0.0.1:3000');
+    before(() => {
+      cy.visit(domains.frontend);
       cy.login();
+      const cookie = cy.getCookie('dev_session');
+      cy.log(`${cookie}`);
       cy.get('#categoriesMenuItem').click();
       cy.url().should('include', '/admin/categories');
     });

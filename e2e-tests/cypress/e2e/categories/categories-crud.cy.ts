@@ -1,9 +1,13 @@
 import { addNewCategory, updateCategory, deleteCategory } from '../../common/categories';
+import domains from '../../common/domain'
 
 context('Categories', () => {
-    beforeEach(() => {
-      cy.visit('http://localhost:3000');
+    before(() => {
+      cy.visit(domains.frontend);
       cy.login();
+      const cookie = cy.getCookie('dev_session');
+      cy.log(`${cookie}`);
+      cy.get('#categoriesMenuItem').click();
       cy.url().should('include', '/admin/categories');
     });
 
@@ -18,9 +22,9 @@ context('Categories', () => {
       updateCategory(1, 'Mixs Updated');
       cy.get('tbody tr').contains('Mixs Updated');
 
-      deleteCategory(0, 'Created Updated')
+      deleteCategory(0)
       cy.get('tbody tr').should('have.length', 1);
-      deleteCategory(0, 'Mixs Updated');
+      deleteCategory(0);
       cy.get('tbody tr').should('have.length', 0);
     });
 });

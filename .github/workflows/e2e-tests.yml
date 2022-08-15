@@ -42,7 +42,4 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           working-directory: e2e-tests
-
-#      - name: E2e tests
-#        working-directory: e2e-tests
-#        run: yarn run start:headless
+          start: yarn run start:headless

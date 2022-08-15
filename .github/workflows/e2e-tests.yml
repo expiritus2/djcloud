@@ -1,4 +1,4 @@
-name: ci-process
+name: e2e-tests
 on:
 #  push:
 #    branches:
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Build the Postgres stack
+      - name: Build application
         working-directory: e2e-tests
         run: yarn run docker:run
 
@@ -36,6 +36,13 @@ jobs:
         working-directory: e2e-tests
         run: yarn install
 
-      - name: E2e tests
-        working-directory: e2e-tests
-        run: yarn run start:headless
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: e2e-tests
+
+#      - name: E2e tests
+#        working-directory: e2e-tests
+#        run: yarn run start:headless

@@ -1,4 +1,4 @@
-import { action, makeObservable, observable, reaction } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { RequestOptions } from 'types/request';
 import { GetTrackByIdParamsDto } from './types';
 import { Track } from 'types/track';
@@ -28,13 +28,6 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
     constructor(color?: string) {
         super(color);
 
-        reaction(
-            () => this.pause,
-            (pause) => {
-                this.logStore('pause', pause);
-            },
-        );
-
         makeObservable(this, {
             pause: observable,
             getTrackById: action,
@@ -43,6 +36,11 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
             onNext: action,
             updateRating: action,
         });
+    }
+
+    logStore() {
+        super.logStore();
+        this.logMessage<'pause'>('pause');
     }
 
     updateRating(trackRating: TrackRating | null) {

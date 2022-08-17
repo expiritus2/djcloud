@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { action, makeObservable, observable, reaction } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';
 import { cloneDeep } from 'lodash';
-import { logStore } from 'settings';
 import { toJS } from 'mobx';
 
 export abstract class BaseRequestStore<T> {
@@ -32,25 +31,19 @@ export abstract class BaseRequestStore<T> {
             meta: observable,
             resetStore: action,
         });
-
-        reaction(
-            () => this.state,
-            (state) => this.logStore('state', state),
-        );
-        reaction(
-            () => this.data,
-            (data) => this.logStore('data', data),
-        );
-        reaction(
-            () => this.meta,
-            (meta) => this.logStore('meta', meta),
-        );
     }
 
-    logStore(propertyName: string, data: any) {
-        if (process.env.NODE_ENV === 'development' && logStore) {
-            console.log(`%c ${this.constructor.name}`, `color: ${this.color}`, propertyName, toJS(data));
+    logMessage<P>(propName: 'state' | 'data' | 'meta' | P) {
+        if (process.env.NODE_ENV === 'development') {
+            // @ts-ignore
+            console.log(`%c ${this.constructor.name}`, `color: ${this.color}`, propName, toJS(this[propName]));
         }
+    }
+
+    logStore() {
+        this.logMessage('state');
+        this.logMessage('data');
+        this.logMessage('meta');
     }
 
     resetStore(state?: RequestStateEnum) {

@@ -37,6 +37,13 @@
             background: $darkColor;
             color: $whiteColor;
         }
+
+        &.disabled {
+            cursor: not-allowed;
+            background: none;
+            color: inherit;
+            opacity: .5;
+        }
     }
 
     .dots {

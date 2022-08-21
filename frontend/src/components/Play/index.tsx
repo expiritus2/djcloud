@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { AiFillPauseCircle, AiFillPlayCircle } from 'react-icons/ai';
@@ -16,7 +16,7 @@ type ComponentProps = {
     trackId: number;
 };
 
-const Play: FC<ComponentProps> = (props) => {
+const Play: FC<ComponentProps> = forwardRef<HTMLDivElement, ComponentProps>((props, ref) => {
     const { className, trackId, iconClassName } = props;
     const { currentTrack } = useStore();
     const { screen } = useScreen();
@@ -37,7 +37,7 @@ const Play: FC<ComponentProps> = (props) => {
     const mobileClass = screen.width <= MOBILE ? styles.mobile : '';
 
     return (
-        <div className={classNames(styles.play, className)}>
+        <div ref={ref} className={classNames(styles.play, className)}>
             {!currentTrack.pause && currentTrack.data?.id === trackId ? (
                 <AiFillPauseCircle
                     onClick={onPause}
@@ -51,6 +51,6 @@ const Play: FC<ComponentProps> = (props) => {
             )}
         </div>
     );
-};
+});
 
 export default observer(Play);

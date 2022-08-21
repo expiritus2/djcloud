@@ -21,6 +21,7 @@ import {
 } from './utils';
 import { adminPageTableLimit, mainPageTrackLimit } from '../../settings';
 import { TrackRating } from '../TrackRating/types';
+import { sign } from '../../settings/sign';
 
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
@@ -53,9 +54,14 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
 
     getTrackById(cfg: GetTrackByIdParamsDto, options?: RequestOptions, cb?: Function) {
         this.resetStore();
+        document.title = sign;
         const sendRequest = new Api<Track>({ store: this, method: getById }).execResult();
 
-        sendRequest(cfg, options, cb);
+        sendRequest(cfg, options, (err: any, response: any) => {
+            const { data } = response;
+            document.title = `${sign} - ${data.title}`;
+            cb?.(err, response);
+        });
     }
 
     resetStore() {

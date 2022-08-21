@@ -33,6 +33,7 @@
     .head {
         display: flex;
         align-items: center;
+        width: 100%;
 
         .loader {
             font-size: setUnit(2.5);
@@ -44,18 +45,17 @@
     .info {
         color: $darkColor;
         margin-left: setUnit(10);
+        width: 100%;
 
         .author {
             margin-bottom: setUnit(4);
         }
 
         .trackName {
-            @media screen and (max-width: setUnit($mobile-small)) {
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                width: 40px;
-            }
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            min-width: setUnit(50) !important
         }
     }
 

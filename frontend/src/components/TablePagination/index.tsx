@@ -42,39 +42,52 @@ const TablePagination: FC<ComponentProps> = (props) => {
         };
     }, [count, displayCount, current, limit]);
 
+    const isLastPage = pages.countPages - current === 1;
+    const isFirstPage = current <= 0;
+
     const onClickPageHandler = (e: any, page: number) => {
         onClickPage(e, page - 1);
     };
 
     const onClickNext = (e: any) => {
-        if (pages.countPages - current > 1) {
+        if (!isLastPage) {
             onClickPage(e, current + 1);
         }
     };
 
     const onClickLast = (e: any) => {
-        onClickPage(e, pages.countPages - 1);
+        if (!isLastPage) {
+            onClickPage(e, pages.countPages - 1);
+        }
     };
 
     const onClickPrev = (e: any) => {
-        if (current >= 1) {
+        if (!isFirstPage) {
             onClickPage(e, current - 1);
         }
     };
 
     const onClickFirst = (e: any) => {
-        onClickPage(e, 0);
+        if (!isFirstPage) {
+            onClickPage(e, 0);
+        }
     };
 
     return (
         <div className={classNames(styles.tablePagination, className)}>
-            <div className={styles.controls}>
-                <div onClick={onClickFirst} className={classNames(styles.page, styles.first)}>
+            <div className={classNames(styles.controls)}>
+                <div
+                    onClick={onClickFirst}
+                    className={classNames(styles.page, styles.first, { [styles.disabled]: isFirstPage })}
+                >
                     First
                 </div>
-                <div onClick={onClickPrev} className={classNames(styles.page)}>
+                <div onClick={onClickPrev} className={classNames(styles.page, { [styles.disabled]: isFirstPage })}>
                     Prev
                 </div>
+                {!!pages.prev.length && !pages.prev.includes(1) && (
+                    <div className={classNames(styles.page, styles.dots)}>...</div>
+                )}
             </div>
             <div className={styles.pages}>
                 {pages.prev.map((page) => (
@@ -98,10 +111,10 @@ const TablePagination: FC<ComponentProps> = (props) => {
                 </>
             ) : null}
             <div className={styles.controls}>
-                <div onClick={onClickNext} className={classNames(styles.page)}>
+                <div onClick={onClickNext} className={classNames(styles.page, { [styles.disabled]: isLastPage })}>
                     Next
                 </div>
-                <div onClick={onClickLast} className={classNames(styles.page)}>
+                <div onClick={onClickLast} className={classNames(styles.page, { [styles.disabled]: isLastPage })}>
                     Last
                 </div>
             </div>

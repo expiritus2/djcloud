@@ -33,7 +33,7 @@ const TrackComponent: FC<ComponentProps> = (props) => {
             const metaWidth = metaRef.current.offsetWidth;
             trackNameRef.current.style.width = setUnit(playerItemWidth - playWidth - metaWidth - 50);
         }
-    }, [screen.width, playRef, metaRef, trackNameRef]);
+    }, [screen.width, screen.height, playRef, metaRef, trackNameRef]);
 
     return (
         <div

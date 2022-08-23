@@ -61,7 +61,7 @@ const Form: FC<ComponentProps> = (props) => {
     };
 
     const updateTrack = () => {
-        modifyTrack.update({ id: modalState.id as any, ...values }, {}, (err: AxiosError) => {
+        modifyTrack.update({ id: modalState.id as any, ...values }, { onUploadProgress }, (err: AxiosError) => {
             if (!err) {
                 refresh();
             }

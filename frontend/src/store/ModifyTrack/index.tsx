@@ -1,9 +1,9 @@
 import { action, makeObservable } from 'mobx';
-import { RequestOptions } from 'types/request';
+import { RequestOptions, RequestStateEnum } from 'types/request';
 import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto, UpdateVisibleTrackDto } from './types';
 import { Track } from 'types/track';
 import Api from 'store/core/Api';
-import { create, getById, update, remove } from 'api/tracks';
+import { create, getById, remove, update } from 'api/tracks';
 import { uploadFile } from 'api/files';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import store from 'store/index';
@@ -53,7 +53,8 @@ export class ModifyTrackStore extends BaseRequestStore<Track> {
         const uploadFileRequest = new Api({ store: { data: {} } as any, method: uploadFile }).execResult();
 
         if (!cfg.file.id) {
-            uploadFileRequest(cfg.file, { silent: false }, (err: any, response: any) => {
+            this.state = RequestStateEnum.PENDING;
+            uploadFileRequest(cfg, { silent: false, ...options }, (err: any, response: any) => {
                 if (!err) {
                     const { duration, ...uploadedFile } = response.data;
                     const config = {
@@ -61,6 +62,7 @@ export class ModifyTrackStore extends BaseRequestStore<Track> {
                         duration,
                         file: uploadedFile,
                     };
+                    this.state = RequestStateEnum.READY;
                     sendRequest(config, { silent: false, ...options }, cb);
                 }
             });

@@ -1,6 +1,7 @@
 import { Track } from 'types/track';
 import store from '..';
 import { adminPageTableLimit, mainPageTrackLimit } from 'settings';
+import { sign } from 'settings/sign';
 
 export const getCurrentTrackIndex = (): number => {
     const tracks = store.tracks.data?.data || [];
@@ -57,4 +58,8 @@ export const isNotFirstTrackOnFirstPage = (actualTrackIndex: number) => {
 
 export const requestPageTracks = (nextPage: number, isAdmin = false, cb: Function) => {
     store.tracks.getAll({ page: nextPage, limit: isAdmin ? adminPageTableLimit : mainPageTrackLimit }, {}, cb);
+};
+
+export const setDocumentTitle = (title?: string) => {
+    document.title = title ? `${sign} - ${title}` : sign;
 };

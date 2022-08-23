@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, reaction } from 'mobx';
 import { RequestOptions } from 'types/request';
 import { GetTrackByIdParamsDto } from './types';
 import { Track } from 'types/track';
@@ -18,10 +18,10 @@ import {
     isVeryFirstTrack,
     isVeryLastTrack,
     requestPageTracks,
+    setDocumentTitle,
 } from './utils';
 import { adminPageTableLimit, mainPageTrackLimit } from '../../settings';
 import { TrackRating } from '../TrackRating/types';
-import { sign } from '../../settings/sign';
 
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
@@ -37,6 +37,15 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
             onNext: action,
             updateRating: action,
         });
+
+        reaction(
+            () => this.data,
+            (data) => {
+                if (!data?.title) {
+                    setDocumentTitle();
+                }
+            },
+        );
     }
 
     logStore() {
@@ -54,12 +63,11 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
 
     getTrackById(cfg: GetTrackByIdParamsDto, options?: RequestOptions, cb?: Function) {
         this.resetStore();
-        document.title = sign;
         const sendRequest = new Api<Track>({ store: this, method: getById }).execResult();
 
         sendRequest(cfg, options, (err: any, response: any) => {
             const { data } = response;
-            document.title = `${sign} - ${data.title}`;
+            setDocumentTitle(data.title);
             cb?.(err, response);
         });
     }
@@ -80,11 +88,13 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
     setNextTrack(currentEndTrackIndex: number, tracks: Track[]) {
         this.data = tracks[currentEndTrackIndex + 1];
         this.setPlay();
+        setDocumentTitle(this.data?.title);
     }
 
     setPrevTrack(currentEndTrackIndex: number, tracks: Track[]) {
         this.data = tracks[currentEndTrackIndex - 1];
         this.setPlay();
+        setDocumentTitle(this.data?.title);
     }
 
     onNext(isAdmin = false) {

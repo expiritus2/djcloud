@@ -93,8 +93,13 @@ const Player: FC<ComponentProps> = (props) => {
     };
 
     const onListen = (e: any) => {
-        const newCurrentTime = e.target.currentTime;
-        if (newCurrentTime > 0 && !currentTrack.pause) {
+        const newCurrentTime = e.target.currentTime * 1000;
+
+        // on repeat
+        if (newCurrentTime < listenInterval) {
+            setTotalListenTime(0);
+            statSent = false;
+        } else if (newCurrentTime > 0 && !currentTrack.pause) {
             const newTotalTime = totalListenTime + listenInterval;
 
             if (!statSent) {

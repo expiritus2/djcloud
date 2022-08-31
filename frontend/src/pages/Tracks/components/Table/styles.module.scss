@@ -5,7 +5,7 @@
     height: 100%;
     .table {
         height: calc(100% - #{setUnit($header-height)} - #{setUnit($player-height)});
-        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(235)});
+        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(211)});
         overflow: auto;
 
         @media screen and (max-width: #{setUnit($mobile)}) {

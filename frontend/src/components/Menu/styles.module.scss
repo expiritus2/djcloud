@@ -50,22 +50,24 @@
         overflow: auto;
         height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(41)});
 
+        @media screen and (max-width: #{setUnit($mobile)}) {
+            padding: setUnit(20) 0;
+        }
+
         .item {
             padding: 0 setUnit(20);
             margin-bottom: setUnit(5);
             cursor: pointer;
+
+            @media screen and (max-width: #{setUnit($mobile)}) {
+                padding: 0 setUnit(5);
+            }
 
             .label {
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 max-width: setUnit(200);
                 overflow: hidden;
-
-                @media screen and (max-width: setUnit($mobile)) {
-                    width: setUnit(100);
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
             }
 
             &:last-child {
@@ -81,6 +83,10 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+
+                @media screen and (max-width: #{setUnit($mobile)}) {
+                    padding: setUnit(10) setUnit(15);
+                }
 
                 &:hover,
                 &.active {

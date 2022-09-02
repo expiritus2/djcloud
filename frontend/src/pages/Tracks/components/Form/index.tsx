@@ -72,7 +72,7 @@ const Form: FC<ComponentProps> = (props) => {
         let isErrors = false;
         if (modalState.type !== ModalStateEnum.DELETE) {
             const { title, category, genre, file } = values;
-            isErrors = !title || !category || !genre;
+            isErrors = !title || !category || !genre || !file;
             setInputError({
                 ...inputError,
                 title: !title && 'Required',

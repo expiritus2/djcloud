@@ -107,12 +107,14 @@ export class TracksService {
         return Object.entries(groupedByCategory).reduce((acc, [key, rawTracks]) => {
             return {
                 ...acc,
-                [key]: rawTracks.map((v) => ({
-                    id: v.genre_id,
-                    name: v.genre_name,
-                    value: v.genre_value,
-                    countTracks: v.countTracks,
-                })),
+                [key]: rawTracks
+                    .map((v) => ({
+                        id: v.genre_id,
+                        name: v.genre_name,
+                        value: v.genre_value,
+                        countTracks: v.countTracks,
+                    }))
+                    .sort((a, b) => a.name.localeCompare(b.name)),
             };
         }, {});
     }

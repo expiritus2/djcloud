@@ -17,12 +17,14 @@ export enum SortFieldEnum {
     CREATED_AT = 'createdAt',
     RATING = 'rating',
     MOST_LISTEN = 'listenCount',
+    DURATION = 'duration',
 }
 
 export const sortFieldLabelMap = {
     [SortFieldEnum.CREATED_AT]: 'Newest',
     [SortFieldEnum.RATING]: 'Rating',
     [SortFieldEnum.MOST_LISTEN]: 'Most listened',
+    [SortFieldEnum.DURATION]: 'Duration',
 };
 
 const EMPTY_VALUE = '---';
@@ -48,7 +50,7 @@ const SortField: FC<ComponentProps> = (props) => {
     }, [tracks.meta.shuffle]);
 
     const fields = useMemo(() => {
-        return [SortFieldEnum.CREATED_AT, SortFieldEnum.RATING, SortFieldEnum.MOST_LISTEN];
+        return [SortFieldEnum.CREATED_AT, SortFieldEnum.RATING, SortFieldEnum.MOST_LISTEN, SortFieldEnum.DURATION];
     }, []);
 
     const onChange = (e: any) => {

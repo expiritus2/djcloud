@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { useStore } from 'store';
@@ -49,10 +49,6 @@ const SortField: FC<ComponentProps> = (props) => {
         }
     }, [tracks.meta.shuffle]);
 
-    const fields = useMemo(() => {
-        return [SortFieldEnum.CREATED_AT, SortFieldEnum.RATING, SortFieldEnum.MOST_LISTEN, SortFieldEnum.DURATION];
-    }, []);
-
     const onChange = (e: any) => {
         if (e.target.value !== EMPTY_VALUE) {
             let paramsCategoryId = undefined;
@@ -82,7 +78,7 @@ const SortField: FC<ComponentProps> = (props) => {
         <div className={classNames(styles.sortField, className)}>
             <select value={fieldValue} onChange={onChange} className={styles.input}>
                 {tracks.meta.shuffle && <option value={EMPTY_VALUE}>{EMPTY_VALUE}</option>}
-                {fields.map((field) => (
+                {Object.values(SortFieldEnum).map((field) => (
                     <option key={field} value={field}>
                         {sortFieldLabelMap[field]}
                     </option>

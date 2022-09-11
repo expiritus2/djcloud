@@ -1,9 +1,10 @@
+import { addTrackListen } from 'api/stats';
 import { makeObservable } from 'mobx';
+import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import { RequestOptions } from 'types/request';
-import Api from 'store/core/Api';
 import { Track } from 'types/track';
-import { addTrackListen } from 'api/stats';
+
 import { AddTrackListenDto } from './types';
 
 export class Stats extends BaseRequestStore<any> {

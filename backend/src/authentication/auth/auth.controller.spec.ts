@@ -1,8 +1,10 @@
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+
+import { UserEntity } from '../users/user.entity';
+
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserEntity } from '../users/user.entity';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('AuthController', () => {
     let controller: AuthController;

@@ -9,11 +9,12 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { GenreEntity } from '../genres/genre.entity';
+
 import { CategoryEntity } from '../categories/category.entity';
 import { FileEntity } from '../files/file.entity';
-import { TrackRatingEntity } from '../trackRatings/trackRating.entity';
+import { GenreEntity } from '../genres/genre.entity';
 import { ListenStatsEntity } from '../stats/listenStats.entity';
+import { TrackRatingEntity } from '../trackRatings/trackRating.entity';
 
 @Entity('tracks')
 export class TrackEntity {

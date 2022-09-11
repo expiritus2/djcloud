@@ -1,5 +1,5 @@
-import { showErrorMessage } from 'helpers/errors';
 import { AxiosError } from 'axios';
+import { showErrorMessage } from 'helpers/errors';
 import { RequestOptions, RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';
 

@@ -1,12 +1,13 @@
 import React, { FC, useState } from 'react';
-import { InputText, Button } from 'components';
 import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
-import { observer } from 'mobx-react-lite';
-import classNames from 'classnames';
 
-import { AxiosError } from 'axios';
+import { Button, InputText } from 'components';
+
 import styles from './styles.module.scss';
 
 type ComponentProps = {

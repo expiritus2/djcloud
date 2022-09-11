@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import classNames from 'classnames';
 
-import styles from './styles.module.scss';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { useScreen } from '../../../hooks';
 import { MOBILE_SMALL } from '../../../settings/constants/screen';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

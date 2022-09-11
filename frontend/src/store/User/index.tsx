@@ -1,9 +1,11 @@
-import { action, makeObservable } from 'mobx';
-import { RequestOptions, RequestStateEnum } from '../../types/request';
-import { LoginProps, User } from './types';
-import Api from '../core/Api';
 import { currentUser, login, logout } from 'api/user';
+import { action, makeObservable } from 'mobx';
+
+import { RequestOptions, RequestStateEnum } from '../../types/request';
+import Api from '../core/Api';
 import { BaseRequestStore } from '../core/BaseRequestStore';
+
+import { LoginProps, User } from './types';
 
 export class UsersStore extends BaseRequestStore<User> {
     constructor(color?: string) {

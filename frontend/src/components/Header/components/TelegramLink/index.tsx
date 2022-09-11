@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import classNames from 'classnames';
 import { FaTelegram } from 'react-icons/fa';
+import classNames from 'classnames';
 
 import styles from './styles.module.scss';
 

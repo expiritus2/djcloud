@@ -1,10 +1,11 @@
+import { create, getById, remove, update } from 'api/categories';
 import { action, makeObservable } from 'mobx';
-import { RequestOptions } from 'types/request';
-import { CreateCategoryDto, GetCategoryDto, RemoveCategoryDto, UpdateCategoryDto } from './types';
-import { Category } from 'types/track';
 import Api from 'store/core/Api';
-import { create, getById, update, remove } from 'api/categories';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
+import { RequestOptions } from 'types/request';
+import { Category } from 'types/track';
+
+import { CreateCategoryDto, GetCategoryDto, RemoveCategoryDto, UpdateCategoryDto } from './types';
 
 export class ModifyCategoryStore extends BaseRequestStore<Category> {
     constructor(color?: string) {

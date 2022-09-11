@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export default (refs: any, handler: Function, eventNames = ['pointerup', 'keyup', 'touchend']) => {
     if (!refs) throw new Error("There is no `ref` in useOutsideClick. It's required.");

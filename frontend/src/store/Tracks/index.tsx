@@ -1,14 +1,16 @@
-import { action, makeObservable } from 'mobx';
-import { PaginatedItems, RequestOptions, SortEnum } from 'types/request';
-import { GetAllByParams, SendToTelegramDto } from './types';
-import { Track, TrackRating, TrackStats } from 'types/track';
-import Api from 'store/core/Api';
 import { getAll, sendToTelegram } from 'api/tracks';
-import { BaseRequestStore } from 'store/core/BaseRequestStore';
-import { cloneDeep } from 'lodash';
-import { adminPageTableLimit } from 'settings';
-import { GetTrackDto } from '../ModifyTrack/types';
 import { getById } from 'api/tracks';
+import { cloneDeep } from 'lodash';
+import { action, makeObservable } from 'mobx';
+import { adminPageTableLimit } from 'settings';
+import Api from 'store/core/Api';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
+import { PaginatedItems, RequestOptions, SortEnum } from 'types/request';
+import { Track, TrackRating, TrackStats } from 'types/track';
+
+import { GetTrackDto } from '../ModifyTrack/types';
+
+import { GetAllByParams, SendToTelegramDto } from './types';
 
 export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackStats> {
     constructor(color?: string) {

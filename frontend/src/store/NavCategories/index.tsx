@@ -1,10 +1,10 @@
-import { action, makeObservable } from 'mobx';
-import { PaginationParams, RequestOptions, PaginatedItems, SortEnum } from 'types/request';
-import { Category } from 'types/track';
-import Api from 'store/core/Api';
 import { getAll } from 'api/categories';
-import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import { cloneDeep } from 'lodash';
+import { action, makeObservable } from 'mobx';
+import Api from 'store/core/Api';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
+import { PaginatedItems, PaginationParams, RequestOptions, SortEnum } from 'types/request';
+import { Category } from 'types/track';
 
 export class NavCategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
     constructor(color?: string) {

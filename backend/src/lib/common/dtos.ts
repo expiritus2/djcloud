@@ -1,5 +1,6 @@
-import { IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
+
 import { SortEnum } from './enums';
 
 export class PaginationQueryDto {

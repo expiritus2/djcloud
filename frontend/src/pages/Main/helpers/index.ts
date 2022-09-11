@@ -1,7 +1,8 @@
-import { groupBy } from 'lodash';
-import { GroupedTrackGenres } from 'store/TrackGenres';
-import { NavCategoriesStore } from 'store/NavCategories';
 import { PathMatch } from 'react-router/lib/router';
+import { groupBy } from 'lodash';
+import { NavCategoriesStore } from 'store/NavCategories';
+import { GroupedTrackGenres } from 'store/TrackGenres';
+
 import { TrackGenre } from '../../../store/TrackGenres/types';
 
 export const groupByNameTrackGenres = (tracksGenres: GroupedTrackGenres | null): { [key: string]: TrackGenre[] } => {

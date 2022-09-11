@@ -1,11 +1,13 @@
+import { CanActivate } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { getTime, subDays, subHours } from 'date-fns';
+import { cloneDeep } from 'lodash';
+
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
+import { TracksService } from '../tracks/tracks.service';
+
 import { TrackRatingsController } from './trackRatings.controller';
 import { TrackRatingsService } from './trackRatings.service';
-import { AdminGuard } from '../authentication/lib/guards/adminGuard';
-import { CanActivate } from '@nestjs/common';
-import { TracksService } from '../tracks/tracks.service';
-import { cloneDeep } from 'lodash';
-import { subHours, subDays, getTime } from 'date-fns';
 
 describe('TrackRatingsController', () => {
     let controller: TrackRatingsController;

@@ -1,10 +1,12 @@
+import { CanActivate } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { snakeCase } from 'lodash';
+
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
+import { PaginationQueryDto } from '../lib/common/dtos';
+
 import { CategoriesController } from './categories.controller';
 import { CategoriesService } from './categories.service';
-import { AdminGuard } from '../authentication/lib/guards/adminGuard';
-import { CanActivate } from '@nestjs/common';
-import { PaginationQueryDto } from '../lib/common/dtos';
-import { snakeCase } from 'lodash';
 
 describe('CategoriesController', () => {
     let controller: CategoriesController;

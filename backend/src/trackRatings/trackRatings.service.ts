@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AddTrackRatingDto } from './dtos/add-trackRating.dto';
-import { TrackRatingEntity } from './trackRating.entity';
-import { TrackEntity } from '../tracks/track.entity';
-import { AddTrackRatingResponseDto } from './dtos/add-trackRating-response.dto';
+
 import { averageRating } from '../lib/utils/rating';
+import { TrackEntity } from '../tracks/track.entity';
+
+import { AddTrackRatingDto } from './dtos/add-trackRating.dto';
+import { AddTrackRatingResponseDto } from './dtos/add-trackRating-response.dto';
+import { TrackRatingEntity } from './trackRating.entity';
 
 @Injectable()
 export class TrackRatingsService {

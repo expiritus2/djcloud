@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
+import { useStore } from 'store';
 
 import { Header } from 'components';
+
 import { LoginForm } from './components';
 
-import { useStore } from 'store';
 import styles from './styles.module.scss';
 
 type ComponentProps = {

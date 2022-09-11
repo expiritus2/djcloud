@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
-import classNames from 'classnames';
 import { useDropzone } from 'react-dropzone';
+import classNames from 'classnames';
 
 import styles from './styles.module.scss';
 

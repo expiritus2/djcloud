@@ -1,11 +1,13 @@
-import { AuthService } from './auth.service';
-import { Test } from '@nestjs/testing';
-import { UsersService } from '../users/users.service';
-import { UserEntity } from '../users/user.entity';
-import { ConfigService } from '@nestjs/config';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Test } from '@nestjs/testing';
+
 import { getMockConfigService } from '../../lib/testData/utils';
 import { getHashPassword } from '../lib/utils';
+import { UserEntity } from '../users/user.entity';
+import { UsersService } from '../users/users.service';
+
+import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
     let service: AuthService;

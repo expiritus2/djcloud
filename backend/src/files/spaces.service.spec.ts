@@ -1,9 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { SpacesService } from './spaces.service';
-import { getMockConfigService } from '../lib/testData/utils';
-import { ConfigService } from '@nestjs/config';
-import { mocked } from 'jest-mock';
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
+import { mocked } from 'jest-mock';
+
+import { getMockConfigService } from '../lib/testData/utils';
+
+import { SpacesService } from './spaces.service';
 
 jest.mock('../lib/common/logger');
 jest.mock('uuid', () => ({

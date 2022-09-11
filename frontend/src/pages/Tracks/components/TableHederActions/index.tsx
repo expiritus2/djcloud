@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
 
-import { Filter } from '..';
 import { TotalDuration } from 'components';
+
+import { Filter } from '..';
 
 import styles from './styles.module.scss';
 

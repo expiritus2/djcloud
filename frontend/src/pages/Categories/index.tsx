@@ -1,23 +1,23 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
+import { getQuery } from 'helpers/query';
+import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
+import { ModalStateEnum } from 'types/modal';
+
 import {
     AdminContentWrapper,
     AdminMenu,
     AdminPageTitle,
-    PageWrapper,
     Header,
+    PageWrapper,
     PendingWrapper,
     TableWrapper,
 } from 'components';
-import { useStore } from 'store';
 
-import { observer } from 'mobx-react-lite';
-import { ModalStateEnum } from 'types/modal';
-import { useLocation } from 'react-router-dom';
-import { getQuery } from 'helpers/query';
-
-import Table from './Table';
 import CategoryModal from './Modal';
+import Table from './Table';
 
 import styles from './styles.module.scss';
 

@@ -1,15 +1,15 @@
-import React, { FC, useMemo, useCallback } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
+import { useLocation, useMatch } from 'react-router-dom';
 import classNames from 'classnames';
-import { Menu, MenuSwitcher } from 'components';
-import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
-import { useMatch, useLocation } from 'react-router-dom';
-
 import { link } from 'settings/navigation/link';
-import { MenuItem } from 'components/Menu';
 import { routes } from 'settings/navigation/routes';
-import { TrackGenre } from 'store/TrackGenres/types';
+import { useStore } from 'store';
 import { GroupedTrackGenres } from 'store/TrackGenres';
+import { TrackGenre } from 'store/TrackGenres/types';
+
+import { Menu, MenuSwitcher } from 'components';
+import { MenuItem } from 'components/Menu';
 
 import { groupByNameTrackGenres } from '../../helpers';
 

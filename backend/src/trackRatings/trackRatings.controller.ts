@@ -1,13 +1,15 @@
 import { Body, Controller, Get, Param, Post, Session } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { TrackRatingDto } from './dtos/trackRating.dto';
-import { TrackRatingsService } from './trackRatings.service';
-import { AddTrackRatingDto } from './dtos/add-trackRating.dto';
-import { TrackRatingEntity } from './trackRating.entity';
-import { AddTrackRatingControllerResponseDto } from './dtos/add-trackRating-response.dto';
 import { differenceInDays } from 'date-fns';
-import { TracksService } from '../tracks/tracks.service';
+
 import { averageRating } from '../lib/utils/rating';
+import { TracksService } from '../tracks/tracks.service';
+
+import { AddTrackRatingDto } from './dtos/add-trackRating.dto';
+import { AddTrackRatingControllerResponseDto } from './dtos/add-trackRating-response.dto';
+import { TrackRatingDto } from './dtos/trackRating.dto';
+import { TrackRatingEntity } from './trackRating.entity';
+import { TrackRatingsService } from './trackRatings.service';
 
 @ApiTags('TrackRatings')
 @Controller('trackRatings')

@@ -1,12 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { FilesService } from './files.service';
-import { getMockConfigService } from '../lib/testData/utils';
+import { NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NestjsFormDataModule } from 'nestjs-form-data';
+
+import { getMockConfigService } from '../lib/testData/utils';
+
 import { FileEntity } from './file.entity';
+import { FilesService } from './files.service';
 import { SpacesService } from './spaces.service';
-import { NotFoundException } from '@nestjs/common';
 
 describe('FilesService', () => {
     let service: FilesService;

@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { NestjsFormDataModule } from 'nestjs-form-data';
+
+import { CategoryEntity } from '../categories/category.entity';
+import { GenreEntity } from '../genres/genre.entity';
+import { TrackEntity } from '../tracks/track.entity';
+
+import { FileEntity } from './file.entity';
 import { FilesController } from './files.controller';
 import { FilesService } from './files.service';
-import { NestjsFormDataModule } from 'nestjs-form-data';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { FileEntity } from './file.entity';
-import { TrackEntity } from '../tracks/track.entity';
-import { GenreEntity } from '../genres/genre.entity';
-import { CategoryEntity } from '../categories/category.entity';
 import { SpacesService } from './spaces.service';
 
 @Module({

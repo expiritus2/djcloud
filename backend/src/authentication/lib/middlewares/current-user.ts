@@ -1,7 +1,8 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
-import { UsersService } from '../../users/users.service';
+import { NextFunction, Request, Response } from 'express';
+
 import { UserEntity } from '../../users/user.entity';
+import { UsersService } from '../../users/users.service';
 
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace

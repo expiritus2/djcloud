@@ -1,13 +1,15 @@
 import React, { FC, useState } from 'react';
-import classNames from 'classnames';
-
 import { AiFillDelete } from 'react-icons/ai';
 import { FaRegEdit } from 'react-icons/fa';
-import { DownloadTrack } from 'components';
+import classNames from 'classnames';
 import { Track } from 'types/track';
+
+import { DownloadTrack } from 'components';
+
 import Action from './Action';
-import styles from './styles.module.scss';
 import SendToTelegram from './SendToTelegram';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

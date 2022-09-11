@@ -1,5 +1,5 @@
-import { routes } from 'settings/navigation/routes';
 import { Login, Main } from 'pages';
+import { routes } from 'settings/navigation/routes';
 import { INavigation } from 'types/navigation';
 
 const commonRoutes: INavigation[] = [

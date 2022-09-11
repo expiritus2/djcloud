@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 import classNames from 'classnames';
+import { useStore } from 'store';
+import { Category, Genre } from 'types/track';
 
 import { CategoryInput, GenreInput } from 'components';
-import { Category, Genre } from 'types/track';
-import { useStore } from 'store';
 
 import styles from './styles.module.scss';
 

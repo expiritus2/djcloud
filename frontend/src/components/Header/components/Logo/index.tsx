@@ -1,6 +1,6 @@
 import React, { FC, MouseEventHandler } from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import { routes } from 'settings/navigation/routes';
 
 import styles from './styles.module.scss';

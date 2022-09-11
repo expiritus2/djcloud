@@ -1,10 +1,14 @@
-import { action, makeObservable, observable, reaction } from 'mobx';
-import { RequestOptions } from 'types/request';
-import { GetTrackByIdParamsDto } from './types';
-import { Track } from 'types/track';
-import Api from 'store/core/Api';
 import { getById } from 'api/tracks';
+import { action, makeObservable, observable, reaction } from 'mobx';
+import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
+import { RequestOptions } from 'types/request';
+import { Track } from 'types/track';
+
+import { adminPageTableLimit, mainPageTrackLimit } from '../../settings';
+import { TrackRating } from '../TrackRating/types';
+
+import { GetTrackByIdParamsDto } from './types';
 import {
     getActualTrackIndex,
     getCurrentPageTracks,
@@ -20,8 +24,6 @@ import {
     requestPageTracks,
     setDocumentTitle,
 } from './utils';
-import { adminPageTableLimit, mainPageTrackLimit } from '../../settings';
-import { TrackRating } from '../TrackRating/types';
 
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;

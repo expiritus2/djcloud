@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import classNames from 'classnames';
-
-import { useStore } from 'store';
-import { mainPageTrackLimit } from 'settings';
-import { SortEnum } from 'types/request';
-import { observer } from 'mobx-react-lite';
-import styles from './styles.module.scss';
 import { useMatch } from 'react-router-dom';
+import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
+import { mainPageTrackLimit } from 'settings';
 import { routes } from 'settings/navigation/routes';
+import { useStore } from 'store';
+import { SortEnum } from 'types/request';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

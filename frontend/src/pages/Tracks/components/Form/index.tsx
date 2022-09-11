@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
-import classNames from 'classnames';
-
-import { InputText, CategoryInput, GenreInput, DropZone, Checkbox } from 'components';
-import { ModalStateEnum } from 'types/modal';
 import { AxiosError } from 'axios';
+import classNames from 'classnames';
 import { useStore } from 'store';
+import { ModalStateEnum } from 'types/modal';
+
+import { CategoryInput, Checkbox, DropZone, GenreInput, InputText } from 'components';
+
 import { InitModalStateType } from '../..';
 
 import styles from './styles.module.scss';

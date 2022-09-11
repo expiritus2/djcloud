@@ -1,7 +1,8 @@
-import { PaginationQueryDto } from '../../lib/common/dtos';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
+
+import { PaginationQueryDto } from '../../lib/common/dtos';
 
 export class GetAllDto extends PaginationQueryDto {
     @IsOptional()

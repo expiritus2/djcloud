@@ -1,9 +1,10 @@
+import { getAll } from 'api/genres';
 import { action, makeObservable } from 'mobx';
+import Api from 'store/core/Api';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import { PaginatedItems, PaginationParams, RequestOptions, SortEnum } from 'types/request';
 import { Genre } from 'types/track';
-import Api from 'store/core/Api';
-import { getAll } from 'api/genres';
-import { BaseRequestStore } from 'store/core/BaseRequestStore';
+
 import { adminPageTableLimit } from '../../settings';
 
 export class GenresStore extends BaseRequestStore<PaginatedItems<Genre>> {

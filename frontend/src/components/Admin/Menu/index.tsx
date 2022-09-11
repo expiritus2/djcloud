@@ -1,11 +1,14 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import { Menu } from 'components';
-import { routes } from 'settings/navigation/routes';
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
+import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
+
+import { Menu } from 'components';
+
 import { AdminTabsEnum } from '../../../store/AdminState/types';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

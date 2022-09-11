@@ -1,5 +1,5 @@
-import formatDuration from 'format-duration';
 import { format as dateFnsFormat, parseISO } from 'date-fns';
+import formatDuration from 'format-duration';
 
 export const getDuration = (durationSeconds: number) => {
     return formatDuration(durationSeconds * 1000, { leading: true });

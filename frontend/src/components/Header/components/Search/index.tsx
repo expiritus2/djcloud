@@ -1,11 +1,10 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
-import { useNavigate, useLocation, NavigateFunction } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
-
-import { debounce as _debounce } from 'lodash';
+import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 import { getQuery, setQuery } from 'helpers/query';
-import { useScreen, useOutsideClick } from 'hooks';
+import { useOutsideClick, useScreen } from 'hooks';
+import { debounce as _debounce } from 'lodash';
 
 import styles from './styles.module.scss';
 

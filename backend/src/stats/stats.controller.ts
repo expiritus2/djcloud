@@ -1,10 +1,12 @@
 import { Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { TrackDto } from '../tracks/dtos/track.dto';
-import { StatsService } from './stats.service';
-import { TrackStatsDto } from './dtos/track-stats.dto';
+
 import { GetAllDto } from '../tracks/dtos/get-all.dto';
+import { TrackDto } from '../tracks/dtos/track.dto';
+
+import { TrackStatsDto } from './dtos/track-stats.dto';
 import { ListenStatsEntity } from './listenStats.entity';
+import { StatsService } from './stats.service';
 
 @ApiTags('Stats')
 @Controller('stats')

@@ -1,10 +1,12 @@
-import { Test } from '@nestjs/testing';
-import { CategoriesService } from './categories.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { CategoryEntity } from './category.entity';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { mocked } from 'jest-mock';
+
 import { simplePaginateQuery } from '../lib/queries/pagination';
+
+import { CategoriesService } from './categories.service';
+import { CategoryEntity } from './category.entity';
 
 jest.mock('../lib/queries/pagination');
 

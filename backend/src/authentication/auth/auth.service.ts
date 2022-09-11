@@ -1,8 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { UserEntity } from '../users/user.entity';
 import { ConfigService } from '@nestjs/config';
+
 import { getHashPassword } from '../lib/utils';
+import { UserEntity } from '../users/user.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {

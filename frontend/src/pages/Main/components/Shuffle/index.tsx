@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
-import classNames from 'classnames';
-
 import { BsShuffle } from 'react-icons/bs';
+import { useMatch } from 'react-router-dom';
+import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
+import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 
 import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
-import { useMatch } from 'react-router-dom';
-import { routes } from 'settings/navigation/routes';
 
 type ComponentProps = {
     className?: string;

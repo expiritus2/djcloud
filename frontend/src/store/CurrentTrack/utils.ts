@@ -1,7 +1,8 @@
-import { Track } from 'types/track';
-import store from '..';
 import { adminPageTableLimit, mainPageTrackLimit } from 'settings';
 import { sign } from 'settings/sign';
+import { Track } from 'types/track';
+
+import store from '..';
 
 export const getCurrentTrackIndex = (): number => {
     const tracks = store.tracks.data?.data || [];

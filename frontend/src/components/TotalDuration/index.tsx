@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-
+import { getDuration } from 'helpers/formatters';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'store';
-import { getDuration } from 'helpers/formatters';
 
 import styles from './styles.module.scss';
 

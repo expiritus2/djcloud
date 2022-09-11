@@ -1,17 +1,19 @@
 import { Module } from '@nestjs/common';
-import { TracksController } from './tracks.controller';
-import { TracksService } from './tracks.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TrackEntity } from './track.entity';
-import { FileEntity } from '../files/file.entity';
-import { GenreEntity } from '../genres/genre.entity';
-import { CategoryEntity } from '../categories/category.entity';
-import { TelegramService } from '../telegram/telegram.service';
 import { NestjsFormDataModule } from 'nestjs-form-data';
+
+import { CategoryEntity } from '../categories/category.entity';
+import { FileEntity } from '../files/file.entity';
 import { FilesService } from '../files/files.service';
 import { SpacesService } from '../files/spaces.service';
-import { StatsService } from '../stats/stats.service';
+import { GenreEntity } from '../genres/genre.entity';
 import { ListenStatsEntity } from '../stats/listenStats.entity';
+import { StatsService } from '../stats/stats.service';
+import { TelegramService } from '../telegram/telegram.service';
+
+import { TrackEntity } from './track.entity';
+import { TracksController } from './tracks.controller';
+import { TracksService } from './tracks.service';
 
 @Module({
     imports: [

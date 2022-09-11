@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import classNames from 'classnames';
+
 import { Spinner } from '../..';
 
 import styles from './styles.module.scss';

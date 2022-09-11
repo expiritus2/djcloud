@@ -1,10 +1,12 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import * as AWS from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
-import { UploadedFile, UploadFile } from './dtos/track-file.dto';
-import { v4 as uuid } from 'uuid';
+import * as AWS from 'aws-sdk';
 import { getAudioDurationInSeconds } from 'get-audio-duration';
+import { v4 as uuid } from 'uuid';
+
 import { envConfig } from '../lib/configs/envs';
+
+import { UploadedFile, UploadFile } from './dtos/track-file.dto';
 
 @Injectable()
 export class SpacesService {

@@ -1,7 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { TelegramService } from './telegram.service';
 import { ConfigService } from '@nestjs/config';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { getMockConfigService } from '../lib/testData/utils';
+
+import { TelegramService } from './telegram.service';
 
 jest.mock('telegraf', () => ({
     Telegraf: jest.fn().mockImplementation(() => {

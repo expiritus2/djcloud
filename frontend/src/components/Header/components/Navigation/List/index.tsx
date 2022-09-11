@@ -1,12 +1,11 @@
 import React, { FC, forwardRef } from 'react';
-import classNames from 'classnames';
-
-import { Category } from 'types/track';
 import { NavLink, useLocation, useMatch } from 'react-router-dom';
+import classNames from 'classnames';
 import { link } from 'settings/navigation/link';
-import { UserRoleEnum } from 'types/user';
-import { useStore } from 'store';
 import { routes } from 'settings/navigation/routes';
+import { useStore } from 'store';
+import { Category } from 'types/track';
+import { UserRoleEnum } from 'types/user';
 
 type ComponentProps = {
     className?: string;

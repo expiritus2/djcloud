@@ -1,18 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { mocked } from 'jest-mock';
-import { TracksService } from './tracks.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { TrackEntity } from './track.entity';
-import { FileEntity } from '../files/file.entity';
-import { simplePaginateQuery } from '../lib/queries/pagination';
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { GenreEntity } from '../genres/genre.entity';
-import { CategoryEntity } from '../categories/category.entity';
-import path from 'path';
-import { getMockConfigService } from '../lib/testData/utils';
 import { ConfigService } from '@nestjs/config';
-import { SpacesService } from '../files/spaces.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { mocked } from 'jest-mock';
+import path from 'path';
+
+import { CategoryEntity } from '../categories/category.entity';
+import { FileEntity } from '../files/file.entity';
 import { FilesService } from '../files/files.service';
+import { SpacesService } from '../files/spaces.service';
+import { GenreEntity } from '../genres/genre.entity';
+import { simplePaginateQuery } from '../lib/queries/pagination';
+import { getMockConfigService } from '../lib/testData/utils';
+
+import { TrackEntity } from './track.entity';
+import { TracksService } from './tracks.service';
 
 jest.mock('../lib/common/logger');
 jest.mock('get-audio-duration');

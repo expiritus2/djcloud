@@ -13,7 +13,8 @@
         "react",
         "prettier",
         "react-hooks",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "simple-import-sort"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -105,6 +106,26 @@
         ],
         "@typescript-eslint/default-param-last": "off",
         "prettier/prettier": "error",
-        "@typescript-eslint/no-unused-vars": "warn"
+        "@typescript-eslint/no-unused-vars": "warn",
+        "simple-import-sort/exports": "error",
+        "simple-import-sort/imports": [
+            "error",
+            {
+                "groups": [
+                    // Packages `react` related packages come first.
+                    ["^react", "^@?\\w"],
+                    // Internal packages.
+                    ["^(@|components)(/.*|$)"],
+                    // Side effect imports.
+                    ["^\\u0000"],
+                    // Parent imports. Put `..` last.
+                    ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+                    // Other relative imports. Put same-folder imports and `.` last.
+                    ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+                    // Style imports.
+                    ["^.+\\.?(css)$"]
+                ]
+            }
+        ]
     }
 }

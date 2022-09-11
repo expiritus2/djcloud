@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
 import { TrackEntity } from '../tracks/track.entity';
 
 @Entity('genres')

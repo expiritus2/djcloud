@@ -1,10 +1,12 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FormDataRequest } from 'nestjs-form-data';
+
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
+
 import { TrackFileDto, UploadedFile } from './dtos/track-file.dto';
-import { FilesService } from './files.service';
 import { FileEntity } from './file.entity';
+import { FilesService } from './files.service';
 
 @ApiTags('Files')
 @Controller('files')

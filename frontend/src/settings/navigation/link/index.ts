@@ -1,5 +1,5 @@
-import { routes } from '../routes';
 import { AdminTabsEnum } from '../../../store/AdminState/types';
+import { routes } from '../routes';
 
 export const link = {
     toTracks: (categoryId: string, genreId: string | undefined) => {

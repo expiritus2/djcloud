@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { TrackEntity } from '../tracks/track.entity';
 
 @Entity('listenStats')

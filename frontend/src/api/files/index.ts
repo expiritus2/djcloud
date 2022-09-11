@@ -1,4 +1,5 @@
 import { apiServer } from 'settings/web-services/api';
+
 import { RequestOptions } from '../../types/request';
 
 export const uploadFile = ({ file, title }: { file: File; title: string }, options: RequestOptions) => {

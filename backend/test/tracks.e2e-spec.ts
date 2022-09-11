@@ -1,18 +1,20 @@
-import path from 'path';
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import path from 'path';
 import request from 'supertest';
+
+import dataSource from '../ormconfig';
 import { AppModule } from '../src/app.module';
-import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
-import { CategoryEntity } from '../src/categories/category.entity';
 import { UserEntity } from '../src/authentication/users/user.entity';
-import { GenreEntity } from '../src/genres/genre.entity';
-import { TrackEntity } from '../src/tracks/track.entity';
+import { CategoryEntity } from '../src/categories/category.entity';
 import { FileEntity } from '../src/files/file.entity';
-import { createTrack, removeFile, uploadFile } from './utils/tracks';
+import { GenreEntity } from '../src/genres/genre.entity';
 import { setCookieSession } from '../src/lib/configs/app/cookieSession';
 import { setPipe } from '../src/lib/configs/app/pipes';
-import dataSource from '../ormconfig';
+import { TrackEntity } from '../src/tracks/track.entity';
+
+import { createTrack, removeFile, uploadFile } from './utils/tracks';
+import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
 
 global.__baseDir = path.resolve(__dirname, '..');
 

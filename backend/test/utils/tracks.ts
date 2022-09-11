@@ -1,10 +1,11 @@
-import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import path from 'path';
-import { TrackDto } from '../../src/tracks/dtos/track.dto';
-import { UploadedFile } from '../../src/files/dtos/track-file.dto';
+import request from 'supertest';
+
 import { CategoryEntity } from '../../src/categories/category.entity';
+import { UploadedFile } from '../../src/files/dtos/track-file.dto';
 import { GenreEntity } from '../../src/genres/genre.entity';
+import { TrackDto } from '../../src/tracks/dtos/track.dto';
 
 const pathToMP3File = path.resolve(__dirname, '..', 'data', 'files', 'Kamera-ExtendedMix.mp3');
 

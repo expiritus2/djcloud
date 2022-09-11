@@ -1,18 +1,20 @@
 import { INestApplication } from '@nestjs/common';
-import { TrackDto } from '../src/tracks/dtos/track.dto';
-import path from 'path';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from '../src/app.module';
-import { setPipe } from '../src/lib/configs/app/pipes';
-import { setCookieSession } from '../src/lib/configs/app/cookieSession';
-import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
-import { CategoryEntity } from '../src/categories/category.entity';
-import { GenreEntity } from '../src/genres/genre.entity';
-import { TrackEntity } from '../src/tracks/track.entity';
-import { FileEntity } from '../src/files/file.entity';
-import { UserEntity } from '../src/authentication/users/user.entity';
+import path from 'path';
 import request from 'supertest';
+
+import { AppModule } from '../src/app.module';
+import { UserEntity } from '../src/authentication/users/user.entity';
+import { CategoryEntity } from '../src/categories/category.entity';
+import { FileEntity } from '../src/files/file.entity';
+import { GenreEntity } from '../src/genres/genre.entity';
+import { setCookieSession } from '../src/lib/configs/app/cookieSession';
+import { setPipe } from '../src/lib/configs/app/pipes';
+import { TrackDto } from '../src/tracks/dtos/track.dto';
+import { TrackEntity } from '../src/tracks/track.entity';
+
 import { removeFile } from './utils/tracks';
+import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
 
 global.__baseDir = path.resolve(__dirname, '..');
 

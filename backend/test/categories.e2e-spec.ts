@@ -1,15 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
-import { AppModule } from '../src/app.module';
-import { clearTable, signupAdmin } from './utils';
-import { CategoryEntity } from '../src/categories/category.entity';
-import { UserEntity } from '../src/authentication/users/user.entity';
+import { Test, TestingModule } from '@nestjs/testing';
 import { snakeCase } from 'lodash';
-import { CategoryDto } from '../src/categories/dtos/category.dto';
+import request from 'supertest';
+
 import dataSource from '../ormconfig';
+import { AppModule } from '../src/app.module';
+import { UserEntity } from '../src/authentication/users/user.entity';
+import { CategoryEntity } from '../src/categories/category.entity';
+import { CategoryDto } from '../src/categories/dtos/category.dto';
 import { setCookieSession } from '../src/lib/configs/app/cookieSession';
 import { setPipe } from '../src/lib/configs/app/pipes';
+
+import { clearTable, signupAdmin } from './utils';
 
 jest.setTimeout(30000);
 

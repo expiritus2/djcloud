@@ -1,5 +1,6 @@
-import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
 import { toNumber } from 'lodash';
+import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
+
 import { PaginationQueryDto } from '../common/dtos';
 import { SortEnum } from '../common/enums';
 

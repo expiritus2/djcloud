@@ -1,12 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
-import { AdminGuard } from '../authentication/lib/guards/adminGuard';
-import { CreateGenreDto } from './dtos/create-genre.dto';
-import { GenresService } from './genres.service';
-import { GenreDto } from './dtos/genre.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GenreEntity } from './genre.entity';
-import { UpdateGenreDto } from './dtos/update-genre.dto';
+
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { PaginationQueryDto } from '../lib/common/dtos';
+
+import { CreateGenreDto } from './dtos/create-genre.dto';
+import { GenreDto } from './dtos/genre.dto';
+import { UpdateGenreDto } from './dtos/update-genre.dto';
+import { GenreEntity } from './genre.entity';
+import { GenresService } from './genres.service';
 
 @ApiTags('Genres')
 @Controller('genres')

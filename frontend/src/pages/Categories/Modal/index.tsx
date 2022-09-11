@@ -1,15 +1,15 @@
 import React, { FC, useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
+import { ModalStateEnum } from 'types/modal';
+import { RequestStateEnum, SortEnum } from 'types/request';
 
 import { ContentModal, InputText } from 'components';
 import { ButtonType } from 'components/ContentModal';
-import { useStore } from 'store';
 
-import { AxiosError } from 'axios';
 import { initModalState, InitModalStateType } from '../index';
-import { observer } from 'mobx-react-lite';
-import { ModalStateEnum } from 'types/modal';
-import { RequestStateEnum, SortEnum } from 'types/request';
 
 import styles from './styles.module.scss';
 

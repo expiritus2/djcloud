@@ -1,8 +1,10 @@
-import { AdminGuard } from './adminGuard';
 import { ExecutionContext } from '@nestjs/common';
-import { cloneDeep } from 'lodash';
 import { mocked } from 'jest-mock';
+import { cloneDeep } from 'lodash';
+
 import { UsersService } from '../../users/users.service';
+
+import { AdminGuard } from './adminGuard';
 
 describe('AdminGuard', () => {
     const request = {

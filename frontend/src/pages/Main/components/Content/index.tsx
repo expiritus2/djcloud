@@ -1,18 +1,19 @@
 import React, { FC, useEffect } from 'react';
-import classNames from 'classnames';
-
 import { useLocation, useMatch, useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
+import { getQuery } from 'helpers/query';
+import { observer } from 'mobx-react-lite';
+import { mainPageTrackLimit } from 'settings';
+import { link } from 'settings/navigation/link';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
-import { observer } from 'mobx-react-lite';
-import { Pagination, Shuffle, SortAscDesc, SortField, Tracks } from '..';
+import { SortEnum } from 'types/request';
+
 import { PendingWrapper, TotalDuration } from 'components';
-import { mainPageTrackLimit } from 'settings';
-import { getQuery } from 'helpers/query';
-import { link } from 'settings/navigation/link';
+
 import { getCategoryIdFromParams } from '../../helpers';
 import { SortFieldEnum } from '../SortField';
-import { SortEnum } from 'types/request';
+import { Pagination, Shuffle, SortAscDesc, SortField, Tracks } from '..';
 
 import styles from './styles.module.scss';
 

@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { DESKTOP, MOBILE, MOBILE_SMALL } from 'settings/constants/screen';
+
 import { ScreenType } from '../hooks/use-resize';
 
 const { innerWidth, innerHeight } = window;

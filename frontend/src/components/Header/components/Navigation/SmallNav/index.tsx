@@ -1,10 +1,10 @@
 import React, { FC, useRef, useState } from 'react';
-import classNames from 'classnames';
-
-import { useStore } from 'store';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import classNames from 'classnames';
 import { useOutsideClick } from 'hooks';
 import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
+
 import List from '../List';
 
 import styles from './styles.module.scss';

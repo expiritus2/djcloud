@@ -1,11 +1,12 @@
-import { action, makeObservable, reaction } from 'mobx';
-import { PaginationParams, RequestOptions, PaginatedItems, SortEnum } from 'types/request';
-import { Category } from 'types/track';
-import Api from 'store/core/Api';
 import { getAll } from 'api/categories';
-import { BaseRequestStore } from 'store/core/BaseRequestStore';
-import store from '..';
+import { action, makeObservable, reaction } from 'mobx';
 import { adminPageTableLimit } from 'settings';
+import Api from 'store/core/Api';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
+import { PaginatedItems, PaginationParams, RequestOptions, SortEnum } from 'types/request';
+import { Category } from 'types/track';
+
+import store from '..';
 
 export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
     constructor(color?: string) {

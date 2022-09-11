@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { setSwagger } from './lib/configs/app/swagger';
-import { setPipe } from './lib/configs/app/pipes';
+import path from 'path';
+
 import { setCookieSession } from './lib/configs/app/cookieSession';
 import { setHeaders } from './lib/configs/app/headers';
-import path from 'path';
+import { setPipe } from './lib/configs/app/pipes';
+import { setSwagger } from './lib/configs/app/swagger';
 import { EnvEnums } from './lib/configs/envs';
+import { AppModule } from './app.module';
 
 global.__baseDir = path.resolve(__dirname, '..', '..');
 

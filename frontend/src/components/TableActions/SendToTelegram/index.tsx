@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react';
-import classNames from 'classnames';
-
 import { FaTelegram } from 'react-icons/fa';
-import { Track } from 'types/track';
-import Action from '../Action';
+import classNames from 'classnames';
 import { useStore } from 'store';
+import { Track } from 'types/track';
+
 import { ContentModal } from '../..';
 import { ButtonType } from '../../ContentModal';
+import Action from '../Action';
 
 import styles from './styles.module.scss';
 

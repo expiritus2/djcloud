@@ -1,5 +1,5 @@
-import { Category, Genre, File as TrackFile } from 'types/track';
 import { SortEnum } from 'types/request';
+import { Category, File as TrackFile, Genre } from 'types/track';
 
 export type CreateTrackDto = {
     title: string;

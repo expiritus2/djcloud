@@ -1,10 +1,12 @@
+import { CanActivate } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { snakeCase } from 'lodash';
+
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
+import { PaginationQueryDto } from '../lib/common/dtos';
+
 import { GenresController } from './genres.controller';
 import { GenresService } from './genres.service';
-import { AdminGuard } from '../authentication/lib/guards/adminGuard';
-import { CanActivate } from '@nestjs/common';
-import { PaginationQueryDto } from '../lib/common/dtos';
-import { snakeCase } from 'lodash';
 
 describe('GenresController', () => {
     let controller: GenresController;

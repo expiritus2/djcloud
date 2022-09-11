@@ -1,9 +1,10 @@
-import { action, makeObservable } from 'mobx';
-import { RequestOptions } from 'types/request';
-import { TrackGenre, TrackGenreParams } from './types';
-import Api from 'store/core/Api';
 import { getTracksGenres } from 'api/tracks';
+import { action, makeObservable } from 'mobx';
+import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
+import { RequestOptions } from 'types/request';
+
+import { TrackGenre, TrackGenreParams } from './types';
 
 export type GroupedTrackGenres = {
     [key: number]: TrackGenre[];

@@ -1,10 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
-import { useStore } from 'store';
-import { observer } from 'mobx-react-lite';
-
-import { Category } from 'types/track';
 import { cloneDeep } from 'lodash';
+import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
+import { Category } from 'types/track';
 
 import styles from './styles.module.scss';
 

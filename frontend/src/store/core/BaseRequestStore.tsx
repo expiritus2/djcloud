@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
+import { cloneDeep } from 'lodash';
 import { action, makeObservable, observable } from 'mobx';
+import { toJS } from 'mobx';
 import { RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';
-import { cloneDeep } from 'lodash';
-import { toJS } from 'mobx';
 
 export abstract class BaseRequestStore<T> {
     color: string = '';

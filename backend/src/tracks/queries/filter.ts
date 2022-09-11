@@ -1,5 +1,6 @@
-import { GetAllDto } from '../dtos/get-all.dto';
 import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
+
+import { GetAllDto } from '../dtos/get-all.dto';
 
 type OptionsType = { searchFieldName?: string };
 

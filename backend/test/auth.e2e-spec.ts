@@ -1,12 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
+
+import dataSource from '../ormconfig';
 import { AppModule } from '../src/app.module';
 import { UserEntity } from '../src/authentication/users/user.entity';
-import { signup, clearTable } from './utils';
-import dataSource from '../ormconfig';
 import { setCookieSession } from '../src/lib/configs/app/cookieSession';
 import { setPipe } from '../src/lib/configs/app/pipes';
+
+import { clearTable, signup } from './utils';
 
 jest.setTimeout(30000);
 

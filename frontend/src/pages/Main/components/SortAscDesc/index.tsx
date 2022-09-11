@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
+import { BsSortDown, BsSortUp } from 'react-icons/bs';
+import { useMatch } from 'react-router-dom';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
-
+import { mainPageTrackLimit } from 'settings';
+import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { SortEnum } from 'types/request';
-import { mainPageTrackLimit } from 'settings';
-import { BsSortDown, BsSortUp } from 'react-icons/bs';
-import { SortFieldEnum } from '../SortField';
 
-import { useMatch } from 'react-router-dom';
-import { routes } from 'settings/navigation/routes';
+import { SortFieldEnum } from '../SortField';
 
 import styles from './styles.module.scss';
 

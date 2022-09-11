@@ -1,8 +1,10 @@
 import { Test } from '@nestjs/testing';
-import { TrackRatingsService } from './trackRatings.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { TrackRatingEntity } from './trackRating.entity';
+
 import { TrackEntity } from '../tracks/track.entity';
+
+import { TrackRatingEntity } from './trackRating.entity';
+import { TrackRatingsService } from './trackRatings.service';
 
 describe('TrackRatingsService', () => {
     let service: TrackRatingsService;

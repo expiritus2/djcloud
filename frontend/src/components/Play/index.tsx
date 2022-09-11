@@ -1,12 +1,10 @@
 import React, { FC, forwardRef } from 'react';
-import classNames from 'classnames';
-
 import { AiFillPauseCircle, AiFillPlayCircle } from 'react-icons/ai';
-import { useStore } from 'store';
-import { MOBILE } from 'settings/constants/screen';
-
-import { observer } from 'mobx-react-lite';
+import classNames from 'classnames';
 import { useScreen } from 'hooks';
+import { observer } from 'mobx-react-lite';
+import { MOBILE } from 'settings/constants/screen';
+import { useStore } from 'store';
 
 import styles from './styles.module.scss';
 

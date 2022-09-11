@@ -1,10 +1,9 @@
 import React, { FC, ReactNode, useEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
-
-import { NavLink } from 'react-router-dom';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
+import { useOutsideClick, useScreen } from 'hooks';
 
-import { useScreen, useOutsideClick } from 'hooks';
 import styles from './styles.module.scss';
 
 export type MenuItem = {

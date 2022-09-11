@@ -1,17 +1,19 @@
-import path from 'path';
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import path from 'path';
 import request from 'supertest';
+
+import dataSource from '../ormconfig';
 import { AppModule } from '../src/app.module';
-import { clearTable, signupAdmin } from './utils';
 import { UserEntity } from '../src/authentication/users/user.entity';
 import { FileEntity } from '../src/files/file.entity';
-import { removeFile, uploadFile } from './utils/tracks';
 import { SpacesService } from '../src/files/spaces.service';
-import { envConfig } from '../src/lib/configs/envs';
 import { setCookieSession } from '../src/lib/configs/app/cookieSession';
 import { setPipe } from '../src/lib/configs/app/pipes';
-import dataSource from '../ormconfig';
+import { envConfig } from '../src/lib/configs/envs';
+
+import { removeFile, uploadFile } from './utils/tracks';
+import { clearTable, signupAdmin } from './utils';
 
 global.__baseDir = path.resolve(__dirname, '..');
 

@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
-import classNames from 'classnames';
-
 import { FaDownload } from 'react-icons/fa';
+import classNames from 'classnames';
 import { downloadByRequest } from 'helpers/download';
 import { sign } from 'settings/sign';
+
 import { Spinner } from 'components';
 
 import styles from './styles.module.scss';

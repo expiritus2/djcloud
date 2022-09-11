@@ -1,9 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { StatsController } from './stats.controller';
 import { CanActivate } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { AdminGuard } from '../authentication/lib/guards/adminGuard';
-import { StatsService } from './stats.service';
 import { GetAllDto } from '../tracks/dtos/get-all.dto';
+
+import { StatsController } from './stats.controller';
+import { StatsService } from './stats.service';
 
 describe('StatsController', () => {
     let controller: StatsController;

@@ -2,8 +2,10 @@ import React, { FC, ReactElement } from 'react';
 import classNames from 'classnames';
 
 import { Spinner } from 'components';
-import styles from './styles.module.scss';
+
 import { RequestStateEnum } from '../../types/request';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

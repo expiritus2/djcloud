@@ -1,9 +1,10 @@
 import React, { FC, ReactNode } from 'react';
-import classNames from 'classnames';
 import { createPortal } from 'react-dom';
+import classNames from 'classnames';
+
+import { Button } from '../index';
 
 import styles from './styles.module.scss';
-import { Button } from '../index';
 
 export type ButtonType = {
     id: string;

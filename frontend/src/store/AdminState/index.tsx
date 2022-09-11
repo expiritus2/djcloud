@@ -1,4 +1,5 @@
 import { makeObservable, observable } from 'mobx';
+
 import { AdminTabsEnum } from './types';
 
 export class AdminState {

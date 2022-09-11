@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
+import { useLocation, useMatch, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-import { useNavigate, useMatch, useLocation } from 'react-router-dom';
-
-import { routes } from 'settings/navigation/routes';
-import { link } from 'settings/navigation/link';
-import { useStore } from 'store';
 import { observer } from 'mobx-react-lite';
+import { link } from 'settings/navigation/link';
+import { routes } from 'settings/navigation/routes';
+import { useStore } from 'store';
 
 import styles from './styles.module.scss';
 

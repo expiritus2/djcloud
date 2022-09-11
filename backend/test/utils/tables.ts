@@ -1,7 +1,8 @@
 import { EntityTarget } from 'typeorm/common/EntityTarget';
-import { GenreEntity } from '../../src/genres/genre.entity';
-import { CategoryEntity } from '../../src/categories/category.entity';
+
 import dataSource from '../../ormconfig';
+import { CategoryEntity } from '../../src/categories/category.entity';
+import { GenreEntity } from '../../src/genres/genre.entity';
 
 export const clearTable = async <E>(Entity: EntityTarget<E>) => {
     await dataSource.getRepository<E>(Entity).delete({});

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
+import { GoTriangleDown } from 'react-icons/go';
 import classNames from 'classnames';
 import { SortEnum } from 'types/request';
-import { GoTriangleDown } from 'react-icons/go';
 
 import styles from './styles.module.scss';
 

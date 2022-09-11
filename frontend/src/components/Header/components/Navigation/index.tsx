@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import classNames from 'classnames';
-
-import { observer } from 'mobx-react-lite';
-import { useStore } from 'store';
 import { useScreen } from 'hooks';
+import { observer } from 'mobx-react-lite';
+import { MOBILE_SMALL } from 'settings/constants/screen';
+import { useStore } from 'store';
+
 import FullNav from './FullNav';
 import SmallNav from './SmallNav';
-import { MOBILE_SMALL } from 'settings/constants/screen';
 
 import styles from './styles.module.scss';
 

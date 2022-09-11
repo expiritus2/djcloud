@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
+
 import { Search } from './components';
 import { LoginAvatar, Logo, Navigation, TelegramLink } from './components';
 

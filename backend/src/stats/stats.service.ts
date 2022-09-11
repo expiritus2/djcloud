@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TrackEntity } from '../tracks/track.entity';
 import { Repository } from 'typeorm';
-import { filterTracks } from '../tracks/queries/filter';
+
 import { GetAllDto } from '../tracks/dtos/get-all.dto';
+import { filterTracks } from '../tracks/queries/filter';
+import { TrackEntity } from '../tracks/track.entity';
+
 import { ListenStatsEntity } from './listenStats.entity';
 
 @Injectable()

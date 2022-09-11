@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
+
 import { Header, PageWrapper } from 'components';
-import { MainMenu, Content } from './components';
+
+import { Content, MainMenu } from './components';
 
 import styles from './styles.module.scss';
-import { observer } from 'mobx-react-lite';
 
 type ComponentProps = {
     className?: string;

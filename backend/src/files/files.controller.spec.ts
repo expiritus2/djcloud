@@ -1,9 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { FilesController } from './files.controller';
-import { UsersService } from '../authentication/users/users.service';
-import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { CanActivate } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import { NestjsFormDataModule } from 'nestjs-form-data';
+
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
+import { UsersService } from '../authentication/users/users.service';
+
+import { FilesController } from './files.controller';
 import { FilesService } from './files.service';
 
 describe('FilesController', () => {

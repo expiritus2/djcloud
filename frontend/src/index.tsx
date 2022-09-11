@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { App } from 'components';
 import * as toastr from 'toastr';
+
+import { App } from 'components';
+
 import reportWebVitals from './reportWebVitals';
 import store, { StoreContext } from './store';
 
 import 'toastr/build/toastr.css';
-
 import './styles/global.scss';
 
 // @ts-ignore

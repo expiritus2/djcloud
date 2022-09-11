@@ -1,7 +1,9 @@
-import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
-import { simplePaginateQuery } from './pagination';
-import { PaginationQueryDto } from '../common/dtos';
 import { toNumber } from 'lodash';
+import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
+
+import { PaginationQueryDto } from '../common/dtos';
+
+import { simplePaginateQuery } from './pagination';
 
 describe('paginationQuery', () => {
     describe('simplePagination', () => {

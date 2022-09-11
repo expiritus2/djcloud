@@ -1,6 +1,8 @@
-import { CurrentUserMiddleware } from './current-user';
-import { UsersService } from '../../users/users.service';
 import { cloneDeep } from 'lodash';
+
+import { UsersService } from '../../users/users.service';
+
+import { CurrentUserMiddleware } from './current-user';
 
 describe('CurrentUser middleware', () => {
     const req = {

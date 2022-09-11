@@ -1,14 +1,16 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { snakeCase } from 'lodash';
 import { Repository } from 'typeorm';
+
+import { GenreEntity } from '../genres/genre.entity';
 import { PaginationQueryDto } from '../lib/common/dtos';
 import { simplePaginateQuery } from '../lib/queries/pagination';
+import { filterTracks } from '../tracks/queries/filter';
+
 import { CreateCategoryDto } from './dtos/create-category.dto';
-import { snakeCase } from 'lodash';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
 import { CategoryEntity } from './category.entity';
-import { GenreEntity } from '../genres/genre.entity';
-import { filterTracks } from '../tracks/queries/filter';
 
 interface Category {
     id?: number;

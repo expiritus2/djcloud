@@ -1,12 +1,13 @@
 import React, { FC, useState } from 'react';
+import { AxiosError } from 'axios';
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
+import { Track } from 'types/track';
+
 import { Checkbox } from 'components';
 
 import styles from './styles.module.scss';
-import { AxiosError } from 'axios';
-import { useStore } from 'store';
-import { observer } from 'mobx-react-lite';
-import { Track } from 'types/track';
 
 type ComponentProps = {
     className?: string;

@@ -1,10 +1,11 @@
-import { action, makeObservable, reaction } from 'mobx';
-import { AddTrackRatingDto, GetTrackRatingDto, TrackRating } from './types';
-import { BaseRequestStore } from 'store/core/BaseRequestStore';
-import Api from 'store/core/Api';
 import { addRating, getRating } from 'api/trackRating';
-import { RequestOptions } from 'types/request';
+import { action, makeObservable, reaction } from 'mobx';
 import store from 'store';
+import Api from 'store/core/Api';
+import { BaseRequestStore } from 'store/core/BaseRequestStore';
+import { RequestOptions } from 'types/request';
+
+import { AddTrackRatingDto, GetTrackRatingDto, TrackRating } from './types';
 
 export class TrackRatingStore extends BaseRequestStore<TrackRating> {
     constructor(color?: string) {

@@ -2,6 +2,7 @@ import React, { FC, MouseEventHandler } from 'react';
 import classNames from 'classnames';
 
 import { Button } from 'components';
+
 import styles from './styles.module.scss';
 
 type ComponentProps = {

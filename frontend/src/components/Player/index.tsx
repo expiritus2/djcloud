@@ -1,19 +1,18 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
 import { createPortal } from 'react-dom';
 import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/src/styles.scss';
-
-import { useStore } from 'store';
+import { useLocation } from 'react-router-dom';
+import classNames from 'classnames';
+import { usePrevious } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { sign } from 'settings/sign';
-import { useLocation } from 'react-router-dom';
+import { useStore } from 'store';
+
 import { Rating } from 'components';
 
-import { usePrevious } from 'hooks';
-
-import styles from './styles.module.scss';
+import 'react-h5-audio-player/src/styles.scss';
 import './styles.scss';
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

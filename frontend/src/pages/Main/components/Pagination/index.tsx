@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-import { TablePagination } from 'components';
 import { observer } from 'mobx-react-lite';
-import { useStore } from 'store';
 import { mainPageTrackLimit } from 'settings';
+import { useStore } from 'store';
+
+import { TablePagination } from 'components';
 
 import styles from './styles.module.scss';
 

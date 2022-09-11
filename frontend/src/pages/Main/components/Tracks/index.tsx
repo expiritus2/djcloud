@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-
-import { Track } from 'types/track';
-import { Track as TrackComponent } from '..';
-import { useStore } from 'store';
-import styles from './styles.module.scss';
 import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
+import { Track } from 'types/track';
+
+import { Track as TrackComponent } from '..';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

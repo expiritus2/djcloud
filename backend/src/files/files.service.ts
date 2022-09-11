@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UploadedFile, UploadFile } from './dtos/track-file.dto';
-import { FileEntity } from './file.entity';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { SpacesService } from './spaces.service';
-import { envConfig } from '../lib/configs/envs';
 import { snakeCase } from 'lodash';
+import { Repository } from 'typeorm';
+
+import { envConfig } from '../lib/configs/envs';
+
+import { UploadedFile, UploadFile } from './dtos/track-file.dto';
+import { FileEntity } from './file.entity';
+import { SpacesService } from './spaces.service';
 
 @Injectable()
 export class FilesService {

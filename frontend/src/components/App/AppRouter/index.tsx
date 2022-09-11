@@ -1,13 +1,15 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import routesConfig from 'settings/navigation/config';
 import { observer } from 'mobx-react-lite';
-import { useStore } from 'store';
+import routesConfig from 'settings/navigation/config';
 import { routes } from 'settings/navigation/routes';
-import { UserRoleEnum } from 'types/user';
-import { canActivate } from './helpers';
+import { useStore } from 'store';
 import { RequestStateEnum } from 'types/request';
+import { UserRoleEnum } from 'types/user';
+
 import { Player } from 'components';
+
+import { canActivate } from './helpers';
 
 const AppRouter: FC = () => {
     const { user, currentTrack } = useStore();

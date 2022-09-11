@@ -1,6 +1,6 @@
-import { INavigation } from 'types/navigation';
-import { routes } from 'settings/navigation/routes';
 import { Categories, Genres, Tracks } from 'pages';
+import { routes } from 'settings/navigation/routes';
+import { INavigation } from 'types/navigation';
 import { UserRoleEnum } from 'types/user';
 
 const protectedRoutes: INavigation[] = [

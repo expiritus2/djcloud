@@ -1,15 +1,15 @@
 import React, { FC, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { Track } from 'types/track';
 import { formatDate, getDuration } from 'helpers/formatters';
-import { sign } from 'settings/sign';
-
-import { observer } from 'mobx-react-lite';
-import { Rating, Play, DownloadTrack } from 'components';
-import { useScreen } from 'hooks';
-import { MOBILE } from 'settings/constants/screen';
-import { useStore } from 'store';
 import { setUnit } from 'helpers/utils';
+import { useScreen } from 'hooks';
+import { observer } from 'mobx-react-lite';
+import { MOBILE } from 'settings/constants/screen';
+import { sign } from 'settings/sign';
+import { useStore } from 'store';
+import { Track } from 'types/track';
+
+import { DownloadTrack, Play, Rating } from 'components';
 
 import styles from './styles.module.scss';
 

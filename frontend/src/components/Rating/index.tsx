@@ -1,20 +1,20 @@
 import React, { FC, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { useScreen } from 'hooks';
+import { observer } from 'mobx-react-lite';
+import { MOBILE_SMALL } from 'settings/constants/screen';
+import { useStore } from 'store';
+import { TrackRating } from 'types/track';
+
 import { ContentModal } from 'components';
 
-import { useStore } from 'store';
-
-import { observer } from 'mobx-react-lite';
-import { TrackRating } from 'types/track';
 import { ButtonType } from '../ContentModal';
-import StarWrapper from './StarWrapper';
-import { useScreen } from 'hooks';
-import { MOBILE_SMALL } from 'settings/constants/screen';
 
 import { createStars } from './helpers';
+import StarIcon from './StarIcon';
+import StarWrapper from './StarWrapper';
 
 import styles from './styles.module.scss';
-import StarIcon from './StarIcon';
 
 type ComponentProps = {
     className?: string;

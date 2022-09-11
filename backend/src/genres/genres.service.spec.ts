@@ -1,10 +1,12 @@
-import { Test } from '@nestjs/testing';
-import { GenresService } from './genres.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { GenreEntity } from './genre.entity';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { mocked } from 'jest-mock';
+
 import { simplePaginateQuery } from '../lib/queries/pagination';
+
+import { GenreEntity } from './genre.entity';
+import { GenresService } from './genres.service';
 
 jest.mock('../lib/queries/pagination');
 

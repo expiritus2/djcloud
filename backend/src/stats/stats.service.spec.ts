@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { StatsService } from './stats.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { TrackEntity } from '../tracks/track.entity';
+import { mocked } from 'jest-mock';
+
 import { GetAllDto } from '../tracks/dtos/get-all.dto';
 import { filterTracks } from '../tracks/queries/filter';
-import { mocked } from 'jest-mock';
+import { TrackEntity } from '../tracks/track.entity';
+
 import { ListenStatsEntity } from './listenStats.entity';
+import { StatsService } from './stats.service';
 
 jest.mock('../tracks/queries/filter');
 

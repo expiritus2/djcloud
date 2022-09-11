@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { TrackEntity } from '../tracks/track.entity';
 
 @Entity('trackRatings')

@@ -1,12 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CategoryDto } from './dtos/category.dto';
+
 import { AdminGuard } from '../authentication/lib/guards/adminGuard';
-import { CategoriesService } from './categories.service';
-import { CreateCategoryDto } from './dtos/create-category.dto';
-import { CategoryEntity } from './category.entity';
 import { PaginationQueryDto } from '../lib/common/dtos';
+
+import { CategoryDto } from './dtos/category.dto';
+import { CreateCategoryDto } from './dtos/create-category.dto';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
+import { CategoriesService } from './categories.service';
+import { CategoryEntity } from './category.entity';
 
 @ApiTags('Categories')
 @Controller('categories')

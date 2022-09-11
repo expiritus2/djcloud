@@ -1,5 +1,5 @@
-import { promisify } from 'util';
 import { scrypt as _scrypt } from 'crypto';
+import { promisify } from 'util';
 
 const scrypt = promisify(_scrypt);
 

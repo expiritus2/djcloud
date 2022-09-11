@@ -1,9 +1,10 @@
-import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
+import request from 'supertest';
+
+import dataSource from '../../ormconfig';
 import { UserEntity } from '../../src/authentication/users/user.entity';
 import { RoleEntity } from '../../src/roles/role.entity';
 import { RolesEnum } from '../../src/roles/roles.enum';
-import dataSource from '../../ormconfig';
 
 export const signup = async (app: INestApplication, email: string, password: string) => {
     const res = await request(app.getHttpServer()).post('/auth/signup').send({ email, password }).expect(201);

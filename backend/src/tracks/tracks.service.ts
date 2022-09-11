@@ -1,17 +1,19 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TrackEntity } from './track.entity';
-import { Repository } from 'typeorm';
-import { CreateTrackDto } from './dtos/create-track.dto';
-import { simplePaginateQuery } from '../lib/queries/pagination';
-import { UpdateTrackDto } from './dtos/update-track.dto';
 import { cloneDeep, groupBy, merge, shuffle } from 'lodash';
-import { GenreEntity } from '../genres/genre.entity';
+import { Repository } from 'typeorm';
+
 import { CategoryEntity } from '../categories/category.entity';
-import { GetAllDto } from './dtos/get-all.dto';
-import { filterTracks } from './queries/filter';
-import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
 import { FilesService } from '../files/files.service';
+import { GenreEntity } from '../genres/genre.entity';
+import { simplePaginateQuery } from '../lib/queries/pagination';
+
+import { CreateTrackDto } from './dtos/create-track.dto';
+import { GetAllDto } from './dtos/get-all.dto';
+import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
+import { UpdateTrackDto } from './dtos/update-track.dto';
+import { filterTracks } from './queries/filter';
+import { TrackEntity } from './track.entity';
 
 @Injectable()
 export class TracksService {

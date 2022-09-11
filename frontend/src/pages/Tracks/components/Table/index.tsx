@@ -1,18 +1,19 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-
-import styles from './styles.module.scss';
-import { Table, TableActions } from 'components';
-import { Column } from 'components/Table';
+import { formatDate, getDuration } from 'helpers/formatters';
+import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
+import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
 import { Track } from 'types/track';
-import { Title, Visible } from '..';
-import { formatDate, getDuration } from 'helpers/formatters';
-import { ModalStateEnum } from 'types/modal';
-import { useStore } from 'store';
-import { observer } from 'mobx-react-lite';
+
+import { Table, TableActions } from 'components';
+import { Column } from 'components/Table';
 
 import Pagination from '../Pagination';
+import { Title, Visible } from '..';
+
+import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;

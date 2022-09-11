@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
-
-import { TableActions, Table } from 'components';
-import { useStore } from 'store';
-
 import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
 import { ModalStateEnum } from 'types/modal';
 import { SortEnum } from 'types/request';
+
+import { Table, TableActions } from 'components';
 import { Column } from 'components/Table';
 
 import Pagination from '../Pagination';

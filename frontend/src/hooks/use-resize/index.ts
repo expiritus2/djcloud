@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
-import { DESKTOP, MOBILE, MOBILE_SMALL } from 'settings/constants/screen';
+import { useCallback, useEffect, useState } from 'react';
 import { getMobileOperatingSystem } from 'contexts/screen';
 import { getScrollbarWidth } from 'helpers/utils';
+import { DESKTOP, MOBILE, MOBILE_SMALL } from 'settings/constants/screen';
 
 export type ScreenType = {
     width: number;

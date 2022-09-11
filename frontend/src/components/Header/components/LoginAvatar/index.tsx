@@ -1,12 +1,11 @@
 import React, { FC, useRef, useState } from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
+import { useOutsideClick } from 'hooks';
+import { routes } from 'settings/navigation/routes';
+import { useStore } from 'store';
 
 import { Avatar } from 'components';
-import { routes } from 'settings/navigation/routes';
-
-import { useOutsideClick } from 'hooks';
-import { useStore } from 'store';
 
 import styles from './styles.module.scss';
 

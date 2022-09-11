@@ -1,18 +1,20 @@
+import { CanActivate } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { subDays, subHours } from 'date-fns';
+import { mocked } from 'jest-mock';
+import { cloneDeep, merge } from 'lodash';
+
+import { AdminGuard } from '../authentication/lib/guards/adminGuard';
+import { FilesService } from '../files/files.service';
+import { envConfig } from '../lib/configs/envs';
+import { getMockConfigService } from '../lib/testData/utils';
+import { StatsService } from '../stats/stats.service';
+import { TelegramService } from '../telegram/telegram.service';
+
+import { TrackEntity } from './track.entity';
 import { getCaption, TracksController } from './tracks.controller';
 import { TracksService } from './tracks.service';
-import { CanActivate } from '@nestjs/common';
-import { AdminGuard } from '../authentication/lib/guards/adminGuard';
-import { cloneDeep, merge } from 'lodash';
-import { TelegramService } from '../telegram/telegram.service';
-import { subDays, subHours } from 'date-fns';
-import { FilesService } from '../files/files.service';
-import { getMockConfigService } from '../lib/testData/utils';
-import { ConfigService } from '@nestjs/config';
-import { TrackEntity } from './track.entity';
-import { envConfig } from '../lib/configs/envs';
-import { mocked } from 'jest-mock';
-import { StatsService } from '../stats/stats.service';
 
 describe('TracksController', () => {
     let controller: TracksController;

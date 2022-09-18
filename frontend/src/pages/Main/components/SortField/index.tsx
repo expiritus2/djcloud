@@ -20,12 +20,12 @@ export enum SortFieldEnum {
     DURATION = 'duration',
 }
 
-export const sortFieldLabelMap = {
-    [SortFieldEnum.CREATED_AT]: 'Newest',
-    [SortFieldEnum.RATING]: 'Rating',
-    [SortFieldEnum.MOST_LISTEN]: 'Most listened',
-    [SortFieldEnum.DURATION]: 'Duration',
-};
+export const sortFields = [
+    { label: 'Newest', value: SortFieldEnum.CREATED_AT },
+    { label: 'Rating', value: SortFieldEnum.RATING },
+    { label: 'Most listened', value: SortFieldEnum.MOST_LISTEN },
+    { label: 'Duration', value: SortFieldEnum.DURATION },
+];
 
 const EMPTY_VALUE = '---';
 
@@ -78,9 +78,9 @@ const SortField: FC<ComponentProps> = (props) => {
         <div className={classNames(styles.sortField, className)}>
             <select value={fieldValue} onChange={onChange} className={styles.input}>
                 {tracks.meta.shuffle && <option value={EMPTY_VALUE}>{EMPTY_VALUE}</option>}
-                {Object.values(SortFieldEnum).map((field) => (
-                    <option key={field} value={field}>
-                        {sortFieldLabelMap[field]}
+                {sortFields.map((field) => (
+                    <option key={field.value} value={field.value}>
+                        {field.label}
                     </option>
                 ))}
             </select>

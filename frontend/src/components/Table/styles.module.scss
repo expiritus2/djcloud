@@ -62,6 +62,7 @@ $sorColor: $dangerColor;
         .cell,
         .title {
             padding: setUnit(10);
+            white-space: nowrap;
         }
     }
 }

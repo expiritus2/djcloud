@@ -7,7 +7,6 @@ import { cloneDeep, merge } from 'lodash';
 
 import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { FilesService } from '../files/files.service';
-import { envConfig } from '../lib/configs/envs';
 import { getMockConfigService } from '../lib/testData/utils';
 import { StatsService } from '../stats/stats.service';
 import { TelegramService } from '../telegram/telegram.service';
@@ -117,16 +116,12 @@ describe('TracksController', () => {
         it('should send audio to telegram and update sentToTelegram in database if env is not test or ci', async () => {
             mockTrackService.create.mockResolvedValueOnce({ id: 1, ...track });
             jest.spyOn(mockConfigService, 'get').mockReturnValueOnce('dev');
-            const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}/${track.id}`;
-            const tagLink = `<a href="${link}">${caption}</a>`;
+
+            controller.sendToTelegram = jest.fn();
 
             await controller.createTrack(track);
 
-            expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url, {
-                caption: tagLink,
-                parse_mode: 'HTML',
-            });
+            expect(controller.sendToTelegram).toBeCalledWith(track);
             expect(mockTrackService.update).toBeCalledWith(1, { sentToTelegram: true });
         });
 
@@ -246,22 +241,22 @@ describe('TracksController', () => {
     });
 
     describe('update', () => {
-        it('', async () => {
+        it('should update properly', async () => {
             const id = 1;
             const newTrackData = { title: 'Updated track title', visible: true };
             const updatedTrack = merge(cloneDeep(track), newTrackData);
             mockTrackService.update
                 .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: false })
                 .mockResolvedValueOnce({ id, ...updatedTrack, sentToTelegram: true });
-            const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${updatedTrack.category.id}/${updatedTrack.genre.id}/${updatedTrack.id}`;
-            const tagLink = `<a href="${link}">${caption}</a>`;
+
+            controller.sendToTelegram = jest.fn();
 
             const result = await controller.update(id, newTrackData);
 
-            expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url, {
-                caption: tagLink,
-                parse_mode: 'HTML',
+            expect(controller.sendToTelegram).toBeCalledWith({
+                ...track,
+                title: newTrackData.title,
+                sentToTelegram: false,
             });
             expect(mockTrackService.update).toBeCalledWith(id, newTrackData);
             expect(mockTrackService.update).toBeCalledWith(id, { sentToTelegram: true });
@@ -323,18 +318,6 @@ describe('TracksController', () => {
     });
 
     describe('sendToTelegram', () => {
-        it('should send audio to telegram', async () => {
-            const caption = getCaption(track as TrackEntity);
-            const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}/${track.id}`;
-            const tagLink = `<a href="${link}">${caption}</a>`;
-            await controller.sendToTelegram(track as TrackEntity);
-
-            expect(mockTelegramService.sendAudio).toBeCalledWith(track.file.url, {
-                caption: tagLink,
-                parse_mode: 'HTML',
-            });
-        });
-
         it('should send message to telegram with correct link if sendAudio is fails', async () => {
             const caption = getCaption(track as TrackEntity);
             mockTelegramService.sendAudio.mockRejectedValueOnce(new Error('Some error message'));

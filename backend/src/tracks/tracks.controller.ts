@@ -43,15 +43,10 @@ export class TracksController {
     async sendToTelegram(track: TrackEntity) {
         const caption = getCaption(track);
         const link = `${envConfig.frontendDomain}/tracks/${track.category.id}/${track.genre.id}/${track.id}`;
-        try {
-            const tagLink = `<a href="${link}">${caption}</a>`;
-            await this.telegramService.sendAudio(track.file.url, { caption: tagLink, parse_mode: 'HTML' });
-        } catch (error: any) {
-            const tagLink = `<a href="${link}">${link}</a>`;
-            await this.telegramService.sendMessage(`${tagLink}\n${caption}`, {
-                parse_mode: 'HTML',
-            });
-        }
+        const tagLink = `<a href="${link}">${link}</a>`;
+        await this.telegramService.sendMessage(`${tagLink}\n${caption}`, {
+            parse_mode: 'HTML',
+        });
     }
 
     @UseGuards(AdminGuard)

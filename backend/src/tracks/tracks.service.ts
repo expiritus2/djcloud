@@ -15,6 +15,8 @@ import { UpdateTrackDto } from './dtos/update-track.dto';
 import { filterTracks } from './queries/filter';
 import { TrackEntity } from './track.entity';
 
+export const sortFn = (a, b) => a.name.localeCompare(b.name);
+
 @Injectable()
 export class TracksService {
     constructor(
@@ -116,7 +118,7 @@ export class TracksService {
                         value: v.genre_value,
                         countTracks: v.countTracks,
                     }))
-                    .sort((a, b) => a.name.localeCompare(b.name)),
+                    .sort(sortFn),
             };
         }, {});
     }

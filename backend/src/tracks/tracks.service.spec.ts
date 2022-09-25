@@ -14,7 +14,7 @@ import { simplePaginateQuery } from '../lib/queries/pagination';
 import { getMockConfigService } from '../lib/testData/utils';
 
 import { TrackEntity } from './track.entity';
-import { TracksService } from './tracks.service';
+import { sortFn, TracksService } from './tracks.service';
 
 jest.mock('../lib/common/logger');
 jest.mock('get-audio-duration');
@@ -426,6 +426,19 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.getRawMany).toBeCalled();
 
             expect(result).toEqual({ category_id: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
+        });
+    });
+
+    describe('sortFn', () => {
+        it('should short alphabetically', () => {
+            const result1 = sortFn({ name: 'b' }, { name: 'a' });
+            expect(result1).toEqual(1);
+
+            const result2 = sortFn({ name: 'a' }, { name: 'b' });
+            expect(result2).toEqual(-1);
+
+            const result3 = sortFn({ name: 'a' }, { name: 'a' });
+            expect(result3).toEqual(0);
         });
     });
 });

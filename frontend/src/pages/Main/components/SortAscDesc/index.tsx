@@ -2,8 +2,9 @@ import React, { FC } from 'react';
 import { BsSortDown, BsSortUp } from 'react-icons/bs';
 import { useMatch } from 'react-router-dom';
 import classNames from 'classnames';
+import { useScreen } from 'hooks';
 import { observer } from 'mobx-react-lite';
-import { mainPageTrackLimit } from 'settings';
+import { mainPageMobileTrackLimit, mainPageTrackLimit } from 'settings';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { SortEnum } from 'types/request';
@@ -21,6 +22,7 @@ const SortAscDesc: FC<ComponentProps> = (props) => {
     const { tracks } = useStore();
     const oneTrackMatch = useMatch({ path: routes.track });
     const isDesc = tracks.meta.sort === SortEnum.DESC;
+    const { isMobile } = useScreen();
 
     const onSort = () => {
         let paramsCategoryId = undefined;
@@ -39,7 +41,7 @@ const SortAscDesc: FC<ComponentProps> = (props) => {
                 tracks.meta.sort === undefined || oneTrackMatch?.params.trackId
                     ? SortFieldEnum.CREATED_AT
                     : tracks.meta.field,
-            limit: mainPageTrackLimit,
+            limit: isMobile ? mainPageMobileTrackLimit : mainPageTrackLimit,
             categoryId: paramsCategoryId || tracks.meta.categoryId,
             genreId: paramsGenreId || tracks.meta.genreId,
             page: 0,

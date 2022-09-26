@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
+import { useScreen } from 'hooks';
 import { observer } from 'mobx-react-lite';
-import { mainPageTrackLimit } from 'settings';
+import { mainPageMobileTrackLimit, mainPageTrackLimit } from 'settings';
 import { useStore } from 'store';
 
 import { TablePagination } from 'components';
@@ -15,6 +16,7 @@ type ComponentProps = {
 const Pagination: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks } = useStore();
+    const { isMobile } = useScreen();
 
     const countPages = Math.ceil((tracks.data?.count || 0) / tracks.meta.limit || 0);
 
@@ -24,7 +26,7 @@ const Pagination: FC<ComponentProps> = (props) => {
 
     const onClickPage = (e: any, page: number) => {
         const sort = tracks.meta.sort ? { sort: tracks.meta.sort } : {};
-        tracks.getAll({ page, limit: mainPageTrackLimit, ...sort });
+        tracks.getAll({ page, limit: isMobile ? mainPageMobileTrackLimit : mainPageTrackLimit, ...sort });
     };
 
     return (

@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import classNames from 'classnames';
+import { useScreen } from 'hooks';
 import { observer } from 'mobx-react-lite';
-import { mainPageTrackLimit } from 'settings';
+import { mainPageMobileTrackLimit, mainPageTrackLimit } from 'settings';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { SortEnum } from 'types/request';
@@ -36,6 +37,7 @@ const SortField: FC<ComponentProps> = (props) => {
     const [fieldValue, setFieldValue] = useState<SortFieldEnum | typeof EMPTY_VALUE>(
         !tracks.meta.shuffle ? SortFieldEnum.CREATED_AT : EMPTY_VALUE,
     );
+    const { isMobile } = useScreen();
 
     useEffect(() => {
         if (fieldValue !== tracks.meta.field) {
@@ -63,7 +65,7 @@ const SortField: FC<ComponentProps> = (props) => {
             tracks.getAll({
                 field: e.target.value,
                 sort: SortEnum.DESC,
-                limit: mainPageTrackLimit,
+                limit: isMobile ? mainPageMobileTrackLimit : mainPageTrackLimit,
                 categoryId: paramsCategoryId || tracks.meta.categoryId,
                 genreId: paramsGenreId || tracks.meta.genreId,
                 page: 0,

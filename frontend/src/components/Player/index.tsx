@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import AudioPlayer from 'react-h5-audio-player';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import { usePrevious } from 'hooks';
+import { usePrevious, useScreen } from 'hooks';
 import { observer } from 'mobx-react-lite';
 import { sign } from 'settings/sign';
 import { useStore } from 'store';
@@ -28,6 +28,7 @@ const Player: FC<ComponentProps> = (props) => {
     const location = useLocation();
     const [totalListenTime, setTotalListenTime] = useState(0);
     const prevTrackId = usePrevious(currentTrack.data?.id);
+    const { isMobile } = useScreen();
 
     useEffect(() => {
         if (prevTrackId !== currentTrack.data?.id) {
@@ -58,20 +59,20 @@ const Player: FC<ComponentProps> = (props) => {
         }
     };
 
-    const onEnded = () => {
-        currentTrack.onNext();
-    };
-
     const isAdminPage = () => {
         return location.pathname.includes('/admin/');
     };
 
+    const onEnded = () => {
+        currentTrack.onNext(isAdminPage(), isMobile);
+    };
+
     const onClickNext = () => {
-        currentTrack.onNext(isAdminPage());
+        currentTrack.onNext(isAdminPage(), isMobile);
     };
 
     const onClickPrevious = () => {
-        currentTrack.onPrev(isAdminPage());
+        currentTrack.onPrev(isAdminPage(), isMobile);
     };
 
     const renderHeader = () => {

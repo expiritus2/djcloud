@@ -5,6 +5,10 @@
     .track {
         margin-bottom: setUnit(20);
 
+        @media screen and (max-width: #{setUnit($mobile)}){
+            margin-bottom: setUnit(15);
+        }
+
         &:last-child {
             margin-bottom: 0;
         }

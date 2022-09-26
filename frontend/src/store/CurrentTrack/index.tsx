@@ -5,7 +5,7 @@ import { BaseRequestStore } from 'store/core/BaseRequestStore';
 import { RequestOptions } from 'types/request';
 import { Track } from 'types/track';
 
-import { adminPageTableLimit, mainPageTrackLimit } from '../../settings';
+import { adminPageTableLimit, mainPageMobileTrackLimit, mainPageTrackLimit } from '../../settings';
 import { TrackRating } from '../TrackRating/types';
 
 import { GetTrackByIdParamsDto } from './types';
@@ -99,7 +99,7 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
         setDocumentTitle(this.data?.title);
     }
 
-    onNext(isAdmin = false) {
+    onNext(isAdmin = false, isMobile = false) {
         const tracks = getCurrentPageTracks();
 
         if (tracks.length) {
@@ -110,12 +110,12 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
             }
 
             if (isVeryLastTrack(currentTrackIndex, tracks)) {
-                const actualTrackIndex = getActualTrackIndex();
+                const actualTrackIndex = getActualTrackIndex(isMobile);
 
                 if (isNotLastTrackOnLastPage(actualTrackIndex)) {
                     const nextPage = getTracksNextPage();
 
-                    requestPageTracks(nextPage, isAdmin, (err: any, response: any) => {
+                    requestPageTracks({ page: nextPage, isAdmin, isMobile }, (err: any, response: any) => {
                         const nextPageTracks = response.data.data || [];
 
                         if (!err && nextPageTracks.length) {
@@ -127,7 +127,15 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
         }
     }
 
-    onPrev(isAdmin = false) {
+    getLimit(isAdmin: boolean, isMobile: boolean) {
+        if (isAdmin) {
+            return adminPageTableLimit;
+        }
+
+        return isMobile ? mainPageMobileTrackLimit : mainPageTrackLimit;
+    }
+
+    onPrev(isAdmin = false, isMobile = false) {
         const tracks = getCurrentPageTracks();
 
         if (tracks.length) {
@@ -138,16 +146,16 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
             }
 
             if (isVeryFirstTrack(currentTrackIndex)) {
-                const actualTrackIndex = getActualTrackIndex();
+                const actualTrackIndex = getActualTrackIndex(isMobile);
 
                 if (isNotFirstTrackOnFirstPage(actualTrackIndex)) {
                     const prevPage = getTracksPrevPage();
 
-                    requestPageTracks(prevPage, isAdmin, (err: any, response: any) => {
+                    requestPageTracks({ page: prevPage, isAdmin, isMobile }, (err: any, response: any) => {
                         const prevPageTracks = response.data.data || [];
 
                         if (!err && prevPageTracks.length) {
-                            this.setPrevTrack(isAdmin ? adminPageTableLimit : mainPageTrackLimit, prevPageTracks);
+                            this.setPrevTrack(this.getLimit(isAdmin, isMobile), prevPageTracks);
                         }
                     });
                 }

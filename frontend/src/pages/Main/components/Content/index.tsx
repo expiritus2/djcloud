@@ -2,8 +2,9 @@ import React, { FC, useEffect } from 'react';
 import { useLocation, useMatch, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { getQuery } from 'helpers/query';
+import { useScreen } from 'hooks';
 import { observer } from 'mobx-react-lite';
-import { mainPageTrackLimit } from 'settings';
+import { mainPageMobileTrackLimit, mainPageTrackLimit } from 'settings';
 import { link } from 'settings/navigation/link';
 import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
@@ -30,19 +31,22 @@ const Content: FC<ComponentProps> = (props) => {
     const navigate = useNavigate();
     const location = useLocation();
     const query = getQuery(location);
+    const { isMobile } = useScreen();
 
     useEffect(() => {
         return () => tracks.resetStore();
     }, []); // eslint-disable-line
 
     useEffect(() => {
+        const limit = isMobile ? mainPageMobileTrackLimit : mainPageTrackLimit;
+
         if (location.pathname === routes.allTracks || location.pathname === routes.index) {
             tracks.getAll({
                 categoryId: undefined,
                 genreId: undefined,
                 visible: true,
                 search: query.search as string,
-                limit: mainPageTrackLimit,
+                limit,
                 page: 0,
                 field: SortFieldEnum.CREATED_AT,
                 sort: SortEnum.DESC,
@@ -69,7 +73,7 @@ const Content: FC<ComponentProps> = (props) => {
                         categoryId: +categoryId,
                         genreId: genreId ? +genreId : undefined,
                         visible: true,
-                        limit: mainPageTrackLimit,
+                        limit,
                         search: query.search as string,
                         page: 0,
                         field: SortFieldEnum.CREATED_AT,

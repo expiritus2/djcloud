@@ -1,8 +1,10 @@
-import { adminPageTableLimit, mainPageTrackLimit } from 'settings';
+import { adminPageTableLimit, mainPageMobileTrackLimit, mainPageTrackLimit } from 'settings';
 import { sign } from 'settings/sign';
 import { Track } from 'types/track';
 
 import store from '..';
+
+import { RequestPageTracksProps } from './types';
 
 export const getCurrentTrackIndex = (): number => {
     const tracks = store.tracks.data?.data || [];
@@ -42,11 +44,12 @@ export const getTracksPrevPage = (): number => {
     return currentPage - 1;
 };
 
-export const getActualTrackIndex = () => {
+export const getActualTrackIndex = (isMobile: boolean) => {
     const currentTrackIndex = getCurrentTrackIndex();
     const tracksMeta = store.tracks.meta;
     const currentPage = tracksMeta.page || 0;
-    return mainPageTrackLimit * currentPage + currentTrackIndex + 1;
+    const limit = isMobile ? mainPageMobileTrackLimit : mainPageTrackLimit;
+    return limit * currentPage + currentTrackIndex + 1;
 };
 
 export const isNotLastTrackOnLastPage = (actualTrackIndex: number) => {
@@ -57,8 +60,12 @@ export const isNotFirstTrackOnFirstPage = (actualTrackIndex: number) => {
     return store.tracks.data && actualTrackIndex !== 1;
 };
 
-export const requestPageTracks = (nextPage: number, isAdmin = false, cb: Function) => {
-    store.tracks.getAll({ page: nextPage, limit: isAdmin ? adminPageTableLimit : mainPageTrackLimit }, {}, cb);
+export const requestPageTracks = (
+    { page: nextPage, isAdmin = false, isMobile = false }: RequestPageTracksProps,
+    cb: Function,
+) => {
+    const mainPageLimit = isMobile ? mainPageMobileTrackLimit : mainPageTrackLimit;
+    store.tracks.getAll({ page: nextPage, limit: isAdmin ? adminPageTableLimit : mainPageLimit }, {}, cb);
 };
 
 export const setDocumentTitle = (title?: string) => {

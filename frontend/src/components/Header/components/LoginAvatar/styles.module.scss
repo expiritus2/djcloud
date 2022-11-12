@@ -5,7 +5,7 @@
     position: relative;
 
     .avatar {
-        border: 1px solid $lightColor;
+        border: 1px solid $active-background-color;
     }
 
     .menu {
@@ -32,8 +32,8 @@
                 color: $darkColor;
 
                 &:hover {
-                    background-color: darken($lightColor, 20);
-                    color: $darkColor;
+                    background-color: $active-background-color;
+                    color: $whiteColor;
                 }
             }
         }

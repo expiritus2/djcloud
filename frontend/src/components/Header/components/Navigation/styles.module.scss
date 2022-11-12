@@ -20,7 +20,7 @@
             }
 
             .link {
-                color: $lightColor;
+                color: $active-background-color;
                 text-decoration: none;
             }
 
@@ -28,7 +28,7 @@
             .link.active,
             &:hover,
             &.active {
-                color: darken($lightColor, 20);
+                color: darken($active-background-color, 20);
             }
         }
     }

@@ -21,6 +21,10 @@
                 width: setUnit(35);
                 height: setUnit(35);
                 vertical-align: middle;
+
+                &.white {
+
+                }
             }
         }
     }
@@ -33,12 +37,18 @@
         cursor: pointer;
 
         path {
-            fill: darken($lightColor, 50);
+            fill: $rating-stars-color;
+        }
+
+        &.white {
+            path {
+                fill: $whiteColor;
+            }
         }
 
         &.isDidRating {
             path {
-                fill: darken($lightColor, 60);
+                fill: darken($active-background-color, 15);
             }
         }
 
@@ -65,5 +75,9 @@
     .count {
         font-size: setUnit(12);
         margin-left: setUnit(3);
+
+        &.white {
+            color: $whiteColor;
+        }
     }
 }

@@ -20,10 +20,11 @@ type ComponentProps = {
     className?: string;
     trackId: number;
     notActiveByClick?: boolean;
+    white?: boolean;
 } & TrackRating;
 
 const Rating: FC<ComponentProps> = (props) => {
-    const { className, trackId, rating, countRatings, isDidRating, notActiveByClick } = props;
+    const { className, trackId, rating, countRatings, isDidRating, notActiveByClick, white } = props;
     const { trackRating, tracks } = useStore();
     const { screen } = useScreen();
     const [isConfirmRatingOpen, setIsConfirmRatingOpen] = useState(false);
@@ -62,6 +63,7 @@ const Rating: FC<ComponentProps> = (props) => {
                     styles.star,
                     isDidRating ? styles.isDidRating : '',
                     isMobile ? styles.mobile : '',
+                    white ? styles.white : '',
                 ),
                 onClick,
             };
@@ -111,7 +113,7 @@ const Rating: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.rating, className)} onMouseLeave={onMouseLeave}>
             <div className={classNames(styles.stars, isDidRating ? styles.disable : '')}>{getStars()}</div>
-            <div className={styles.count}>({countRatings})</div>
+            <div className={classNames(styles.count, white ? styles.white : '')}>({countRatings})</div>
             <ContentModal open={isConfirmRatingOpen} title="Rating" buttons={buttons}>
                 <div className={classNames(styles.stars)}>
                     <div className={styles.starsWrapper}>

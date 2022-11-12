@@ -20,12 +20,13 @@
 
     &.active {
         font-weight: bold;
-        background-color: $dangerColor;
-        border-color: $dangerColor;
+        background-color: $active-background-color;
+        border-color: $active-background-color;
         color: $whiteColor;
 
         &:hover {
-            background-color: lighten($dangerColor, 5);
+            background-color: lighten($active-background-color, 5);
+            border-color: lighten($active-background-color, 5);
         }
     }
 

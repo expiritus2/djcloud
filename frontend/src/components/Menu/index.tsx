@@ -70,7 +70,7 @@ const Menu: FC<ComponentProps> = (props) => {
         >
             {screen.mobileSmallWidth && <GiHamburgerMenu className={styles.openIcon} />}
             {open ? switcher : null}
-            <ul className={styles.list}>{renderItems(listItems)}</ul>
+            <ul className={classNames(styles.list, switcher ? styles.isSwitcher : '')}>{renderItems(listItems)}</ul>
         </div>
     );
 };

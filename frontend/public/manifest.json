@@ -8,7 +8,7 @@
             "type": "image/x-icon"
         },
         {
-            "src": "images/logo-circle-white.png",
+            "src": "images/logo-circle.png",
             "type": "image/png",
             "sizes": "512x512 256x256 128x128 64x64 32x32 24x24"
         }

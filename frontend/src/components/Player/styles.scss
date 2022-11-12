@@ -5,12 +5,16 @@
     box-shadow: 0 0 setUnit(3) 0 rgba($darkColor, .4);
 
     .rhap_current-time {
-        color: $darkColor;
+        color: $whiteColor;
+    }
+
+    .rhap_total-time {
+        color: $whiteColor;
     }
 
     svg {
         path {
-            fill: $darkColor;
+            fill: $whiteColor;
         }
     }
 }
@@ -19,22 +23,22 @@
     background: $primaryColor;
 
     .rhap_progress-indicator {
-        background: $darkColor  ;
+        background: $whiteColor  ;
     }
 
     .rhap_progress-filled {
-        background: $darkColor;
+        background: $player-progress-filled-color;
     }
 
     .rhap_download-progress {
-        background: $secondaryColor;
+        background: $whiteColor;
     }
 }
 
 .rhap_volume-bar {
-    background: $secondaryColor;
+    background: $player-progress-filled-color;
 
     .rhap_volume-indicator {
-        background: $darkColor;
+        background: $whiteColor;
     }
 }

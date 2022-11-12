@@ -6,14 +6,22 @@ $mobile: 768;
 $mobile-small: 565;
 
 $whiteColor: #FFFFFF;
-$lightColor: #E9FFF9;
+$active-background-color: #725ac1;
 $primaryColor: #467599;
 $secondaryColor: #9ED8DB;
 $dangerColor: #FF5721;
-$darkColor: #1D3354;
+$darkColor: #242038;
 $greyColor: #f3f3f3;
 $goldColor: #FFD700FF;
 
 $header-height: 71;
 $player-height: 117;
 $player-offset: 360;
+
+$menu-item-color: #cac4ce;
+$menu-item-active-color: $whiteColor;
+$rating-stars-color: $active-background-color;
+
+$player-background: $darkColor;
+$player-progress-filled-color: $active-background-color;
+$track-border-color: $active-background-color;

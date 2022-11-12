@@ -32,8 +32,8 @@
                 color: $darkColor;
 
                 &:hover {
-                    background-color: darken($active-background-color, 20);
-                    color: $darkColor;
+                    background-color: $active-background-color;
+                    color: $whiteColor;
                 }
             }
         }

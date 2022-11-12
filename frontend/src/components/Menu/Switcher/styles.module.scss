@@ -11,6 +11,7 @@
         text-align: center;
         border: 1px solid $darkColor;
         border-bottom: none;
+        color: $menu-item-color;
 
         &.all {
             border-right: none;
@@ -18,8 +19,8 @@
 
         &.active,
         &:hover {
-            background-color: darken($lightColor, 20);
-            color: $darkColor;
+            background-color: darken($active-background-color, 20);
+            color: $menu-item-active-color;
         }
     }
 }

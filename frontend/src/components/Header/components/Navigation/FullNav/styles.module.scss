@@ -20,7 +20,7 @@
             }
 
             .link {
-                color: $lightColor;
+                color: $menu-item-color;
                 text-decoration: none;
             }
 
@@ -28,7 +28,7 @@
             .link.active,
             &:hover,
             &.active {
-                color: darken($lightColor, 20);
+                color: $menu-item-active-color;
             }
         }
     }

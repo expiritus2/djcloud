@@ -86,6 +86,7 @@ const Player: FC<ComponentProps> = (props) => {
                         isDidRating={currentTrack.data?.isDidRating!}
                         countRatings={currentTrack.data?.countRatings!}
                         notActiveByClick
+                        white
                     />
                 )}
             </div>

@@ -48,7 +48,7 @@
         list-style: none;
         padding: setUnit(30) 0;
         overflow: auto;
-        height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(41)});
+        height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(0)});
 
         @media screen and (max-width: #{setUnit($mobile)}) {
             padding: setUnit(20) 0;
@@ -75,7 +75,7 @@
             }
 
             .link {
-                color: $whiteColor;
+                color: $menu-item-color;
                 text-decoration: none;
                 width: 100%;
                 padding: setUnit(10) setUnit(20);
@@ -90,8 +90,8 @@
 
                 &:hover,
                 &.active {
-                    background-color: darken($lightColor, 20);
-                    color: $darkColor;
+                    background-color: darken($active-background-color, 20);
+                    color: $menu-item-active-color;
                 }
             }
         }

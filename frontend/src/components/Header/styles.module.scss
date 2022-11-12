@@ -7,7 +7,7 @@
     align-items: center;
     background-color: $darkColor;
     padding: setUnit(10) setUnit(30);
-    color: $lightColor;
+    color: $active-background-color;
 
     .logo {
         cursor: pointer;

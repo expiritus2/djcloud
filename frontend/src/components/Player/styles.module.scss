@@ -7,10 +7,11 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        color: $whiteColor;
     }
 
     .playerContainer {
-        background: lighten($lightColor, 3);
+        background: $player-background;
         position: relative;
         z-index: 99999;
     }

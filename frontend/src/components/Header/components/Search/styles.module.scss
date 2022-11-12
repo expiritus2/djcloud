@@ -50,6 +50,7 @@
         bottom: setUnit(-15);
         opacity: 0;
         z-index: -9;
+        color: $whiteColor;
 
         &.show {
             opacity: 1;

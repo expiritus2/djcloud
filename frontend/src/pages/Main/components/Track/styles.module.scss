@@ -11,7 +11,7 @@
     overflow: auto;
 
     &.active {
-        box-shadow: 0 0 setUnit(8) rgba(darken($lightColor, 60),.5);
+        box-shadow: 0 0 setUnit(8) rgba($active-background-color,.5);
     }
 
     @media screen and (max-width: setUnit($mobile)) {
@@ -22,13 +22,7 @@
         margin-right: setUnit(15);
     }
 
-    &:nth-child(even) {
-        border: setUnit(1) solid darken($lightColor, 30);
-    }
-
-    &:nth-child(odd) {
-        border: setUnit(1) solid darken($lightColor, 30);
-    }
+    border: setUnit(1) solid $track-border-color;
 
     .head {
         display: flex;
@@ -37,7 +31,7 @@
 
         .loader {
             font-size: setUnit(2.5);
-            color: $lightColor;
+            color: $active-background-color;
             height: 0;
         }
     }

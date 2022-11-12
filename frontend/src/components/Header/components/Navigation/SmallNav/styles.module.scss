@@ -9,6 +9,7 @@
         width: setUnit(25);
         height: setUnit(25);
         vertical-align: middle;
+        color: $whiteColor;
     }
 
     .list {
@@ -32,8 +33,8 @@
                 color: $darkColor;
 
                 &.active {
-                    background: darken($lightColor, 20);
-                    color: $darkColor;
+                    background: darken($active-background-color, 20);
+                    color: $menu-item-active-color;
                 }
             }
         }

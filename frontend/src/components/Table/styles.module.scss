@@ -23,7 +23,7 @@ $sorColor: $dangerColor;
         }
 
         .tbodyItem:nth-child(even) {
-            background-color: $lightColor;
+            background-color: lighten($active-background-color, 40);
         }
 
         .theadCell {

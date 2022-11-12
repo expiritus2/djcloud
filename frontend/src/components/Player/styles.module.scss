@@ -2,7 +2,6 @@
 @import "src/styles/variables";
 
 .player {
-    border-top: 1px solid $whiteColor;
     .title {
         min-height: setUnit(20);
         display: flex;

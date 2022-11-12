@@ -50,6 +50,10 @@
         overflow: auto;
         height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(0)});
 
+        &.isSwitcher {
+            height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(41)});
+        }
+
         @media screen and (max-width: #{setUnit($mobile)}) {
             padding: setUnit(20) 0;
         }

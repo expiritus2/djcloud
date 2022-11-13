@@ -53,28 +53,28 @@ const Rating: FC<ComponentProps> = (props) => {
         setIsConfirmRatingOpen(true);
     };
 
-    const getStars = (isNumbers = false) => {
-        const isMobile = screen.width <= MOBILE_SMALL && !isNumbers;
+    const getStars = (isPopup = false) => {
+        const isMobile = screen.width <= MOBILE_SMALL && !isPopup;
 
-        return createStars(screen, isNumbers).map((_, index) => {
+        return createStars(screen, isPopup).map((_, index) => {
             const iconProps = {
-                onMouseOver: (e: any) => onMouseOver(e, index, isNumbers),
+                onMouseOver: (e: any) => onMouseOver(e, index, isPopup),
                 className: classNames(
                     styles.star,
                     isDidRating ? styles.isDidRating : '',
                     isMobile ? styles.mobile : '',
-                    white ? styles.white : '',
+                    white && !isPopup ? styles.white : '',
                 ),
                 onClick,
             };
             return (
-                <StarWrapper key={index} num={index + 1} isNumbers={isNumbers}>
+                <StarWrapper key={index} num={index + 1} isNumbers={isPopup}>
                     <StarIcon
                         iconProps={iconProps}
                         rating={rating}
                         currentRating={currentRating}
                         index={index}
-                        isNumbers={isNumbers}
+                        isNumbers={isPopup}
                     />
                 </StarWrapper>
             );

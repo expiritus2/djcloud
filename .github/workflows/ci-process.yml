@@ -1,23 +1,13 @@
 name: ci-process
 on:
-#  push:
-#    branches:
-#      - develop
   pull_request:
     branches:
       - master
 jobs:
   unit-test:
     runs-on: ubuntu-20.04
-
-    strategy:
-      matrix:
-        node-version: [ 14.x ]
-
     steps:
       - uses: actions/checkout@v3
-        with:
-          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
         working-directory: backend
@@ -29,10 +19,6 @@ jobs:
 
   integration-test:
     runs-on: ubuntu-20.04
-
-    strategy:
-      matrix:
-        node-version: [ 14.x ]
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
       COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
@@ -45,9 +31,6 @@ jobs:
       DO_SECRET_KEY: ${{ secrets.DO_SECRET_KEY }}
     steps:
       - uses: actions/checkout@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - name: Build the Postgres stack
         working-directory: backend
         run: yarn run docker:run

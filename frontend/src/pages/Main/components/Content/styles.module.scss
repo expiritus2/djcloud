@@ -16,11 +16,12 @@
             justify-content: space-between;
             margin-bottom: setUnit(25);
 
-            .totalDuration {
-                margin-left: setUnit(10);
+            .actions {
+                display: flex;
+                align-items: center;
             }
 
-            .actions {
+            .headerActions {
                 display: flex;
                 align-items: center;
             }

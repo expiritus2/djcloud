@@ -1,0 +1,32 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+$icon-size: 20;
+
+.download {
+    margin: 0 setUnit(10);
+
+    .icon {
+        width: setUnit($icon-size);
+        height: setUnit($icon-size);
+        cursor: pointer;
+        transition: all .2s;
+        fill: lighten($darkColor, 5);
+        vertical-align: middle;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    .loaderWrapper {
+        min-height: setUnit($icon-size);
+        min-width: setUnit($icon-size);
+
+        .loader {
+            font-size: setUnit(1.5);
+            position: relative;
+            bottom: setUnit(4);
+        }
+    }
+}

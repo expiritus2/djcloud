@@ -71,7 +71,7 @@ describe('SpacesService', () => {
 
     describe('putObject', () => {
         it('should upload file to s3', async () => {
-            const result = await service.putObject(uploadFile);
+            const result = await service.uploadTrack(uploadFile);
 
             expect(service.s3.putObject).toBeCalledWith({
                 Bucket: 'DO_BUCKET_NAME',
@@ -97,7 +97,7 @@ describe('SpacesService', () => {
             });
 
             try {
-                await service.putObject(uploadFile);
+                await service.uploadTrack(uploadFile);
             } catch (error: any) {
                 expect(error instanceof InternalServerErrorException).toBeTruthy();
                 expect(error.message).toEqual(`DoSpacesService_ERROR: Something went wrong`);
@@ -112,7 +112,7 @@ describe('SpacesService', () => {
             });
 
             try {
-                await service.putObject(uploadFile);
+                await service.uploadTrack(uploadFile);
             } catch (error: any) {
                 expect(error instanceof InternalServerErrorException).toBeTruthy();
                 expect(error.message).toEqual(`DoSpacesService_ERROR: Some error message`);

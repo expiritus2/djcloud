@@ -17,23 +17,23 @@ export const getUrlExtension = (url: string) => {
     return ext;
 };
 
-export const downloadByRequest = (fileUrl: string, name: string, cb?: Function) => {
-    axios({
-        url: fileUrl,
-        method: 'GET',
-        responseType: 'blob',
-    })
-        .then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${name}.${getUrlExtension(fileUrl)}`); //or any other extension
-            document.body.appendChild(link);
-            link.click();
-            cb?.();
-        })
-        .catch(() => {
-            window.open(fileUrl);
-            cb?.();
+export const downloadByRequest = async (fileUrl: string, name: string, cb?: Function) => {
+    try {
+        const response = await axios({
+            url: `${fileUrl}?timestamp=${new Date().getTime()}`,
+            method: 'GET',
+            responseType: 'blob',
         });
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${name}.${getUrlExtension(fileUrl)}`); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+        cb?.();
+        return response;
+    } catch (err: any) {
+        window.open(fileUrl);
+        cb?.();
+    }
 };

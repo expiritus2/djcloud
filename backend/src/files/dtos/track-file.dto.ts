@@ -15,7 +15,7 @@ export type UploadedFile = {
     url: string;
     size: number;
     mimetype: string;
-    duration: number;
+    duration?: number;
 };
 
 export class TrackFileDto {

@@ -1,6 +1,6 @@
 import { apiServer } from 'settings/web-services/api';
 
-import { RequestOptions } from '../../types/request';
+import { PaginationParams, RequestOptions } from '../../types/request';
 
 export type ZipStatusResponse = {
     id: number;
@@ -16,12 +16,12 @@ export const uploadFile = ({ file, title }: { file: File; title: string }, optio
     return apiServer.post('/files/file-upload', formData, options);
 };
 
-export const createZip = (cfg: { visible: boolean }) => {
-    return apiServer.post<ZipStatusResponse>('/files/create-zip', cfg);
+export const createZip = (cfg: PaginationParams & { visible?: boolean }) => {
+    return apiServer.get<ZipStatusResponse>('/files/create/zip', { params: cfg });
 };
 
 export const removeZip = (cfg: { id: number; url: string }) => {
-    return apiServer.post('/files/remove-zip', cfg);
+    return apiServer.post('/files/remove/zip', cfg);
 };
 
 export const checkZipStatus = (cfg: { id: number }) => {

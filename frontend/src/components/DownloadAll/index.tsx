@@ -1,6 +1,9 @@
 import React, { FC, useState } from 'react';
 import { ImFolderDownload } from 'react-icons/im';
 import classNames from 'classnames';
+import { omit } from 'lodash';
+import { observer } from 'mobx-react-lite';
+import { useStore } from 'store';
 
 import { Spinner } from 'components';
 
@@ -13,13 +16,14 @@ import styles from './styles.module.scss';
 type ComponentProps = {
     className?: string;
     loaderWrapperClassName?: string;
-    visible: boolean;
+    visible?: boolean;
 };
 
 const sleep = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
 
 const DownloadAll: FC<ComponentProps> = (props) => {
     const { className, loaderWrapperClassName, visible } = props;
+    const { tracks } = useStore();
     const [pending, setPending] = useState(false);
 
     const checkZipStatusHandler = async (id: number): Promise<ZipStatusResponse> => {
@@ -33,7 +37,8 @@ const DownloadAll: FC<ComponentProps> = (props) => {
 
     const onDownload = async () => {
         setPending(true);
-        createZip({ visible })
+        const query = { visible, ...omit(tracks.meta, ['limit', 'page']) };
+        createZip(query)
             .then(async ({ data: zipData }) => {
                 const statusData = await checkZipStatusHandler(zipData.id);
                 await downloadByRequest(statusData.pathToFile, 'tracks', () => {
@@ -61,4 +66,4 @@ const DownloadAll: FC<ComponentProps> = (props) => {
     );
 };
 
-export default DownloadAll;
+export default observer(DownloadAll);

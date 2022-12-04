@@ -66,11 +66,12 @@
         "uuid": "^8.3.2"
     },
     "devDependencies": {
+        "@jest/globals": "^29.3.1",
         "@nestjs/schematics": "^8.0.0",
         "@nestjs/testing": "^8.0.0",
         "@types/express": "^4.17.13",
         "@types/express-session": "^1.17.5",
-        "@types/jest": "27.4.1",
+        "@types/jest": "^29.2.3",
         "@types/multer": "^1.4.7",
         "@types/node": "^16.0.0",
         "@types/supertest": "^2.0.11",
@@ -85,13 +86,14 @@
         "prettier": "^2.3.2",
         "source-map-support": "^0.5.20",
         "supertest": "^6.1.3",
-        "ts-jest": "^27.0.3",
+        "ts-jest": "^29.0.3",
         "ts-loader": "^9.2.3",
         "ts-node": "^10.0.0",
         "tsconfig-paths": "^3.10.1",
         "typescript": "^4.3.5"
     },
     "jest": {
+        "preset": "ts-jest",
         "moduleFileExtensions": [
             "js",
             "json",
@@ -120,6 +122,9 @@
             "!authentication/users/users.controller.ts"
         ],
         "coverageDirectory": "../coverage",
-        "testEnvironment": "node"
+        "testEnvironment": "node",
+        "transformIgnorePatterns": [
+            "node_modules/(?!axios/.*)"
+        ]
     }
 }

@@ -8,7 +8,7 @@ export const simplePaginateQuery = <Entity>(
     queryBuilder: SelectQueryBuilder<Entity>,
     query: PaginationQueryDto,
 ): SelectQueryBuilder<Entity> => {
-    const { limit = 10, page, sort, field } = query;
+    const { limit = 10, page } = query;
 
     if (limit) {
         queryBuilder.take(toNumber(limit));
@@ -17,6 +17,12 @@ export const simplePaginateQuery = <Entity>(
     if (page) {
         queryBuilder.skip(toNumber(page) * toNumber(limit));
     }
+
+    return queryBuilder;
+};
+
+export const simpleSortQuery = <Entity>(queryBuilder: SelectQueryBuilder<Entity>, query: PaginationQueryDto) => {
+    const { sort, field } = query;
 
     if (field && sort) {
         queryBuilder.orderBy(`"${field}"`, sort, sort === SortEnum.ASC ? 'NULLS FIRST' : 'NULLS LAST');

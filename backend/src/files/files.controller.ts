@@ -1,20 +1,22 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FormDataRequest } from 'nestjs-form-data';
 
 import { SuccessDto } from '../authentication/auth/dtos/success';
 import { AdminGuard } from '../authentication/lib/guards/adminGuard';
+import { GetAllDto } from '../tracks/dtos/get-all.dto';
+import { TracksService } from '../tracks/tracks.service';
 
-import { CreateZipStatusDto, DownloadAllDto, RemoveZipDto } from './dtos/download-all.dto';
+import { CreateZipStatusDto, RemoveZipDto } from './dtos/download-all.dto';
 import { TrackFileDto, UploadedFile } from './dtos/track-file.dto';
+import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { FileEntity } from './file.entity';
 import { FilesService } from './files.service';
-import { CreateZipStatusEntity } from './createZipStatus.entity';
 
 @ApiTags('Files')
 @Controller('files')
 export class FilesController {
-    constructor(private filesService: FilesService) {}
+    constructor(private filesService: FilesService, private tracksService: TracksService) {}
 
     @UseGuards(AdminGuard)
     @Post('/file-upload')
@@ -39,13 +41,13 @@ export class FilesController {
         return this.filesService.getFileById(id);
     }
 
-    @Post('/create-zip')
+    @Get('/create/zip')
     @ApiOperation({ summary: 'Download all tracks' })
-    async createZip(@Body() options: DownloadAllDto): Promise<CreateZipStatusDto> {
-        return this.filesService.createZip(options);
+    async createZip(@Query() query: GetAllDto): Promise<CreateZipStatusDto> {
+        return this.filesService.createZip(query, this.tracksService);
     }
 
-    @Post('/remove-zip')
+    @Post('/remove/zip')
     @ApiOperation({ summary: 'Download all tracks' })
     async removeZip(@Body() { id, url }: RemoveZipDto): Promise<SuccessDto> {
         return this.filesService.removeZip(id, url);

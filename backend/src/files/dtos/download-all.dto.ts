@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
-
-export class DownloadAllDto {
-    @IsBoolean()
-    @IsOptional()
-    visible?: boolean | null;
-}
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
 export class CreateZipStatusDto {
     @IsNumber()

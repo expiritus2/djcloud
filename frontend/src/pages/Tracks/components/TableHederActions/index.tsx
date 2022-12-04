@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import classNames from 'classnames';
 
-import { TotalDuration } from 'components';
+import { DownloadAll, TotalDuration } from 'components';
 
 import { Filter } from '..';
 
@@ -17,7 +17,10 @@ const TableHeaderActions: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.tableHeaderActions, className)}>
             <Filter />
-            <TotalDuration className={styles.totalDuration} />
+            <div className={styles.totalDurationWrapper}>
+                <TotalDuration />
+                <DownloadAll />
+            </div>
         </div>
     );
 };

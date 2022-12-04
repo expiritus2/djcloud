@@ -10,6 +10,8 @@ import { FileEntity } from './file.entity';
 import { FilesService } from './files.service';
 import { SpacesService } from './spaces.service';
 
+jest.mock('axios');
+
 describe('FilesService', () => {
     let service: FilesService;
     let mockConfigService;

@@ -9,9 +9,11 @@ import { Repository } from 'typeorm';
 
 import { SuccessDto } from '../authentication/auth/dtos/success';
 import { envConfig } from '../lib/configs/envs';
+import { GetAllDto } from '../tracks/dtos/get-all.dto';
 import { TrackEntity } from '../tracks/track.entity';
+import { TracksService } from '../tracks/tracks.service';
 
-import { CreateZipStatusDto, DownloadAllDto } from './dtos/download-all.dto';
+import { CreateZipStatusDto } from './dtos/download-all.dto';
 import { UploadedFile, UploadFile } from './dtos/track-file.dto';
 import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { FileEntity } from './file.entity';
@@ -62,16 +64,6 @@ export class FilesService {
         return this.fileRepo.remove(file);
     }
 
-    async getAllTracks(visible: boolean): Promise<TrackEntity[]> {
-        const query = this.tracksRepo.createQueryBuilder('tracks').leftJoinAndSelect('tracks.file', 'file');
-
-        if (visible !== undefined) {
-            query.where('visible = :visible', { visible: !!visible });
-        }
-
-        return query.getMany();
-    }
-
     async fillZip(allTracks: TrackEntity[], zip: JSZip) {
         await PromisePool.withConcurrency(20)
             .for(allTracks)
@@ -81,7 +73,7 @@ export class FilesService {
                     method: 'GET',
                     responseType: 'arraybuffer',
                 });
-                zip.file(`${track.file.name}-${new Date().getTime()}`, trackData);
+                zip.file(`${track.file.name}`, trackData);
             });
     }
 
@@ -90,11 +82,13 @@ export class FilesService {
         return this.zipStatusRepo.save(createZipData);
     }
 
-    async createZip({ visible }: DownloadAllDto): Promise<CreateZipStatusDto> {
+    async createZip(query: GetAllDto, tracksService: TracksService): Promise<CreateZipStatusDto> {
         const statusRecord = await this.createRecord();
         const zip = new JSZip();
-        this.getAllTracks(visible)
-            .then((allTracks) => this.fillZip(allTracks, zip))
+        query.isDisablePagination = true;
+        await tracksService
+            .getAll(query)
+            .then(({ data: allTracks }) => this.fillZip(allTracks, zip))
             .then(() => zip.generateAsync({ type: 'nodebuffer' }))
             .then((zipContent) => {
                 return this.spacesService.uploadZip({

@@ -10,6 +10,7 @@ import { Spinner } from 'components';
 import { checkZipStatus, createZip, removeZip, ZipStatusResponse } from '../../api/files';
 import { downloadByRequest } from '../../helpers/download';
 import { showErrorMessage } from '../../helpers/errors';
+import { LoaderTypeEnum } from '../Spinner';
 
 import styles from './styles.module.scss';
 
@@ -25,14 +26,25 @@ const DownloadAll: FC<ComponentProps> = (props) => {
     const { className, loaderWrapperClassName, visible } = props;
     const { tracks } = useStore();
     const [pending, setPending] = useState(false);
+    const [progress, setProgress] = useState(0);
 
-    const checkZipStatusHandler = async (id: number): Promise<ZipStatusResponse> => {
-        const { data } = await checkZipStatus({ id });
-        if (!data.isFinished) {
-            await sleep(3000);
-            return checkZipStatusHandler(id);
+    const checkZipStatusHandler = async (id: number, sleepTimeout: number): Promise<ZipStatusResponse> => {
+        try {
+            const { data } = await checkZipStatus({ id });
+            setProgress(data.progress);
+            if (!data.isFinished) {
+                await sleep(sleepTimeout);
+                return await checkZipStatusHandler(id, 3000);
+            }
+            return data;
+        } catch (err: any) {
+            showErrorMessage(err);
+            throw err;
         }
-        return data;
+    };
+
+    const downloadProgress = (progressEvent: any) => {
+        console.log(progressEvent);
     };
 
     const onDownload = async () => {
@@ -40,10 +52,19 @@ const DownloadAll: FC<ComponentProps> = (props) => {
         const query = { visible, ...omit(tracks.meta, ['limit', 'page']) };
         createZip(query)
             .then(async ({ data: zipData }) => {
-                const statusData = await checkZipStatusHandler(zipData.id);
-                await downloadByRequest(statusData.pathToFile, 'tracks', () => {
+                const statusData = await checkZipStatusHandler(zipData.id, 100);
+                if (statusData.countFiles !== null && statusData.countFiles === 0) {
                     setPending(false);
-                });
+                    return;
+                }
+                await downloadByRequest(
+                    statusData.pathToFile,
+                    'tracks',
+                    () => {
+                        setPending(false);
+                    },
+                    downloadProgress,
+                );
                 await removeZip({ id: statusData.id, url: statusData.pathToFile });
             })
             .catch((err) => {
@@ -55,10 +76,14 @@ const DownloadAll: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.download, className)}>
             {pending ? (
-                <Spinner
-                    className={styles.loader}
-                    loaderWrapperClassName={classNames(styles.loaderWrapper, loaderWrapperClassName)}
-                />
+                <>
+                    <Spinner
+                        className={styles.loader}
+                        loaderWrapperClassName={classNames(styles.loaderWrapper, loaderWrapperClassName)}
+                        loaderType={LoaderTypeEnum.CIRCLE}
+                    />
+                    <div className={styles.progress}>{progress}</div>
+                </>
             ) : (
                 <ImFolderDownload onClick={onDownload} className={classNames(styles.icon)} />
             )}

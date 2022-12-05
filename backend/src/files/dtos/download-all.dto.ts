@@ -13,6 +13,14 @@ export class CreateZipStatusDto {
     @IsString()
     @ApiProperty()
     pathToFile: string;
+
+    @IsNumber()
+    @ApiProperty()
+    progress: number;
+
+    @IsNumber()
+    @ApiProperty()
+    countFiles: number;
 }
 
 export class RemoveZipDto {

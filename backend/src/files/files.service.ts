@@ -3,17 +3,15 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PromisePool } from '@supercharge/promise-pool';
 import axios from 'axios';
+import { differenceInSeconds } from 'date-fns';
 import JSZip from 'jszip';
 import { snakeCase } from 'lodash';
 import { Repository } from 'typeorm';
 
 import { SuccessDto } from '../authentication/auth/dtos/success';
 import { envConfig } from '../lib/configs/envs';
-import { GetAllDto } from '../tracks/dtos/get-all.dto';
 import { TrackEntity } from '../tracks/track.entity';
-import { TracksService } from '../tracks/tracks.service';
 
-import { CreateZipStatusDto } from './dtos/download-all.dto';
 import { UploadedFile, UploadFile } from './dtos/track-file.dto';
 import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { FileEntity } from './file.entity';
@@ -64,9 +62,19 @@ export class FilesService {
         return this.fileRepo.remove(file);
     }
 
-    async fillZip(allTracks: TrackEntity[], zip: JSZip) {
+    async fillZip(allTracks: TrackEntity[], zip: JSZip, statusRecord: CreateZipStatusEntity) {
+        let throttleSaveProgressTime = new Date();
         await PromisePool.withConcurrency(20)
             .for(allTracks)
+            .onTaskFinished(async (track, pool) => {
+                const processedPercentage = pool.processedPercentage();
+                const now = new Date();
+
+                if (differenceInSeconds(now, throttleSaveProgressTime) >= 1 && processedPercentage < 100) {
+                    await this.zipStatusRepo.update(statusRecord.id, { progress: processedPercentage });
+                    throttleSaveProgressTime = now;
+                }
+            })
             .process(async (track: TrackEntity) => {
                 const { data: trackData } = await axios({
                     url: track.file.url,
@@ -77,37 +85,36 @@ export class FilesService {
             });
     }
 
-    async createRecord() {
+    async createRecord(): Promise<CreateZipStatusEntity> {
         const createZipData = this.zipStatusRepo.create({ isFinished: false, pathToFile: '' });
         return this.zipStatusRepo.save(createZipData);
     }
 
-    async createZip(query: GetAllDto, tracksService: TracksService): Promise<CreateZipStatusDto> {
-        const statusRecord = await this.createRecord();
+    async uploadZipToStorage(zipContent: Buffer) {
+        return this.spacesService.uploadZip({
+            buffer: zipContent,
+            originalName: 'tracks',
+        } as UploadFile);
+    }
+
+    async updateRecord(id: number, fileInfo: { url: string }) {
+        await this.zipStatusRepo.update(id, { pathToFile: fileInfo.url, isFinished: true, progress: 100 });
+    }
+
+    async setZeroFile(id: number) {
+        await this.zipStatusRepo.update(id, { countFiles: 0, isFinished: true, progress: 0, pathToFile: '' });
+    }
+
+    async createZip(tracks: TrackEntity[], statusRecord: CreateZipStatusEntity): Promise<void> {
         const zip = new JSZip();
-        query.isDisablePagination = true;
-        await tracksService
-            .getAll(query)
-            .then(({ data: allTracks }) => this.fillZip(allTracks, zip))
+        this.fillZip(tracks, zip, statusRecord)
             .then(() => zip.generateAsync({ type: 'nodebuffer' }))
-            .then((zipContent) => {
-                return this.spacesService.uploadZip({
-                    buffer: zipContent,
-                    originalName: 'tracks',
-                } as UploadFile);
-            })
-            .then(async (fileInfo) => {
-                const record = await this.zipStatusRepo.findOneBy({ id: statusRecord.id });
-                record.pathToFile = fileInfo.url;
-                record.isFinished = true;
-                await this.zipStatusRepo.save(record);
-            })
+            .then((zipContent) => this.uploadZipToStorage(zipContent))
+            .then((fileInfo) => this.updateRecord(statusRecord.id, fileInfo))
             .catch((err: any) => {
                 this.zipStatusRepo.remove(statusRecord);
                 throw err;
             });
-
-        return statusRecord;
     }
 
     async removeZip(id: number, url: string): Promise<SuccessDto> {

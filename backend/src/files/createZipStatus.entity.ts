@@ -10,4 +10,10 @@ export class CreateZipStatusEntity {
 
     @Column()
     pathToFile: string;
+
+    @Column()
+    progress: number;
+
+    @Column({ nullable: true })
+    countFiles: number;
 }

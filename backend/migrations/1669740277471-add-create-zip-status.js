@@ -9,7 +9,9 @@ module.exports = class addCreateZipStatus1669740277471 {
                     constraint createzipstatus_pk
                         primary key,
                 "isFinished" boolean default false,
-                "pathToFile" varchar(300) not null
+                "pathToFile" varchar(300) not null,
+                progress float default 0,
+                "countFiles" int default null
             )
         `);
     }

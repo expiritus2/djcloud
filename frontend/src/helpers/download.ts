@@ -17,12 +17,16 @@ export const getUrlExtension = (url: string) => {
     return ext;
 };
 
-export const downloadByRequest = async (fileUrl: string, name: string, cb?: Function) => {
+export const downloadByRequest = async (
+    fileUrl: string,
+    name: string,
+    cb?: Function,
+    onDownloadProgress?: (progressEvent: any) => void,
+) => {
     try {
-        const response = await axios({
-            url: `${fileUrl}?timestamp=${new Date().getTime()}`,
-            method: 'GET',
+        const response = await axios.get(`${fileUrl}?timestamp=${new Date().getTime()}`, {
             responseType: 'blob',
+            onDownloadProgress,
         });
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');

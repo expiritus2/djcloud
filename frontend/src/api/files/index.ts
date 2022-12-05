@@ -6,6 +6,8 @@ export type ZipStatusResponse = {
     id: number;
     isFinished: boolean;
     pathToFile: string;
+    progress: number;
+    countFiles: number | null;
 };
 
 export const uploadFile = ({ file, title }: { file: File; title: string }, options: RequestOptions) => {

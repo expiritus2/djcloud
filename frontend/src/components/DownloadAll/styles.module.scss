@@ -5,6 +5,19 @@ $icon-size: 20;
 
 .download {
     margin: 0 setUnit(10);
+    position: relative;
+
+    .progress {
+        font-size: setUnit(10);
+        position: absolute;
+        top: setUnit(5.7);
+        left: setUnit(8.7);
+        width: setUnit(30);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(-50%);
+    }
 
     .icon {
         width: setUnit($icon-size);
@@ -20,13 +33,11 @@ $icon-size: 20;
     }
 
     .loaderWrapper {
-        min-height: setUnit($icon-size);
-        min-width: setUnit($icon-size);
-
-        .loader {
-            font-size: setUnit(1.5);
-            position: relative;
-            bottom: setUnit(4);
-        }
+        margin-top: setUnit(0);
+        margin-bottom: setUnit(-10);
+        margin-left: setUnit(-10);
+        position: relative;
+        left: setUnit(4);
+        bottom: setUnit(4);
     }
 }

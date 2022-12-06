@@ -36,13 +36,3 @@ $icon-size: 20;
         transform: translateY(#{setUnit(-30)});
     }
 }
-
-@keyframes uploading {
-    from {
-        transform: scale(1.0);
-    }
-    to {
-        transform: scale(1.1);
-        color: $dangerColor;
-    }
-}

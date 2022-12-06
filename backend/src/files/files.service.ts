@@ -70,7 +70,7 @@ export class FilesService {
                 const processedPercentage = pool.processedPercentage();
                 const now = new Date();
 
-                if (differenceInSeconds(now, throttleSaveProgressTime) >= 1 && processedPercentage < 100) {
+                if (differenceInSeconds(now, throttleSaveProgressTime) >= 1) {
                     await this.zipStatusRepo.update(statusRecord.id, { progress: processedPercentage });
                     throttleSaveProgressTime = now;
                 }
@@ -90,11 +90,14 @@ export class FilesService {
         return this.zipStatusRepo.save(createZipData);
     }
 
-    async uploadZipToStorage(zipContent: Buffer) {
-        return this.spacesService.uploadZip({
-            buffer: zipContent,
-            originalName: 'tracks',
-        } as UploadFile);
+    async uploadZipToStorage(zipContent: Buffer, statusRecord: CreateZipStatusEntity) {
+        return this.spacesService.uploadZip(
+            {
+                buffer: zipContent,
+                originalName: 'tracks',
+            } as UploadFile,
+            statusRecord,
+        );
     }
 
     async updateRecord(id: number, fileInfo: { url: string }) {
@@ -109,7 +112,7 @@ export class FilesService {
         const zip = new JSZip();
         this.fillZip(tracks, zip, statusRecord)
             .then(() => zip.generateAsync({ type: 'nodebuffer' }))
-            .then((zipContent) => this.uploadZipToStorage(zipContent))
+            .then((zipContent) => this.uploadZipToStorage(zipContent, statusRecord))
             .then((fileInfo) => this.updateRecord(statusRecord.id, fileInfo))
             .catch((err: any) => {
                 this.zipStatusRepo.remove(statusRecord);

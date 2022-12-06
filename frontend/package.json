@@ -25,6 +25,7 @@
         "lodash": "^4.17.21",
         "mobx": "^6.6.1",
         "mobx-react-lite": "^3.4.0",
+        "pretty-bytes": "^6.0.0",
         "query-string": "^7.1.1",
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
@@ -66,6 +67,7 @@
         ]
     },
     "devDependencies": {
+        "@types/pretty-bytes": "^5.2.0",
         "@typescript-eslint/eslint-plugin": "^5.27.1",
         "@typescript-eslint/parser": "^5.27.1",
         "eslint-config-airbnb": "^19.0.4",
@@ -75,8 +77,8 @@
         "eslint-plugin-jest": "^26.5.3",
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react-hooks": "^4.5.0",
-        "eslint-plugin-testing-library": "^5.5.1",
         "eslint-plugin-simple-import-sort": "^8.0.0",
+        "eslint-plugin-testing-library": "^5.5.1",
         "mobx-devtools-mst": "^0.9.30",
         "mobx-state-tree": "^5.1.5",
         "prettier": "^2.6.2"

@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { envConfig } from '../lib/configs/envs';
 
 import { UploadedFile, UploadFile } from './dtos/track-file.dto';
+import { CreateZipStatusEntity } from './createZipStatus.entity';
 
 @Injectable()
 export class SpacesService {
@@ -37,13 +38,16 @@ export class SpacesService {
         };
     }
 
-    async uploadZip(file: UploadFile): Promise<Omit<UploadedFile, 'id' | 'size' | 'mimetype'>> {
+    async uploadZip(
+        file: UploadFile,
+        statusRecord: CreateZipStatusEntity,
+    ): Promise<Omit<UploadedFile, 'id' | 'size' | 'mimetype'>> {
         const key = this.getKey(file.originalName, false);
-        const config = this.getBucketConfig(`${key}.zip`, file);
+        const config = this.getBucketConfig(`${key}-${statusRecord.id}.zip`, file);
 
         try {
             await this.s3.putObject(config).promise();
-            const pathToFile = `${envConfig.cdn}/${key}.zip`;
+            const pathToFile = `${envConfig.cdn}/${key}-${statusRecord.id}.zip`;
             return { name: file.originalName, url: pathToFile };
         } catch (error: any) {
             await this.deleteObject(key);

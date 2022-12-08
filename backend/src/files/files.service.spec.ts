@@ -2,21 +2,31 @@ import { NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import axios from 'axios';
+import { mocked } from 'jest-mock';
+import JSZip from 'jszip';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 
 import { getMockConfigService } from '../lib/testData/utils';
+import { TrackEntity } from '../tracks/track.entity';
 
+import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { FileEntity } from './file.entity';
 import { FilesService } from './files.service';
 import { SpacesService } from './spaces.service';
 
-jest.mock('axios');
+jest.mock('jszip');
+jest.mock('axios', () => ({
+    get: jest.fn(),
+}));
 
 describe('FilesService', () => {
     let service: FilesService;
     let mockConfigService;
     let mockSpacesService;
     let mockFilesRepo;
+    let mockTracksRepo;
+    let mockZipStatusRepo;
 
     const uploadFile = {
         originalName: 'fileOriginalName',
@@ -40,12 +50,18 @@ describe('FilesService', () => {
         mockSpacesService = {
             putObject: jest.fn(),
             deleteObject: jest.fn(),
+            uploadTrack: jest.fn(),
         };
         mockFilesRepo = {
             create: jest.fn(),
             save: jest.fn(),
             findOne: jest.fn(),
             remove: jest.fn(),
+        };
+
+        mockTracksRepo = {};
+        mockZipStatusRepo = {
+            update: jest.fn(),
         };
 
         const module: TestingModule = await Test.createTestingModule({
@@ -63,6 +79,14 @@ describe('FilesService', () => {
                 {
                     provide: getRepositoryToken(FileEntity),
                     useValue: mockFilesRepo,
+                },
+                {
+                    provide: getRepositoryToken(TrackEntity),
+                    useValue: mockTracksRepo,
+                },
+                {
+                    provide: getRepositoryToken(CreateZipStatusEntity),
+                    useValue: mockZipStatusRepo,
                 },
             ],
         }).compile();
@@ -83,13 +107,13 @@ describe('FilesService', () => {
                 mimetype: uploadFile.mimetype,
             };
 
-            mockSpacesService.putObject.mockResolvedValueOnce(fileInfo);
+            mockSpacesService.uploadTrack.mockResolvedValueOnce(fileInfo);
             mockFilesRepo.create.mockReturnValue(newFile);
             mockFilesRepo.save.mockReturnValue(newFile);
 
             const result = await service.storeFile(uploadFile);
 
-            expect(mockSpacesService.putObject).toBeCalledWith(uploadFile);
+            expect(mockSpacesService.uploadTrack).toBeCalledWith(uploadFile);
             expect(mockFilesRepo.create).toBeCalledWith(newFile);
             expect(mockFilesRepo.save).toBeCalledWith(newFile);
             expect(result).toEqual({ ...newFile, duration: fileInfo.duration });
@@ -138,6 +162,74 @@ describe('FilesService', () => {
                 expect(error instanceof NotFoundException).toBeTruthy();
                 expect(error.message).toEqual('File with id: 1 not found');
             }
+        });
+    });
+
+    describe('fillZip', () => {
+        it('should get files in concurrent mode and fill zip', async () => {
+            const allTracks = [
+                {
+                    id: 1,
+                    title: 'title',
+                    visible: true,
+                    sentToTelegram: false,
+                    duration: 234525,
+                    rating: 10,
+                    countRatings: 10,
+                    genre: { id: 1, name: 'Genre', value: 'genre', tracks: [] },
+                    category: { id: 1, name: 'Category', value: 'category', tracks: [] },
+                    listenStats: { id: 1, trackId: 1, listenCount: 10, track: { id: 1 } as any },
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    trackRatings: [{ id: 1, rating: 10, track: { id: 1 } as any }],
+                    file: { url: 'fileUrl1', name: 'fileName1' },
+                },
+                {
+                    id: 2,
+                    title: 'title',
+                    visible: true,
+                    sentToTelegram: false,
+                    duration: 234525,
+                    rating: 10,
+                    countRatings: 10,
+                    genre: { id: 1, name: 'Genre', value: 'genre', tracks: [] },
+                    category: { id: 1, name: 'Category', value: 'category', tracks: [] },
+                    listenStats: { id: 1, trackId: 1, listenCount: 10, track: { id: 1 } as any },
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    trackRatings: [{ id: 1, rating: 10, track: { id: 1 } as any }],
+                    file: { url: 'fileUrl2', name: 'fileName2' },
+                },
+            ] as any;
+
+            const zip = new JSZip();
+            const statusRecord: CreateZipStatusEntity = {
+                id: 1,
+                isFinished: false,
+                pathToFile: 'pathToFile',
+                progress: 0,
+                countFiles: null,
+            };
+
+            mocked(axios.get)
+                .mockResolvedValueOnce({ data: 'trackData1' })
+                .mockResolvedValueOnce({ data: 'trackData2' });
+            zip.file = jest.fn();
+
+            const now = 1670534028725;
+            jest.spyOn(Date, 'now')
+                .mockReturnValueOnce(1670534028725)
+                .mockReturnValueOnce(now + 999)
+                .mockReturnValueOnce(now + 1001);
+
+            await service.fillZip(allTracks, zip, statusRecord);
+
+            expect(axios.get).toHaveBeenNthCalledWith(1, 'fileUrl1', { responseType: 'arraybuffer' });
+            expect(axios.get).toHaveBeenNthCalledWith(2, 'fileUrl2', { responseType: 'arraybuffer' });
+            expect(zip.file).toHaveBeenNthCalledWith(1, allTracks[0].file.name, 'trackData1');
+            expect(zip.file).toHaveBeenNthCalledWith(2, allTracks[1].file.name, 'trackData2');
+            expect(mockZipStatusRepo.update).toHaveBeenNthCalledWith(1, statusRecord.id, { progress: 100 });
+            expect(mockZipStatusRepo.update).not.toHaveBeenNthCalledWith(2, statusRecord.id, { progress: 100 });
         });
     });
 });

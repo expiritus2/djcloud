@@ -47,9 +47,10 @@ export class FilesController {
         const statusRecord = await this.filesService.createRecord();
         this.tracksService.getAll({ ...query, isDisablePagination: true }).then(({ data: tracks }) => {
             if (tracks.length) {
-                return this.filesService.createZip(tracks, statusRecord);
+                this.filesService.createZip(tracks, statusRecord);
+            } else {
+                this.filesService.setZeroFile(statusRecord.id);
             }
-            return this.filesService.setZeroFile(statusRecord.id);
         });
         return statusRecord;
     }

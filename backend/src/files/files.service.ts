@@ -63,12 +63,12 @@ export class FilesService {
     }
 
     async fillZip(allTracks: TrackEntity[], zip: JSZip, statusRecord: CreateZipStatusEntity) {
-        let throttleSaveProgressTime = new Date();
+        let throttleSaveProgressTime = Date.now();
         await PromisePool.withConcurrency(20)
             .for(allTracks)
             .onTaskFinished(async (track, pool) => {
                 const processedPercentage = pool.processedPercentage();
-                const now = new Date();
+                const now = Date.now();
 
                 if (differenceInSeconds(now, throttleSaveProgressTime) >= 1) {
                     await this.zipStatusRepo.update(statusRecord.id, { progress: processedPercentage });
@@ -76,11 +76,7 @@ export class FilesService {
                 }
             })
             .process(async (track: TrackEntity) => {
-                const { data: trackData } = await axios({
-                    url: track.file.url,
-                    method: 'GET',
-                    responseType: 'arraybuffer',
-                });
+                const { data: trackData } = await axios.get(track.file.url, { responseType: 'arraybuffer' });
                 zip.file(`${track.file.name}`, trackData);
             });
     }

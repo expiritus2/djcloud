@@ -86,12 +86,12 @@ export class TracksService {
     }
 
     async getAll(query: GetAllDto): Promise<{ data: TrackEntity[]; count: number }> {
-        let filteredTracks = this.getAllQuery(query);
+        const filteredTracks = this.getAllQuery(query);
 
         if (!query.isDisablePagination) {
-            filteredTracks = simplePaginateQuery<TrackEntity>(filteredTracks, query);
+            simplePaginateQuery<TrackEntity>(filteredTracks, query);
         }
-        filteredTracks = simpleSortQuery<TrackEntity>(filteredTracks, query);
+        simpleSortQuery<TrackEntity>(filteredTracks, query);
         const [data, count] = await filteredTracks.getManyAndCount();
 
         return { data, count };

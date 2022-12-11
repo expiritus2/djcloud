@@ -11,6 +11,8 @@ import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { FilesController } from './files.controller';
 import { FilesService } from './files.service';
 
+const sleep = (timout: number) => new Promise((resolve) => setTimeout(resolve, timout));
+
 describe('FilesController', () => {
     let controller: FilesController;
     let mockUsersService: UsersService;
@@ -36,6 +38,7 @@ describe('FilesController', () => {
             setZeroFile: jest.fn(),
             removeZip: jest.fn(),
             checkZipStatus: jest.fn(),
+            getStatusRecordById: jest.fn(),
         };
         mockTracksService = {
             getAll: jest.fn(),
@@ -128,6 +131,23 @@ describe('FilesController', () => {
             expect(mockTracksService.getAll).toBeCalledWith({ ...query, isDisablePagination: true });
             expect(mockFilesService.setZeroFile).toBeCalledWith(statusRecord.id);
             expect(result).toEqual(statusRecord);
+        });
+
+        it('should remove zip if error', async () => {
+            const query = { categoryId: 1, genreId: 1 } as unknown as GetAllDto;
+            const tracks = [{ id: 1 }];
+            const statusRecord = { id: 1, isFinished: false };
+
+            mockTracksService.getAll.mockResolvedValueOnce({ data: tracks });
+            mockFilesService.createRecord.mockResolvedValueOnce(statusRecord);
+            mockFilesService.getStatusRecordById.mockResolvedValueOnce({ ...statusRecord, pathToFile: 'pathToFile' });
+            mockFilesService.createZip.mockRejectedValueOnce(new Error('Some error message'));
+
+            await controller.createZip(query);
+
+            await sleep(10);
+
+            expect(mockFilesService.removeZip).toBeCalledWith(1, 'pathToFile');
         });
     });
 

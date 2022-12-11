@@ -45,6 +45,10 @@ export class FilesService {
         return { ...createdFile, duration: fileInfo.duration };
     }
 
+    async getStatusRecordById(id: number) {
+        return this.zipStatusRepo.findOne({ where: { id } });
+    }
+
     async getFileById(id: number): Promise<FileEntity> {
         const storedFile = await this.fileRepo.findOne({ where: { id } });
         if (!storedFile) {
@@ -109,11 +113,7 @@ export class FilesService {
         this.fillZip(tracks, zip, statusRecord)
             .then(() => zip.generateAsync({ type: 'nodebuffer' }))
             .then((zipContent) => this.uploadZipToStorage(zipContent, statusRecord))
-            .then((fileInfo) => this.updateRecord(statusRecord.id, fileInfo))
-            .catch((err: any) => {
-                this.zipStatusRepo.remove(statusRecord);
-                throw err;
-            });
+            .then((fileInfo) => this.updateRecord(statusRecord.id, fileInfo));
     }
 
     async removeZip(id: number, url: string): Promise<SuccessDto> {

@@ -10,6 +10,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
 import { getMockConfigService } from '../lib/testData/utils';
 import { TrackEntity } from '../tracks/track.entity';
 
+import { UploadedFile, UploadFile } from './dtos/track-file.dto';
 import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { FileEntity } from './file.entity';
 import { FilesService } from './files.service';
@@ -51,6 +52,7 @@ describe('FilesService', () => {
             putObject: jest.fn(),
             deleteObject: jest.fn(),
             uploadTrack: jest.fn(),
+            uploadZip: jest.fn(),
         };
         mockFilesRepo = {
             create: jest.fn(),
@@ -62,6 +64,9 @@ describe('FilesService', () => {
         mockTracksRepo = {};
         mockZipStatusRepo = {
             update: jest.fn(),
+            create: jest.fn(),
+            save: jest.fn(),
+            remove: jest.fn(),
         };
 
         const module: TestingModule = await Test.createTestingModule({
@@ -230,6 +235,143 @@ describe('FilesService', () => {
             expect(zip.file).toHaveBeenNthCalledWith(2, allTracks[1].file.name, 'trackData2');
             expect(mockZipStatusRepo.update).toHaveBeenNthCalledWith(1, statusRecord.id, { progress: 100 });
             expect(mockZipStatusRepo.update).not.toHaveBeenNthCalledWith(2, statusRecord.id, { progress: 100 });
+        });
+    });
+
+    describe('createRecord', () => {
+        const record: CreateZipStatusEntity = {
+            id: 1,
+            isFinished: false,
+            pathToFile: '',
+            progress: 0,
+            countFiles: null,
+        };
+
+        it('should create new record', async () => {
+            mockZipStatusRepo.create.mockReturnValueOnce(record);
+            mockZipStatusRepo.save.mockResolvedValueOnce(record);
+
+            const result = await service.createRecord();
+
+            expect(mockZipStatusRepo.create).toBeCalledWith({ isFinished: false, pathToFile: '' });
+            expect(mockZipStatusRepo.save).toBeCalledWith(record);
+            expect(result).toEqual(record);
+        });
+    });
+
+    describe('uploadZipToStorage', () => {
+        const record: CreateZipStatusEntity = {
+            id: 1,
+            isFinished: false,
+            pathToFile: '',
+            progress: 0,
+            countFiles: null,
+        };
+
+        const uploadedFile = {
+            id: 1,
+            name: 'filename',
+            url: 'fileUrl',
+            size: 12345,
+            mimetype: 'mimetype',
+            duration: 3456.65,
+        };
+
+        it('should upload zip to the storage', async () => {
+            const zip = new JSZip();
+            const fileData = Buffer.from('fileData');
+            zip.file('zipContentFile', fileData);
+
+            const uploadedZip: Omit<UploadedFile, 'id' | 'size' | 'mimetype'> = uploadedFile;
+            mockSpacesService.uploadZip.mockResolvedValueOnce(uploadedZip);
+
+            const zipContent = await zip.generateAsync({ type: 'nodebuffer' });
+
+            const result = await service.uploadZipToStorage(zipContent, record);
+
+            expect(mockSpacesService.uploadZip).toBeCalledWith(
+                {
+                    buffer: zipContent,
+                    originalName: 'tracks',
+                } as UploadFile,
+                record,
+            );
+
+            expect(result).toEqual(uploadedFile);
+        });
+    });
+
+    describe('updateRecord', () => {
+        it('should update record', async () => {
+            mockZipStatusRepo.update.mockResolvedValueOnce();
+
+            await service.updateRecord(1, { url: 'fileUrl' });
+
+            expect(mockZipStatusRepo.update).toBeCalledWith(1, {
+                pathToFile: 'fileUrl',
+                isFinished: true,
+                progress: 100,
+            });
+        });
+    });
+
+    describe('setZeroFile', () => {
+        it('should set zero to record if no files', async () => {
+            await service.setZeroFile(1);
+
+            expect(mockZipStatusRepo.update).toBeCalledWith(1, {
+                countFiles: 0,
+                isFinished: true,
+                progress: 0,
+                pathToFile: '',
+            });
+        });
+    });
+
+    describe('createZip', () => {
+        const record: CreateZipStatusEntity = {
+            id: 1,
+            isFinished: false,
+            pathToFile: '',
+            progress: 0,
+            countFiles: null,
+        };
+
+        const tracks = [
+            {
+                id: 1,
+                title: 'Track title',
+                visible: true,
+                sentToTelegram: false,
+                duration: 2325.23,
+                rating: 10,
+                countRatings: 5,
+                genre: { id: 1, name: 'Genre', value: 'genre', tracks: [] },
+                category: { id: 1, name: 'Category', value: 'category', tracks: [] },
+                file: { id: 1, name: 'filename', url: 'fileUrl', mimetype: 'mimetype', size: 23423, track: {} },
+            },
+        ];
+
+        it('should create and fill zip', async () => {
+            const actualFillZip = service.fillZip;
+            service.fillZip = jest.fn().mockResolvedValueOnce(null);
+            mockSpacesService.uploadZip.mockResolvedValueOnce({ url: 'fileUrl' });
+            mockZipStatusRepo.update.mockResolvedValueOnce({
+                ...record,
+                pathToFile: fileInfo.url,
+                isFinished: true,
+                progress: 100,
+            });
+            const trackData = Buffer.from('trackData');
+            mocked(axios.get).mockResolvedValueOnce({ data: trackData });
+            const zipContent = Buffer.from('zipContent');
+            JSZip.prototype.generateAsync = jest.fn().mockResolvedValueOnce(zipContent);
+
+            await service.createZip(tracks as TrackEntity[], record);
+
+            expect(JSZip.prototype.generateAsync).toBeCalledWith({ type: 'nodebuffer' });
+
+            service.fillZip = actualFillZip;
         });
     });
 });

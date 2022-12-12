@@ -1,7 +1,8 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { EnvEnums } from './src/lib/configs/envs';
 import dotenv from 'dotenv';
+import { DataSource } from 'typeorm';
+
+import { EnvEnums } from './src/lib/configs/envs';
 
 dotenv.config();
 

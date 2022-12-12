@@ -4,7 +4,8 @@ export type UploadFile = {
     originalName?: string;
     name?: string;
     encoding: string;
-    mimetype: string;
+    mimetype?: string;
+    busBoyMimeType?: string;
     buffer: Buffer;
     size: number;
 };

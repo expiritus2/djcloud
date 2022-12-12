@@ -62,7 +62,7 @@ export class SpacesService {
                 name: file.originalName,
                 url: pathToFile,
                 size: file.size,
-                mimetype: file.mimetype,
+                mimetype: file.mimetype || file.busBoyMimeType,
             };
             return { ...fileInfo, duration };
         } catch (error: any) {

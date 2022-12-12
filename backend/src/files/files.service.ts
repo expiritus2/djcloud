@@ -38,7 +38,7 @@ export class FilesService {
             name: fileInfo.name,
             url: fileInfo.url,
             size: file.size,
-            mimetype: file.mimetype,
+            mimetype: file.mimetype || file.busBoyMimeType,
         });
         const createdFile = await this.fileRepo.save(newFile);
 

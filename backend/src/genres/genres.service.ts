@@ -4,8 +4,7 @@ import { snakeCase } from 'lodash';
 import { Repository } from 'typeorm';
 
 import { PaginationQueryDto } from '../lib/common/dtos';
-import { simplePaginateQuery } from '../lib/queries/pagination';
-import { filterTracks } from '../tracks/queries/filter';
+import { simplePaginateQuery, simpleSortQuery } from '../lib/queries/pagination';
 
 import { CreateGenreDto } from './dtos/create-genre.dto';
 import { UpdateGenreDto } from './dtos/update-genre.dto';
@@ -43,10 +42,10 @@ export class GenresService {
 
     async getAll(query: PaginationQueryDto): Promise<{ data: GenreEntity[]; count: number }> {
         const queryBuilder = this.genreRepo.createQueryBuilder('genre');
-        const filteredGenres = filterTracks<GenreEntity>(queryBuilder, query);
-        const paginateQueryBuilder = simplePaginateQuery<GenreEntity>(filteredGenres, query);
+        simplePaginateQuery(queryBuilder, query);
+        simpleSortQuery(queryBuilder, query);
 
-        const [data, count] = await paginateQueryBuilder.getManyAndCount();
+        const [data, count] = await queryBuilder.getManyAndCount();
         return { data, count };
     }
 

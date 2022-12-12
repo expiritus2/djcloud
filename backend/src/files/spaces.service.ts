@@ -45,14 +45,9 @@ export class SpacesService {
         const key = this.getKey(file.originalName, false);
         const config = this.getBucketConfig(`${key}-${statusRecord.id}.zip`, file);
 
-        try {
-            await this.s3.putObject(config).promise();
-            const pathToFile = `${envConfig.cdn}/${key}-${statusRecord.id}.zip`;
-            return { name: file.originalName, url: pathToFile };
-        } catch (error: any) {
-            await this.deleteObject(key);
-            throw new InternalServerErrorException(`DoSpacesService_ERROR: ${error.message || 'Something went wrong'}`);
-        }
+        await this.s3.putObject(config).promise();
+        const pathToFile = `${envConfig.cdn}/${key}-${statusRecord.id}.zip`;
+        return { name: file.originalName, url: pathToFile };
     }
 
     async uploadTrack(file: UploadFile): Promise<Omit<UploadedFile, 'id'>> {

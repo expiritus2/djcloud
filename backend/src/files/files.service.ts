@@ -45,7 +45,7 @@ export class FilesService {
         return { ...createdFile, duration: fileInfo.duration };
     }
 
-    async getStatusRecordById(id: number) {
+    async getStatusRecordById(id: number): Promise<CreateZipStatusEntity> {
         return this.zipStatusRepo.findOne({ where: { id } });
     }
 

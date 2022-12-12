@@ -7,6 +7,7 @@ import { mocked } from 'jest-mock';
 import JSZip from 'jszip';
 import { NestjsFormDataModule } from 'nestjs-form-data';
 
+import { envConfig } from '../lib/configs/envs';
 import { getMockConfigService } from '../lib/testData/utils';
 import { TrackEntity } from '../tracks/track.entity';
 
@@ -67,6 +68,9 @@ describe('FilesService', () => {
             create: jest.fn(),
             save: jest.fn(),
             remove: jest.fn(),
+            findOne: jest.fn(),
+            delete: jest.fn(),
+            findOneBy: jest.fn(),
         };
 
         const module: TestingModule = await Test.createTestingModule({
@@ -372,6 +376,53 @@ describe('FilesService', () => {
             expect(JSZip.prototype.generateAsync).toBeCalledWith({ type: 'nodebuffer' });
 
             service.fillZip = actualFillZip;
+        });
+    });
+
+    describe('getStatusRecordById', () => {
+        const record = {
+            id: 1,
+            isFinished: false,
+            pathToFile: 'pathToFile',
+            progress: 0,
+            countFiles: null,
+        };
+
+        it('should return status record by id', async () => {
+            mockZipStatusRepo.findOne.mockResolvedValueOnce(record);
+
+            const result = await service.getStatusRecordById(1);
+
+            expect(mockZipStatusRepo.findOne).toBeCalledWith({ where: { id: 1 } });
+            expect(result).toEqual(record);
+        });
+    });
+
+    describe('removeZip', () => {
+        it('should remove zip from spaces and from table', async () => {
+            const result = await service.removeZip(1, `${envConfig.cdn}/pathToFile`);
+
+            expect(mockSpacesService.deleteObject).toBeCalledWith('pathToFile');
+            expect(mockZipStatusRepo.delete).toBeCalledWith({ id: 1 });
+            expect(result).toEqual({ success: true });
+        });
+    });
+
+    describe('checkZipStatus', () => {
+        const record = {
+            id: 1,
+            isFinished: false,
+            pathToFile: 'pathToFile',
+            progress: 0,
+            countFiles: null,
+        };
+
+        it('should return zip status', async () => {
+            mockZipStatusRepo.findOneBy.mockResolvedValueOnce(record);
+
+            const result = await service.checkZipStatus({ id: 1 });
+
+            expect(result).toEqual(record);
         });
     });
 });

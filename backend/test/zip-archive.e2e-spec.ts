@@ -6,23 +6,32 @@ import request from 'supertest';
 import dataSource from '../ormconfig';
 import { AppModule } from '../src/app.module';
 import { UserEntity } from '../src/authentication/users/user.entity';
+import { CategoryEntity } from '../src/categories/category.entity';
+import { CreateZipStatusEntity } from '../src/files/createZipStatus.entity';
 import { FileEntity } from '../src/files/file.entity';
 import { SpacesService } from '../src/files/spaces.service';
+import { GenreEntity } from '../src/genres/genre.entity';
 import { setCookieSession } from '../src/lib/configs/app/cookieSession';
 import { setPipe } from '../src/lib/configs/app/pipes';
 import { envConfig } from '../src/lib/configs/envs';
+import { TrackDto } from '../src/tracks/dtos/track.dto';
+import { TrackEntity } from '../src/tracks/track.entity';
 
-import { removeFile, uploadFile } from './utils/tracks';
-import { clearTable, signupAdmin } from './utils';
+import { removeFile } from './utils/tracks';
+import { checkZipStatus } from './utils/zip';
+import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
 
 global.__baseDir = path.resolve(__dirname, '..');
 
-jest.setTimeout(30000);
+jest.setTimeout(120000);
 
 describe('Zip management', () => {
     let app: INestApplication;
     let adminCookie;
-    let uploadedFile;
+
+    const listTracks: TrackDto[] = [];
+
+    const pathToMP3File = path.resolve(__dirname, 'data', 'files', 'Kamera-ExtendedMix.mp3');
 
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -34,102 +43,76 @@ describe('Zip management', () => {
         setCookieSession(app);
         await app.init();
 
+        await clearTable(CategoryEntity);
+        await clearTable(GenreEntity);
+        await clearTable(TrackEntity);
         await clearTable(FileEntity);
         await clearTable(UserEntity);
+        await clearTable(CreateZipStatusEntity);
 
+        await createGenres();
+        await createCategories();
         const { cookie } = await signupAdmin(app);
         adminCookie = cookie;
-    });
 
-    afterEach(async () => {
-        if (uploadedFile?.id) {
-            await removeFile(app, adminCookie, uploadedFile.id);
+        const { body: genres } = await request(app.getHttpServer())
+            .get('/genres/list')
+            .set('Cookie', adminCookie)
+            .expect(200);
+
+        const { body: categories } = await request(app.getHttpServer())
+            .get('/categories/list')
+            .set('Cookie', adminCookie)
+            .expect(200);
+
+        for (let i = 0; i < 3; i++) {
+            const { body: trackFile } = await request(app.getHttpServer())
+                .post('/files/file-upload')
+                .set('Cookie', adminCookie)
+                .attach('file', pathToMP3File)
+                .expect(201);
+
+            const { body } = await request(app.getHttpServer())
+                .post('/tracks/create')
+                .set('Cookie', adminCookie)
+                .send({
+                    title: 'New Track Title',
+                    visible: true,
+                    duration: trackFile.duration,
+                    file: trackFile,
+                    category: categories.data[0],
+                    genre: genres.data[0],
+                    isTest: true,
+                })
+                .expect(201);
+            listTracks.push(body);
         }
-        await clearTable(FileEntity);
-        uploadedFile = undefined;
     });
 
     afterAll(async () => {
-        await clearTable(UserEntity);
+        await clearTable(TrackEntity);
+        for (const track of listTracks) {
+            await removeFile(app, adminCookie, track.file.id);
+        }
         await clearTable(FileEntity);
+        await clearTable(UserEntity);
+        await clearTable(CreateZipStatusEntity);
+        listTracks.length = 0;
         await dataSource.destroy();
     });
 
-    describe('/files/file-upload', () => {
-        it('should throw forbidden error if user is not admin', async () => {
-            const { body } = await request(app.getHttpServer()).post('/files/file-upload').expect(403);
-            expect(body.error).toEqual('Forbidden');
-            expect(body.message).toEqual('Forbidden resource');
-            expect(body.statusCode).toEqual(403);
-        });
+    describe('/files/create/zip', () => {
+        it('should process zip', async () => {
+            const { body: createdRecord } = await request(app.getHttpServer()).get('/files/create/zip').expect(200);
 
-        it('should upload file with .mp3 extension', async () => {
-            const { body: file } = await uploadFile(app, adminCookie);
-
-            uploadedFile = file;
-
-            expect(file).toEqual({
-                duration: file.duration,
+            expect(createdRecord).toEqual({
+                countFiles: null,
                 id: expect.anything(),
-                mimetype: 'audio/mpeg',
-                name: expect.anything(),
-                size: file.size,
-                url: expect.anything(),
+                isFinished: false,
+                pathToFile: '',
             });
-        });
 
-        it('should throw error if file not in [.mp3] formats and .wav format', async () => {
-            const pathToFile = path.resolve(__dirname, 'data', 'files', 'file_example_WAV_1MG.wav');
-
-            const { body: file } = await request(app.getHttpServer())
-                .post('/files/file-upload')
-                .set('Cookie', adminCookie)
-                .attach('file', pathToFile)
-                .expect(400);
-
-            uploadedFile = file;
-
-            expect(file.error).toEqual('Bad Request');
-            expect(file.message).toEqual(['File extension not allowed. Allowed types: .mp3']);
-        });
-
-        it('should throw error if file not in [.mp3] formats and file without extension', async () => {
-            const pathToFile = path.resolve(__dirname, 'data', 'files', 'testFileWithoutExtension');
-
-            const { body: file } = await request(app.getHttpServer())
-                .post('/files/file-upload')
-                .set('Cookie', adminCookie)
-                .attach('file', pathToFile)
-                .expect(400);
-
-            uploadedFile = file;
-
-            expect(file.error).toEqual('Bad Request');
-            expect(file.message).toEqual(['File extension not allowed. Allowed types: .mp3']);
-        });
-    });
-
-    describe('/files/:id', () => {
-        it('should get file by id', async () => {
-            const { body: file } = await uploadFile(app, adminCookie);
-            uploadedFile = file;
-
-            const { body: storedFile } = await request(app.getHttpServer()).get(`/files/${file.id}`).expect(200);
-
-            expect(storedFile).toEqual({ ...file, duration: undefined });
-        });
-
-        it('should throw error if file not found', async () => {
-            const { body } = await request(app.getHttpServer()).get(`/files/1`).expect(404);
-            expect(body.error).toEqual('Not Found');
-            expect(body.message).toEqual('File with id: 1 not found');
-        });
-    });
-
-    describe('/files/file-remove', () => {
-        it('should remove file info from database and s3', async () => {
-            const { body: file } = await uploadFile(app, adminCookie);
-            const key = file.url.replace(`${envConfig.cdn}/${process.env.ENVIRONMENT}/`, '');
+            const zipStatus = await checkZipStatus(app, createdRecord.id);
 
             const configService = new Map();
             configService.set('DO_BUCKET_NAME', process.env.DO_BUCKET_NAME);
@@ -137,25 +120,18 @@ describe('Zip management', () => {
             configService.set('DO_SECRET_KEY', process.env.DO_SECRET_KEY);
             configService.set('ENVIRONMENT', process.env.ENVIRONMENT);
             const spacesService = new SpacesService(configService as any);
+            const key = zipStatus.pathToFile.replace(`${envConfig.cdn}/${configService.get('ENVIRONMENT')}/`, '');
             const uploadedObject = await spacesService.getObject(key);
-
             expect(uploadedObject).toBeDefined();
 
-            const { body } = await removeFile(app, adminCookie, file.id);
-
-            expect(body).toEqual({
-                mimetype: file.mimetype,
-                name: file.name,
-                size: file.size,
-                url: file.url,
-            });
-
-            const { body: storedFile } = await request(app.getHttpServer()).get(`/files/${file.id}`).expect(404);
-            expect(storedFile.error).toEqual('Not Found');
-            expect(storedFile.message).toEqual(`File with id: ${file.id} not found`);
+            const { body: response } = await request(app.getHttpServer())
+                .delete('/files/remove/zip')
+                .send({ id: zipStatus.id, url: zipStatus.pathToFile })
+                .expect(200);
+            expect(response).toEqual({ success: true });
 
             try {
-                await spacesService.getObject('test');
+                await spacesService.getObject(key);
             } catch (error: any) {
                 expect(error.name).toEqual('NoSuchKey');
                 expect(error.statusCode).toEqual(404);

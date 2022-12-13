@@ -42,7 +42,8 @@ export class FilesController {
     }
 
     @Get('/create/zip')
-    @ApiOperation({ summary: 'Download all tracks' })
+    @ApiOperation({ summary: 'Create zip and download it' })
+    @ApiResponse({ status: 200 })
     async createZip(@Query() query: GetAllDto): Promise<CreateZipStatusDto> {
         const statusRecord = await this.filesService.createRecord();
         this.tracksService.getAll({ ...query, isDisablePagination: true }).then(async ({ data: tracks }) => {

@@ -125,9 +125,9 @@ describe('Zip management', () => {
             expect(uploadedObject).toBeDefined();
 
             const { body: response } = await request(app.getHttpServer())
-                .delete('/files/remove/zip')
+                .post('/files/remove/zip')
                 .send({ id: zipStatus.id, url: zipStatus.pathToFile })
-                .expect(200);
+                .expect(201);
             expect(response).toEqual({ success: true });
 
             try {

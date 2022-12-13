@@ -98,6 +98,30 @@ describe('SpacesService', () => {
             });
         });
 
+        it('should upload file to s3 with not standard mimetype property name', async () => {
+            const notStandardUploadFile = {
+                ...uploadFile,
+                mimetype: undefined,
+                busBoyMimeType: uploadFile.mimetype,
+            };
+            const result = await service.uploadTrack(notStandardUploadFile);
+
+            expect(service.s3.putObject).toBeCalledWith({
+                Bucket: 'DO_BUCKET_NAME',
+                Key: `test/uuid/${notStandardUploadFile.originalName}`,
+                Body: notStandardUploadFile.buffer,
+                ACL: 'public-read',
+            });
+
+            expect(result).toEqual({
+                duration: 400.54,
+                mimetype: 'audio/mpeg',
+                name: 'fileOriginalName',
+                size: 4000,
+                url: 'https://djcloud.fra1.cdn.digitaloceanspaces.com/test/uuid/fileOriginalName',
+            });
+        });
+
         it('should throw error with default message', async () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore

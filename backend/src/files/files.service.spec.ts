@@ -127,6 +127,31 @@ describe('FilesService', () => {
             expect(mockFilesRepo.save).toBeCalledWith(newFile);
             expect(result).toEqual({ ...newFile, duration: fileInfo.duration });
         });
+
+        it('should store file with not standard mimetype property name', async () => {
+            const newFile = {
+                name: fileInfo.name,
+                url: fileInfo.url,
+                size: uploadFile.size,
+                mimetype: uploadFile.mimetype,
+            };
+
+            mockSpacesService.uploadTrack.mockResolvedValueOnce(fileInfo);
+            mockFilesRepo.create.mockReturnValue(newFile);
+            mockFilesRepo.save.mockReturnValue(newFile);
+
+            const notStandardUploadFile = {
+                ...uploadFile,
+                mimetype: undefined,
+                busBoyMimeType: uploadFile.mimetype,
+            };
+            const result = await service.storeFile(notStandardUploadFile);
+
+            expect(mockSpacesService.uploadTrack).toBeCalledWith(notStandardUploadFile);
+            expect(mockFilesRepo.create).toBeCalledWith(newFile);
+            expect(mockFilesRepo.save).toBeCalledWith(newFile);
+            expect(result).toEqual({ ...newFile, duration: fileInfo.duration });
+        });
     });
 
     describe('removeFile', () => {

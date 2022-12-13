@@ -4,10 +4,6 @@
     "author": "",
     "private": true,
     "license": "UNLICENSED",
-    "engines": {
-        "npm": ">=8.3.2",
-        "node": ">=14.18.3"
-    },
     "scripts": {
         "prebuild": "rimraf dist",
         "build": "yarn install --force && nest build",

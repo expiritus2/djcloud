@@ -30,6 +30,8 @@ const DownloadAll: FC<ComponentProps> = (props) => {
     const [uploadingToSpaces, setUploadingToSpaces] = useState(false);
     const [progressEventVal, setProgressEventVal] = useState<ProgressEvent | null>(null);
 
+    if (!tracks.data) return null;
+
     const updateProgress = (data: ZipStatusResponse) => {
         if (data.progress < 100) {
             setProgress(data.progress);

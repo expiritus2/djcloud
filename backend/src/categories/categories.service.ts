@@ -5,8 +5,7 @@ import { Repository } from 'typeorm';
 
 import { GenreEntity } from '../genres/genre.entity';
 import { PaginationQueryDto } from '../lib/common/dtos';
-import { simplePaginateQuery } from '../lib/queries/pagination';
-import { filterTracks } from '../tracks/queries/filter';
+import { simplePaginateQuery, simpleSortQuery } from '../lib/queries/pagination';
 
 import { CreateCategoryDto } from './dtos/create-category.dto';
 import { UpdateCategoryDto } from './dtos/update-category.dto';
@@ -48,10 +47,10 @@ export class CategoriesService {
 
     async getAll(query: PaginationQueryDto): Promise<{ data: CategoryEntity[]; count: number }> {
         const queryBuilder = this.categoryRepo.createQueryBuilder('category');
-        const filteredCategories = filterTracks<CategoryEntity>(queryBuilder, query);
-        const paginateQueryBuilder = simplePaginateQuery<CategoryEntity>(filteredCategories, query);
+        simplePaginateQuery(queryBuilder, query);
+        simpleSortQuery(queryBuilder, query);
 
-        const [data, count] = await paginateQueryBuilder.getManyAndCount();
+        const [data, count] = await queryBuilder.getManyAndCount();
         return { data, count };
     }
 

@@ -32,4 +32,10 @@ export class GetAllDto extends PaginationQueryDto {
     @ApiProperty({ required: false })
     @Type(() => Boolean)
     withStats?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false })
+    @Type(() => Boolean)
+    isDisablePagination?: boolean;
 }

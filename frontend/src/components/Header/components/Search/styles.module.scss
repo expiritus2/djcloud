@@ -29,16 +29,20 @@
         &.open {
             position: absolute;
             right: 0;
-            bottom: setUnit(-13);
+            bottom: setUnit(-19);
             width: setUnit(250);
-            padding: setUnit(5) setUnit(15);
+            padding: setUnit(10) setUnit(15);
             margin: 0;
             display: block;
+
+            @media screen and (max-width: #{setUnit($mobile-small)}) {
+                width: calc(100% - #{setUnit(165)});
+            }
         }
 
         &.full {
             width: 100%;
-            padding: setUnit(5) setUnit(15);
+            padding: setUnit(10) setUnit(15);
         }
     }
 

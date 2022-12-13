@@ -19,10 +19,10 @@ const DownloadTrack: FC<ComponentProps> = (props) => {
     const { className, url, title, loaderWrapperClassName } = props;
     const [pending, setPending] = useState(false);
 
-    const onDownload = () => {
+    const onDownload = async () => {
         if (url && title) {
             setPending(true);
-            downloadByRequest(url, `${sign}-${title}`, () => {
+            await downloadByRequest(url, `${sign}-${title}`, () => {
                 setPending(false);
             });
         }

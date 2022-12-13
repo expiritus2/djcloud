@@ -1,0 +1,38 @@
+@import "src/styles/functions";
+@import "src/styles/variables";
+
+$icon-size: 20;
+
+.download {
+    margin: 0 setUnit(10);
+
+    .icon {
+        width: setUnit($icon-size);
+        height: setUnit($icon-size);
+        cursor: pointer;
+        transition: all .2s;
+        fill: lighten($darkColor, 5);
+        vertical-align: middle;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &.uploading {
+            cursor: auto;
+
+            path {
+                animation: moving 1s infinite linear;
+            }
+        }
+    }
+}
+
+@keyframes moving {
+    from {
+        transform: translateY(#{setUnit(30)});
+    }
+    to {
+        transform: translateY(#{setUnit(-30)});
+    }
+}

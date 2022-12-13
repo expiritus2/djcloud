@@ -10,7 +10,7 @@ import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { SortEnum } from 'types/request';
 
-import { PendingWrapper, TotalDuration } from 'components';
+import { DownloadAll, PendingWrapper, TotalDuration } from 'components';
 
 import { getCategoryIdFromParams } from '../../helpers';
 import { SortFieldEnum } from '../SortField';
@@ -106,7 +106,10 @@ const Content: FC<ComponentProps> = (props) => {
                                 <SortAscDesc className={styles.sortAscDesc} />
                                 <Shuffle className={styles.shuffle} />
                             </div>
-                            <TotalDuration className={styles.totalDuration} />
+                            <div className={styles.headerActions}>
+                                <TotalDuration />
+                                <DownloadAll visible />
+                            </div>
                         </div>
                         <Tracks />
                     </div>

@@ -4,7 +4,8 @@ export type UploadFile = {
     originalName?: string;
     name?: string;
     encoding: string;
-    mimetype: string;
+    mimetype?: string;
+    busBoyMimeType?: string;
     buffer: Buffer;
     size: number;
 };
@@ -15,7 +16,7 @@ export type UploadedFile = {
     url: string;
     size: number;
     mimetype: string;
-    duration: number;
+    duration?: number;
 };
 
 export class TrackFileDto {

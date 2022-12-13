@@ -3,7 +3,7 @@ import { SelectQueryBuilder } from 'typeorm/query-builder/SelectQueryBuilder';
 
 import { PaginationQueryDto } from '../common/dtos';
 
-import { simplePaginateQuery } from './pagination';
+import { simplePaginateQuery, simpleSortQuery } from './pagination';
 
 describe('paginationQuery', () => {
     describe('simplePagination', () => {
@@ -58,7 +58,7 @@ describe('paginationQuery', () => {
         it('should include orderBy in query only if exists field and sort together', () => {
             const query = { sort: 'ASC', field: 'name' } as PaginationQueryDto;
 
-            const queryBuilder = simplePaginateQuery(mockQueryBuilder as SelectQueryBuilder<any>, query);
+            const queryBuilder = simpleSortQuery(mockQueryBuilder as SelectQueryBuilder<any>, query);
 
             expect(mockQueryBuilder.orderBy).toBeCalledWith(`"${query.field}"`, query.sort, 'NULLS FIRST');
             expect(queryBuilder).toEqual(mockQueryBuilder);
@@ -95,8 +95,24 @@ describe('paginationQuery', () => {
 
             expect(mockQueryBuilder.take).toBeCalledWith(toNumber(query.limit));
             expect(mockQueryBuilder.skip).toBeCalledWith(toNumber(query.page) * toNumber(query.limit));
-            expect(mockQueryBuilder.orderBy).toBeCalledWith(`"${query.field}"`, query.sort, 'NULLS LAST');
             expect(queryBuilder).toEqual(mockQueryBuilder);
+        });
+
+        describe('simpleSortQuery', () => {
+            it('should include all queries', () => {
+                const query = {
+                    search: 'some search',
+                    limit: '5',
+                    page: '0',
+                    field: 'name',
+                    sort: 'DESC',
+                } as PaginationQueryDto;
+
+                const queryBuilder = simpleSortQuery(mockQueryBuilder as SelectQueryBuilder<any>, query);
+
+                expect(mockQueryBuilder.orderBy).toBeCalledWith(`"${query.field}"`, query.sort, 'NULLS LAST');
+                expect(queryBuilder).toEqual(mockQueryBuilder);
+            });
         });
     });
 });

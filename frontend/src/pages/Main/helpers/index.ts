@@ -1,4 +1,4 @@
-import { PathMatch } from 'react-router/lib/router';
+import { PathMatch } from 'react-router-dom';
 import { groupBy } from 'lodash';
 import { NavCategoriesStore } from 'store/NavCategories';
 import { GroupedTrackGenres } from 'store/TrackGenres';

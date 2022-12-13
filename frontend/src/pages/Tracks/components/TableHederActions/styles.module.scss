@@ -6,7 +6,9 @@
     align-items: flex-end;
     justify-content: space-between;
 
-    .totalDuration {
+    .totalDurationWrapper {
+        display: flex;
+        align-items: center;
         padding: 0 setUnit(15) setUnit(8) setUnit(20);
     }
 }

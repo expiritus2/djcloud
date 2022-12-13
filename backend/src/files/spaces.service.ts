@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { envConfig } from '../lib/configs/envs';
 
 import { UploadedFile, UploadFile } from './dtos/track-file.dto';
+import { CreateZipStatusEntity } from './createZipStatus.entity';
 
 @Injectable()
 export class SpacesService {
@@ -21,14 +22,37 @@ export class SpacesService {
         this.s3.config.credentials = this.credentials;
     }
 
-    async putObject(file: UploadFile): Promise<Omit<UploadedFile, 'id'>> {
-        const key = `${this.configService.get('ENVIRONMENT')}/${uuid()}/${file.originalName}`;
-        const config = {
+    getKey(filename: string, isUniquePath = true) {
+        if (!isUniquePath) {
+            return `${this.configService.get('ENVIRONMENT')}/${filename}`;
+        }
+        return `${this.configService.get('ENVIRONMENT')}/${uuid()}/${filename}`;
+    }
+
+    getBucketConfig(key: string, file: UploadFile) {
+        return {
             Bucket: this.configService.get('DO_BUCKET_NAME'),
             Key: key,
             Body: file.buffer,
             ACL: 'public-read',
         };
+    }
+
+    async uploadZip(
+        file: UploadFile,
+        statusRecord: CreateZipStatusEntity,
+    ): Promise<Omit<UploadedFile, 'id' | 'size' | 'mimetype'>> {
+        const key = this.getKey(file.originalName, false);
+        const config = this.getBucketConfig(`${key}-${statusRecord.id}.zip`, file);
+
+        await this.s3.putObject(config).promise();
+        const pathToFile = `${envConfig.cdn}/${key}-${statusRecord.id}.zip`;
+        return { name: file.originalName, url: pathToFile };
+    }
+
+    async uploadTrack(file: UploadFile): Promise<Omit<UploadedFile, 'id'>> {
+        const key = this.getKey(file.originalName);
+        const config = this.getBucketConfig(key, file);
 
         try {
             await this.s3.putObject(config).promise();
@@ -38,7 +62,7 @@ export class SpacesService {
                 name: file.originalName,
                 url: pathToFile,
                 size: file.size,
-                mimetype: file.mimetype,
+                mimetype: file.mimetype || file.busBoyMimeType,
             };
             return { ...fileInfo, duration };
         } catch (error: any) {

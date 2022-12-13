@@ -5,6 +5,7 @@ import { mocked } from 'jest-mock';
 
 import { getMockConfigService } from '../lib/testData/utils';
 
+import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { SpacesService } from './spaces.service';
 
 jest.mock('../lib/common/logger');
@@ -31,6 +32,14 @@ jest.mock('get-audio-duration', () => ({
 describe('SpacesService', () => {
     let service: SpacesService;
     let mockConfigService;
+
+    const statusRecord: CreateZipStatusEntity = {
+        id: 1,
+        isFinished: false,
+        pathToFile: 'pathToFile',
+        progress: 0,
+        countFiles: null,
+    };
 
     const uploadFile = {
         originalName: 'fileOriginalName',
@@ -71,7 +80,7 @@ describe('SpacesService', () => {
 
     describe('putObject', () => {
         it('should upload file to s3', async () => {
-            const result = await service.putObject(uploadFile);
+            const result = await service.uploadTrack(uploadFile);
 
             expect(service.s3.putObject).toBeCalledWith({
                 Bucket: 'DO_BUCKET_NAME',
@@ -97,7 +106,7 @@ describe('SpacesService', () => {
             });
 
             try {
-                await service.putObject(uploadFile);
+                await service.uploadTrack(uploadFile);
             } catch (error: any) {
                 expect(error instanceof InternalServerErrorException).toBeTruthy();
                 expect(error.message).toEqual(`DoSpacesService_ERROR: Something went wrong`);
@@ -112,7 +121,7 @@ describe('SpacesService', () => {
             });
 
             try {
-                await service.putObject(uploadFile);
+                await service.uploadTrack(uploadFile);
             } catch (error: any) {
                 expect(error instanceof InternalServerErrorException).toBeTruthy();
                 expect(error.message).toEqual(`DoSpacesService_ERROR: Some error message`);
@@ -175,6 +184,38 @@ describe('SpacesService', () => {
                 expect(error instanceof NotFoundException).toBeTruthy();
                 expect(error.message).toEqual(`Can not find file with key: ${key}`);
             }
+        });
+    });
+
+    describe('getKey', () => {
+        it('should return unique key by default', () => {
+            const result = service.getKey('fileName');
+
+            expect(result).toEqual('test/uuid/fileName');
+        });
+
+        it('should return not unique key', () => {
+            const result = service.getKey('fileName', false);
+
+            expect(result).toEqual('test/fileName');
+        });
+    });
+
+    describe('uploadZip', () => {
+        it('should upload zip file to s3', async () => {
+            const result = await service.uploadZip(uploadFile, statusRecord);
+
+            expect(service.s3.putObject).toBeCalledWith({
+                Bucket: 'DO_BUCKET_NAME',
+                Key: 'test/fileOriginalName-1.zip',
+                Body: uploadFile.buffer,
+                ACL: 'public-read',
+            });
+            expect(service.s3.putObject().promise).toBeCalled();
+            expect(result).toEqual({
+                name: 'fileOriginalName',
+                url: 'https://djcloud.fra1.cdn.digitaloceanspaces.com/test/fileOriginalName-1.zip',
+            });
         });
     });
 });

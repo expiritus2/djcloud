@@ -7,6 +7,7 @@ export { default as Button } from './Button';
 export { default as CategoryInput } from './CategoryInput';
 export { default as Checkbox } from './Checkbox';
 export { default as ContentModal } from './ContentModal';
+export { default as DownloadAll } from './DownloadAll';
 export { default as DownloadTrack } from './DownloadTrack';
 export { default as DropZone } from './DropZone';
 export { default as GenreInput } from './GenreInput';

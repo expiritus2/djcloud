@@ -16,13 +16,15 @@
             justify-content: space-between;
             margin-bottom: setUnit(25);
 
-            .totalDuration {
-                margin-left: setUnit(10);
-            }
-
             .actions {
                 display: flex;
                 align-items: center;
+            }
+
+            .headerActions {
+                display: flex;
+                align-items: center;
+                margin-left: setUnit(20);
             }
 
             .shuffle,

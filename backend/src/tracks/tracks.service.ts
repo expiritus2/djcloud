@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { CategoryEntity } from '../categories/category.entity';
 import { FilesService } from '../files/files.service';
 import { GenreEntity } from '../genres/genre.entity';
-import { simplePaginateQuery } from '../lib/queries/pagination';
+import { simplePaginateQuery, simpleSortQuery } from '../lib/queries/pagination';
 
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { GetAllDto } from './dtos/get-all.dto';
@@ -87,8 +87,12 @@ export class TracksService {
 
     async getAll(query: GetAllDto): Promise<{ data: TrackEntity[]; count: number }> {
         const filteredTracks = this.getAllQuery(query);
-        const paginateQueryBuilder = simplePaginateQuery<TrackEntity>(filteredTracks, query);
-        const [data, count] = await paginateQueryBuilder.getManyAndCount();
+
+        if (!query.isDisablePagination) {
+            simplePaginateQuery<TrackEntity>(filteredTracks, query);
+        }
+        simpleSortQuery<TrackEntity>(filteredTracks, query);
+        const [data, count] = await filteredTracks.getManyAndCount();
 
         return { data, count };
     }

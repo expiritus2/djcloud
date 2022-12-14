@@ -2,14 +2,12 @@ import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/co
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FormDataRequest } from 'nestjs-form-data';
 
-import { SuccessDto } from '../authentication/auth/dtos/success';
 import { AdminGuard } from '../authentication/lib/guards/adminGuard';
 import { GetAllDto } from '../tracks/dtos/get-all.dto';
 import { TracksService } from '../tracks/tracks.service';
 
-import { CreateZipStatusDto, RemoveZipDto } from './dtos/download-all.dto';
+import { GetStoredFilesResponse } from './dtos/download-all.dto';
 import { TrackFileDto, UploadedFile } from './dtos/track-file.dto';
-import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { FileEntity } from './file.entity';
 import { FilesService } from './files.service';
 
@@ -41,35 +39,12 @@ export class FilesController {
         return this.filesService.getFileById(id);
     }
 
-    @Get('/create/zip')
-    @ApiOperation({ summary: 'Create zip and download it' })
+    @Get('/stored/files')
+    @ApiOperation({ summary: 'Return stored files urls' })
     @ApiResponse({ status: 200 })
-    async createZip(@Query() query: GetAllDto): Promise<CreateZipStatusDto> {
-        const statusRecord = await this.filesService.createRecord();
-        this.tracksService.getAll({ ...query, isDisablePagination: true }).then(async ({ data: tracks }) => {
-            if (tracks.length) {
-                try {
-                    await this.filesService.createZip(tracks, statusRecord);
-                } catch (err: any) {
-                    const record = await this.filesService.getStatusRecordById(statusRecord.id);
-                    await this.filesService.removeZip(record.id, record.pathToFile);
-                }
-            } else {
-                await this.filesService.setZeroFile(statusRecord.id);
-            }
-        });
-        return statusRecord;
-    }
+    async getStoredFiles(@Query() query: GetAllDto): Promise<GetStoredFilesResponse[]> {
+        const { data: tracks } = await this.tracksService.getAll({ ...query, isDisablePagination: true });
 
-    @Post('/remove/zip')
-    @ApiOperation({ summary: 'Download all tracks' })
-    async removeZip(@Body() { id, url }: RemoveZipDto): Promise<SuccessDto> {
-        return this.filesService.removeZip(id, url);
-    }
-
-    @Get('/check-zip-status/:id')
-    @ApiOperation({ summary: 'Checks if creation of zip finished' })
-    async checkZipStatus(@Param('id') id: number): Promise<CreateZipStatusEntity> {
-        return this.filesService.checkZipStatus({ id });
+        return tracks.map((track) => ({ fileUrl: track.file.url, fileName: track.file.name, title: track.title }));
     }
 }

@@ -9,6 +9,12 @@ export const download = (url: string, name: string) => {
     document.body.removeChild(link);
 };
 
+export const downloadByBlob = (blob: Blob, fileName: string) => {
+    const url = window.URL.createObjectURL(blob);
+    download(url, fileName);
+    window.URL.revokeObjectURL(url);
+};
+
 export const getUrlExtension = (url: string) => {
     const ext = url?.split(/[#?]/)[0]?.split('.')?.pop()?.trim();
     if (!ext) {
@@ -24,16 +30,13 @@ export const downloadByRequest = async (
     onDownloadProgress?: (progressEvent: any) => void,
 ) => {
     try {
-        const response = await axios.get(`${fileUrl}?timestamp=${new Date().getTime()}`, {
+        const filePath = `${fileUrl}?timestamp=${new Date().getTime()}`;
+        const response = await axios.get(filePath, {
             responseType: 'blob',
             onDownloadProgress,
         });
         const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `${name}.${getUrlExtension(fileUrl)}`); //or any other extension
-        document.body.appendChild(link);
-        link.click();
+        download(url, `${name}.${getUrlExtension(fileUrl)}`);
         cb?.();
         return response;
     } catch (err: any) {

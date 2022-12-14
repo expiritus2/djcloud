@@ -2,15 +2,15 @@ import React, { FC, useState } from 'react';
 import { ImFolderDownload } from 'react-icons/im';
 import { MdUpload } from 'react-icons/md';
 import { PromisePool } from '@supercharge/promise-pool';
+import { getStoredFiles } from 'api/files';
 import axios from 'axios';
 import classNames from 'classnames';
+import { downloadByBlob } from 'helpers/download';
 import JSZip from 'jszip';
 import { omit, round } from 'lodash';
 import { observer } from 'mobx-react-lite';
+import { sign } from 'settings/sign';
 import { useStore } from 'store';
-
-import { getStoredFiles } from '../../api/files';
-import { downloadByBlob } from '../../helpers/download';
 
 import CreateZipSpinner from './CreateZipSpinner';
 
@@ -56,7 +56,7 @@ const DownloadAll: FC<ComponentProps> = (props) => {
             const zipContent = await zip.generateAsync({ type: 'blob' });
             setPackZip(false);
 
-            downloadByBlob(zipContent, 'tracks');
+            downloadByBlob(zipContent, sign);
             setPending(false);
         }
     };

@@ -16,9 +16,31 @@
             justify-content: space-between;
             margin-bottom: setUnit(25);
 
+            @media screen and (max-width: #{setUnit($mobile-small)}) {
+                align-items: end;
+            }
+
             .actions {
                 display: flex;
                 align-items: center;
+
+                @media screen and (max-width: #{setUnit($mobile-small)}) {
+                    display: block;
+                    width: 100%;
+                    max-width: setUnit(200);
+                }
+
+                .subActions {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+
+                .sortField {
+                    @media screen and (max-width: #{setUnit($mobile-small)}) {
+                        margin-bottom: setUnit(10);
+                    }
+                }
             }
 
             .headerActions {
@@ -30,6 +52,17 @@
             .shuffle,
             .sortAscDesc {
                 margin-left: setUnit(10);
+
+                @media screen and (max-width: #{setUnit($mobile-small)}) {
+                    margin-left: 0;
+                    width: 48%;
+                }
+            }
+
+            .shuffle {
+                @media screen and (max-width: #{setUnit($mobile-small)}) {
+                    margin-left: setUnit(5);
+                }
             }
         }
     }

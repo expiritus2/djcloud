@@ -102,9 +102,11 @@ const Content: FC<ComponentProps> = (props) => {
                     <div className={styles.innerHolder}>
                         <div className={styles.sorts}>
                             <div className={styles.actions}>
-                                <SortField />
-                                <SortAscDesc className={styles.sortAscDesc} />
-                                <Shuffle className={styles.shuffle} />
+                                <SortField className={styles.sortField} />
+                                <div className={styles.subActions}>
+                                    <SortAscDesc className={styles.sortAscDesc} />
+                                    <Shuffle className={styles.shuffle} />
+                                </div>
                             </div>
                             <div className={styles.headerActions}>
                                 <TotalDuration />

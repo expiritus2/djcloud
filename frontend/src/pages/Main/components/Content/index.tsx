@@ -10,7 +10,7 @@ import { routes } from 'settings/navigation/routes';
 import { useStore } from 'store';
 import { SortEnum } from 'types/request';
 
-import { PendingWrapper, TotalDuration } from 'components';
+import { DownloadAll, PendingWrapper, TotalDuration } from 'components';
 
 import { getCategoryIdFromParams } from '../../helpers';
 import { SortFieldEnum } from '../SortField';
@@ -108,7 +108,7 @@ const Content: FC<ComponentProps> = (props) => {
                             </div>
                             <div className={styles.headerActions}>
                                 <TotalDuration />
-                                {/* <DownloadAll visible /> */}
+                                <DownloadAll visible />
                             </div>
                         </div>
                         <Tracks />

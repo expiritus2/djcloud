@@ -7,18 +7,14 @@ import dataSource from '../ormconfig';
 import { AppModule } from '../src/app.module';
 import { UserEntity } from '../src/authentication/users/user.entity';
 import { CategoryEntity } from '../src/categories/category.entity';
-import { CreateZipStatusEntity } from '../src/files/createZipStatus.entity';
 import { FileEntity } from '../src/files/file.entity';
-import { SpacesService } from '../src/files/spaces.service';
 import { GenreEntity } from '../src/genres/genre.entity';
 import { setCookieSession } from '../src/lib/configs/app/cookieSession';
 import { setPipe } from '../src/lib/configs/app/pipes';
-import { envConfig } from '../src/lib/configs/envs';
 import { TrackDto } from '../src/tracks/dtos/track.dto';
 import { TrackEntity } from '../src/tracks/track.entity';
 
 import { removeFile } from './utils/tracks';
-import { checkZipStatus } from './utils/zip';
 import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
 
 global.__baseDir = path.resolve(__dirname, '..');
@@ -48,7 +44,6 @@ describe('Zip management', () => {
         await clearTable(TrackEntity);
         await clearTable(FileEntity);
         await clearTable(UserEntity);
-        await clearTable(CreateZipStatusEntity);
 
         await createGenres();
         await createCategories();
@@ -96,46 +91,19 @@ describe('Zip management', () => {
         }
         await clearTable(FileEntity);
         await clearTable(UserEntity);
-        await clearTable(CreateZipStatusEntity);
         listTracks.length = 0;
         await dataSource.destroy();
     });
 
-    describe('/files/create/zip', () => {
-        it('should process zip', async () => {
-            const { body: createdRecord } = await request(app.getHttpServer()).get('/files/create/zip').expect(200);
+    describe('/files/stored/files', () => {
+        it('should return stored files urls and names', async () => {
+            const { body: storedFiles } = await request(app.getHttpServer()).get('/files/stored/files').expect(200);
+            const sortFn = (a, b) => a.fileUrl.localeCompare(b.fileUrl);
+            const expectedResult = listTracks
+                .map((track) => ({ fileUrl: track.file.url, fileName: track.file.name, title: track.title }))
+                .sort(sortFn);
 
-            expect(createdRecord).toEqual({
-                countFiles: null,
-                id: expect.anything(),
-                isFinished: false,
-                pathToFile: '',
-            });
-
-            const zipStatus = await checkZipStatus(app, createdRecord.id);
-
-            const configService = new Map();
-            configService.set('DO_BUCKET_NAME', process.env.DO_BUCKET_NAME);
-            configService.set('DO_ACCESS_KEY', process.env.DO_ACCESS_KEY);
-            configService.set('DO_SECRET_KEY', process.env.DO_SECRET_KEY);
-            configService.set('ENVIRONMENT', process.env.ENVIRONMENT);
-            const spacesService = new SpacesService(configService as any);
-            const key = zipStatus.pathToFile.replace(`${envConfig.cdn}/${configService.get('ENVIRONMENT')}/`, '');
-            const uploadedObject = await spacesService.getObject(key);
-            expect(uploadedObject).toBeDefined();
-
-            const { body: response } = await request(app.getHttpServer())
-                .post('/files/remove/zip')
-                .send({ id: zipStatus.id, url: zipStatus.pathToFile })
-                .expect(201);
-            expect(response).toEqual({ success: true });
-
-            try {
-                await spacesService.getObject(key);
-            } catch (error: any) {
-                expect(error.name).toEqual('NoSuchKey');
-                expect(error.statusCode).toEqual(404);
-            }
+            expect(storedFiles.sort(sortFn)).toEqual(expectedResult);
         });
     });
 });

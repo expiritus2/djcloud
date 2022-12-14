@@ -1,17 +1,18 @@
 import React, { FC, useState } from 'react';
 import { ImFolderDownload } from 'react-icons/im';
 import { MdUpload } from 'react-icons/md';
+import { PromisePool } from '@supercharge/promise-pool';
+import axios from 'axios';
 import classNames from 'classnames';
-import { omit } from 'lodash';
+import JSZip from 'jszip';
+import { omit, round } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'store';
 
-import { checkZipStatus, createZip, removeZip, ZipStatusResponse } from '../../api/files';
-import { downloadByRequest } from '../../helpers/download';
-import { showErrorMessage } from '../../helpers/errors';
+import { getStoredFiles } from '../../api/files';
+import { downloadByBlob } from '../../helpers/download';
 
 import CreateZipSpinner from './CreateZipSpinner';
-import DownloadProgress from './DownloadProgress';
 
 import styles from './styles.module.scss';
 
@@ -20,96 +21,53 @@ type ComponentProps = {
     visible?: boolean;
 };
 
-const sleep = (timeout: number) => new Promise((resolve) => setTimeout(resolve, timeout));
+const streamFile = (fileUrl: string, isDisableCache = false) => {
+    const url = isDisableCache ? `${fileUrl}?${Date.now()}` : fileUrl;
+    return axios.get(url, { responseType: 'arraybuffer' });
+};
 
 const DownloadAll: FC<ComponentProps> = (props) => {
     const { className, visible } = props;
     const { tracks } = useStore();
     const [progress, setProgress] = useState(0);
     const [pending, setPending] = useState(false);
-    const [uploadingToSpaces, setUploadingToSpaces] = useState(false);
-    const [progressEventVal, setProgressEventVal] = useState<ProgressEvent | null>(null);
+    const [packZip, setPackZip] = useState(false);
 
     if (!tracks.data) return null;
 
-    const updateProgress = (data: ZipStatusResponse) => {
-        if (data.progress < 100) {
-            setProgress(data.progress);
-        } else {
-            setProgress(data.progress);
-            setUploadingToSpaces(true);
-        }
-    };
-
-    const checkZipStatusHandler = async (id: number, sleepTimeout: number): Promise<ZipStatusResponse> => {
-        try {
-            const { data } = await checkZipStatus({ id });
-            updateProgress(data);
-            if (!data.isFinished) {
-                await sleep(sleepTimeout);
-                return await checkZipStatusHandler(id, 3000);
-            }
-            return data;
-        } catch (err: any) {
-            showErrorMessage(err);
-            throw err;
-        }
-    };
-
-    const downloadProgress = (progressEvent: any) => {
-        setPending(false);
-        setUploadingToSpaces(false);
-        if (progressEvent.loaded < progressEvent.total) {
-            setProgressEventVal(progressEvent);
-        } else {
-            setProgressEventVal(null);
-        }
-    };
-
-    const downloadZip = async (pathToFile: string) => {
-        await downloadByRequest(
-            pathToFile,
-            'tracks',
-            () => {
-                setPending(false);
-            },
-            downloadProgress,
-        );
-    };
-
-    const createZipHandler = async ({ data: zipData }: { data: ZipStatusResponse }) => {
-        const statusData = await checkZipStatusHandler(zipData.id, 100);
-        if (statusData.countFiles !== null && statusData.countFiles === 0) {
-            setPending(false);
-            return;
-        }
-        await downloadZip(statusData.pathToFile);
-        await removeZip({ id: statusData.id, url: statusData.pathToFile });
-        setProgress(0);
-    };
-
     const onDownload = async () => {
-        setPending(true);
         const query = { visible, ...omit(tracks.meta, ['limit', 'page']) };
-        createZip(query)
-            .then(createZipHandler)
-            .catch((err) => {
-                setPending(false);
-                showErrorMessage(err);
+        const { data: storedFiles } = await getStoredFiles(query);
+        const zip = new JSZip();
+        setPending(!!storedFiles.length);
+        await PromisePool.withConcurrency(20)
+            .for(storedFiles)
+            .onTaskFinished(async (storedFile, pool) => {
+                const processedPercentage = pool.processedPercentage();
+                setProgress(round(processedPercentage));
+            })
+            .process(async (storedFile) => {
+                const { data: trackData } = await streamFile(storedFile.fileUrl, true);
+                const ext = storedFile.fileName.split('.').pop();
+                zip.file(`${storedFile.title}.${ext}`, trackData);
             });
+        if (storedFiles.length) {
+            setPackZip(true);
+            const zipContent = await zip.generateAsync({ type: 'blob' });
+            setPackZip(false);
+
+            downloadByBlob(zipContent, 'tracks');
+            setPending(false);
+        }
     };
 
     const renderActions = () => {
-        if (uploadingToSpaces) {
+        if (packZip) {
             return <MdUpload className={classNames(styles.icon, styles.uploading)} />;
         }
 
         if (pending) {
             return <CreateZipSpinner progress={progress} />;
-        }
-
-        if (progressEventVal !== null) {
-            return <DownloadProgress progressEvent={progressEventVal} />;
         }
 
         return <ImFolderDownload onClick={onDownload} className={classNames(styles.icon)} />;

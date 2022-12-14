@@ -8,7 +8,6 @@ import { TrackEntity } from '../tracks/track.entity';
 import { TracksModule } from '../tracks/tracks.module';
 import { TracksService } from '../tracks/tracks.service';
 
-import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { FileEntity } from './file.entity';
 import { FilesController } from './files.controller';
 import { FilesService } from './files.service';
@@ -18,7 +17,7 @@ import { SpacesService } from './spaces.service';
     imports: [
         NestjsFormDataModule,
         TracksModule,
-        TypeOrmModule.forFeature([FileEntity, TrackEntity, GenreEntity, CategoryEntity, CreateZipStatusEntity]),
+        TypeOrmModule.forFeature([FileEntity, TrackEntity, GenreEntity, CategoryEntity]),
     ],
     controllers: [FilesController],
     providers: [FilesService, SpacesService, TracksService],

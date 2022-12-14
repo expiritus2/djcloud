@@ -5,7 +5,6 @@ import { mocked } from 'jest-mock';
 
 import { getMockConfigService } from '../lib/testData/utils';
 
-import { CreateZipStatusEntity } from './createZipStatus.entity';
 import { SpacesService } from './spaces.service';
 
 jest.mock('../lib/common/logger');
@@ -32,14 +31,6 @@ jest.mock('get-audio-duration', () => ({
 describe('SpacesService', () => {
     let service: SpacesService;
     let mockConfigService;
-
-    const statusRecord: CreateZipStatusEntity = {
-        id: 1,
-        isFinished: false,
-        pathToFile: 'pathToFile',
-        progress: 0,
-        countFiles: null,
-    };
 
     const uploadFile = {
         originalName: 'fileOriginalName',
@@ -222,24 +213,6 @@ describe('SpacesService', () => {
             const result = service.getKey('fileName', false);
 
             expect(result).toEqual('test/fileName');
-        });
-    });
-
-    describe('uploadZip', () => {
-        it('should upload zip file to s3', async () => {
-            const result = await service.uploadZip(uploadFile, statusRecord);
-
-            expect(service.s3.putObject).toBeCalledWith({
-                Bucket: 'DO_BUCKET_NAME',
-                Key: 'test/fileOriginalName-1.zip',
-                Body: uploadFile.buffer,
-                ACL: 'public-read',
-            });
-            expect(service.s3.putObject().promise).toBeCalled();
-            expect(result).toEqual({
-                name: 'fileOriginalName',
-                url: 'https://djcloud.fra1.cdn.digitaloceanspaces.com/test/fileOriginalName-1.zip',
-            });
         });
     });
 });

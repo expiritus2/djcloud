@@ -6,7 +6,7 @@
     font-weight: 700;
     white-space: nowrap;
 
-    @media screen and (max-width: setUnit($mobile)) {
+    @media screen and (max-width: setUnit(820)) {
         .totalText {
             display: none;
         }

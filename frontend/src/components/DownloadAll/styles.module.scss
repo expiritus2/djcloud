@@ -5,6 +5,20 @@ $icon-size: 20;
 
 .download {
     margin: 0 setUnit(10);
+    display: flex;
+    align-items: center;
+
+    .totalFilesSize {
+        font-size: setUnit(11);
+        margin-left: setUnit(5);
+        position: relative;
+        top: setUnit(1);
+        white-space: nowrap;
+
+        @media screen and (max-width: setUnit(360)) {
+            display: none;
+        }
+    }
 
     .icon {
         width: setUnit($icon-size);

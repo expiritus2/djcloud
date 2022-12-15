@@ -5,4 +5,8 @@ export class TrackStatsDto {
     @Expose()
     @ApiProperty()
     totalDuration: number;
+
+    @Expose()
+    @ApiProperty()
+    totalFilesSize: number;
 }

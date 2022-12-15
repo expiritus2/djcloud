@@ -17,8 +17,7 @@ export class StatsController {
     @ApiOperation({ summary: 'Get stats about tracks' })
     @ApiResponse({ status: 200, type: TrackDto })
     async getStats(query: GetAllDto): Promise<TrackStatsDto> {
-        const totalDuration = await this.statsService.getTracksTotalDuration(query);
-        return { totalDuration };
+        return this.statsService.getTracksStats(query);
     }
 
     @Post('/track/:trackId/listen')

@@ -48,4 +48,5 @@ export type Track = {
 
 export type TrackStats = {
     totalDuration?: number;
+    totalFilesSize?: number;
 };

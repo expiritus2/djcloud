@@ -16,11 +16,11 @@ describe('StatsService', () => {
     let mockTrackRepo;
     let mockListenStatsRepo;
     let mockQueryBuilder;
-    let durationResult;
+    let queryResult;
     const query = { categoryId: 1, genreId: 1, visible: true, withStats: true };
 
     beforeEach(async () => {
-        durationResult = [
+        queryResult = [
             {
                 genre_id: 1,
                 genre_name: 'name',
@@ -28,6 +28,7 @@ describe('StatsService', () => {
                 category_value: 'category_value',
                 category_id: 'category_id',
                 totalDuration: 409.58,
+                totalFilesSize: 150000,
             },
             {
                 genre_id: 2,
@@ -36,6 +37,7 @@ describe('StatsService', () => {
                 category_value: 'category_value2',
                 category_id: 'category_id2',
                 totalDuration: 409.58,
+                totalFilesSize: 150000,
             },
         ];
         mockQueryBuilder = {
@@ -50,7 +52,8 @@ describe('StatsService', () => {
             take: jest.fn().mockReturnThis(),
             leftJoinAndSelect: jest.fn().mockReturnThis(),
             select: jest.fn().mockReturnThis(),
-            getRawMany: jest.fn(() => durationResult),
+            addSelect: jest.fn().mockReturnThis(),
+            getRawMany: jest.fn(() => queryResult),
         };
         mockTrackRepo = {
             create: jest.fn(),
@@ -91,17 +94,22 @@ describe('StatsService', () => {
         it('should query from database and sum durations', async () => {
             mocked(filterTracks).mockReturnValueOnce(mockQueryBuilder);
 
-            const result = await service.getTracksTotalDuration(query as unknown as GetAllDto);
+            const result = await service.getTracksStats(query as unknown as GetAllDto);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
             expect(mockQueryBuilder.select).toBeCalledWith('SUM(track.duration)', 'totalDuration');
+            expect(mockQueryBuilder.addSelect).toBeCalledWith('SUM(file.size)', 'totalFilesSize');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(filterTracks).toBeCalledWith(mockQueryBuilder, query, { searchFieldName: 'title' });
             expect(mockQueryBuilder.groupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('genre.id');
+            expect(mockQueryBuilder.addGroupBy).toBeCalledWith('file.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
-            expect(result).toEqual(durationResult.reduce((acc, item) => acc + item.totalDuration, 0));
+            expect(result).toEqual({
+                totalDuration: queryResult.reduce((acc, item) => acc + item.totalDuration, 0),
+                totalFilesSize: queryResult.reduce((acc, item) => acc + item.totalFilesSize, 0),
+            });
         });
     });
 

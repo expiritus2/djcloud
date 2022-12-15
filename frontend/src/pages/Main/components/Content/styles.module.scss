@@ -7,6 +7,10 @@
     height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)});
     overflow: auto;
 
+    @media screen and (max-width: setUnit(400)) {
+        padding: setUnit(10);
+    }
+
     .innerHolder {
         min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(125)});
 
@@ -46,7 +50,7 @@
             .headerActions {
                 display: flex;
                 align-items: center;
-                margin-left: setUnit(20);
+                margin-left: setUnit(10);
             }
 
             .shuffle,

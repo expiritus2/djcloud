@@ -5,4 +5,5 @@ export type TrackData = TrackEntity & { isDidRating: boolean; rating: number; co
 export type GetAllResponseDto = {
     data: TrackData[];
     count: number;
+    totalDuration?: number;
 };

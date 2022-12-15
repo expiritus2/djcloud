@@ -9,6 +9,7 @@ import { downloadByBlob } from 'helpers/download';
 import JSZip from 'jszip';
 import { omit, round } from 'lodash';
 import { observer } from 'mobx-react-lite';
+import prettyBytes from 'pretty-bytes';
 import { sign } from 'settings/sign';
 import { useStore } from 'store';
 
@@ -73,7 +74,12 @@ const DownloadAll: FC<ComponentProps> = (props) => {
         return <ImFolderDownload onClick={onDownload} className={classNames(styles.icon)} />;
     };
 
-    return <div className={classNames(styles.download, className)}>{renderActions()}</div>;
+    return (
+        <div className={classNames(styles.download, className)}>
+            <span>{renderActions()}</span>
+            <span className={styles.totalFilesSize}>{`(${prettyBytes(tracks.data?.totalFilesSize || 0)})`}</span>
+        </div>
+    );
 };
 
 export default observer(DownloadAll);

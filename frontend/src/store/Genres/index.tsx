@@ -8,8 +8,8 @@ import { Genre } from 'types/track';
 import { adminPageTableLimit } from '../../settings';
 
 export class GenresStore extends BaseRequestStore<PaginatedItems<Genre>> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             getAll: action,

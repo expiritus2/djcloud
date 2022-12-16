@@ -8,8 +8,8 @@ import { BaseRequestStore } from '../core/BaseRequestStore';
 import { LoginProps, User } from './types';
 
 export class UsersStore extends BaseRequestStore<User> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             loginAction: action,

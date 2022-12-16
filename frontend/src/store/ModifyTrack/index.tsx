@@ -10,8 +10,8 @@ import { Track } from 'types/track';
 import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto, UpdateVisibleTrackDto } from './types';
 
 export class ModifyTrackStore extends BaseRequestStore<Track> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             create: action,

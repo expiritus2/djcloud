@@ -8,8 +8,8 @@ import { Genre } from 'types/track';
 import { CreateGenreDto, GetGenreDto, RemoveGenreDto, UpdateGenreDto } from './types';
 
 export class ModifyGenreStore extends BaseRequestStore<Genre> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             create: action,

@@ -13,8 +13,8 @@ import { GetTrackDto } from '../ModifyTrack/types';
 import { GetAllByParams, SendToTelegramDto } from './types';
 
 export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackStats> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             getAll: action,
@@ -72,7 +72,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackS
         sendRequest(cfg, options, cb);
     }
 
-    setMeta(meta: typeof this.initStore.meta) {
+    setMeta(meta: typeof this.meta) {
         this.meta = { ...this.meta, ...meta };
     }
 }

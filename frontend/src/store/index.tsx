@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+import { injectStores } from '@mobx-devtools/tools';
 import { configure } from 'mobx';
 
 import { AdminState } from './AdminState';
@@ -32,6 +33,8 @@ const store = {
     trackRating: new TrackRatingStore(),
     stats: new Stats(),
 };
+
+injectStores(store);
 
 export const StoreContext = createContext(store);
 

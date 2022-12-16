@@ -9,8 +9,8 @@ import { Category } from 'types/track';
 import store from '..';
 
 export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             getAll: action,

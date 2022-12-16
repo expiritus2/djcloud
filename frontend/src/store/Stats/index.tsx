@@ -8,8 +8,8 @@ import { Track } from 'types/track';
 import { AddTrackListenDto } from './types';
 
 export class Stats extends BaseRequestStore<any> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {});
     }

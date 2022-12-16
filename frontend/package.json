@@ -66,6 +66,7 @@
         ]
     },
     "devDependencies": {
+        "@mobx-devtools/tools": "^0.0.4",
         "@types/jszip": "^3.4.1",
         "@types/pretty-bytes": "^5.2.0",
         "@typescript-eslint/eslint-plugin": "^5.27.1",

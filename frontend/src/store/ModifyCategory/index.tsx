@@ -8,8 +8,8 @@ import { Category } from 'types/track';
 import { CreateCategoryDto, GetCategoryDto, RemoveCategoryDto, UpdateCategoryDto } from './types';
 
 export class ModifyCategoryStore extends BaseRequestStore<Category> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             create: action,

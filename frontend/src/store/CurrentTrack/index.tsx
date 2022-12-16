@@ -28,8 +28,8 @@ import {
 export class CurrentTrackStore extends BaseRequestStore<Track> {
     pause: boolean = false;
 
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             pause: observable,
@@ -48,11 +48,6 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
                 }
             },
         );
-    }
-
-    logStore() {
-        super.logStore();
-        this.logMessage<'pause'>('pause');
     }
 
     updateRating(trackRating: TrackRating | null) {

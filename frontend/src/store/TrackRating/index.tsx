@@ -8,8 +8,8 @@ import { RequestOptions } from 'types/request';
 import { AddTrackRatingDto, GetTrackRatingDto, TrackRating } from './types';
 
 export class TrackRatingStore extends BaseRequestStore<TrackRating> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             addTrackRating: action,

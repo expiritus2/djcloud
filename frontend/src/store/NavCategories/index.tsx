@@ -7,8 +7,8 @@ import { PaginatedItems, PaginationParams, RequestOptions, SortEnum } from 'type
 import { Category } from 'types/track';
 
 export class NavCategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
-    constructor(color?: string) {
-        super(color);
+    constructor() {
+        super();
 
         makeObservable(this, {
             getAll: action,

@@ -1,30 +1,24 @@
-/* eslint-disable prettier/prettier */
 import { cloneDeep } from 'lodash';
 import { action, makeObservable, observable } from 'mobx';
-import { toJS } from 'mobx';
 import { RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';
 
-export abstract class BaseRequestStore<T> {
-    color: string = '';
-
-    readonly initStore: StoreData<T> = {
+export function getInitStore<T>(): StoreData<T> {
+    return {
         state: RequestStateEnum.IDLE,
         data: null,
         meta: {},
     };
+}
 
-    state: RequestStateEnum = cloneDeep(this.initStore.state);
+export abstract class BaseRequestStore<T> {
+    state: RequestStateEnum = cloneDeep(getInitStore().state);
 
-    data: T | null = cloneDeep(this.initStore.data);
+    data: T | null = cloneDeep(getInitStore<T>().data);
 
-    meta = cloneDeep(this.initStore.meta);
+    meta = cloneDeep(getInitStore().meta);
 
-    protected constructor(color?: string) {
-        if (color) {
-            this.color = color;
-        }
-
+    protected constructor() {
         makeObservable(this, {
             state: observable,
             data: observable,
@@ -33,22 +27,9 @@ export abstract class BaseRequestStore<T> {
         });
     }
 
-    logMessage<P>(propName: 'state' | 'data' | 'meta' | P) {
-        if (process.env.NODE_ENV === 'development') {
-            // @ts-ignore
-            console.log(`%c ${this.constructor.name}`, `color: ${this.color}`, propName, toJS(this[propName]));
-        }
-    }
-
-    logStore() {
-        this.logMessage('state');
-        this.logMessage('data');
-        this.logMessage('meta');
-    }
-
     resetStore(state?: RequestStateEnum) {
-        this.state = state ? state : cloneDeep(this.initStore.state);
-        this.data = cloneDeep(this.initStore.data);
-        this.meta = cloneDeep(this.initStore.meta);
+        this.state = state ? state : cloneDeep(getInitStore().state);
+        this.data = cloneDeep(getInitStore<T>().data);
+        this.meta = cloneDeep(getInitStore().meta);
     }
 }

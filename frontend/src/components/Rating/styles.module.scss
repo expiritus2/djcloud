@@ -50,6 +50,12 @@
             path {
                 fill: darken($active-background-color, 15);
             }
+
+            &.white {
+                path {
+                    fill: $whiteColor;
+                }
+            }
         }
 
         &.mobile {

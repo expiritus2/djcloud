@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, MouseEventHandler, useEffect } from 'react';
 import classNames from 'classnames';
 import { cloneDeep } from 'lodash';
 import { observer } from 'mobx-react-lite';
@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 type ComponentProps = {
     className?: string;
     name?: string;
-    onChange: any;
+    onChange: MouseEventHandler<HTMLSelectElement>;
     value: Category | null | undefined;
     label?: string;
     error?: string;

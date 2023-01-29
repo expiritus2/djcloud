@@ -25,18 +25,16 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackS
     getAll(cfg?: GetAllByParams, options?: RequestOptions, cb?: Function) {
         const sendRequest = new Api<PaginatedItems<Track>>({ store: this, method: getAll }).execResult();
 
-        sendRequest(
-            {
-                limit: adminPageTableLimit,
-                field: 'createdAt',
-                sort: SortEnum.DESC,
-                withStats: true,
-                ...this.meta,
-                ...cfg,
-            },
-            { silent: false, ...options },
-            cb,
-        );
+        const request = {
+            limit: adminPageTableLimit,
+            field: 'createdAt',
+            sort: SortEnum.DESC,
+            withStats: true,
+            ...this.meta,
+            ...cfg,
+        };
+
+        sendRequest(request, { silent: false, ...options }, cb);
     }
 
     setTrackRating(trackRating: TrackRating, trackId: number) {

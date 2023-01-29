@@ -1,5 +1,5 @@
 import { uploadFile } from 'api/files';
-import { create, getById, remove, update } from 'api/tracks';
+import { archive, create, getById, remove, update } from 'api/tracks';
 import { action, makeObservable } from 'mobx';
 import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
@@ -7,7 +7,14 @@ import store from 'store/index';
 import { RequestOptions, RequestStateEnum } from 'types/request';
 import { Track } from 'types/track';
 
-import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto, UpdateVisibleTrackDto } from './types';
+import {
+    ArchiveTrackDto,
+    CreateTrackDto,
+    GetTrackDto,
+    RemoveTrackDto,
+    UpdateTrackDto,
+    UpdateVisibleTrackDto,
+} from './types';
 
 export class ModifyTrackStore extends BaseRequestStore<Track> {
     constructor() {
@@ -92,5 +99,11 @@ export class ModifyTrackStore extends BaseRequestStore<Track> {
         const sendRequest = new Api<Track>({ store: this, method: getById }).execResult();
 
         sendRequest(cfg, options, cb);
+    }
+
+    archive(cfg?: ArchiveTrackDto, options?: RequestOptions, cb?: Function) {
+        const sendRequest = new Api<Track>({ store: this, method: archive }).execResult();
+
+        sendRequest(cfg, { silent: false, ...options }, cb);
     }
 }

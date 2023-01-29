@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { FaRegEdit } from 'react-icons/fa';
+import { RxArchive } from 'react-icons/rx';
 import classNames from 'classnames';
 import { Track } from 'types/track';
 
@@ -15,13 +16,15 @@ type ComponentProps = {
     className?: string;
     onClickEdit?: any;
     onClickDelete?: any;
+    onClickArchive?: any;
     track?: Track;
 };
 
 const TableActions: FC<ComponentProps> = (props) => {
-    const { className, onClickDelete, onClickEdit, track } = props;
+    const { className, onClickDelete, onClickEdit, onClickArchive, track } = props;
     const [editPending, setEditPending] = useState(false);
     const [deletePending, setDeletePending] = useState(false);
+    const [archivePending, setArchivePending] = useState(false);
 
     return (
         <div className={classNames(styles.tableActions, className)}>
@@ -52,6 +55,13 @@ const TableActions: FC<ComponentProps> = (props) => {
                     id="deleteIcon"
                     onClick={(e: any) => onClickDelete(e, setDeletePending)}
                     className={classNames(styles.remove, styles.icon)}
+                />
+            </Action>
+            <Action isPending={archivePending} loaderClassName={styles.archiveLoader}>
+                <RxArchive
+                    id="archiveIcon"
+                    onClick={(e: any) => onClickArchive(e, setArchivePending)}
+                    className={classNames(styles.archive, styles.icon)}
                 />
             </Action>
         </div>

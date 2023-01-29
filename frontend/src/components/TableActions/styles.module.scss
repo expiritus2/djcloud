@@ -20,7 +20,8 @@
     .download,
     .remove,
     .edit,
-    .telegram {
+    .telegram,
+    .archive {
         vertical-align: middle;
     }
 
@@ -50,6 +51,14 @@
 
     .remove,
     .deleteLoader {
+        margin-left: setUnit(20);
+    }
+
+    .archiveLoader {
+        margin-left: setUnit(16);
+    }
+
+    .archive {
         margin-left: setUnit(20);
     }
 

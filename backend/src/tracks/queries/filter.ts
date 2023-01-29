@@ -35,5 +35,7 @@ export const filterTracks = <T>(
         });
     }
 
+    queryBuilder.andWhere('archive = :archive', { archive: !!query.archive });
+
     return queryBuilder;
 };

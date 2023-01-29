@@ -50,9 +50,24 @@ const TrackModal: FC<ComponentProps> = (props) => {
         });
     };
 
+    const archiveTrack = () => {
+        modifyTrack.archive({ id: modalState.id as any, archive: !modalState.data?.archive }, {}, (err: AxiosError) => {
+            if (!err) {
+                refreshTable();
+                if (currentTrack.data?.id === modalState.id) {
+                    currentTrack.resetStore();
+                }
+            }
+        });
+    };
+
     const onClickSubmit = () => {
         if (modalState.type === ModalStateEnum.DELETE) {
             removeTrack();
+        }
+
+        if (modalState.type === ModalStateEnum.ARCHIVE) {
+            archiveTrack();
         }
     };
 
@@ -63,6 +78,10 @@ const TrackModal: FC<ComponentProps> = (props) => {
 
         if (modalState.type === ModalStateEnum.DELETE) {
             return 'Delete';
+        }
+
+        if (modalState.type === ModalStateEnum.ARCHIVE) {
+            return tracks.meta.archive ? 'Unarchive' : 'Archive';
         }
 
         return 'Save';
@@ -97,12 +116,25 @@ const TrackModal: FC<ComponentProps> = (props) => {
         );
     };
 
-    const getContent = () => {
-        return modalState.type === ModalStateEnum.DELETE ? (
-            getDeleteText()
-        ) : (
-            <Form onClickSubmit={onClickSubmit} resetModal={resetModal} modalState={modalState} />
+    const getArchiveText = () => {
+        return (
+            <div className={styles.archiveText}>
+                {`Are you sure you want to ${tracks.meta.archive ? 'unarchive' : 'archive'} track:`} <br />
+                <span className={styles.accent}>{`${modifyTrack.data?.title}?`}</span>
+            </div>
         );
+    };
+
+    const getContent = () => {
+        if (modalState.type === ModalStateEnum.DELETE) {
+            return getDeleteText();
+        }
+
+        if (modalState.type === ModalStateEnum.ARCHIVE) {
+            return getArchiveText();
+        }
+
+        return <Form onClickSubmit={onClickSubmit} resetModal={resetModal} modalState={modalState} />;
     };
 
     return (

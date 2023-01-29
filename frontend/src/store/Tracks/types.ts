@@ -8,6 +8,7 @@ export type GetAllByParams = {
     categoryId?: number;
     genreId?: number;
     visible?: boolean;
+    archive?: boolean;
     shuffle?: boolean;
     withStats?: boolean;
 } & PaginationParams;

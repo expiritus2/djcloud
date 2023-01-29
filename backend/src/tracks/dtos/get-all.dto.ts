@@ -23,6 +23,12 @@ export class GetAllDto extends PaginationQueryDto {
 
     @IsOptional()
     @IsBoolean()
+    @ApiProperty({ required: false, default: false })
+    @Type(() => Boolean)
+    archive?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
     @ApiProperty({ required: false })
     @Type(() => Boolean)
     shuffle?: boolean;

@@ -16,7 +16,7 @@ import { GetAllResponseDto, TrackData } from './dtos/get-all-response.dto';
 import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
 import { TrackDto } from './dtos/track.dto';
 import { TracksGenresDto } from './dtos/tracks-genres.dto';
-import { SendTrackToTelegramDto, UpdateTrackDto } from './dtos/update-track.dto';
+import { ArchiveTrackDto, SendTrackToTelegramDto, UpdateTrackDto } from './dtos/update-track.dto';
 import { TrackEntity } from './track.entity';
 import { TracksService } from './tracks.service';
 
@@ -81,6 +81,7 @@ export class TracksController {
     @ApiOperation({ summary: 'Get all tracks with pagination' })
     @ApiResponse({ status: 200, type: TrackDto })
     async getAll(@Query() query: GetAllDto, @Session() session: any): Promise<GetAllResponseDto> {
+        console.log(query);
         const tracks = query.shuffle
             ? await this.tracksService.getAllShuffle(query)
             : await this.tracksService.getAll(query);
@@ -142,5 +143,13 @@ export class TracksController {
         const track = await this.tracksService.remove(id);
         await this.fileService.removeFile(track.file.id);
         return track;
+    }
+
+    @UseGuards(AdminGuard)
+    @Patch('/:id/archive')
+    @ApiOperation({ summary: 'Mark track as archived' })
+    @ApiResponse({ status: 200, type: TrackDto })
+    async archiveTrack(@Param('id') id: string | number, @Body() body: ArchiveTrackDto) {
+        return this.tracksService.archiveTrack(id, body);
     }
 }

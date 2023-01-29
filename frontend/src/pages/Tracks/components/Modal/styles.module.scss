@@ -9,7 +9,8 @@
         margin: setUnit(25) 0 0;
     }
 
-    .deleteText {
+    .deleteText,
+    .archiveText {
         line-height: setUnit(22);
         padding-bottom: setUnit(40);
     }

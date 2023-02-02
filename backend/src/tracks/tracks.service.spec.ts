@@ -445,4 +445,24 @@ describe('TracksService', () => {
             expect(result3).toEqual(0);
         });
     });
+
+    describe('archiveTrack', () => {
+        it('should should call update fn with archive true and visible false', async () => {
+            jest.spyOn(service, 'update').mockResolvedValueOnce(track as TrackEntity);
+
+            const result = await service.archiveTrack(1, { archive: true });
+
+            expect(result).toEqual(track);
+            expect(service.update).toBeCalledWith(1, { archive: true, visible: false });
+        });
+
+        it('should should call update fn with archive false and visible undefined', async () => {
+            jest.spyOn(service, 'update').mockResolvedValueOnce(track as TrackEntity);
+
+            const result = await service.archiveTrack(1, { archive: false });
+
+            expect(result).toEqual(track);
+            expect(service.update).toBeCalledWith(1, { archive: false, visible: undefined });
+        });
+    });
 });

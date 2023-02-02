@@ -58,3 +58,8 @@ export const createTrack = async (
 
     return { createdTrack: body, trackFile, categories, genres };
 };
+
+export const getTrackById = async (app, adminCookie, id) => {
+    const { body } = await request(app.getHttpServer()).get(`/tracks/${id}`).set('Cookie', adminCookie).expect(200);
+    return body;
+};

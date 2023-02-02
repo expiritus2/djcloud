@@ -68,6 +68,7 @@ describe('TracksController', () => {
             remove: jest.fn(),
             removeFile: jest.fn(),
             getTracksGenres: jest.fn(),
+            archiveTrack: jest.fn(),
         };
         const module: TestingModule = await Test.createTestingModule({
             controllers: [TracksController],
@@ -346,6 +347,16 @@ describe('TracksController', () => {
             expect(controller.sendToTelegram).toBeCalledWith(track);
             expect(mockTrackService.update).toBeCalledWith(track.id, { sentToTelegram: true });
             expect(result).toEqual(track);
+        });
+    });
+
+    describe('archiveTrack', () => {
+        it('should archive track', async () => {
+            mockTrackService.archiveTrack.mockResolvedValueOnce(track);
+
+            const result = await controller.archiveTrack(1, { archive: true });
+            expect(result).toEqual(track);
+            expect(mockTrackService.archiveTrack).toBeCalledWith(1, { archive: true });
         });
     });
 });

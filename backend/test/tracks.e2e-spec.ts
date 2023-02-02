@@ -114,7 +114,7 @@ describe('Tracks management', () => {
 
             track = createdTrack;
 
-            expect(body).toEqual({ ...createdTrack, countRatings: 0, rating: 0, isDidRating: false });
+            expect(body).toEqual({ ...createdTrack, countRatings: 0, rating: 0, isDidRating: false, archive: false });
         });
     });
 
@@ -145,6 +145,7 @@ describe('Tracks management', () => {
                 updatedAt: expect.anything(),
                 countRatings: 0,
                 rating: 0,
+                archive: false,
             });
             expect(body.updatedAt > createdTrack.updatedAt).toBeTruthy();
         });
@@ -175,6 +176,7 @@ describe('Tracks management', () => {
                 updatedAt: expect.anything(),
                 countRatings: 0,
                 rating: 0,
+                archive: false,
             });
             expect(body.updatedAt > createdTrack.updatedAt).toBeTruthy();
         });
@@ -194,7 +196,7 @@ describe('Tracks management', () => {
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { id, ...expectedTrack } = createdTrack;
-            expect(body).toEqual({ ...expectedTrack, countRatings: 0, rating: 0 });
+            expect(body).toEqual({ ...expectedTrack, countRatings: 0, rating: 0, archive: false });
 
             await request(app.getHttpServer()).get(`/tracks/${createdTrack.id}`).set('Cookie', adminCookie).expect(404);
         });

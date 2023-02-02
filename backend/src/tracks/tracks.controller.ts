@@ -81,7 +81,6 @@ export class TracksController {
     @ApiOperation({ summary: 'Get all tracks with pagination' })
     @ApiResponse({ status: 200, type: TrackDto })
     async getAll(@Query() query: GetAllDto, @Session() session: any): Promise<GetAllResponseDto> {
-        console.log(query);
         const tracks = query.shuffle
             ? await this.tracksService.getAllShuffle(query)
             : await this.tracksService.getAll(query);
@@ -139,7 +138,7 @@ export class TracksController {
     @Delete('/:id')
     @ApiOperation({ summary: 'Remove track' })
     @ApiResponse({ status: 200, type: TrackDto })
-    async remove(@Param('id') id: string | number) {
+    async remove(@Param('id') id: string | number): Promise<TrackEntity> {
         const track = await this.tracksService.remove(id);
         await this.fileService.removeFile(track.file.id);
         return track;
@@ -149,7 +148,7 @@ export class TracksController {
     @Patch('/:id/archive')
     @ApiOperation({ summary: 'Mark track as archived' })
     @ApiResponse({ status: 200, type: TrackDto })
-    async archiveTrack(@Param('id') id: string | number, @Body() body: ArchiveTrackDto) {
+    async archiveTrack(@Param('id') id: string | number, @Body() body: ArchiveTrackDto): Promise<TrackEntity> {
         return this.tracksService.archiveTrack(id, body);
     }
 }

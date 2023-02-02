@@ -25,6 +25,9 @@ describe('/tracks/list', () => {
     let adminCookie;
 
     const listTracks: TrackDto[] = [];
+    const archivedListTracks: TrackDto[] = [];
+    const amountTrack = 10;
+    const archivedTracksAmount = amountTrack - 1;
 
     const pathToMP3File = path.resolve(__dirname, 'data', 'files', 'Kamera-ExtendedMix.mp3');
 
@@ -81,6 +84,16 @@ describe('/tracks/list', () => {
                 .expect(201);
             listTracks.push(body);
         }
+
+        for (let i = 0; i < archivedTracksAmount; i++) {
+            const trackId = listTracks[i].id;
+            const { body } = await request(app.getHttpServer())
+                .patch(`/tracks/${trackId}/archive`)
+                .set('Cookie', adminCookie)
+                .send({ archive: true })
+                .expect(200);
+            archivedListTracks.push(body);
+        }
     });
 
     afterAll(async () => {
@@ -99,13 +112,13 @@ describe('/tracks/list', () => {
 
     it('getAll tracks with pagination', async () => {
         const limit = 3;
-        for (let i = 0; i < Math.round(listTracks.length / limit); i++) {
+        for (let i = 0; i < Math.round(archivedTracksAmount / limit); i++) {
             const { body: tracks } = await request(app.getHttpServer())
-                .get(`/tracks/list?limit=${limit}&page=${i}&field=track_id&sort=DESC`)
+                .get(`/tracks/list?limit=${limit}&page=${i}&field=track_id&sort=DESC&archive=true`)
                 .set('Cookie', adminCookie)
                 .expect(200);
             const skip = i * limit;
-            const dbTracks = listTracks.sort((a, b) => b.id - a.id).slice(skip, skip + limit);
+            const dbTracks = archivedListTracks.sort((a, b) => b.id - a.id).slice(skip, skip + limit);
             expect(tracks).toEqual({
                 data: dbTracks.map((dbTrack) => ({
                     ...dbTrack,
@@ -113,9 +126,9 @@ describe('/tracks/list', () => {
                     isDidRating: false,
                     rating: 0,
                     listenStats: null,
-                    archive: false,
+                    archive: true,
                 })),
-                count: 10,
+                count: 9,
             });
         }
     });

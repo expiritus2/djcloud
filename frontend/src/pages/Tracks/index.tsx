@@ -16,6 +16,8 @@ import {
     TableWrapper,
 } from 'components';
 
+import { Track } from '../../types/track';
+
 import TrackModal from './components/Modal';
 import { Table, TableHeaderActions } from './components';
 
@@ -25,8 +27,13 @@ type ComponentProps = {
     className?: string;
 };
 
-export type InitModalStateType = { id?: number | undefined; type: ModalStateEnum | null; open: boolean };
-export const initModalState: InitModalStateType = { id: undefined, type: null, open: false };
+export type InitModalStateType = {
+    id?: number | undefined;
+    type: ModalStateEnum | null;
+    open: boolean;
+    data?: Track;
+};
+export const initModalState: InitModalStateType = { id: undefined, type: null, open: false, data: undefined };
 
 const Tracks: FC<ComponentProps> = (props) => {
     const { className } = props;
@@ -52,6 +59,10 @@ const Tracks: FC<ComponentProps> = (props) => {
 
         if (modalState.type === ModalStateEnum.DELETE) {
             return 'Delete Track';
+        }
+
+        if (modalState.type === ModalStateEnum.ARCHIVE) {
+            return tracks.meta.archive ? 'Unarchive Track' : 'Archive Track';
         }
 
         return 'Create Track';

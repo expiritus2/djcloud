@@ -39,6 +39,9 @@ export class TrackEntity {
     @Column()
     countRatings: number;
 
+    @Column()
+    archive: boolean;
+
     @ManyToOne(() => GenreEntity, (genre) => genre.tracks)
     @JoinColumn({ name: 'genreId' })
     genre: GenreEntity;

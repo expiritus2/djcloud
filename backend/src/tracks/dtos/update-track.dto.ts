@@ -59,6 +59,11 @@ export class UpdateTrackDto {
     sentToTelegram?: boolean;
 
     @IsOptional()
+    @IsBoolean()
+    @ApiProperty()
+    archive?: boolean;
+
+    @IsOptional()
     @IsNumber()
     @ApiProperty()
     duration?: number;
@@ -90,4 +95,10 @@ export class UpdateTrackDto {
     @IsNumber()
     @ApiProperty()
     countRatings?: number;
+}
+
+export class ArchiveTrackDto {
+    @IsBoolean()
+    @ApiProperty()
+    archive?: boolean;
 }

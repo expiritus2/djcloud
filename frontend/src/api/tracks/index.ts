@@ -24,6 +24,11 @@ export const remove = (cfg: RemoveTrackDto) => {
     return apiServer.delete(`/tracks/${cfg.id}`);
 };
 
+export const archive = (cfg: RemoveTrackDto) => {
+    const { id, ...body } = cfg;
+    return apiServer.patch(`/tracks/${id}/archive`, body);
+};
+
 export const getById = (cfg: GetTrackDto) => {
     return apiServer.get(`/tracks/${cfg.id}`);
 };

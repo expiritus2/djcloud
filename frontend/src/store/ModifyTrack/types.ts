@@ -29,3 +29,8 @@ export type GetTrackDto = {
 export type RemoveTrackDto = {
     id: number;
 };
+
+export type ArchiveTrackDto = {
+    id: number;
+    archive: boolean;
+};

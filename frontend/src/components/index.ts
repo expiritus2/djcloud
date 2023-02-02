@@ -2,6 +2,7 @@ export { default as AdminContentWrapper } from './Admin/ContentWrapper';
 export { default as AdminMenu } from './Admin/Menu';
 export { default as AdminPageTitle } from './Admin/PageTitle';
 export { default as App } from './App';
+export { default as Archive } from './Archive';
 export { default as Avatar } from './Avatar';
 export { default as Button } from './Button';
 export { default as CategoryInput } from './CategoryInput';

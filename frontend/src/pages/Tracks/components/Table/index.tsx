@@ -44,6 +44,16 @@ const TableComponent: FC<ComponentProps> = (props) => {
         });
     };
 
+    const onClickArchive = (e: any, id: number, cb: Function) => {
+        cb(true);
+        modifyTrack.getById({ id }, {}, (err: any, response: any) => {
+            if (!err) {
+                cb(false);
+                setModalState({ id, type: ModalStateEnum.ARCHIVE, open: true, data: response.data });
+            }
+        });
+    };
+
     const getFieldSort = (fieldKey: string) => {
         return tracks.meta.field === fieldKey ? tracks.meta.sort : undefined;
     };
@@ -76,11 +86,15 @@ const TableComponent: FC<ComponentProps> = (props) => {
                 title: 'Genre',
                 sort: getFieldSort('genre'),
             },
-            {
-                key: 'visible',
-                title: 'Visible',
-                sort: getFieldSort('visible'),
-            },
+            ...(!tracks.meta.archive
+                ? [
+                      {
+                          key: 'visible',
+                          title: 'Visible',
+                          sort: getFieldSort('visible'),
+                      },
+                  ]
+                : []),
             {
                 key: 'listenCount',
                 title: 'Listened',
@@ -105,7 +119,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
                     duration: getDuration(track.duration),
                     category: track.category.name,
                     genre: track.genre.name,
-                    visible: <Visible track={track} />,
+                    ...(!tracks.meta.visible ? { visible: <Visible track={track} /> } : {}),
                     createdAt: formatDate(track.createdAt),
                     listenCount: track.listenStats?.listenCount || 0,
                     actions: (
@@ -113,6 +127,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
                             track={track}
                             onClickEdit={(e: any, cb: Function) => onClickEdit(e, track.id, cb)}
                             onClickDelete={(e: any, cb: Function) => onClickDelete(e, track.id, cb)}
+                            onClickArchive={(e: any, cb: Function) => onClickArchive(e, track.id, cb)}
                         />
                     ),
                 };

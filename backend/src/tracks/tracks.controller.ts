@@ -16,7 +16,7 @@ import { GetAllResponseDto, TrackData } from './dtos/get-all-response.dto';
 import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
 import { TrackDto } from './dtos/track.dto';
 import { TracksGenresDto } from './dtos/tracks-genres.dto';
-import { SendTrackToTelegramDto, UpdateTrackDto } from './dtos/update-track.dto';
+import { ArchiveTrackDto, SendTrackToTelegramDto, UpdateTrackDto } from './dtos/update-track.dto';
 import { TrackEntity } from './track.entity';
 import { TracksService } from './tracks.service';
 
@@ -138,9 +138,17 @@ export class TracksController {
     @Delete('/:id')
     @ApiOperation({ summary: 'Remove track' })
     @ApiResponse({ status: 200, type: TrackDto })
-    async remove(@Param('id') id: string | number) {
+    async remove(@Param('id') id: string | number): Promise<TrackEntity> {
         const track = await this.tracksService.remove(id);
         await this.fileService.removeFile(track.file.id);
         return track;
+    }
+
+    @UseGuards(AdminGuard)
+    @Patch('/:id/archive')
+    @ApiOperation({ summary: 'Mark track as archived' })
+    @ApiResponse({ status: 200, type: TrackDto })
+    async archiveTrack(@Param('id') id: string | number, @Body() body: ArchiveTrackDto): Promise<TrackEntity> {
+        return this.tracksService.archiveTrack(id, body);
     }
 }

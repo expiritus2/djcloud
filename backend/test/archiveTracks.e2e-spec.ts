@@ -13,14 +13,14 @@ import { setPipe } from '../src/lib/configs/app/pipes';
 import { TrackDto } from '../src/tracks/dtos/track.dto';
 import { TrackEntity } from '../src/tracks/track.entity';
 
-import { removeFile } from './utils/tracks';
+import { getTrackById, removeFile } from './utils/tracks';
 import { clearTable, createCategories, createGenres, signupAdmin } from './utils';
 
 global.__baseDir = path.resolve(__dirname, '..');
 
 jest.setTimeout(120000);
 
-describe('/tracks/list', () => {
+describe('/tracks/:id/archive', () => {
     let app: INestApplication;
     let adminCookie;
 
@@ -59,7 +59,7 @@ describe('/tracks/list', () => {
             .set('Cookie', adminCookie)
             .expect(200);
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 3; i++) {
             const { body: trackFile } = await request(app.getHttpServer())
                 .post('/files/file-upload')
                 .set('Cookie', adminCookie)
@@ -93,30 +93,24 @@ describe('/tracks/list', () => {
         listTracks.length = 0;
     });
 
-    it('should not throw forbidden error if user is not admin', async () => {
-        await request(app.getHttpServer()).get('/tracks/list').expect(200);
+    it('should throw forbidden error if user is not admin', async () => {
+        await request(app.getHttpServer()).patch('/tracks/:id/archive').expect(403);
     });
 
-    it('getAll tracks with pagination', async () => {
-        const limit = 3;
-        for (let i = 0; i < Math.round(listTracks.length / limit); i++) {
-            const { body: tracks } = await request(app.getHttpServer())
-                .get(`/tracks/list?limit=${limit}&page=${i}&field=track_id&sort=DESC`)
-                .set('Cookie', adminCookie)
-                .expect(200);
-            const skip = i * limit;
-            const dbTracks = listTracks.sort((a, b) => b.id - a.id).slice(skip, skip + limit);
-            expect(tracks).toEqual({
-                data: dbTracks.map((dbTrack) => ({
-                    ...dbTrack,
-                    countRatings: 0,
-                    isDidRating: false,
-                    rating: 0,
-                    listenStats: null,
-                    archive: false,
-                })),
-                count: 10,
-            });
-        }
+    it('should archive track', async () => {
+        await request(app.getHttpServer())
+            .patch(`/tracks/${listTracks[1].id}/archive`)
+            .set('Cookie', adminCookie)
+            .send({ archive: true })
+            .expect(200);
+
+        const firstTrack = await getTrackById(app, adminCookie, listTracks[0].id);
+        expect(firstTrack.archive).toBeFalsy();
+
+        const secondTrack = await getTrackById(app, adminCookie, listTracks[1].id);
+        expect(secondTrack.archive).toBeTruthy();
+
+        const thirdTrack = await getTrackById(app, adminCookie, listTracks[2].id);
+        expect(thirdTrack.archive).toBeFalsy();
     });
 });

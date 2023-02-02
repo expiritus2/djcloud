@@ -11,7 +11,7 @@ import { simplePaginateQuery, simpleSortQuery } from '../lib/queries/pagination'
 import { CreateTrackDto } from './dtos/create-track.dto';
 import { GetAllDto } from './dtos/get-all.dto';
 import { GetTracksGenresDto, TrackGenresResponse } from './dtos/get-tracks-genres.dto';
-import { UpdateTrackDto } from './dtos/update-track.dto';
+import { ArchiveTrackDto, UpdateTrackDto } from './dtos/update-track.dto';
 import { filterTracks } from './queries/filter';
 import { TrackEntity } from './track.entity';
 
@@ -54,9 +54,11 @@ export class TracksService {
                 'track.rating',
                 'track.countRatings',
                 'track.sentToTelegram',
+                'track.archive',
                 '"title"',
                 '"listenCount"',
                 '"visible"',
+                '"archive"',
                 '"duration"',
                 '"createdAt"',
                 '"updatedAt"',
@@ -167,5 +169,9 @@ export class TracksService {
         } catch (error: any) {
             throw new InternalServerErrorException(`Can not delete track with id: ${id}`);
         }
+    }
+
+    async archiveTrack(id: string | number, { archive }: ArchiveTrackDto): Promise<TrackEntity> {
+        return this.update(id, { archive, ...(!!archive ? { visible: false } : {}) });
     }
 }

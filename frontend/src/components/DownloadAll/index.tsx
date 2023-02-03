@@ -6,6 +6,7 @@ import { getStoredFiles } from 'api/files';
 import axios from 'axios';
 import classNames from 'classnames';
 import { downloadByBlob } from 'helpers/download';
+import { useScreen } from 'hooks';
 import JSZip from 'jszip';
 import { omit, round } from 'lodash';
 import { observer } from 'mobx-react-lite';
@@ -30,6 +31,7 @@ const streamFile = (fileUrl: string, isDisableCache = false) => {
 const DownloadAll: FC<ComponentProps> = (props) => {
     const { className, visible } = props;
     const { tracks } = useStore();
+    const { screen } = useScreen();
     const [progress, setProgress] = useState(0);
     const [pending, setPending] = useState(false);
     const [packZip, setPackZip] = useState(false);
@@ -77,7 +79,9 @@ const DownloadAll: FC<ComponentProps> = (props) => {
     return (
         <div className={classNames(styles.download, className)}>
             <span>{renderActions()}</span>
-            <span className={styles.totalFilesSize}>{`(${prettyBytes(tracks.data?.totalFilesSize || 0)})`}</span>
+            {screen.width > 450 && (
+                <span className={styles.totalFilesSize}>{`(${prettyBytes(tracks.data?.totalFilesSize || 0)})`}</span>
+            )}
         </div>
     );
 };

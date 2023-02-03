@@ -1,6 +1,5 @@
 import React, { FC, MouseEventHandler, useState } from 'react';
 import classNames from 'classnames';
-import { useScreen } from 'hooks';
 import { useStore } from 'store';
 import { Category, Genre } from 'types/track';
 
@@ -15,7 +14,6 @@ type ComponentProps = {
 const Filter: FC<ComponentProps> = (props) => {
     const { className } = props;
     const { tracks } = useStore();
-    const { screen } = useScreen();
     const [categoryValue, setCategoryValue] = useState<Category | undefined>(undefined);
     const [genreValue, setGenreValue] = useState<Genre | undefined>(undefined);
     const [archiveActive, setArchiveActive] = useState<boolean>(false);
@@ -48,7 +46,7 @@ const Filter: FC<ComponentProps> = (props) => {
         <div className={classNames(styles.filter, className)}>
             <CategoryInput className={styles.category} onChange={onChangeCategory} value={categoryValue} />
             <GenreInput className={styles.genre} onChange={onChangeGenre} value={genreValue} />
-            {screen.width > 450 && <Archive onClick={onArchive} active={archiveActive} className={styles.archive} />}
+            <Archive onClick={onArchive} active={archiveActive} className={styles.archive} />
         </div>
     );
 };

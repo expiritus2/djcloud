@@ -44,9 +44,11 @@ const Tracks: FC<ComponentProps> = (props) => {
 
     useEffect(() => {
         tracks.getAll({ search: query.search as string, withStats: true }, { silent: false });
-
-        return () => tracks.resetStore();
     }, [query.search]); // eslint-disable-line
+
+    useEffect(() => {
+        return () => tracks.resetStore();
+    }, []); // eslint-disable-line
 
     const onClickNew = () => {
         setModalState({ type: ModalStateEnum.CREATE, open: true });

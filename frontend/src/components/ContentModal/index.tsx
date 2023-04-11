@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 
-import { Button } from '../index';
+import { Button } from 'components';
 
 import styles from './styles.module.scss';
 

@@ -10,6 +10,12 @@ export class GetTracksGenresDto {
     @ApiProperty({ required: false })
     @Type(() => Boolean)
     visible?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @ApiProperty({ required: false })
+    @Type(() => Boolean)
+    archive?: boolean;
 }
 
 export type TrackGenresResponse = {

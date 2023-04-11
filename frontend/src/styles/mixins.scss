@@ -1,5 +1,5 @@
-@import "src/styles/variables";
-@import "src/styles/functions";
+@import "styles/variables";
+@import "styles/functions";
 
 
 @mixin highlight-input($highlightColor: $active-background-color) {

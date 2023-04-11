@@ -1,5 +1,5 @@
-@import "src/styles/functions";
-@import "src/styles/variables";
+@import "styles/functions";
+@import "styles/variables";
 
 .wrapper {
     width: 100%;
@@ -31,6 +31,8 @@
     box-shadow: setUnit(1) setUnit(1) setUnit(5) $darkColor;
     margin: auto 0;
     background-color: $whiteColor;
+    animation-name: scaleBox;
+    animation-duration: .3s;
 
     position: relative;
     z-index: 999;
@@ -65,5 +67,14 @@
         .clear {
             clear: both;
         }
+    }
+}
+
+@keyframes scaleBox {
+    from {
+        scale: 0;
+    }
+    to {
+        scale: 1;
     }
 }

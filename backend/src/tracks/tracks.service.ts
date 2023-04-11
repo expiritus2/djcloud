@@ -101,6 +101,7 @@ export class TracksService {
 
     async getTracksGenres(query: GetTracksGenresDto): Promise<TrackGenresResponse> {
         const visible = query.visible !== undefined ? query.visible : true;
+        const archive = query.archive !== undefined ? query.archive : false;
 
         const queryBuilder = this.trackRepo
             .createQueryBuilder('track')
@@ -108,6 +109,7 @@ export class TracksService {
             .leftJoinAndSelect('track.category', 'category')
             .leftJoinAndSelect('track.genre', 'genre')
             .where('track.visible = :visible', { visible })
+            .andWhere('track.archive = :archive', { archive })
             .groupBy('genre.id')
             .addGroupBy('category.id');
 

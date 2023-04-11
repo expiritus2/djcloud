@@ -385,7 +385,7 @@ describe('TracksService', () => {
 
     describe('getTracksGenres', () => {
         it('should return track genres', async () => {
-            const query = { category: 'category', visible: true };
+            const query = { category: 'category', visible: true, archive: false };
             const result = await service.getTracksGenres(query);
 
             expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
@@ -393,6 +393,7 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: query.visible });
+            expect(mockQueryBuilder.andWhere).toBeCalledWith('track.archive = :archive', { archive: false });
             expect(mockQueryBuilder.groupBy).toBeCalledWith('genre.id');
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
@@ -409,6 +410,7 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: true });
+            expect(mockQueryBuilder.andWhere).toBeCalledWith('track.archive = :archive', { archive: false });
             expect(mockQueryBuilder.groupBy).toBeCalledWith('genre.id');
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();
@@ -425,6 +427,24 @@ describe('TracksService', () => {
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
             expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
             expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: false });
+            expect(mockQueryBuilder.andWhere).toBeCalledWith('track.archive = :archive', { archive: false });
+            expect(mockQueryBuilder.groupBy).toBeCalledWith('genre.id');
+            expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
+            expect(mockQueryBuilder.getRawMany).toBeCalled();
+
+            expect(result).toEqual({ category_id: [{ countTracks: 2, id: 1, name: 'name', value: 'value' }] });
+        });
+
+        it('should return archive with true value', async () => {
+            const query = { category: 'category', visible: false, archive: true };
+            const result = await service.getTracksGenres(query);
+
+            expect(mockTrackRepo.createQueryBuilder).toBeCalledWith('track');
+            expect(mockQueryBuilder.select).toBeCalledWith('COUNT(track.id)', 'countTracks');
+            expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.category', 'category');
+            expect(mockQueryBuilder.leftJoinAndSelect).toBeCalledWith('track.genre', 'genre');
+            expect(mockQueryBuilder.where).toBeCalledWith('track.visible = :visible', { visible: false });
+            expect(mockQueryBuilder.andWhere).toBeCalledWith('track.archive = :archive', { archive: true });
             expect(mockQueryBuilder.groupBy).toBeCalledWith('genre.id');
             expect(mockQueryBuilder.addGroupBy).toBeCalledWith('category.id');
             expect(mockQueryBuilder.getRawMany).toBeCalled();

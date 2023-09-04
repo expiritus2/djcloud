@@ -1,14 +1,28 @@
-import { apiServer } from 'settings/web-services/api';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { LoginProps } from 'store/User/types';
 
-export const login = (cfg: LoginProps) => {
-    return apiServer.post('/auth/signin', cfg);
+import { firebase } from '../../firebase';
+
+export const login = async (cfg: LoginProps) => {
+    const userCredential = await signInWithEmailAndPassword(firebase.auth, cfg.email, cfg.password);
+    const { user } = userCredential;
+
+    return { data: { id: user.uid, email: user.email, role: { name: 'admin' } } };
 };
 
-export const logout = () => {
-    return apiServer.get('/auth/signout');
+export const logout = async () => {
+    await signOut(firebase.auth);
+    return { data: null };
 };
 
-export const currentUser = () => {
-    return apiServer.get('/auth/whoami');
+export const currentUser = async () => {
+    return new Promise((resolve) => {
+        onAuthStateChanged(firebase.auth, (user) => {
+            if (user) {
+                resolve({ data: { id: user.uid, email: user.email, role: { name: 'admin' } } });
+            } else {
+                resolve({ data: null });
+            }
+        });
+    });
 };

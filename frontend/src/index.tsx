@@ -4,6 +4,7 @@ import * as toastr from 'toastr';
 
 import { App } from 'components';
 
+import { firebase } from './firebase';
 import reportWebVitals from './reportWebVitals';
 import store, { StoreContext } from './store';
 
@@ -15,16 +16,27 @@ toastr.options = {
     positionClass: 'toast-bottom-right',
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(
-    <React.StrictMode>
-        <StoreContext.Provider value={store}>
-            <App />
-        </StoreContext.Provider>
-    </React.StrictMode>,
-);
+const renderApp = () => {
+    const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+    root.render(
+        <React.StrictMode>
+            <StoreContext.Provider value={store}>
+                <App />
+            </StoreContext.Provider>
+        </React.StrictMode>,
+    );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    // If you want to start measuring performance in your app, pass a function
+    // to log results (for example: reportWebVitals(console.log))
+    // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+    reportWebVitals();
+};
+
+const promise = new Promise((resolve) => {
+    firebase.initFirebase();
+    firebase.initDb();
+    firebase.initAuth();
+    resolve(null);
+});
+
+Promise.all([promise]).then(renderApp);

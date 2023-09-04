@@ -40,4 +40,7 @@ export const StoreContext = createContext(store);
 
 export const useStore = () => useContext<typeof store>(StoreContext);
 
+// @ts-ignore
+window.Stores = store;
+
 export default store;

@@ -13,9 +13,7 @@ export function getInitStore<T>(): StoreData<T> {
 
 export abstract class BaseRequestStore<T> {
     state: RequestStateEnum = cloneDeep(getInitStore().state);
-
     data: T | null = cloneDeep(getInitStore<T>().data);
-
     meta = cloneDeep(getInitStore().meta);
 
     protected constructor() {

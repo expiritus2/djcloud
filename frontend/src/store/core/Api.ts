@@ -46,7 +46,8 @@ export default class Api<D> {
 
         try {
             const response = await this.method?.(cfg, opts);
-            this.setData({ cfg: { ...cfg, ...response.meta }, response, options });
+            // this.setData({ cfg: { ...cfg, ...response.meta }, response, options });
+            this.setData({ cfg, response, options });
 
             if (typeof cb === 'function') {
                 cb(null, response);

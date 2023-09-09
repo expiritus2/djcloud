@@ -1,14 +1,24 @@
 import { FirebaseApp } from '@firebase/app';
-import { Auth } from '@firebase/auth';
-import { Firestore } from '@firebase/firestore/lite';
+import { DocumentData, Query } from '@firebase/firestore';
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    limit,
+    orderBy,
+    query,
+    updateDoc,
+} from 'firebase/firestore';
+
+import { PaginationParams } from './types/request';
 
 export class Firebase {
     app: FirebaseApp;
-    db: Firestore;
-    auth: Auth;
 
     initFirebase() {
         // Import the functions you need from the SDKs you need
@@ -17,28 +27,60 @@ export class Firebase {
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: 'AIzaSyAHYDQ-tVw0d3FcPkeHAmo4j3bQEmVJjUI',
-            authDomain: 'djcloud-dev-ab742.firebaseapp.com',
-            projectId: 'djcloud-dev-ab742',
-            storageBucket: 'djcloud-dev-ab742.appspot.com',
-            messagingSenderId: '454635903188',
-            appId: '1:454635903188:web:760520afc0536118e20341',
+            apiKey: 'AIzaSyCFlymRnMnbXpFBcYpA6d3JaGz5YdBQ2S8',
+            authDomain: 'djcloud-dev-8b04b.firebaseapp.com',
+            projectId: 'djcloud-dev-8b04b',
+            storageBucket: 'djcloud-dev-8b04b.appspot.com',
+            messagingSenderId: '629330788037',
+            appId: '1:629330788037:web:9a5cf8279d709816e8faac',
         };
 
         this.app = initializeApp(firebaseConfig);
         console.log('firebase.app', this.app);
     }
 
-    initDb() {
-        if (this.app) {
-            this.db = getFirestore(this.app);
+    async addDocument(collectionName: string, data: any) {
+        return addDoc(collection(getFirestore(), collectionName), data);
+    }
+
+    async updateDocument(collectionName: string, id: string, data: any) {
+        const washingtonRef = doc(getFirestore(), collectionName, id);
+
+        await updateDoc(washingtonRef, data);
+    }
+
+    async getDocument(collectionName: string, ...pathSegments: string[]): Promise<DocumentData | undefined> {
+        const docRef = doc(getFirestore(), collectionName, ...pathSegments);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            return docSnap.data();
+        } else {
+            console.log('No such document!');
         }
     }
 
-    initAuth() {
-        if (this.app) {
-            this.auth = getAuth(this.app);
+    async getDocuments(collectionName: string, paginationParams: PaginationParams) {
+        const colRef = collection(getFirestore(), collectionName);
+        let q: Query;
+
+        if (paginationParams.field && paginationParams.sort) {
+            q = query(colRef, orderBy(paginationParams.field, paginationParams.sort));
+        } else if (paginationParams.field && paginationParams.sort && paginationParams.limit) {
+            q = query(colRef, orderBy(paginationParams.field, paginationParams.sort), limit(paginationParams.limit));
+        } else {
+            q = query(colRef);
         }
+
+        const docs = await getDocs(q);
+        const arr: any = [];
+        docs.forEach((d) => arr.push({ id: d.id, ...d.data() }));
+
+        return arr;
+    }
+
+    async deleteDocument(collectionName: string, id: string) {
+        await deleteDoc(doc(getFirestore(), collectionName, id));
     }
 }
 

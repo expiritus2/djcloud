@@ -34,8 +34,6 @@ const renderApp = () => {
 
 const promise = new Promise((resolve) => {
     firebase.initFirebase();
-    firebase.initDb();
-    firebase.initAuth();
     resolve(null);
 });
 

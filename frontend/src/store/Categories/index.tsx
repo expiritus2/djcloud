@@ -26,7 +26,8 @@ export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> 
         const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
 
         sendRequest(
-            { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
+            // { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
+            { limit: adminPageTableLimit, sort: SortEnum.DESC, ...this.meta, ...cfg },
             options,
             cb,
         );

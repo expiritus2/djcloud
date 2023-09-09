@@ -13,8 +13,8 @@ export type RequestOptions = {
 } & AxiosRequestConfig;
 
 export enum SortEnum {
-    ASC = 'ASC',
-    DESC = 'DESC',
+    ASC = 'asc',
+    DESC = 'desc',
 }
 
 export type PaginationParams = {

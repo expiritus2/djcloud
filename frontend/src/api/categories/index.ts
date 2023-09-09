@@ -4,15 +4,17 @@ import { PaginationParams } from 'types/request';
 
 import { firebase } from '../../firebase';
 
-export const getAll = (cfg: PaginationParams) => {
-    return apiServer.get('/categories/list', { params: cfg });
+const COLLECTION_NAME = 'categories';
+
+export const getAll = async (cfg: PaginationParams) => {
+    const docs = await firebase.getDocuments(COLLECTION_NAME, cfg);
+    return { data: { data: docs } };
+    // return apiServer.get('/categories/list', { params: cfg });
 };
 
-export const create = async (cfg: CreateCategoryDto) => {
-    // @ts-ignore
-    const res = await firebase.db.collection('categories').doc(1).set(cfg);
-    console.log('res', res);
-    // return apiServer.post('/categories/create', cfg);
+export const create = async (cfg: CreateCategoryDto): Promise<string> => {
+    const result = await firebase.addDocument(COLLECTION_NAME, { name: cfg.name, value: cfg.name.toLowerCase() });
+    return result.id;
 };
 
 export const update = (cfg: UpdateCategoryDto) => {

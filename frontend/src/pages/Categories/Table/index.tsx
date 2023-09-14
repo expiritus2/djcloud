@@ -47,10 +47,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
                 key: 'id',
                 title: 'Id',
                 width: '10%',
-                sort:
-                    categories.meta.field === 'id' || categories.meta.field === 'timestamp'
-                        ? categories.meta.sort
-                        : undefined,
+                sort: ['id', 'timestamp'].includes(categories.meta.field) ? categories.meta.sort : undefined,
             },
             {
                 key: 'name',

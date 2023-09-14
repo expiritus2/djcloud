@@ -47,7 +47,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
                 key: 'id',
                 title: 'Id',
                 width: '10%',
-                sort: genres.meta.field === 'id' || genres.meta.field === 'timestamp' ? genres.meta.sort : undefined,
+                sort: ['id', 'timestamp'].includes(genres.meta.field) ? genres.meta.sort : undefined,
             },
             {
                 key: 'name',

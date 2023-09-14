@@ -1,4 +1,4 @@
-import { create, getById, remove, update } from 'api/genres';
+import { Genres } from 'api/genres';
 import { action, makeObservable } from 'mobx';
 import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
@@ -20,25 +20,25 @@ export class ModifyGenreStore extends BaseRequestStore<Genre> {
     }
 
     create(cfg?: CreateGenreDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Genre>({ store: this, method: create }).execResult();
+        const sendRequest = new Api<Genre>({ store: this, method: Genres.create }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     remove(cfg?: RemoveGenreDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Genre>({ store: this, method: remove }).execResult();
+        const sendRequest = new Api<Genre>({ store: this, method: Genres.remove }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     update(cfg?: UpdateGenreDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Genre>({ store: this, method: update }).execResult();
+        const sendRequest = new Api<Genre>({ store: this, method: Genres.update }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     getById(cfg: GetGenreDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Genre>({ store: this, method: getById }).execResult();
+        const sendRequest = new Api<Genre>({ store: this, method: Genres.getById }).execResult();
 
         sendRequest(cfg, options, cb);
     }

@@ -51,7 +51,7 @@ const List: FC<ComponentProps> = forwardRef<any, ComponentProps>((props, ref) =>
                             onClick={(e) => onClickLink?.(e)}
                             className={({ isActive }) => {
                                 return getLinkClassName({
-                                    isActive: isActive || +match?.params.categoryId! === category.id,
+                                    isActive: isActive || match?.params.categoryId === category.id,
                                 });
                             }}
                             to={link.toAllCategoryTracks(category.id.toString())}

@@ -1,4 +1,4 @@
-import { getAll } from 'api/genres';
+import { Genres } from 'api/genres';
 import { action, makeObservable } from 'mobx';
 import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
@@ -17,10 +17,10 @@ export class GenresStore extends BaseRequestStore<PaginatedItems<Genre>> {
     }
 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<PaginatedItems<Genre>>({ store: this, method: getAll }).execResult();
+        const sendRequest = new Api<PaginatedItems<Genre>>({ store: this, method: Genres.getAll }).execResult();
 
         sendRequest(
-            { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
+            { limit: adminPageTableLimit, field: 'timestamp', sort: SortEnum.DESC, ...this.meta, ...cfg },
             options,
             cb,
         );

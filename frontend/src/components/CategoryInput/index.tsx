@@ -25,7 +25,7 @@ const CategoryInput: FC<ComponentProps> = (props) => {
     }, []); // eslint-disable-line
 
     const onChangeValue = (e: any) => {
-        const category = (categories.data?.data || []).find((cat) => cat.id === +e.target.value);
+        const category = (categories.data?.data || []).find((cat) => cat.id === e.target.value);
         onChange({ ...e, target: { name, value: cloneDeep(category) || null } });
     };
 

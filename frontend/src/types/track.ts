@@ -9,13 +9,13 @@ export type File = {
 };
 
 export type Category = {
-    id: number;
+    id: string;
     value: string;
     name: string;
 };
 
 export type Genre = {
-    id: number;
+    id: string;
     value: string;
     name: string;
 };

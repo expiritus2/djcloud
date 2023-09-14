@@ -5,8 +5,8 @@ export type TrackGenreParams = {
 };
 
 export type GetAllByParams = {
-    categoryId?: number;
-    genreId?: number;
+    categoryId?: string;
+    genreId?: string;
     visible?: boolean;
     archive?: boolean;
     shuffle?: boolean;

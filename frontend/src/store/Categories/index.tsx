@@ -1,4 +1,4 @@
-import { getAll } from 'api/categories';
+import { Categories } from 'api/categories';
 import { action, makeObservable, reaction } from 'mobx';
 import { adminPageTableLimit } from 'settings';
 import Api from 'store/core/Api';
@@ -23,11 +23,13 @@ export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> 
     }
 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
+        const sendRequest = new Api<PaginatedItems<Category>>({
+            store: this,
+            method: Categories.getAll,
+        }).execResult();
 
         sendRequest(
-            // { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
-            { limit: adminPageTableLimit, sort: SortEnum.DESC, ...this.meta, ...cfg },
+            { limit: adminPageTableLimit, field: 'timestamp', sort: SortEnum.DESC, ...this.meta, ...cfg },
             options,
             cb,
         );

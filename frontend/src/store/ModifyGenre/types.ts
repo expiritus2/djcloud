@@ -3,14 +3,14 @@ export type CreateGenreDto = {
 };
 
 export type UpdateGenreDto = {
-    id: number;
+    id: string;
     name: string;
 };
 
 export type GetGenreDto = {
-    id: number;
+    id: string;
 };
 
 export type RemoveGenreDto = {
-    id: number;
+    id: string;
 };

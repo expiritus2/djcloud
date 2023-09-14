@@ -1,4 +1,4 @@
-import { getAll } from 'api/categories';
+import { Categories } from 'api/categories';
 import { cloneDeep } from 'lodash';
 import { action, makeObservable } from 'mobx';
 import Api from 'store/core/Api';
@@ -16,7 +16,10 @@ export class NavCategoriesStore extends BaseRequestStore<PaginatedItems<Category
     }
 
     getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
+        const sendRequest = new Api<PaginatedItems<Category>>({
+            store: this,
+            method: Categories.getAll,
+        }).execResult();
 
         sendRequest({ limit: 5, field: 'name', sort: SortEnum.DESC, ...this.meta, ...cfg }, options, cb);
     }

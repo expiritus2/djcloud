@@ -70,8 +70,8 @@ const Content: FC<ComponentProps> = (props) => {
                 const genreId = match?.params.genreId;
                 if (categoryId !== tracks.meta.categoryId || genreId !== tracks.meta.genreId) {
                     tracks.getAll({
-                        categoryId: +categoryId,
-                        genreId: genreId ? +genreId : undefined,
+                        categoryId: categoryId,
+                        genreId: genreId || undefined,
                         visible: true,
                         limit,
                         search: query.search as string,

@@ -21,7 +21,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
     const { className, setModalState } = props;
     const { categories, modifyCategory } = useStore();
 
-    const onClickEdit = (e: any, id: number, cb: Function) => {
+    const onClickEdit = (e: any, id: string, cb: Function) => {
         cb(true);
         modifyCategory.getById({ id }, {}, (err: any) => {
             if (!err) {
@@ -31,7 +31,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
         });
     };
 
-    const onClickDelete = (e: any, id: number, cb: Function) => {
+    const onClickDelete = (e: any, id: string, cb: Function) => {
         cb(true);
         modifyCategory.getById({ id }, {}, (err: any) => {
             if (!err) {
@@ -47,7 +47,10 @@ const TableComponent: FC<ComponentProps> = (props) => {
                 key: 'id',
                 title: 'Id',
                 width: '10%',
-                sort: categories.meta.field === 'id' ? categories.meta.sort : undefined,
+                sort:
+                    categories.meta.field === 'id' || categories.meta.field === 'timestamp'
+                        ? categories.meta.sort
+                        : undefined,
             },
             {
                 key: 'name',
@@ -75,8 +78,9 @@ const TableComponent: FC<ComponentProps> = (props) => {
     };
 
     const onSortClick = (e: any, column: Column) => {
+        const field = column.key === 'id' || column.key === 'timestamp' ? 'timestamp' : column.key;
         categories.getAll(
-            { field: column.key, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
+            { field, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
             { silent: true },
         );
     };

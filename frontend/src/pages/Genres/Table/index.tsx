@@ -21,7 +21,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
     const { className, setModalState } = props;
     const { genres, modifyGenre } = useStore();
 
-    const onClickEdit = (e: any, id: number, cb: Function) => {
+    const onClickEdit = (e: any, id: string, cb: Function) => {
         cb(true);
         modifyGenre.getById({ id }, {}, (err: any) => {
             if (!err) {
@@ -31,7 +31,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
         });
     };
 
-    const onClickDelete = (e: any, id: number, cb: Function) => {
+    const onClickDelete = (e: any, id: string, cb: Function) => {
         cb(true);
         modifyGenre.getById({ id }, {}, (err: any) => {
             if (!err) {
@@ -47,7 +47,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
                 key: 'id',
                 title: 'Id',
                 width: '10%',
-                sort: genres.meta.field === 'id' ? genres.meta.sort : undefined,
+                sort: genres.meta.field === 'id' || genres.meta.field === 'timestamp' ? genres.meta.sort : undefined,
             },
             {
                 key: 'name',
@@ -75,8 +75,9 @@ const TableComponent: FC<ComponentProps> = (props) => {
     };
 
     const onSortClick = (e: any, column: Column) => {
+        const field = column.key === 'id' || column.key === 'timestamp' ? 'timestamp' : column.key;
         genres.getAll(
-            { field: column.key, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
+            { field, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
             { silent: true },
         );
     };

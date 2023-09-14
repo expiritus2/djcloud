@@ -25,7 +25,7 @@ const GenreInput: FC<ComponentProps> = (props) => {
     }, []); // eslint-disable-line
 
     const onChangeValue = (e: any) => {
-        const genre = (genres.data?.data || []).find((cat) => cat.id === +e.target.value);
+        const genre = (genres.data?.data || []).find((cat) => cat.id === e.target.value);
         onChange({ ...e, target: { name, value: cloneDeep(genre) || null } });
     };
 

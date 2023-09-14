@@ -1,4 +1,4 @@
-import { create, getById, remove, update } from 'api/categories';
+import { Categories } from 'api/categories';
 import { action, makeObservable } from 'mobx';
 import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
@@ -17,25 +17,25 @@ export class ModifyCategoryStore extends BaseRequestStore<Category> {
     }
 
     create(cfg?: CreateCategoryDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ store: this, method: create }).execResult();
+        const sendRequest = new Api<Category>({ store: this, method: Categories.create }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     remove(cfg?: RemoveCategoryDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ store: this, method: remove }).execResult();
+        const sendRequest = new Api<Category>({ store: this, method: Categories.remove }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     update(cfg?: UpdateCategoryDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ store: this, method: update }).execResult();
+        const sendRequest = new Api<Category>({ store: this, method: Categories.update }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     getById(cfg: GetCategoryDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Category>({ store: this, method: getById }).execResult();
+        const sendRequest = new Api<Category>({ store: this, method: Categories.getById }).execResult();
 
         sendRequest(cfg, options, cb);
     }

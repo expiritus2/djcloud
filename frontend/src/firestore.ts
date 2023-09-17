@@ -1,4 +1,4 @@
-import { DocumentData, Query } from '@firebase/firestore';
+import { DocumentData } from '@firebase/firestore';
 import {
     addDoc,
     collection,
@@ -18,7 +18,7 @@ import { PaginationParams } from './types/request';
 
 export class Firestore {
     async addDocument(collectionName: string, data: any) {
-        return addDoc(collection(getFirestore(), collectionName), { ...data, timestamp: Date.now() });
+        return addDoc(collection(getFirestore(), collectionName), { ...data, createdAt: Date.now() });
     }
 
     async updateDocument(collectionName: string, id: string, data: any) {
@@ -45,6 +45,12 @@ export class Firestore {
 
         if (paginationParams.search) {
             conditions.push(where('name', '==', paginationParams.search));
+        }
+
+        if (paginationParams.filters?.length) {
+            paginationParams.filters.map((filter) => {
+                conditions.push(where(filter.name, filter.operator, filter.value));
+            });
         }
 
         if (paginationParams.field && paginationParams.sort) {

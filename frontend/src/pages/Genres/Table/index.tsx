@@ -47,7 +47,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
                 key: 'id',
                 title: 'Id',
                 width: '10%',
-                sort: ['id', 'timestamp'].includes(genres.meta.field) ? genres.meta.sort : undefined,
+                sort: ['id', 'createdAt'].includes(genres.meta.field) ? genres.meta.sort : undefined,
             },
             {
                 key: 'name',
@@ -75,7 +75,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
     };
 
     const onSortClick = (e: any, column: Column) => {
-        const field = column.key === 'id' || column.key === 'timestamp' ? 'timestamp' : column.key;
+        const field = column.key === 'id' || column.key === 'createdAt' ? 'createdAt' : column.key;
         genres.getAll(
             { field, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
             { silent: true },

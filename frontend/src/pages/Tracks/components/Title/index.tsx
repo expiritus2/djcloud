@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 type ComponentProps = {
     className?: string;
     title: string;
-    id: number;
+    id: string;
 };
 
 const Title: FC<ComponentProps> = (props) => {

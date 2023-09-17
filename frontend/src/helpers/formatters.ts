@@ -11,6 +11,6 @@ export enum DateFormat {
     dd_MM_yyyy = 'dd MMM yyyy HH:mm',
 }
 
-export const formatDate = (date: string, format: DateFormat = DateFormat.dd_MM_yyyy) => {
-    return dateFnsFormat(parseISO(date), format);
+export const formatDate = (timestamp: number, format: DateFormat = DateFormat.dd_MM_yyyy) => {
+    return dateFnsFormat(parseISO(new Date(timestamp).toISOString()), format);
 };

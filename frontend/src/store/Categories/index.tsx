@@ -29,7 +29,7 @@ export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> 
         }).execResult();
 
         sendRequest(
-            { limit: adminPageTableLimit, field: 'timestamp', sort: SortEnum.DESC, ...this.meta, ...cfg },
+            { limit: adminPageTableLimit, field: 'createdAt', sort: SortEnum.DESC, ...this.meta, ...cfg },
             options,
             cb,
         );

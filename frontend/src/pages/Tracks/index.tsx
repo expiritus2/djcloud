@@ -28,7 +28,7 @@ type ComponentProps = {
 };
 
 export type InitModalStateType = {
-    id?: number | undefined;
+    id?: string | undefined;
     type: ModalStateEnum | null;
     open: boolean;
     data?: Track;

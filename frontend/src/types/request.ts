@@ -1,3 +1,4 @@
+import { WhereFilterOp } from '@firebase/firestore';
 import { AxiosRequestConfig } from 'axios';
 
 export enum RequestStateEnum {
@@ -17,12 +18,19 @@ export enum SortEnum {
     DESC = 'desc',
 }
 
+export type Filter = {
+    name: string;
+    operator: WhereFilterOp;
+    value: any;
+};
+
 export type PaginationParams = {
     limit?: number;
     page?: number;
     sort?: SortEnum;
     field?: string;
     search?: string;
+    filters?: Filter[];
 };
 
 export type PaginatedItems<T> = {

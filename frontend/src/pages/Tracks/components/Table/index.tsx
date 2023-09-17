@@ -24,7 +24,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
     const { className, setModalState } = props;
     const { tracks, modifyTrack } = useStore();
 
-    const onClickEdit = (e: any, id: number, cb: Function) => {
+    const onClickEdit = (e: any, id: string, cb: Function) => {
         cb(true);
         modifyTrack.getById({ id }, {}, (err: any) => {
             if (!err) {
@@ -34,7 +34,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
         });
     };
 
-    const onClickDelete = (e: any, id: number, cb: Function) => {
+    const onClickDelete = (e: any, id: string, cb: Function) => {
         cb(true);
         modifyTrack.getById({ id }, {}, (err: any) => {
             if (!err) {
@@ -44,7 +44,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
         });
     };
 
-    const onClickArchive = (e: any, id: number, cb: Function) => {
+    const onClickArchive = (e: any, id: string, cb: Function) => {
         cb(true);
         modifyTrack.getById({ id }, {}, (err: any, response: any) => {
             if (!err) {
@@ -61,9 +61,10 @@ const TableComponent: FC<ComponentProps> = (props) => {
     const getColumns = () => {
         return [
             {
-                key: 'track_id',
+                key: 'id',
                 title: 'Id',
-                sort: getFieldSort('track_id'),
+                // sort: getFieldSort('track_id'),
+                sort: ['id', 'createdAt'].includes(tracks.meta.field) ? tracks.meta.sort : undefined,
             },
             {
                 key: 'title',
@@ -113,7 +114,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
         return (
             tracks.data?.data?.map((track: Track) => {
                 return {
-                    track_id: track.id,
+                    // track_id: track.id,
                     id: track.id,
                     title: <Title {...track} />,
                     duration: getDuration(track.duration),
@@ -136,8 +137,9 @@ const TableComponent: FC<ComponentProps> = (props) => {
     };
 
     const onSortClick = (e: any, column: Column) => {
+        const field = ['id', 'createdAt'].includes(column.key) ? 'createdAt' : column.key;
         tracks.getAll(
-            { field: column.key, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
+            { field, sort: column.sort === SortEnum.ASC ? SortEnum.DESC : SortEnum.ASC, page: 0 },
             { silent: true },
         );
     };

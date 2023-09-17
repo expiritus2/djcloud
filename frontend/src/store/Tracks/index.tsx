@@ -1,5 +1,4 @@
-import { getAll, sendToTelegram } from 'api/tracks';
-import { getById } from 'api/tracks';
+import { Tracks } from 'api/tracks';
 import { cloneDeep } from 'lodash';
 import { action, makeObservable } from 'mobx';
 import { adminPageTableLimit } from 'settings';
@@ -23,7 +22,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackS
     }
 
     getAll(cfg?: GetAllByParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<PaginatedItems<Track>>({ store: this, method: getAll }).execResult();
+        const sendRequest = new Api<PaginatedItems<Track>>({ store: this, method: Tracks.getAll }).execResult();
 
         const request = {
             limit: adminPageTableLimit,
@@ -37,7 +36,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackS
         sendRequest(request, { silent: false, ...options }, cb);
     }
 
-    setTrackRating(trackRating: TrackRating, trackId: number) {
+    setTrackRating(trackRating: TrackRating, trackId: string) {
         const clonedData = cloneDeep(this.data);
         const updateTrack = clonedData?.data.find((track) => track.id === trackId);
 
@@ -51,7 +50,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackS
     }
 
     getById(cfg: GetTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: { data: {} } as any, method: getById }).execResult();
+        const sendRequest = new Api<Track>({ store: { data: {} } as any, method: Tracks.getById }).execResult();
 
         sendRequest(cfg, options, (err: any, response: any) => {
             if (!err) {
@@ -65,7 +64,7 @@ export class TracksStore extends BaseRequestStore<PaginatedItems<Track> & TrackS
     }
 
     sendToTelegram(cfg: SendToTelegramDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: { data: {} } as any, method: sendToTelegram }).execResult();
+        const sendRequest = new Api<Track>({ store: { data: {} } as any, method: Tracks.sendToTelegram }).execResult();
 
         sendRequest(cfg, options, cb);
     }

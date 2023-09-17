@@ -1,5 +1,5 @@
 export type TrackGenre = {
-    id: number;
+    id: string;
     name: string;
     value: string;
     countTracks: number;

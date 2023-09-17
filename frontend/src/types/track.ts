@@ -1,5 +1,5 @@
 export type File = {
-    id?: number;
+    id?: string;
     mimetype: string;
     duration: number;
     name: string;
@@ -27,13 +27,13 @@ export type TrackRating = {
 };
 
 export type ListenStats = {
-    id: number;
-    trackId: number;
+    id: string;
+    trackId: string;
     listenCount: number;
 };
 
 export type Track = {
-    id: number;
+    id: string;
     title: string;
     visible: boolean;
     archive: boolean;
@@ -42,7 +42,7 @@ export type Track = {
     file: File;
     category: Category;
     genre: Genre;
-    createdAt: string;
+    createdAt: number;
     updatedAt: string;
     listenStats: ListenStats;
 } & TrackRating;

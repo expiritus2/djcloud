@@ -60,7 +60,7 @@ const Content: FC<ComponentProps> = (props) => {
                     navigate(`${link.toTracks(categoryId, genreId)}?search=${query.search}`);
                 }
             } else {
-                tracks.getById({ id: +oneTrackMatch.params.trackId });
+                tracks.getById({ id: oneTrackMatch.params.trackId });
                 tracks.setMeta({ sort: SortEnum.DESC });
             }
         } else {

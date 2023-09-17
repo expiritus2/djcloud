@@ -1,38 +1,55 @@
+import { groupBy } from 'lodash';
 import { apiServer } from 'settings/web-services/api';
 import { CreateTrackDto, GetTrackDto, RemoveTrackDto, UpdateTrackDto } from 'store/ModifyTrack/types';
 import { SendToTelegramDto, TrackGenreParams } from 'store/Tracks/types';
 import { PaginationParams } from 'types/request';
 
-export const getAll = (cfg: PaginationParams) => {
-    return apiServer.get('/tracks/list', { params: cfg });
-};
+import { firestore } from '../../firestore';
 
-export const getTracksGenres = (cfg: TrackGenreParams) => {
-    return apiServer.get('/tracks/tracks-genres', { params: cfg });
-};
+const COLLECTION_NAME = 'tracks';
 
-export const create = (cfg: CreateTrackDto) => {
-    return apiServer.post('/tracks/create', cfg);
-};
+export class Tracks {
+    static async getAll(cfg: PaginationParams) {
+        const docs = await firestore.getDocuments(COLLECTION_NAME, cfg);
+        return { data: { data: docs } };
+    }
 
-export const update = (cfg: UpdateTrackDto) => {
-    const { id, ...config } = cfg;
-    return apiServer.patch(`/tracks/${id}`, config);
-};
+    static async getTracksGenres(cfg: TrackGenreParams) {
+        const tracks = await Tracks.getAll({ filters: cfg.filters });
+        const groupedTracksByCategory = groupBy(tracks.data.data, (track) => track.category.id);
+        const reduced = Object.entries(groupedTracksByCategory).reduce((acc, [categoryId, track]) => {
+            return { ...acc, [categoryId]: track.map((t) => ({ ...t.genre })) };
+        }, {});
 
-export const remove = (cfg: RemoveTrackDto) => {
-    return apiServer.delete(`/tracks/${cfg.id}`);
-};
+        return { data: reduced };
+    }
 
-export const archive = (cfg: RemoveTrackDto) => {
-    const { id, ...body } = cfg;
-    return apiServer.patch(`/tracks/${id}/archive`, body);
-};
+    static async create(cfg: CreateTrackDto) {
+        const result = await firestore.addDocument(COLLECTION_NAME, cfg);
+        return result.id;
+    }
 
-export const getById = (cfg: GetTrackDto) => {
-    return apiServer.get(`/tracks/${cfg.id}`);
-};
+    static async update(cfg: UpdateTrackDto) {
+        const { id, ...config } = cfg;
+        await firestore.updateDocument(COLLECTION_NAME, id, config);
+        return Tracks.getById({ id });
+    }
 
-export const sendToTelegram = (cfg: SendToTelegramDto) => {
-    return apiServer.post(`/tracks/send-to-telegram`, cfg);
-};
+    static async remove({ id }: RemoveTrackDto) {
+        await firestore.deleteDocument(COLLECTION_NAME, id);
+        return { data: { data: 'Success' } };
+    }
+
+    static async archive({ id }: RemoveTrackDto) {
+        return Tracks.update({ id, archive: true });
+    }
+
+    static async getById({ id }: GetTrackDto) {
+        const category = await firestore.getDocument(COLLECTION_NAME, id);
+        return { data: category };
+    }
+
+    static async sendToTelegram(cfg: SendToTelegramDto) {
+        return apiServer.post(`/tracks/send-to-telegram`, cfg);
+    }
+}

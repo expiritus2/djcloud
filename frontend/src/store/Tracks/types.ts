@@ -1,7 +1,7 @@
-import { PaginationParams } from 'types/request';
+import { Filter, PaginationParams } from 'types/request';
 
 export type TrackGenreParams = {
-    visible?: boolean;
+    filters?: Filter[];
 };
 
 export type GetAllByParams = {
@@ -14,5 +14,5 @@ export type GetAllByParams = {
 } & PaginationParams;
 
 export type SendToTelegramDto = {
-    trackId: number;
+    trackId: string;
 };

@@ -3,7 +3,7 @@ export type Role = {
 };
 
 export type User = {
-    id: number;
+    id: string;
     email: string;
     role: Role;
 } | null;

@@ -25,7 +25,7 @@ type ComponentProps = {
     className?: string;
 };
 
-export type InitModalStateType = { id?: number | undefined; type: ModalStateEnum | null; open: boolean };
+export type InitModalStateType = { id?: string | undefined; type: ModalStateEnum | null; open: boolean };
 export const initModalState: InitModalStateType = { id: undefined, type: null, open: false };
 
 const Genres: FC<ComponentProps> = (props) => {

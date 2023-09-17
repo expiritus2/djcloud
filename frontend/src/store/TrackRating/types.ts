@@ -1,7 +1,7 @@
 import { Category, Genre } from 'types/track';
 
 export type Track = {
-    id: number;
+    id: string;
     title: string;
     visible: boolean;
     duration: number;
@@ -15,14 +15,14 @@ export type TrackRating = {
     countRatings: number;
     isDidRating: boolean;
     rating: number;
-    trackId: number;
+    trackId: string;
 };
 
 export type AddTrackRatingDto = {
-    trackId: number;
+    trackId: string;
     rating: number;
 };
 
 export type GetTrackRatingDto = {
-    trackId: number;
+    trackId: string;
 };

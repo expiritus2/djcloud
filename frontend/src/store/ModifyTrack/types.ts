@@ -9,28 +9,29 @@ export type CreateTrackDto = {
 };
 
 export type UpdateTrackDto = {
-    id: number;
-    title: string;
-    category: Category;
-    genre: Genre;
-    file: TrackFile;
+    id: string;
+    title?: string;
+    category?: Category;
+    genre?: Genre;
+    file?: TrackFile;
+    archive?: boolean;
 };
 
 export type UpdateVisibleTrackDto = {
-    id: number;
+    id: string;
     visible: boolean;
 };
 
 export type GetTrackDto = {
-    id: number;
+    id: string;
     sort?: SortEnum;
 };
 
 export type RemoveTrackDto = {
-    id: number;
+    id: string;
 };
 
 export type ArchiveTrackDto = {
-    id: number;
+    id: string;
     archive: boolean;
 };

@@ -19,7 +19,7 @@ const Visible: FC<ComponentProps> = (props) => {
     const { modifyTrack, tracksGenres } = useStore();
     const [pending, setPending] = useState(false);
 
-    const onVisibleChange = (e: any, id: number) => {
+    const onVisibleChange = (e: any, id: string) => {
         setPending(true);
         modifyTrack.updateVisible({ id, visible: e.target.value }, {}, (err: AxiosError) => {
             if (!err) {

@@ -1,5 +1,5 @@
 import { uploadFile } from 'api/files';
-import { archive, create, getById, remove, update } from 'api/tracks';
+import { Tracks } from 'api/tracks';
 import { action, makeObservable } from 'mobx';
 import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
@@ -30,7 +30,7 @@ export class ModifyTrackStore extends BaseRequestStore<Track> {
     }
 
     create(cfg: CreateTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this, method: create }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: Tracks.create }).execResult();
         const uploadFileRequest = new Api({ store: this as any, method: uploadFile }).execResult();
 
         uploadFileRequest(
@@ -51,16 +51,16 @@ export class ModifyTrackStore extends BaseRequestStore<Track> {
     }
 
     remove(cfg?: RemoveTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this, method: remove }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: Tracks.remove }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }
 
     update(cfg: UpdateTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this, method: update }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: Tracks.update }).execResult();
         const uploadFileRequest = new Api({ store: { data: {} } as any, method: uploadFile }).execResult();
 
-        if (!cfg.file.id) {
+        if (!cfg.file?.id) {
             this.state = RequestStateEnum.PENDING;
             uploadFileRequest(cfg, { silent: false, ...options }, (err: any, response: any) => {
                 if (!err) {
@@ -80,7 +80,7 @@ export class ModifyTrackStore extends BaseRequestStore<Track> {
     }
 
     updateVisible(cfg: UpdateVisibleTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this, method: update }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: Tracks.update }).execResult();
 
         sendRequest(cfg, options, (err: any, response: any) => {
             const tracksStoreData = store.tracks.data;
@@ -96,13 +96,13 @@ export class ModifyTrackStore extends BaseRequestStore<Track> {
     }
 
     getById(cfg: GetTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this, method: getById }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: Tracks.getById }).execResult();
 
         sendRequest(cfg, options, cb);
     }
 
     archive(cfg?: ArchiveTrackDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this, method: archive }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: Tracks.archive }).execResult();
 
         sendRequest(cfg, { silent: false, ...options }, cb);
     }

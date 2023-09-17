@@ -1,5 +1,5 @@
 export type GetTrackByIdParamsDto = {
-    id: number;
+    id: string;
 };
 
 export type RequestPageTracksProps = {

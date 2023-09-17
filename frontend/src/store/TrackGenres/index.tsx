@@ -1,4 +1,4 @@
-import { getTracksGenres } from 'api/tracks';
+import { Tracks } from 'api/tracks';
 import { action, makeObservable } from 'mobx';
 import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
@@ -22,10 +22,10 @@ export class TracksGenresStore extends BaseRequestStore<GroupedTrackGenres> {
     getTracksGenres(cfg?: TrackGenreParams, options?: RequestOptions, cb?: Function): void {
         const sendRequest = new Api<GroupedTrackGenres>({
             store: this,
-            method: getTracksGenres,
+            method: Tracks.getTracksGenres,
         }).execResult();
 
-        const config = { visible: true, ...cfg };
+        const config = { filters: [{ name: 'visible', operator: '==', value: true }], ...cfg };
 
         sendRequest(config, options, cb);
     }

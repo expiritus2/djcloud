@@ -20,7 +20,7 @@ export class GenresStore extends BaseRequestStore<PaginatedItems<Genre>> {
         const sendRequest = new Api<PaginatedItems<Genre>>({ store: this, method: Genres.getAll }).execResult();
 
         sendRequest(
-            { limit: adminPageTableLimit, field: 'timestamp', sort: SortEnum.DESC, ...this.meta, ...cfg },
+            { limit: adminPageTableLimit, field: 'createdAt', sort: SortEnum.DESC, ...this.meta, ...cfg },
             options,
             cb,
         );

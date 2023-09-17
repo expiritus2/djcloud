@@ -11,7 +11,7 @@ import styles from './styles.module.scss';
 type ComponentProps = {
     className?: string;
     iconClassName?: string;
-    trackId: number;
+    trackId: string;
 };
 
 const Play: FC<ComponentProps> = forwardRef<HTMLDivElement, ComponentProps>((props, ref) => {

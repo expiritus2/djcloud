@@ -18,7 +18,7 @@ import styles from './styles.module.scss';
 
 type ComponentProps = {
     className?: string;
-    trackId: number;
+    trackId: string;
     notActiveByClick?: boolean;
     white?: boolean;
 } & TrackRating;

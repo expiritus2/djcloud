@@ -1,4 +1,4 @@
-import { getById } from 'api/tracks';
+import { Tracks } from 'api/tracks';
 import { action, makeObservable, observable, reaction } from 'mobx';
 import Api from 'store/core/Api';
 import { BaseRequestStore } from 'store/core/BaseRequestStore';
@@ -60,7 +60,7 @@ export class CurrentTrackStore extends BaseRequestStore<Track> {
 
     getTrackById(cfg: GetTrackByIdParamsDto, options?: RequestOptions, cb?: Function) {
         this.resetStore();
-        const sendRequest = new Api<Track>({ store: this, method: getById }).execResult();
+        const sendRequest = new Api<Track>({ store: this, method: Tracks.getById }).execResult();
 
         sendRequest(cfg, options, (err: any, response: any) => {
             const { data } = response;

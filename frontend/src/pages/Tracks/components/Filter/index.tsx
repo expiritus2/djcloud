@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useState } from 'react';
+import React, { FC, memo, MouseEventHandler, useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { useStore } from 'store';
 import { Category, Genre } from 'types/track';
@@ -18,29 +18,35 @@ const Filter: FC<ComponentProps> = (props) => {
     const [genreValue, setGenreValue] = useState<Genre | undefined>(undefined);
     const [archiveActive, setArchiveActive] = useState<boolean>(false);
 
-    const onChangeCategory: MouseEventHandler<HTMLSelectElement> = (e: any) => {
-        const val = e?.target?.value as Category;
-        tracks.getAll({ categoryId: val?.id, page: 0 }, { silent: true }, (err: any) => {
-            if (!err) {
-                setCategoryValue(val);
-            }
-        });
-    };
+    const onChangeCategory: MouseEventHandler<HTMLSelectElement> = useCallback(
+        (e: any) => {
+            const val = e?.target?.value as Category;
+            tracks.getAll({ categoryId: val?.id, page: 0 }, { silent: true }, (err: any) => {
+                if (!err) {
+                    setCategoryValue(val);
+                }
+            });
+        },
+        [tracks],
+    );
 
-    const onChangeGenre: MouseEventHandler<HTMLSelectElement> = (e: any) => {
-        const val = e?.target?.value as Genre;
-        tracks.getAll({ genreId: val?.id, page: 0 }, { silent: true }, (err: any) => {
-            if (!err) {
-                setGenreValue(val);
-            }
-        });
-    };
+    const onChangeGenre: MouseEventHandler<HTMLSelectElement> = useCallback(
+        (e: any) => {
+            const val = e?.target?.value as Genre;
+            tracks.getAll({ genreId: val?.id, page: 0 }, { silent: true }, (err: any) => {
+                if (!err) {
+                    setGenreValue(val);
+                }
+            });
+        },
+        [tracks],
+    );
 
-    const onArchive: MouseEventHandler<HTMLDivElement> = () => {
+    const onArchive: MouseEventHandler<HTMLDivElement> = useCallback(() => {
         const isArchive = !archiveActive;
         setArchiveActive(isArchive);
         tracks.getAll({ archive: isArchive ? isArchive : undefined }, { silent: true });
-    };
+    }, [archiveActive, tracks]);
 
     return (
         <div className={classNames(styles.filter, className)}>
@@ -51,4 +57,4 @@ const Filter: FC<ComponentProps> = (props) => {
     );
 };
 
-export default Filter;
+export default memo(Filter);

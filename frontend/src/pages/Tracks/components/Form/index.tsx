@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, memo, useCallback, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import classNames from 'classnames';
 import { useStore } from 'store';
@@ -36,40 +36,40 @@ const Form: FC<ComponentProps> = (props) => {
         }
     }, [modifyTrack.data, modalState.type]);
 
-    const resetForm = () => {
+    const resetForm = useCallback(() => {
         resetModal();
         setInputError(initialErrors);
         setValues(initValues);
-    };
+    }, [resetModal]);
 
-    const refresh = () => {
+    const refresh = useCallback(() => {
         resetForm();
         tracks.getAll();
         tracksGenres.getTracksGenres();
-    };
+    }, [resetForm, tracks, tracksGenres]);
 
     const onUploadProgress = (progressEvent: any) => {
         const progress = (progressEvent.loaded / progressEvent.total) * 100;
         setProgressValue(progress);
     };
 
-    const createTrack = () => {
+    const createTrack = useCallback(() => {
         modifyTrack.create(values, { onUploadProgress }, (err: AxiosError) => {
             if (!err) {
                 refresh();
             }
         });
-    };
+    }, [modifyTrack, refresh, values]);
 
-    const updateTrack = () => {
+    const updateTrack = useCallback(() => {
         modifyTrack.update({ id: modalState.id as any, ...values }, { onUploadProgress }, (err: AxiosError) => {
             if (!err) {
                 refresh();
             }
         });
-    };
+    }, [modalState.id, modifyTrack, refresh, values]);
 
-    const validateInputs = (): boolean => {
+    const validateInputs = useCallback((): boolean => {
         let isErrors = false;
         if (modalState.type !== ModalStateEnum.DELETE) {
             const { title, category, genre, file } = values;
@@ -83,37 +83,46 @@ const Form: FC<ComponentProps> = (props) => {
             });
         }
         return isErrors;
-    };
+    }, [inputError, values, modalState.type]);
 
-    const onClickSubmitHandler = (e: any) => {
-        e.preventDefault();
+    const onClickSubmitHandler = useCallback(
+        (e: any) => {
+            e.preventDefault();
 
-        let isErrors = validateInputs();
+            let isErrors = validateInputs();
 
-        if (!isErrors && modalState.type === ModalStateEnum.CREATE) {
-            createTrack();
-        }
+            if (!isErrors && modalState.type === ModalStateEnum.CREATE) {
+                createTrack();
+            }
 
-        if (!isErrors && modalState.type === ModalStateEnum.UPDATE) {
-            updateTrack();
-        }
+            if (!isErrors && modalState.type === ModalStateEnum.UPDATE) {
+                updateTrack();
+            }
 
-        if (!isErrors) {
-            onClickSubmit(e);
-        }
-    };
+            if (!isErrors) {
+                onClickSubmit(e);
+            }
+        },
+        [createTrack, modalState.type, onClickSubmit, updateTrack, validateInputs],
+    );
 
-    const resetError = (name: string, value: any) => {
-        if (value) {
-            setInputError({ ...inputError, [name]: '' });
-        }
-    };
+    const resetError = useCallback(
+        (name: string, value: any) => {
+            if (value) {
+                setInputError({ ...inputError, [name]: '' });
+            }
+        },
+        [inputError],
+    );
 
-    const onChangeValue = (e: any) => {
-        const { name, value } = e.target;
-        resetError(name, value);
-        setValues((prevVal: any) => ({ ...prevVal, [name]: value }));
-    };
+    const onChangeValue = useCallback(
+        (e: any) => {
+            const { name, value } = e.target;
+            resetError(name, value);
+            setValues((prevVal: any) => ({ ...prevVal, [name]: value }));
+        },
+        [resetError],
+    );
 
     return (
         <div className={classNames(styles.form, className)}>
@@ -163,4 +172,4 @@ const Form: FC<ComponentProps> = (props) => {
     );
 };
 
-export default Form;
+export default memo(Form);

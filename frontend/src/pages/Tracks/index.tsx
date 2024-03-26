@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { getQuery } from 'helpers/query';
@@ -50,11 +50,11 @@ const Tracks: FC<ComponentProps> = (props) => {
         return () => tracks.resetStore();
     }, []); // eslint-disable-line
 
-    const onClickNew = () => {
+    const onClickNew = useCallback(() => {
         setModalState({ type: ModalStateEnum.CREATE, open: true });
-    };
+    }, []);
 
-    const getModalTitle = () => {
+    const modalTitle = useMemo(() => {
         if (modalState.type === ModalStateEnum.UPDATE) {
             return 'Update Track';
         }
@@ -68,7 +68,7 @@ const Tracks: FC<ComponentProps> = (props) => {
         }
 
         return 'Create Track';
-    };
+    }, [modalState.type, tracks.meta.archive]);
 
     return (
         <div className={classNames(styles.tracks, className)}>
@@ -90,7 +90,7 @@ const Tracks: FC<ComponentProps> = (props) => {
                                         <Table setModalState={setModalState} />
                                     </TableWrapper>
                                     <TrackModal
-                                        title={getModalTitle()}
+                                        title={modalTitle}
                                         modalState={modalState}
                                         setModalState={setModalState}
                                     />

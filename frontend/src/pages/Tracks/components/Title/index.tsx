@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import classNames from 'classnames';
 
 import { Play } from 'components';
@@ -22,4 +22,4 @@ const Title: FC<ComponentProps> = (props) => {
     );
 };
 
-export default Title;
+export default memo(Title);

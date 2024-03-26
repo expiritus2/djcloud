@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import classNames from 'classnames';
 
 import { DownloadAll, TotalDuration } from 'components';
@@ -25,4 +25,4 @@ const TableHeaderActions: FC<ComponentProps> = (props) => {
     );
 };
 
-export default TableHeaderActions;
+export default memo(TableHeaderActions);

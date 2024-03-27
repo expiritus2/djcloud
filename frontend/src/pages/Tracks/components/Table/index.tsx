@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import { formatDate, getDuration } from 'helpers/formatters';
 import { observer } from 'mobx-react-lite';
@@ -24,41 +24,53 @@ const TableComponent: FC<ComponentProps> = (props) => {
     const { className, setModalState } = props;
     const { tracks, modifyTrack } = useStore();
 
-    const onClickEdit = (e: any, id: number, cb: Function) => {
-        cb(true);
-        modifyTrack.getById({ id }, {}, (err: any) => {
-            if (!err) {
-                cb(false);
-                setModalState({ id, type: ModalStateEnum.UPDATE, open: true });
-            }
-        });
-    };
+    const onClickEdit = useCallback(
+        (e: any, id: number, cb: Function) => {
+            cb(true);
+            modifyTrack.getById({ id }, {}, (err: any) => {
+                if (!err) {
+                    cb(false);
+                    setModalState({ id, type: ModalStateEnum.UPDATE, open: true });
+                }
+            });
+        },
+        [modifyTrack, setModalState],
+    );
 
-    const onClickDelete = (e: any, id: number, cb: Function) => {
-        cb(true);
-        modifyTrack.getById({ id }, {}, (err: any) => {
-            if (!err) {
-                cb(false);
-                setModalState({ id, type: ModalStateEnum.DELETE, open: true });
-            }
-        });
-    };
+    const onClickDelete = useCallback(
+        (e: any, id: number, cb: Function) => {
+            cb(true);
+            modifyTrack.getById({ id }, {}, (err: any) => {
+                if (!err) {
+                    cb(false);
+                    setModalState({ id, type: ModalStateEnum.DELETE, open: true });
+                }
+            });
+        },
+        [modifyTrack, setModalState],
+    );
 
-    const onClickArchive = (e: any, id: number, cb: Function) => {
-        cb(true);
-        modifyTrack.getById({ id }, {}, (err: any, response: any) => {
-            if (!err) {
-                cb(false);
-                setModalState({ id, type: ModalStateEnum.ARCHIVE, open: true, data: response.data });
-            }
-        });
-    };
+    const onClickArchive = useCallback(
+        (e: any, id: number, cb: Function) => {
+            cb(true);
+            modifyTrack.getById({ id }, {}, (err: any, response: any) => {
+                if (!err) {
+                    cb(false);
+                    setModalState({ id, type: ModalStateEnum.ARCHIVE, open: true, data: response.data });
+                }
+            });
+        },
+        [modifyTrack, setModalState],
+    );
 
-    const getFieldSort = (fieldKey: string) => {
-        return tracks.meta.field === fieldKey ? tracks.meta.sort : undefined;
-    };
+    const getFieldSort = useCallback(
+        (fieldKey: string) => {
+            return tracks.meta.field === fieldKey ? tracks.meta.sort : undefined;
+        },
+        [tracks.meta.field, tracks.meta.sort],
+    );
 
-    const getColumns = () => {
+    const columns = useMemo(() => {
         return [
             {
                 key: 'track_id',
@@ -107,9 +119,9 @@ const TableComponent: FC<ComponentProps> = (props) => {
             },
             { key: 'actions', title: 'Actions', isSort: false },
         ];
-    };
+    }, [getFieldSort, tracks.meta.archive]);
 
-    const getRows = () => {
+    const rows = useMemo(() => {
         return (
             tracks.data?.data?.map((track: Track) => {
                 return {
@@ -133,7 +145,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
                 };
             }) || []
         );
-    };
+    }, [onClickArchive, onClickEdit, onClickDelete, tracks.data?.data, tracks.meta.visible]);
 
     const onSortClick = (e: any, column: Column) => {
         tracks.getAll(
@@ -144,7 +156,7 @@ const TableComponent: FC<ComponentProps> = (props) => {
 
     return (
         <div className={classNames(styles.tracksTable, className)}>
-            <Table columns={getColumns()} rows={getRows()} onSortClick={onSortClick} className={styles.table} />
+            <Table columns={columns} rows={rows} onSortClick={onSortClick} className={styles.table} />
             <Pagination />
         </div>
     );

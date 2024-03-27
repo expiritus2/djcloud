@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import { AxiosError } from 'axios';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
@@ -25,21 +25,21 @@ const TrackModal: FC<ComponentProps> = (props) => {
     const { modifyTrack, tracks, currentTrack } = useStore();
     const { className, title, modalState, setModalState } = props;
 
-    const resetModal = () => {
+    const resetModal = useCallback(() => {
         setModalState(initModalState);
-    };
+    }, [setModalState]);
 
-    const onClickCancel = () => {
+    const onClickCancel = useCallback(() => {
         setModalState(initModalState);
         resetModal();
-    };
+    }, [resetModal, setModalState]);
 
-    const refreshTable = () => {
+    const refreshTable = useCallback(() => {
         resetModal();
         tracks.getAll();
-    };
+    }, [resetModal, tracks]);
 
-    const removeTrack = () => {
+    const removeTrack = useCallback(() => {
         modifyTrack.remove({ id: modalState.id as any }, {}, (err: AxiosError) => {
             if (!err) {
                 refreshTable();
@@ -48,9 +48,9 @@ const TrackModal: FC<ComponentProps> = (props) => {
                 }
             }
         });
-    };
+    }, [currentTrack, modalState.id, modifyTrack, refreshTable]);
 
-    const archiveTrack = () => {
+    const archiveTrack = useCallback(() => {
         modifyTrack.archive({ id: modalState.id as any, archive: !modalState.data?.archive }, {}, (err: AxiosError) => {
             if (!err) {
                 refreshTable();
@@ -59,9 +59,9 @@ const TrackModal: FC<ComponentProps> = (props) => {
                 }
             }
         });
-    };
+    }, [currentTrack, modalState.data?.archive, modalState.id, modifyTrack, refreshTable]);
 
-    const onClickSubmit = () => {
+    const onClickSubmit = useCallback(() => {
         if (modalState.type === ModalStateEnum.DELETE) {
             removeTrack();
         }
@@ -69,9 +69,9 @@ const TrackModal: FC<ComponentProps> = (props) => {
         if (modalState.type === ModalStateEnum.ARCHIVE) {
             archiveTrack();
         }
-    };
+    }, [archiveTrack, modalState.type, removeTrack]);
 
-    const getSubmitButtonText = () => {
+    const submitButtonText = useMemo(() => {
         if (modalState.type === ModalStateEnum.UPDATE) {
             return 'Update';
         }
@@ -85,57 +85,60 @@ const TrackModal: FC<ComponentProps> = (props) => {
         }
 
         return 'Save';
-    };
+    }, [modalState.type, tracks.meta.archive]);
 
-    const getSubmitButtonVariant = (): ButtonType['variant'] => {
+    const submitButtonVariant: ButtonType['variant'] = useMemo(() => {
         if (modalState.type === ModalStateEnum.DELETE) {
             return 'danger';
         }
         return 'primary';
-    };
+    }, [modalState.type]);
 
-    const buttons: ButtonType[] = [
-        { id: 'cancel', onClick: onClickCancel, label: 'Cancel', variant: 'secondary' },
-        {
-            id: 'submit',
-            formId: 'trackSubmit',
-            type: 'submit',
-            onClick: onClickSubmit,
-            label: getSubmitButtonText(),
-            variant: getSubmitButtonVariant(),
-            pending: modifyTrack.state === RequestStateEnum.PENDING,
-        },
-    ];
+    const buttons: ButtonType[] = useMemo(
+        () => [
+            { id: 'cancel', onClick: onClickCancel, label: 'Cancel', variant: 'secondary' },
+            {
+                id: 'submit',
+                formId: 'trackSubmit',
+                type: 'submit',
+                onClick: onClickSubmit,
+                label: submitButtonText,
+                variant: submitButtonVariant,
+                pending: modifyTrack.state === RequestStateEnum.PENDING,
+            },
+        ],
+        [submitButtonText, submitButtonVariant, modifyTrack.state, onClickCancel, onClickSubmit],
+    );
 
-    const getDeleteText = () => {
+    const deleteText = useMemo(() => {
         return (
             <div className={styles.deleteText}>
                 Are you sure you want delete track: <br />
                 <span className={styles.accent}>{`${modifyTrack.data?.title}?`}</span>
             </div>
         );
-    };
+    }, [modifyTrack.data?.title]);
 
-    const getArchiveText = () => {
+    const archiveText = useMemo(() => {
         return (
             <div className={styles.archiveText}>
                 {`Are you sure you want to ${tracks.meta.archive ? 'unarchive' : 'archive'} track:`} <br />
                 <span className={styles.accent}>{`${modifyTrack.data?.title}?`}</span>
             </div>
         );
-    };
+    }, [modifyTrack.data?.title, tracks.meta.archive]);
 
-    const getContent = () => {
+    const content = useMemo(() => {
         if (modalState.type === ModalStateEnum.DELETE) {
-            return getDeleteText();
+            return deleteText;
         }
 
         if (modalState.type === ModalStateEnum.ARCHIVE) {
-            return getArchiveText();
+            return archiveText;
         }
 
         return <Form onClickSubmit={onClickSubmit} resetModal={resetModal} modalState={modalState} />;
-    };
+    }, [archiveText, deleteText, modalState, onClickSubmit, resetModal]);
 
     return (
         <ContentModal
@@ -144,7 +147,7 @@ const TrackModal: FC<ComponentProps> = (props) => {
             buttons={buttons}
             className={classNames(styles.modal, className)}
         >
-            <div className={styles.content}>{getContent()}</div>
+            <div className={styles.content}>{content}</div>
         </ContentModal>
     );
 };

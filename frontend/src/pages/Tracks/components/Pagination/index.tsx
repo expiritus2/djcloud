@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'store';
@@ -17,13 +17,16 @@ const Pagination: FC<ComponentProps> = (props) => {
 
     const countPages = Math.ceil((tracks.data?.count || 0) / tracks.meta.limit || 0);
 
+    const onClickPage = useCallback(
+        (e: any, page: number) => {
+            tracks.getAll({ page });
+        },
+        [tracks],
+    );
+
     if (countPages <= 1) {
         return <div className={classNames(styles.pagination, className)} />;
     }
-
-    const onClickPage = (e: any, page: number) => {
-        tracks.getAll({ page });
-    };
 
     return (
         <div className={classNames(styles.pagination, className)}>

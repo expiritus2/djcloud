@@ -8,18 +8,21 @@ import List from '../List';
 import styles from './styles.module.scss';
 
 type ComponentProps = {
-    className?: string;
+  className?: string;
 };
 
 const FullNav: FC<ComponentProps> = (props) => {
-    const { className } = props;
-    const { navCategories } = useStore();
+  const { className } = props;
+  const { navCategories } = useStore();
 
-    return (
-        <div className={classNames(styles.fullNav, className)}>
-            <List navCategories={navCategories.data?.data || []} styles={styles} />
-        </div>
-    );
+  return (
+    <div className={classNames(styles.fullNav, className)}>
+      <List
+        navCategories={navCategories.data?.data || []}
+        styles={styles}
+      />
+    </div>
+  );
 };
 
 export default observer(FullNav);

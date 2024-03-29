@@ -1,18 +1,18 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .player {
-    .title {
-        min-height: setUnit(20);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: $whiteColor;
-    }
+  .title {
+    min-height: setUnit(20);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $whiteColor;
+  }
 
-    .playerContainer {
-        background: $player-background;
-        position: relative;
-        z-index: 99999;
-    }
+  .playerContainer {
+    background: $player-background;
+    position: relative;
+    z-index: 99999;
+  }
 }

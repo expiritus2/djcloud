@@ -1,64 +1,63 @@
-@import "styles/functions";
-@import "styles/variables";
-@import "styles/mixins";
+@import 'styles/functions';
+@import 'styles/variables';
+@import 'styles/mixins';
 
 .search {
-    position: relative;
+  position: relative;
+
+  &.small {
+    width: setUnit(30);
+    position: absolute;
+    right: setUnit(110);
+  }
+
+  &.full {
+  }
+
+  .input {
+    @include highlight-input;
 
     &.small {
-        width: setUnit(30);
-        position: absolute;
-        right: setUnit(110);
+      width: 0;
+      padding: 0;
+      display: none;
+      margin-left: 100%;
+      margin-right: setUnit(30);
+    }
+
+    &.open {
+      position: absolute;
+      right: 0;
+      bottom: setUnit(-19);
+      width: setUnit(250);
+      padding: setUnit(10) setUnit(15);
+      margin: 0;
+      display: block;
+
+      @media screen and (max-width: #{setUnit($mobile-small)}) {
+        width: calc(100% - #{setUnit(165)});
+      }
     }
 
     &.full {
-
+      width: 100%;
+      padding: setUnit(10) setUnit(15);
     }
+  }
 
-    .input {
-        @include highlight-input;
+  .searchIcon {
+    width: setUnit(30);
+    height: setUnit(30);
+    position: absolute;
+    right: setUnit(5);
+    bottom: setUnit(-15);
+    opacity: 0;
+    z-index: -9;
+    color: $whiteColor;
 
-        &.small {
-            width: 0;
-            padding: 0;
-            display: none;
-            margin-left: 100%;
-            margin-right: setUnit(30);
-        }
-
-        &.open {
-            position: absolute;
-            right: 0;
-            bottom: setUnit(-19);
-            width: setUnit(250);
-            padding: setUnit(10) setUnit(15);
-            margin: 0;
-            display: block;
-
-            @media screen and (max-width: #{setUnit($mobile-small)}) {
-                width: calc(100% - #{setUnit(165)});
-            }
-        }
-
-        &.full {
-            width: 100%;
-            padding: setUnit(10) setUnit(15);
-        }
+    &.show {
+      opacity: 1;
+      z-index: 1;
     }
-
-    .searchIcon {
-        width: setUnit(30);
-        height: setUnit(30);
-        position: absolute;
-        right: setUnit(5);
-        bottom: setUnit(-15);
-        opacity: 0;
-        z-index: -9;
-        color: $whiteColor;
-
-        &.show {
-            opacity: 1;
-            z-index: 1;
-        }
-    }
+  }
 }

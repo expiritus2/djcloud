@@ -13,60 +13,60 @@ const mobileWidth = width <= MOBILE;
 const mobileSmallWidth = width <= MOBILE_SMALL;
 
 export type OSTypes = {
-    windowsPhone: boolean;
-    android: boolean;
-    ios: boolean;
+  windowsPhone: boolean;
+  android: boolean;
+  ios: boolean;
 };
 
 export function getMobileOperatingSystem(): OSTypes {
-    // @ts-ignore
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  // @ts-ignore
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-    const result = {
-        windowsPhone: false,
-        android: false,
-        ios: false,
-    };
+  const result = {
+    windowsPhone: false,
+    android: false,
+    ios: false,
+  };
 
-    // Windows Phone must come first because its UA also contains "Android"
-    if (/windows phone/i.test(userAgent)) {
-        result.windowsPhone = true;
-    }
+  // Windows Phone must come first because its UA also contains "Android"
+  if (/windows phone/i.test(userAgent)) {
+    result.windowsPhone = true;
+  }
 
-    if (/android/i.test(userAgent)) {
-        result.android = true;
-    }
+  if (/android/i.test(userAgent)) {
+    result.android = true;
+  }
 
-    // iOS detection from: http://stackoverflow.com/a/9039885/177710
-    // @ts-ignore
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        result.ios = true;
-    }
+  // iOS detection from: http://stackoverflow.com/a/9039885/177710
+  // @ts-ignore
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    result.ios = true;
+  }
 
-    return result;
+  return result;
 }
 
 const mobileOS = getMobileOperatingSystem();
 
 type ScreenContextType = {
-    screen: ScreenType;
-    mobileOS: {
-        windowsPhone: boolean;
-        android: boolean;
-        ios: boolean;
-    };
-    isMobile: boolean;
+  screen: ScreenType;
+  mobileOS: {
+    windowsPhone: boolean;
+    android: boolean;
+    ios: boolean;
+  };
+  isMobile: boolean;
 };
 
 export default createContext<ScreenContextType>({
-    screen: {
-        width,
-        height,
-        desktopWidth,
-        tabletWidth,
-        mobileWidth,
-        mobileSmallWidth,
-    },
-    mobileOS,
-    isMobile: Object.values(mobileOS).some((os) => os),
+  screen: {
+    width,
+    height,
+    desktopWidth,
+    tabletWidth,
+    mobileWidth,
+    mobileSmallWidth,
+  },
+  mobileOS,
+  isMobile: Object.values(mobileOS).some((os) => os),
 });

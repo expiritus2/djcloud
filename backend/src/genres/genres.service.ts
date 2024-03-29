@@ -11,79 +11,79 @@ import { UpdateGenreDto } from './dtos/update-genre.dto';
 import { GenreEntity } from './genre.entity';
 
 interface Genre {
-    id?: number;
-    name: string;
-    value: string;
+  id?: number;
+  name: string;
+  value: string;
 }
 
 @Injectable()
 export class GenresService {
-    constructor(@InjectRepository(GenreEntity) private genreRepo: Repository<GenreEntity>) {}
+  constructor(@InjectRepository(GenreEntity) private genreRepo: Repository<GenreEntity>) {}
 
-    async find(options: Partial<Genre>): Promise<GenreEntity[]> {
-        const genre = await this.genreRepo.find({ where: options });
+  async find(options: Partial<Genre>): Promise<GenreEntity[]> {
+    const genre = await this.genreRepo.find({ where: options });
 
-        if (!genre) {
-            throw new NotFoundException(`Genre with options: ${JSON.stringify(options)} not found`);
-        }
-
-        return genre;
+    if (!genre) {
+      throw new NotFoundException(`Genre with options: ${JSON.stringify(options)} not found`);
     }
 
-    async findOne(id: number): Promise<GenreEntity> {
-        const genre = await this.genreRepo.findOne({ where: { id } });
+    return genre;
+  }
 
-        if (!genre) {
-            throw new NotFoundException(`Genre with id: ${id} not found`);
-        }
+  async findOne(id: number): Promise<GenreEntity> {
+    const genre = await this.genreRepo.findOne({ where: { id } });
 
-        return genre;
+    if (!genre) {
+      throw new NotFoundException(`Genre with id: ${id} not found`);
     }
 
-    async getAll(query: PaginationQueryDto): Promise<{ data: GenreEntity[]; count: number }> {
-        const queryBuilder = this.genreRepo.createQueryBuilder('genre');
-        simplePaginateQuery(queryBuilder, query);
-        simpleSortQuery(queryBuilder, query);
+    return genre;
+  }
 
-        const [data, count] = await queryBuilder.getManyAndCount();
-        return { data, count };
+  async getAll(query: PaginationQueryDto): Promise<{ data: GenreEntity[]; count: number }> {
+    const queryBuilder = this.genreRepo.createQueryBuilder('genre');
+    simplePaginateQuery(queryBuilder, query);
+    simpleSortQuery(queryBuilder, query);
+
+    const [data, count] = await queryBuilder.getManyAndCount();
+    return { data, count };
+  }
+
+  async findByName(name: string): Promise<GenreEntity> {
+    return this.genreRepo
+      .createQueryBuilder('genre')
+      .where('name iLIKE :name', { name: `%${name}%` })
+      .getOne();
+  }
+
+  async create(genre: CreateGenreDto): Promise<GenreEntity> {
+    const storedGenre = await this.genreRepo
+      .createQueryBuilder('genre')
+      .where('name iLIKE :name', { name: genre.name })
+      .getOne();
+
+    if (storedGenre) {
+      throw new BadRequestException(`Genre with name: ${genre.name} already exists`);
     }
 
-    async findByName(name: string): Promise<GenreEntity> {
-        return this.genreRepo
-            .createQueryBuilder('genre')
-            .where('name iLIKE :name', { name: `%${name}%` })
-            .getOne();
-    }
+    const newGenre = this.genreRepo.create({
+      name: genre.name,
+      value: snakeCase(genre.name),
+    });
+    return this.genreRepo.save(newGenre);
+  }
 
-    async create(genre: CreateGenreDto): Promise<GenreEntity> {
-        const storedGenre = await this.genreRepo
-            .createQueryBuilder('genre')
-            .where('name iLIKE :name', { name: genre.name })
-            .getOne();
+  async update(id: number, attrs: UpdateGenreDto): Promise<GenreEntity> {
+    const genre = await this.findOne(id);
 
-        if (storedGenre) {
-            throw new BadRequestException(`Genre with name: ${genre.name} already exists`);
-        }
+    Object.assign(genre, { ...attrs, value: snakeCase(attrs.name) });
 
-        const newGenre = this.genreRepo.create({
-            name: genre.name,
-            value: snakeCase(genre.name),
-        });
-        return this.genreRepo.save(newGenre);
-    }
+    return this.genreRepo.save(genre);
+  }
 
-    async update(id: number, attrs: UpdateGenreDto): Promise<GenreEntity> {
-        const genre = await this.findOne(id);
+  async remove(id: number): Promise<GenreEntity> {
+    const genre = await this.findOne(id);
 
-        Object.assign(genre, { ...attrs, value: snakeCase(attrs.name) });
-
-        return this.genreRepo.save(genre);
-    }
-
-    async remove(id: number): Promise<GenreEntity> {
-        const genre = await this.findOne(id);
-
-        return this.genreRepo.remove(genre);
-    }
+    return this.genreRepo.remove(genre);
+  }
 }

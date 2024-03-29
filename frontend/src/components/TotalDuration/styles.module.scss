@@ -1,15 +1,14 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .totalDuration {
-    font-size: setUnit(14);
-    font-weight: 700;
-    white-space: nowrap;
+  font-size: setUnit(14);
+  font-weight: 700;
+  white-space: nowrap;
 
-    @media screen and (max-width: setUnit(820)) {
-        .totalText {
-            display: none;
-        }
+  @media screen and (max-width: setUnit(820)) {
+    .totalText {
+      display: none;
     }
+  }
 }
-

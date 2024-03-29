@@ -1,15 +1,17 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .genresTable {
-    height: 100%;
-    .table {
-        height: calc(100% - #{setUnit($header-height)} - #{setUnit($player-height)});
-        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(138)});
-        overflow: auto;
+  height: 100%;
+  .table {
+    height: calc(100% - #{setUnit($header-height)} - #{setUnit($player-height)});
+    min-height: calc(
+      100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(138)}
+    );
+    overflow: auto;
 
-        @media screen and (max-width: #{setUnit($mobile)}) {
-            height: calc(100% - #{setUnit($header-height)});
-        }
+    @media screen and (max-width: #{setUnit($mobile)}) {
+      height: calc(100% - #{setUnit($header-height)});
     }
+  }
 }

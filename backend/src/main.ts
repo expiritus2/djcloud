@@ -14,16 +14,16 @@ const PORT = process.env.PORT || 8000;
 const ENV = process.env.ENVIRONMENT || EnvEnums.DEVELOPMENT;
 
 const origin =
-    ENV === EnvEnums.DEVELOPMENT || ENV === EnvEnums.TEST ? 'http://localhost:3000' : process.env.FRONTEND_DOMAIN;
+  ENV === EnvEnums.DEVELOPMENT || ENV === EnvEnums.TEST ? 'http://localhost:3000' : process.env.FRONTEND_DOMAIN;
 
 export async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
-    app.setGlobalPrefix('api');
-    setSwagger(app);
-    setPipe(app);
-    setCookieSession(app);
-    setHeaders(app);
-    app.enableCors({ origin, credentials: true });
-    await app.listen(PORT);
+  const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
+  setSwagger(app);
+  setPipe(app);
+  setCookieSession(app);
+  setHeaders(app);
+  app.enableCors({ origin, credentials: true });
+  await app.listen(PORT);
 }
 bootstrap();

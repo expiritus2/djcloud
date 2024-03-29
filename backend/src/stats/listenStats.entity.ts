@@ -4,16 +4,16 @@ import { TrackEntity } from '../tracks/track.entity';
 
 @Entity('listenStats')
 export class ListenStatsEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @OneToOne(() => TrackEntity, (track) => track.listenStats)
-    @JoinColumn({ name: 'trackId' })
-    track: TrackEntity;
+  @OneToOne(() => TrackEntity, (track) => track.listenStats)
+  @JoinColumn({ name: 'trackId' })
+  track: TrackEntity;
 
-    @Column()
-    trackId: number;
+  @Column()
+  trackId: number;
 
-    @Column()
-    listenCount: number;
+  @Column()
+  listenCount: number;
 }

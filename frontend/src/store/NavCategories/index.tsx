@@ -7,23 +7,30 @@ import { PaginatedItems, PaginationParams, RequestOptions, SortEnum } from 'type
 import { Category } from 'types/track';
 
 export class NavCategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        makeObservable(this, {
-            getAll: action,
-        });
-    }
+    makeObservable(this, {
+      getAll: action,
+    });
+  }
 
-    getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
+  getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
+    const sendRequest = new Api<PaginatedItems<Category>>({
+      store: this,
+      method: getAll,
+    }).execResult();
 
-        sendRequest({ limit: 5, field: 'name', sort: SortEnum.DESC, ...this.meta, ...cfg }, options, cb);
-    }
+    sendRequest(
+      { limit: 5, field: 'name', sort: SortEnum.DESC, ...this.meta, ...cfg },
+      options,
+      cb
+    );
+  }
 
-    setData(categories: PaginatedItems<Category>) {
-        const clonedCategories = cloneDeep(categories);
-        clonedCategories.data.sort((a, b) => b.name.localeCompare(a.name));
-        this.data = clonedCategories;
-    }
+  setData(categories: PaginatedItems<Category>) {
+    const clonedCategories = cloneDeep(categories);
+    clonedCategories.data.sort((a, b) => b.name.localeCompare(a.name));
+    this.data = clonedCategories;
+  }
 }

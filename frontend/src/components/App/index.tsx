@@ -12,19 +12,20 @@ import AppRouter from './AppRouter';
 import styles from './styles.module.scss';
 
 export function App() {
-    const { user } = useStore();
-    const { screen, mobileOS, isMobile } = useResize();
-    const isWaitUser = user.state === RequestStateEnum.IDLE || user.state === RequestStateEnum.PENDING;
+  const { user } = useStore();
+  const { screen, mobileOS, isMobile } = useResize();
+  const isWaitUser =
+    user.state === RequestStateEnum.IDLE || user.state === RequestStateEnum.PENDING;
 
-    useEffect(() => {
-        user.currentUser();
-    }, []); // eslint-disable-line
+  useEffect(() => {
+    user.currentUser();
+  }, []); // eslint-disable-line
 
-    return (
-        <ScreenContext.Provider value={{ screen, mobileOS, isMobile }}>
-            {isWaitUser ? <Spinner loaderWrapperClassName={styles.loader} /> : <AppRouter />}
-        </ScreenContext.Provider>
-    );
+  return (
+    <ScreenContext.Provider value={{ screen, mobileOS, isMobile }}>
+      {isWaitUser ? <Spinner loaderWrapperClassName={styles.loader} /> : <AppRouter />}
+    </ScreenContext.Provider>
+  );
 }
 
 export default observer(App);

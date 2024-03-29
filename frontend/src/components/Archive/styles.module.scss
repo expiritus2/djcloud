@@ -1,19 +1,19 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .archive {
-    min-width: setUnit(33);
-    min-height: setUnit(33);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: setUnit(5);
-    border: 1px solid $darkColor;
+  min-width: setUnit(33);
+  min-height: setUnit(33);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: setUnit(5);
+  border: 1px solid $darkColor;
 
-    &.active{
-        background: $darkColor;
-        color: $whiteColor;
-        border-color: $darkColor;
-    }
+  &.active {
+    background: $darkColor;
+    color: $whiteColor;
+    border-color: $darkColor;
+  }
 }

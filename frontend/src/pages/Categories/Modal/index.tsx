@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { AxiosError } from 'axios';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
@@ -14,157 +14,163 @@ import { initModalState, InitModalStateType } from '../index';
 import styles from './styles.module.scss';
 
 type ComponentProps = {
-    className?: string;
-    title: string;
-    modalState: InitModalStateType;
-    setModalState: any;
+  className?: string;
+  title: string;
+  modalState: InitModalStateType;
+  setModalState: any;
 };
 
 const initValues = { name: '' };
 
 const CategoryModal: FC<ComponentProps> = (props) => {
-    const { modifyCategory, categories } = useStore();
-    const { className, title, modalState, setModalState } = props;
-    const [values, setValues] = useState(initValues);
-    const [inputError, setInputError] = useState('');
+  const { modifyCategory, categories } = useStore();
+  const { className, title, modalState, setModalState } = props;
+  const [values, setValues] = useState(initValues);
+  const [inputError, setInputError] = useState('');
 
-    useEffect(() => {
-        if (modalState.type === ModalStateEnum.UPDATE) {
-            setValues({ name: modifyCategory.data?.name || '' });
-        }
-    }, [modifyCategory.data, modalState.type]);
+  useEffect(() => {
+    if (modalState.type === ModalStateEnum.UPDATE) {
+      setValues({ name: modifyCategory.data?.name || '' });
+    }
+  }, [modifyCategory.data, modalState.type]);
 
-    const resetModal = () => {
-        setModalState(initModalState);
-        setInputError('');
-        setValues(initValues);
-    };
+  const resetModal = useCallback(() => {
+    setModalState(initModalState);
+    setInputError('');
+    setValues(initValues);
+  }, [setModalState]);
 
-    const onClickCancel = () => {
-        setModalState(initModalState);
-        resetModal();
-    };
+  const onClickCancel = useCallback(() => {
+    setModalState(initModalState);
+    resetModal();
+  }, [resetModal, setModalState]);
 
-    const refreshTable = () => {
-        resetModal();
-        categories.getAll({ sort: SortEnum.DESC });
-    };
+  const refreshTable = useCallback(() => {
+    resetModal();
+    categories.getAll({ sort: SortEnum.DESC });
+  }, [categories, resetModal]);
 
-    const createCategory = () => {
-        modifyCategory.create(values, {}, (err: AxiosError) => {
-            if (!err) {
-                refreshTable();
-            }
-        });
-    };
+  const createCategory = useCallback(() => {
+    modifyCategory.create(values, {}, (err: AxiosError) => {
+      if (!err) {
+        refreshTable();
+      }
+    });
+  }, [modifyCategory, refreshTable, values]);
 
-    const updateCategory = () => {
-        modifyCategory.update({ id: modalState.id as any, ...values }, {}, (err: AxiosError) => {
-            if (!err) {
-                refreshTable();
-            }
-        });
-    };
+  const updateCategory = useCallback(() => {
+    modifyCategory.update({ id: modalState.id as any, ...values }, {}, (err: AxiosError) => {
+      if (!err) {
+        refreshTable();
+      }
+    });
+  }, [modalState.id, modifyCategory, refreshTable, values]);
 
-    const removeCategory = () => {
-        modifyCategory.remove({ id: modalState.id as any }, {}, (err: AxiosError) => {
-            if (!err) {
-                refreshTable();
-            }
-        });
-    };
+  const removeCategory = useCallback(() => {
+    modifyCategory.remove({ id: modalState.id as any }, {}, (err: AxiosError) => {
+      if (!err) {
+        refreshTable();
+      }
+    });
+  }, [modalState.id, modifyCategory, refreshTable]);
 
-    const onClickSubmit = (e: any) => {
-        e.preventDefault();
+  const onClickSubmit = useCallback(
+    (e: any) => {
+      e.preventDefault();
 
-        if (!values.name && modalState.type !== ModalStateEnum.DELETE) {
-            return setInputError('Required');
-        }
+      if (!values.name && modalState.type !== ModalStateEnum.DELETE) {
+        return setInputError('Required');
+      }
 
-        if (modalState.type === ModalStateEnum.CREATE) {
-            createCategory();
-        }
+      if (modalState.type === ModalStateEnum.CREATE) {
+        createCategory();
+      }
 
-        if (modalState.type === ModalStateEnum.UPDATE) {
-            updateCategory();
-        }
+      if (modalState.type === ModalStateEnum.UPDATE) {
+        updateCategory();
+      }
 
-        if (modalState.type === ModalStateEnum.DELETE) {
-            removeCategory();
-        }
-    };
+      if (modalState.type === ModalStateEnum.DELETE) {
+        removeCategory();
+      }
+    },
+    [createCategory, modalState.type, removeCategory, updateCategory, values.name]
+  );
 
-    const onChangeName = (e: any) => {
-        const { name, value } = e.target;
-        setValues((prevVal) => ({ ...prevVal, [name]: value }));
-    };
+  const onChangeName = useCallback((e: any) => {
+    const { name, value } = e.target;
+    setValues((prevVal) => ({ ...prevVal, [name]: value }));
+  }, []);
 
-    const getSubmitButtonText = () => {
-        if (modalState.type === ModalStateEnum.UPDATE) {
-            return 'Update';
-        }
+  const submitButtonText = useMemo(() => {
+    if (modalState.type === ModalStateEnum.UPDATE) {
+      return 'Update';
+    }
 
-        if (modalState.type === ModalStateEnum.DELETE) {
-            return 'Delete';
-        }
+    if (modalState.type === ModalStateEnum.DELETE) {
+      return 'Delete';
+    }
 
-        return 'Save';
-    };
+    return 'Save';
+  }, [modalState.type]);
 
-    const getSubmitButtonVariant = (): ButtonType['variant'] => {
-        if (modalState.type === ModalStateEnum.DELETE) {
-            return 'danger';
-        }
-        return 'primary';
-    };
+  const getSubmitButtonVariant = useCallback((): ButtonType['variant'] => {
+    if (modalState.type === ModalStateEnum.DELETE) {
+      return 'danger';
+    }
+    return 'primary';
+  }, [modalState.type]);
 
-    const buttons: ButtonType[] = [
-        { id: 'cancel', onClick: onClickCancel, label: 'Cancel', variant: 'secondary' },
-        {
-            id: 'submit',
-            onClick: onClickSubmit,
-            label: getSubmitButtonText(),
-            variant: getSubmitButtonVariant(),
-            pending: modifyCategory.state === RequestStateEnum.PENDING,
-        },
-    ];
+  const buttons: ButtonType[] = useMemo(
+    () => [
+      { id: 'cancel', onClick: onClickCancel, label: 'Cancel', variant: 'secondary' },
+      {
+        id: 'submit',
+        onClick: onClickSubmit,
+        label: submitButtonText,
+        variant: getSubmitButtonVariant(),
+        pending: modifyCategory.state === RequestStateEnum.PENDING,
+      },
+    ],
+    [submitButtonText, getSubmitButtonVariant, onClickCancel, modifyCategory.state, onClickSubmit]
+  );
 
-    const getDeleteText = () => {
-        return (
-            <div className={styles.deleteText}>
-                Are you sure you want delete category: <br />
-                <span className={styles.accent}>{`${modifyCategory.data?.name}?`}</span>
-            </div>
-        );
-    };
-
-    const getContent = () => {
-        return modalState.type === ModalStateEnum.DELETE ? (
-            getDeleteText()
-        ) : (
-            <form onSubmit={onClickSubmit}>
-                <InputText
-                    error={inputError}
-                    className={styles.input}
-                    label="Name"
-                    value={values.name}
-                    name="name"
-                    onChange={onChangeName}
-                />
-            </form>
-        );
-    };
-
+  const getDeleteText = useCallback(() => {
     return (
-        <ContentModal
-            open={modalState.open}
-            title={title}
-            buttons={buttons}
-            className={classNames(styles.modal, className)}
-        >
-            <div className={styles.content}>{getContent()}</div>
-        </ContentModal>
+      <div className={styles.deleteText}>
+        Are you sure you want delete category: <br />
+        <span className={styles.accent}>{`${modifyCategory.data?.name}?`}</span>
+      </div>
     );
+  }, [modifyCategory.data?.name]);
+
+  const content = useMemo(() => {
+    return modalState.type === ModalStateEnum.DELETE ? (
+      getDeleteText()
+    ) : (
+      <form onSubmit={onClickSubmit}>
+        <InputText
+          error={inputError}
+          className={styles.input}
+          label="Name"
+          value={values.name}
+          name="name"
+          onChange={onChangeName}
+        />
+      </form>
+    );
+  }, [getDeleteText, inputError, modalState.type, onClickSubmit, values.name, onChangeName]);
+
+  return (
+    <ContentModal
+      open={modalState.open}
+      title={title}
+      buttons={buttons}
+      className={classNames(styles.modal, className)}
+    >
+      <div className={styles.content}>{content}</div>
+    </ContentModal>
+  );
 };
 
 export default observer(CategoryModal);

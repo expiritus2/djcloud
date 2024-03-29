@@ -8,15 +8,15 @@ import { Track } from 'types/track';
 import { AddTrackListenDto } from './types';
 
 export class Stats extends BaseRequestStore<any> {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        makeObservable(this, {});
-    }
+    makeObservable(this, {});
+  }
 
-    addTrackListenAction(cfg: AddTrackListenDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<Track>({ store: this, method: addTrackListen }).execResult();
+  addTrackListenAction(cfg: AddTrackListenDto, options?: RequestOptions, cb?: Function) {
+    const sendRequest = new Api<Track>({ store: this, method: addTrackListen }).execResult();
 
-        sendRequest(cfg, options, cb);
-    }
+    sendRequest(cfg, options, cb);
+  }
 }

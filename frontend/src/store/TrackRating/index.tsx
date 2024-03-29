@@ -8,31 +8,31 @@ import { RequestOptions } from 'types/request';
 import { AddTrackRatingDto, GetTrackRatingDto, TrackRating } from './types';
 
 export class TrackRatingStore extends BaseRequestStore<TrackRating> {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        makeObservable(this, {
-            addTrackRating: action,
-            getRating: action,
-        });
+    makeObservable(this, {
+      addTrackRating: action,
+      getRating: action,
+    });
 
-        reaction(
-            () => this.data,
-            (data) => {
-                store.currentTrack.updateRating(data);
-            },
-        );
-    }
+    reaction(
+      () => this.data,
+      (data) => {
+        store.currentTrack.updateRating(data);
+      }
+    );
+  }
 
-    addTrackRating(cfg: AddTrackRatingDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<TrackRating>({ store: this, method: addRating }).execResult();
+  addTrackRating(cfg: AddTrackRatingDto, options?: RequestOptions, cb?: Function) {
+    const sendRequest = new Api<TrackRating>({ store: this, method: addRating }).execResult();
 
-        sendRequest(cfg, options, cb);
-    }
+    sendRequest(cfg, options, cb);
+  }
 
-    getRating(cfg: GetTrackRatingDto, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<TrackRating>({ store: this, method: getRating }).execResult();
+  getRating(cfg: GetTrackRatingDto, options?: RequestOptions, cb?: Function) {
+    const sendRequest = new Api<TrackRating>({ store: this, method: getRating }).execResult();
 
-        sendRequest(cfg, options, cb);
-    }
+    sendRequest(cfg, options, cb);
+  }
 }

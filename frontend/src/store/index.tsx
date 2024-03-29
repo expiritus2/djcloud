@@ -19,19 +19,19 @@ import { UsersStore } from './User';
 configure({ enforceActions: 'never' });
 
 const store = {
-    user: new UsersStore(),
-    categories: new CategoriesStore(),
-    navCategories: new NavCategoriesStore(),
-    modifyCategory: new ModifyCategoryStore(),
-    modifyGenre: new ModifyGenreStore(),
-    modifyTrack: new ModifyTrackStore(),
-    genres: new GenresStore(),
-    tracks: new TracksStore(),
-    tracksGenres: new TracksGenresStore(),
-    currentTrack: new CurrentTrackStore(),
-    adminState: new AdminState(),
-    trackRating: new TrackRatingStore(),
-    stats: new Stats(),
+  user: new UsersStore(),
+  categories: new CategoriesStore(),
+  navCategories: new NavCategoriesStore(),
+  modifyCategory: new ModifyCategoryStore(),
+  modifyGenre: new ModifyGenreStore(),
+  modifyTrack: new ModifyTrackStore(),
+  genres: new GenresStore(),
+  tracks: new TracksStore(),
+  tracksGenres: new TracksGenresStore(),
+  currentTrack: new CurrentTrackStore(),
+  adminState: new AdminState(),
+  trackRating: new TrackRatingStore(),
+  stats: new Stats(),
 };
 
 injectStores(store);

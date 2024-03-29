@@ -17,112 +17,130 @@ import StarWrapper from './StarWrapper';
 import styles from './styles.module.scss';
 
 type ComponentProps = {
-    className?: string;
-    trackId: number;
-    notActiveByClick?: boolean;
-    white?: boolean;
+  className?: string;
+  trackId: number;
+  notActiveByClick?: boolean;
+  white?: boolean;
 } & TrackRating;
 
 const Rating: FC<ComponentProps> = (props) => {
-    const { className, trackId, rating, countRatings, isDidRating, notActiveByClick, white } = props;
-    const { trackRating, tracks } = useStore();
-    const { screen } = useScreen();
-    const [isConfirmRatingOpen, setIsConfirmRatingOpen] = useState(false);
-    const [pending, setPending] = useState(false);
-    const [currentRating, setCurrentRating] = useState(rating);
+  const { className, trackId, rating, countRatings, isDidRating, notActiveByClick, white } = props;
+  const { trackRating, tracks } = useStore();
+  const { screen } = useScreen();
+  const [isConfirmRatingOpen, setIsConfirmRatingOpen] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [currentRating, setCurrentRating] = useState(rating);
 
-    useEffect(() => {
-        setCurrentRating(rating);
-    }, [rating]);
+  useEffect(() => {
+    setCurrentRating(rating);
+  }, [rating]);
 
-    const onMouseOver = (e: any, index: number, isNumbers?: boolean) => {
-        if (!isNumbers && notActiveByClick && isConfirmRatingOpen) {
-            return;
+  const onMouseOver = (e: any, index: number, isNumbers?: boolean) => {
+    if (!isNumbers && notActiveByClick && isConfirmRatingOpen) {
+      return;
+    }
+    setCurrentRating(index + 1);
+  };
+
+  const onMouseLeave = () => {
+    if (notActiveByClick && isConfirmRatingOpen) {
+      return;
+    }
+    setCurrentRating(rating);
+  };
+
+  const onClick = () => {
+    setIsConfirmRatingOpen(true);
+  };
+
+  const getStars = (isPopup = false) => {
+    const isMobile = screen.width <= MOBILE_SMALL && !isPopup;
+
+    return createStars(screen, isPopup).map((_, index) => {
+      const iconProps = {
+        onMouseOver: (e: any) => onMouseOver(e, index, isPopup),
+        className: classNames(
+          styles.star,
+          isDidRating ? styles.isDidRating : '',
+          isMobile ? styles.mobile : '',
+          white && !isPopup ? styles.white : ''
+        ),
+        onClick,
+      };
+      return (
+        <StarWrapper
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
+          num={index + 1}
+          isNumbers={isPopup}
+        >
+          <StarIcon
+            iconProps={iconProps}
+            rating={rating}
+            currentRating={currentRating}
+            index={index}
+            isNumbers={isPopup}
+          />
+        </StarWrapper>
+      );
+    });
+  };
+
+  const onClickCancel = () => {
+    setIsConfirmRatingOpen(false);
+    setCurrentRating(rating);
+  };
+
+  const onClickSubmit = () => {
+    setPending(true);
+    if (currentRating && trackId && !isDidRating) {
+      trackRating.addTrackRating(
+        { trackId, rating: currentRating },
+        {},
+        (err: any, response: any) => {
+          if (!err) {
+            tracks.setTrackRating(response.data, trackId);
+          }
+          setPending(false);
+          setIsConfirmRatingOpen(false);
         }
-        setCurrentRating(index + 1);
-    };
+      );
+    }
+  };
 
-    const onMouseLeave = () => {
-        if (notActiveByClick && isConfirmRatingOpen) {
-            return;
-        }
-        setCurrentRating(rating);
-    };
+  const buttons: ButtonType[] = [
+    { id: 'cancel', onClick: onClickCancel, label: 'Cancel', variant: 'secondary' },
+    {
+      id: 'submit',
+      onClick: onClickSubmit,
+      label: 'Submit',
+      variant: 'primary',
+      pending,
+    },
+  ];
 
-    const onClick = () => {
-        setIsConfirmRatingOpen(true);
-    };
-
-    const getStars = (isPopup = false) => {
-        const isMobile = screen.width <= MOBILE_SMALL && !isPopup;
-
-        return createStars(screen, isPopup).map((_, index) => {
-            const iconProps = {
-                onMouseOver: (e: any) => onMouseOver(e, index, isPopup),
-                className: classNames(
-                    styles.star,
-                    isDidRating ? styles.isDidRating : '',
-                    isMobile ? styles.mobile : '',
-                    white && !isPopup ? styles.white : '',
-                ),
-                onClick,
-            };
-            return (
-                <StarWrapper key={index} num={index + 1} isNumbers={isPopup}>
-                    <StarIcon
-                        iconProps={iconProps}
-                        rating={rating}
-                        currentRating={currentRating}
-                        index={index}
-                        isNumbers={isPopup}
-                    />
-                </StarWrapper>
-            );
-        });
-    };
-
-    const onClickCancel = () => {
-        setIsConfirmRatingOpen(false);
-        setCurrentRating(rating);
-    };
-
-    const onClickSubmit = () => {
-        setPending(true);
-        if (currentRating && trackId && !isDidRating) {
-            trackRating.addTrackRating({ trackId, rating: currentRating }, {}, (err: any, response: any) => {
-                if (!err) {
-                    tracks.setTrackRating(response.data, trackId);
-                }
-                setPending(false);
-                setIsConfirmRatingOpen(false);
-            });
-        }
-    };
-
-    const buttons: ButtonType[] = [
-        { id: 'cancel', onClick: onClickCancel, label: 'Cancel', variant: 'secondary' },
-        {
-            id: 'submit',
-            onClick: onClickSubmit,
-            label: 'Submit',
-            variant: 'primary',
-            pending,
-        },
-    ];
-
-    return (
-        <div className={classNames(styles.rating, className)} onMouseLeave={onMouseLeave}>
-            <div className={classNames(styles.stars, isDidRating ? styles.disable : '')}>{getStars()}</div>
-            <div className={classNames(styles.count, white ? styles.white : '')}>({countRatings})</div>
-            <ContentModal open={isConfirmRatingOpen} title="Rating" buttons={buttons}>
-                <div className={classNames(styles.stars)}>
-                    <div className={styles.starsWrapper}>
-                        <div className={styles.starsHolder}>{getStars(true)}</div>
-                    </div>
-                </div>
-            </ContentModal>
+  return (
+    <div
+      className={classNames(styles.rating, className)}
+      onMouseLeave={onMouseLeave}
+    >
+      <div className={classNames(styles.stars, isDidRating ? styles.disable : '')}>
+        {getStars()}
+      </div>
+      <div className={classNames(styles.count, white ? styles.white : '')}>({countRatings})</div>
+      <ContentModal
+        open={isConfirmRatingOpen}
+        title="Rating"
+        buttons={buttons}
+      >
+        <div className={classNames(styles.stars)}>
+          <div className={styles.starsWrapper}>
+            <div className={styles.starsHolder}>{getStars(true)}</div>
+          </div>
         </div>
-    );
+      </ContentModal>
+    </div>
+  );
 };
 
 export default observer(Rating);

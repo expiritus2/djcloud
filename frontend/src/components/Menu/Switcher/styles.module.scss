@@ -1,26 +1,26 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .switcher {
-    display: flex;
+  display: flex;
 
-    .tab {
-        width: 50%;
-        cursor: pointer;
-        padding: setUnit(10) setUnit(20);
-        text-align: center;
-        border: 1px solid $darkColor;
-        border-bottom: none;
-        color: $menu-item-color;
+  .tab {
+    width: 50%;
+    cursor: pointer;
+    padding: setUnit(10) setUnit(20);
+    text-align: center;
+    border: 1px solid $darkColor;
+    border-bottom: none;
+    color: $menu-item-color;
 
-        &.all {
-            border-right: none;
-        }
-
-        &.active,
-        &:hover {
-            background-color: darken($active-background-color, 20);
-            color: $menu-item-active-color;
-        }
+    &.all {
+      border-right: none;
     }
+
+    &.active,
+    &:hover {
+      background-color: darken($active-background-color, 20);
+      color: $menu-item-active-color;
+    }
+  }
 }

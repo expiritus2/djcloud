@@ -1,66 +1,66 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: setUnit(14);
+  border-radius: setUnit(5);
+  padding: setUnit(5) setUnit(5);
+  overflow: auto;
+
+  &.active {
+    box-shadow: 0 0 setUnit(8) rgba($active-background-color, 0.5);
+  }
+
+  @media screen and (max-width: setUnit($mobile)) {
+    font-size: setUnit(12);
+  }
+
+  .rating {
+    margin-right: setUnit(15);
+  }
+
+  border: setUnit(1) solid $track-border-color;
+
+  .head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    font-size: setUnit(14);
-    border-radius: setUnit(5);
-    padding: setUnit(5) setUnit(5);
-    overflow: auto;
+    width: 100%;
 
-    &.active {
-        box-shadow: 0 0 setUnit(8) rgba($active-background-color,.5);
+    .loader {
+      font-size: setUnit(2.5);
+      color: $active-background-color;
+      height: 0;
+    }
+  }
+
+  .info {
+    color: $darkColor;
+    margin-left: setUnit(10);
+    width: 100%;
+
+    .author {
+      margin-bottom: setUnit(4);
     }
 
-    @media screen and (max-width: setUnit($mobile)) {
-        font-size: setUnit(12);
+    .trackName {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      min-width: setUnit(50) !important;
     }
+  }
 
-    .rating {
-        margin-right: setUnit(15);
+  .meta {
+    display: flex;
+    align-items: center;
+    margin-left: setUnit(15);
+
+    .date {
+      min-width: setUnit(150);
+      text-align: right;
     }
-
-    border: setUnit(1) solid $track-border-color;
-
-    .head {
-        display: flex;
-        align-items: center;
-        width: 100%;
-
-        .loader {
-            font-size: setUnit(2.5);
-            color: $active-background-color;
-            height: 0;
-        }
-    }
-
-    .info {
-        color: $darkColor;
-        margin-left: setUnit(10);
-        width: 100%;
-
-        .author {
-            margin-bottom: setUnit(4);
-        }
-
-        .trackName {
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            min-width: setUnit(50) !important
-        }
-    }
-
-    .meta {
-        display: flex;
-        align-items: center;
-        margin-left: setUnit(15);
-
-        .date {
-            min-width: setUnit(150);
-            text-align: right;
-        }
-    }
+  }
 }

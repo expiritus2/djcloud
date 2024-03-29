@@ -1,23 +1,23 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .filter {
-    display: flex;
-    align-items: center;
-    width: fit-content;
+  display: flex;
+  align-items: center;
+  width: fit-content;
 
-    .genre,
-    .category {
-        min-width: setUnit(100);
-        max-width: setUnit(200);
-    }
+  .genre,
+  .category {
+    min-width: setUnit(100);
+    max-width: setUnit(200);
+  }
 
-    .genre {
-        margin-left: setUnit(15);
-    }
+  .genre {
+    margin-left: setUnit(15);
+  }
 
-    .archive {
-        margin-top: setUnit(20);
-        margin-left: setUnit(10);
-    }
+  .archive {
+    margin-top: setUnit(20);
+    margin-left: setUnit(10);
+  }
 }

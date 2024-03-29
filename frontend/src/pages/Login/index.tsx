@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import classNames from 'classnames';
 import { useStore } from 'store';
 
@@ -9,21 +9,21 @@ import { LoginForm } from './components';
 import styles from './styles.module.scss';
 
 type ComponentProps = {
-    className?: string;
+  className?: string;
 };
 
 const Login: FC<ComponentProps> = (props) => {
-    const { className } = props;
-    const { currentTrack } = useStore();
+  const { className } = props;
+  const { currentTrack } = useStore();
 
-    return (
-        <div className={classNames(styles.login, className)}>
-            <Header />
-            <div className={classNames(styles.content, currentTrack.data ? styles.withPlayer : '')}>
-                <LoginForm />
-            </div>
-        </div>
-    );
+  return (
+    <div className={classNames(styles.login, className)}>
+      <Header />
+      <div className={classNames(styles.content, currentTrack.data ? styles.withPlayer : '')}>
+        <LoginForm />
+      </div>
+    </div>
+  );
 };
 
-export default Login;
+export default memo(Login);

@@ -1,16 +1,16 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .title {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    .playIcon {
-        width: setUnit(20) !important;
-        height: setUnit(20) !important;
-    }
+  .playIcon {
+    width: setUnit(20) !important;
+    height: setUnit(20) !important;
+  }
 
-    .titleText {
-        margin-left: setUnit(10);
-    }
+  .titleText {
+    margin-left: setUnit(10);
+  }
 }

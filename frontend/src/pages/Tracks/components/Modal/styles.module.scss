@@ -1,21 +1,21 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .modal {
-    max-width: setUnit(500) !important;
+  max-width: setUnit(500) !important;
 
-    .content {
-        padding: 0 setUnit(40) 0;
-        margin: setUnit(25) 0 0;
-    }
+  .content {
+    padding: 0 setUnit(40) 0;
+    margin: setUnit(25) 0 0;
+  }
 
-    .deleteText,
-    .archiveText {
-        line-height: setUnit(22);
-        padding-bottom: setUnit(40);
-    }
+  .deleteText,
+  .archiveText {
+    line-height: setUnit(22);
+    padding-bottom: setUnit(40);
+  }
 
-    .accent {
-        font-weight: bold;
-    }
+  .accent {
+    font-weight: bold;
+  }
 }

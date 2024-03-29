@@ -16,12 +16,12 @@ import { TracksController } from './tracks.controller';
 import { TracksService } from './tracks.service';
 
 @Module({
-    imports: [
-        NestjsFormDataModule,
-        TypeOrmModule.forFeature([TrackEntity, FileEntity, GenreEntity, CategoryEntity, ListenStatsEntity]),
-    ],
-    controllers: [TracksController],
-    providers: [TracksService, TelegramService, FilesService, SpacesService, StatsService],
-    exports: [TracksService],
+  imports: [
+    NestjsFormDataModule,
+    TypeOrmModule.forFeature([TrackEntity, FileEntity, GenreEntity, CategoryEntity, ListenStatsEntity]),
+  ],
+  controllers: [TracksController],
+  providers: [TracksService, TelegramService, FilesService, SpacesService, StatsService],
+  exports: [TracksService],
 })
 export class TracksModule {}

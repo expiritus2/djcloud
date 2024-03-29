@@ -1,16 +1,16 @@
 export type CreateCategoryDto = {
-    name: string;
+  name: string;
 };
 
 export type UpdateCategoryDto = {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 };
 
 export type GetCategoryDto = {
-    id: number;
+  id: number;
 };
 
 export type RemoveCategoryDto = {
-    id: number;
+  id: number;
 };

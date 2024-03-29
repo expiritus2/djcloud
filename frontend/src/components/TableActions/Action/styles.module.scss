@@ -1,15 +1,15 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .action {
-    .loader {
-        font-size: setUnit(1.5) !important;
-        position: relative;
-        bottom: setUnit(4);
-    }
+  .loader {
+    font-size: setUnit(1.5) !important;
+    position: relative;
+    bottom: setUnit(4);
+  }
 
-    .loaderWrapper {
-        width: setUnit(20);
-        height: setUnit(20);
-    }
+  .loaderWrapper {
+    width: setUnit(20);
+    height: setUnit(20);
+  }
 }

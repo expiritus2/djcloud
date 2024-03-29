@@ -1,26 +1,26 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .telegramLink {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    .link {
-        display: inline-block;
+  .link {
+    display: inline-block;
+  }
+
+  .icon {
+    width: setUnit(28.5);
+    height: setUnit(28.5);
+    vertical-align: middle;
+
+    svg {
+      stroke: red;
     }
 
-    .icon {
-        width: setUnit(28.5);
-        height: setUnit(28.5);
-        vertical-align: middle;
-
-        svg {
-            stroke: red;
-        }
-
-        path {
-            fill: $whiteColor;
-        }
+    path {
+      fill: $whiteColor;
     }
+  }
 }

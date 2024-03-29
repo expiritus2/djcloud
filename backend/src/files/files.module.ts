@@ -14,13 +14,13 @@ import { FilesService } from './files.service';
 import { SpacesService } from './spaces.service';
 
 @Module({
-    imports: [
-        NestjsFormDataModule,
-        TracksModule,
-        TypeOrmModule.forFeature([FileEntity, TrackEntity, GenreEntity, CategoryEntity]),
-    ],
-    controllers: [FilesController],
-    providers: [FilesService, SpacesService, TracksService],
-    exports: [FilesService],
+  imports: [
+    NestjsFormDataModule,
+    TracksModule,
+    TypeOrmModule.forFeature([FileEntity, TrackEntity, GenreEntity, CategoryEntity]),
+  ],
+  controllers: [FilesController],
+  providers: [FilesService, SpacesService, TracksService],
+  exports: [FilesService],
 })
 export class FilesModule {}

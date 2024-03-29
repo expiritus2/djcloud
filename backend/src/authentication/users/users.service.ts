@@ -9,35 +9,35 @@ import { UserEntity } from './user.entity';
 
 @Injectable()
 export class UsersService {
-    constructor(
-        @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
-        @InjectRepository(RoleEntity) private roleRepo: Repository<RoleEntity>,
-    ) {}
+  constructor(
+    @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
+    @InjectRepository(RoleEntity) private roleRepo: Repository<RoleEntity>,
+  ) {}
 
-    async create(email: string, password: string): Promise<UserEntity> {
-        const role = await this.roleRepo.findOne({ where: { name: RolesEnum.USER } });
-        const user = this.userRepo.create({ email, password, role });
+  async create(email: string, password: string): Promise<UserEntity> {
+    const role = await this.roleRepo.findOne({ where: { name: RolesEnum.USER } });
+    const user = this.userRepo.create({ email, password, role });
 
-        return this.userRepo.save(user);
+    return this.userRepo.save(user);
+  }
+
+  async findOne(id: number): Promise<UserEntity> {
+    const user = await this.userRepo.findOne({ where: { id }, relations: ['role'] });
+
+    if (!user) {
+      throw new NotFoundException(`User with id: ${id} is not exists`);
     }
 
-    async findOne(id: number): Promise<UserEntity> {
-        const user = await this.userRepo.findOne({ where: { id }, relations: ['role'] });
+    return user;
+  }
 
-        if (!user) {
-            throw new NotFoundException(`User with id: ${id} is not exists`);
-        }
+  async find(options: any): Promise<UserEntity[]> {
+    return this.userRepo.find({ where: options, relations: ['role'] });
+  }
 
-        return user;
-    }
+  async remove(id: number): Promise<UserEntity> {
+    const user = await this.findOne(id);
 
-    async find(options: any): Promise<UserEntity[]> {
-        return this.userRepo.find({ where: options, relations: ['role'] });
-    }
-
-    async remove(id: number): Promise<UserEntity> {
-        const user = await this.findOne(id);
-
-        return this.userRepo.remove(user);
-    }
+    return this.userRepo.remove(user);
+  }
 }

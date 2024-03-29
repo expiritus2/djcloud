@@ -4,32 +4,32 @@ import { RequestStateEnum } from 'types/request';
 import { StoreData } from 'types/store';
 
 export function getInitStore<T>(): StoreData<T> {
-    return {
-        state: RequestStateEnum.IDLE,
-        data: null,
-        meta: {},
-    };
+  return {
+    state: RequestStateEnum.IDLE,
+    data: null,
+    meta: {},
+  };
 }
 
 export abstract class BaseRequestStore<T> {
-    state: RequestStateEnum = cloneDeep(getInitStore().state);
+  state: RequestStateEnum = cloneDeep(getInitStore().state);
 
-    data: T | null = cloneDeep(getInitStore<T>().data);
+  data: T | null = cloneDeep(getInitStore<T>().data);
 
-    meta = cloneDeep(getInitStore().meta);
+  meta = cloneDeep(getInitStore().meta);
 
-    protected constructor() {
-        makeObservable(this, {
-            state: observable,
-            data: observable,
-            meta: observable,
-            resetStore: action,
-        });
-    }
+  protected constructor() {
+    makeObservable(this, {
+      state: observable,
+      data: observable,
+      meta: observable,
+      resetStore: action,
+    });
+  }
 
-    resetStore(state?: RequestStateEnum) {
-        this.state = state ? state : cloneDeep(getInitStore().state);
-        this.data = cloneDeep(getInitStore<T>().data);
-        this.meta = cloneDeep(getInitStore().meta);
-    }
+  resetStore(state?: RequestStateEnum) {
+    this.state = state ? state : cloneDeep(getInitStore().state);
+    this.data = cloneDeep(getInitStore<T>().data);
+    this.meta = cloneDeep(getInitStore().meta);
+  }
 }

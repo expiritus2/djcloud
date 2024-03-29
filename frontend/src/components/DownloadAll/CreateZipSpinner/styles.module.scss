@@ -1,27 +1,27 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .createZipSpinner {
+  position: relative;
+
+  .progress {
+    font-size: setUnit(10);
+    position: absolute;
+    top: setUnit(5.7);
+    left: setUnit(8.7);
+    width: setUnit(30);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-50%);
+  }
+
+  .loaderWrapper {
+    margin-top: setUnit(0);
+    margin-bottom: setUnit(-10);
+    margin-left: setUnit(-10);
     position: relative;
-
-    .progress {
-        font-size: setUnit(10);
-        position: absolute;
-        top: setUnit(5.7);
-        left: setUnit(8.7);
-        width: setUnit(30);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transform: translateX(-50%);
-    }
-
-    .loaderWrapper {
-        margin-top: setUnit(0);
-        margin-bottom: setUnit(-10);
-        margin-left: setUnit(-10);
-        position: relative;
-        left: setUnit(4);
-        bottom: setUnit(4);
-    }
+    left: setUnit(4);
+    bottom: setUnit(4);
+  }
 }

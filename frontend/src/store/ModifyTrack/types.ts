@@ -2,35 +2,35 @@ import { SortEnum } from 'types/request';
 import { Category, File as TrackFile, Genre } from 'types/track';
 
 export type CreateTrackDto = {
-    title: string;
-    category: Category;
-    genre: Genre;
-    file: TrackFile;
+  title: string;
+  category: Category;
+  genre: Genre;
+  file: TrackFile;
 };
 
 export type UpdateTrackDto = {
-    id: number;
-    title: string;
-    category: Category;
-    genre: Genre;
-    file: TrackFile;
+  id: number;
+  title: string;
+  category: Category;
+  genre: Genre;
+  file: TrackFile;
 };
 
 export type UpdateVisibleTrackDto = {
-    id: number;
-    visible: boolean;
+  id: number;
+  visible: boolean;
 };
 
 export type GetTrackDto = {
-    id: number;
-    sort?: SortEnum;
+  id: number;
+  sort?: SortEnum;
 };
 
 export type RemoveTrackDto = {
-    id: number;
+  id: number;
 };
 
 export type ArchiveTrackDto = {
-    id: number;
-    archive: boolean;
+  id: number;
+  archive: boolean;
 };

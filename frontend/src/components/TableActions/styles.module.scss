@@ -1,78 +1,77 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .tableActions {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    .download {
-        position: relative;
-        bottom: setUnit(-2);
-        margin-right: setUnit(25);
-        margin-left: 0;
+  .download {
+    position: relative;
+    bottom: setUnit(-2);
+    margin-right: setUnit(25);
+    margin-left: 0;
+  }
+
+  .downloadLoaderWrapper {
+    position: relative;
+    bottom: setUnit(2);
+  }
+
+  .download,
+  .remove,
+  .edit,
+  .telegram,
+  .archive {
+    vertical-align: middle;
+  }
+
+  .icon {
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
     }
 
-    .downloadLoaderWrapper {
-        position: relative;
-        bottom: setUnit(2);
+    &.telegramIcon {
+      width: 100%;
+      height: 100%;
     }
+  }
 
-    .download,
-    .remove,
-    .edit,
-    .telegram,
-    .archive {
-        vertical-align: middle;
+  .remove {
+    width: setUnit(20);
+    height: setUnit(20);
+
+    path {
+      fill: $dangerColor;
     }
+  }
 
-    .icon {
-        cursor: pointer;
-        transition: all .2s;
+  .remove,
+  .deleteLoader {
+    margin-left: setUnit(20);
+  }
 
-        &:hover {
-            transform: scale(1.1);
-        }
+  .archiveLoader {
+    margin-left: setUnit(16);
+  }
 
-        &.telegramIcon {
-            width: 100%;
-            height: 100%;
-        }
-    }
+  .archive {
+    margin-left: setUnit(20);
+  }
 
-    .remove {
-        width: setUnit(20);
-        height: setUnit(20);
+  .edit {
+    width: setUnit(20);
+    height: setUnit(20);
+    position: relative;
+    top: setUnit(-1);
+    fill: $darkColor;
+  }
 
-        path {
-            fill: $dangerColor;
-        }
-
-    }
-
-    .remove,
-    .deleteLoader {
-        margin-left: setUnit(20);
-    }
-
-    .archiveLoader {
-        margin-left: setUnit(16);
-    }
-
-    .archive {
-        margin-left: setUnit(20);
-    }
-
-    .edit {
-        width: setUnit(20);
-        height: setUnit(20);
-        position: relative;
-        top: setUnit(-1);
-        fill: $darkColor;
-    }
-
-    .telegram {
-        width: setUnit(18);
-        height: setUnit(18);
-        margin-right: setUnit(20);
-    }
+  .telegram {
+    width: setUnit(18);
+    height: setUnit(18);
+    margin-right: setUnit(20);
+  }
 }

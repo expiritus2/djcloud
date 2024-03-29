@@ -9,23 +9,23 @@ import { Content, MainMenu } from './components';
 import styles from './styles.module.scss';
 
 type ComponentProps = {
-    className?: string;
+  className?: string;
 };
 
 const Main: FC<ComponentProps> = (props) => {
-    const { className } = props;
+  const { className } = props;
 
-    return (
-        <div className={classNames(styles.main, className)}>
-            <Header />
-            <PageWrapper>
-                <>
-                    <MainMenu />
-                    <Content />
-                </>
-            </PageWrapper>
-        </div>
-    );
+  return (
+    <div className={classNames(styles.main, className)}>
+      <Header />
+      <PageWrapper>
+        <>
+          <MainMenu />
+          <Content />
+        </>
+      </PageWrapper>
+    </div>
+  );
 };
 
 export default observer(Main);

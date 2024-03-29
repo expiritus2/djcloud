@@ -1,26 +1,26 @@
-@import "styles/functions";
-@import "styles/variables";
-@import "styles/mixins";
+@import 'styles/functions';
+@import 'styles/variables';
+@import 'styles/mixins';
 
 .dropzone {
-    border: 1px dashed $darkColor;
-    width: 100%;
-    height: setUnit(150);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: setUnit(8);
-    cursor: pointer;
+  border: 1px dashed $darkColor;
+  width: 100%;
+  height: setUnit(150);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: setUnit(8);
+  cursor: pointer;
 
-    &.error {
-        border-color: $dangerColor;
-    }
+  &.error {
+    border-color: $dangerColor;
+  }
 
-    .label {
-        @include simple-label;
-    }
+  .label {
+    @include simple-label;
+  }
 
-    .error {
-        @include inputError;
-    }
+  .error {
+    @include inputError;
+  }
 }

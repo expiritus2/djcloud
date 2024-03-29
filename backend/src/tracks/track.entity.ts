@@ -1,13 +1,13 @@
 import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { CategoryEntity } from '../categories/category.entity';
@@ -18,51 +18,51 @@ import { TrackRatingEntity } from '../trackRatings/trackRating.entity';
 
 @Entity('tracks')
 export class TrackEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column({ default: true })
-    visible: boolean;
+  @Column({ default: true })
+  visible: boolean;
 
-    @Column({ default: false })
-    sentToTelegram: boolean;
+  @Column({ default: false })
+  sentToTelegram: boolean;
 
-    @Column({ type: 'float' })
-    duration: number;
+  @Column({ type: 'float' })
+  duration: number;
 
-    @Column({ type: 'float' })
-    rating: number;
+  @Column({ type: 'float' })
+  rating: number;
 
-    @Column()
-    countRatings: number;
+  @Column()
+  countRatings: number;
 
-    @Column()
-    archive: boolean;
+  @Column()
+  archive: boolean;
 
-    @ManyToOne(() => GenreEntity, (genre) => genre.tracks)
-    @JoinColumn({ name: 'genreId' })
-    genre: GenreEntity;
+  @ManyToOne(() => GenreEntity, (genre) => genre.tracks)
+  @JoinColumn({ name: 'genreId' })
+  genre: GenreEntity;
 
-    @ManyToOne(() => CategoryEntity, (category) => category.tracks)
-    @JoinColumn({ name: 'categoryId' })
-    category: CategoryEntity;
+  @ManyToOne(() => CategoryEntity, (category) => category.tracks)
+  @JoinColumn({ name: 'categoryId' })
+  category: CategoryEntity;
 
-    @OneToOne(() => FileEntity, (file) => file.track)
-    @JoinColumn({ name: 'fileId' })
-    file: FileEntity;
+  @OneToOne(() => FileEntity, (file) => file.track)
+  @JoinColumn({ name: 'fileId' })
+  file: FileEntity;
 
-    @OneToMany(() => TrackRatingEntity, (trackRatings) => trackRatings.track)
-    trackRatings: TrackRatingEntity[];
+  @OneToMany(() => TrackRatingEntity, (trackRatings) => trackRatings.track)
+  trackRatings: TrackRatingEntity[];
 
-    @OneToOne(() => ListenStatsEntity, (listenStats) => listenStats.track)
-    listenStats: ListenStatsEntity;
+  @OneToOne(() => ListenStatsEntity, (listenStats) => listenStats.track)
+  listenStats: ListenStatsEntity;
 
-    @CreateDateColumn({ type: 'timestamptz', nullable: false })
-    createdAt: Date;
+  @CreateDateColumn({ type: 'timestamptz', nullable: false })
+  createdAt: Date;
 
-    @UpdateDateColumn({ type: 'timestamptz', nullable: false })
-    updatedAt: Date;
+  @UpdateDateColumn({ type: 'timestamptz', nullable: false })
+  updatedAt: Date;
 }

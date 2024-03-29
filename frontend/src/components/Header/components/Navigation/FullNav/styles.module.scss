@@ -1,35 +1,35 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .fullNav {
-    &.mobile {
-        margin-right: setUnit(50);
+  &.mobile {
+    margin-right: setUnit(50);
+  }
+
+  .list {
+    display: flex;
+    list-style: none;
+
+    .item {
+      margin-right: setUnit(10);
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      .link {
+        color: $menu-item-color;
+        text-decoration: none;
+      }
+
+      .link:hover,
+      .link.active,
+      &:hover,
+      &.active {
+        color: $menu-item-active-color;
+      }
     }
-
-    .list {
-        display: flex;
-        list-style: none;
-
-        .item {
-            margin-right: setUnit(10);
-            cursor: pointer;
-            transition: all .2s;
-
-            &:last-child {
-                margin-right: 0;
-            }
-
-            .link {
-                color: $menu-item-color;
-                text-decoration: none;
-            }
-
-            .link:hover,
-            .link.active,
-            &:hover,
-            &.active {
-                color: $menu-item-active-color;
-            }
-        }
-    }
+  }
 }

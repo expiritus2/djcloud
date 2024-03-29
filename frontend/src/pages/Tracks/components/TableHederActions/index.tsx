@@ -8,21 +8,21 @@ import { Filter } from '..';
 import styles from './styles.module.scss';
 
 type ComponentProps = {
-    className?: string;
+  className?: string;
 };
 
 const TableHeaderActions: FC<ComponentProps> = (props) => {
-    const { className } = props;
+  const { className } = props;
 
-    return (
-        <div className={classNames(styles.tableHeaderActions, className)}>
-            <Filter />
-            <div className={styles.totalDurationWrapper}>
-                <TotalDuration />
-                <DownloadAll />
-            </div>
-        </div>
-    );
+  return (
+    <div className={classNames(styles.tableHeaderActions, className)}>
+      <Filter />
+      <div className={styles.totalDurationWrapper}>
+        <TotalDuration />
+        <DownloadAll />
+      </div>
+    </div>
+  );
 };
 
 export default memo(TableHeaderActions);

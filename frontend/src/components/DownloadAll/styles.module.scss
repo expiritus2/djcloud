@@ -1,56 +1,56 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 $icon-size: 20;
 
 .download {
-    margin: 0 setUnit(10);
-    display: flex;
-    align-items: center;
+  margin: 0 setUnit(10);
+  display: flex;
+  align-items: center;
 
-    @media screen and (max-width: 450px) {
-        margin-right: 0;
+  @media screen and (max-width: 450px) {
+    margin-right: 0;
+  }
+
+  .totalFilesSize {
+    font-size: setUnit(11);
+    margin-left: setUnit(5);
+    position: relative;
+    top: setUnit(1);
+    white-space: nowrap;
+
+    @media screen and (max-width: setUnit(360)) {
+      display: none;
+    }
+  }
+
+  .icon {
+    width: setUnit($icon-size);
+    height: setUnit($icon-size);
+    cursor: pointer;
+    transition: all 0.2s;
+    fill: lighten($darkColor, 5);
+    vertical-align: middle;
+
+    &:hover {
+      transform: scale(1.1);
     }
 
-    .totalFilesSize {
-        font-size: setUnit(11);
-        margin-left: setUnit(5);
-        position: relative;
-        top: setUnit(1);
-        white-space: nowrap;
+    &.uploading {
+      cursor: auto;
 
-        @media screen and (max-width: setUnit(360)) {
-            display: none;
-        }
+      path {
+        animation: moving 1s infinite linear;
+      }
     }
-
-    .icon {
-        width: setUnit($icon-size);
-        height: setUnit($icon-size);
-        cursor: pointer;
-        transition: all .2s;
-        fill: lighten($darkColor, 5);
-        vertical-align: middle;
-
-        &:hover {
-            transform: scale(1.1);
-        }
-
-        &.uploading {
-            cursor: auto;
-
-            path {
-                animation: moving 1s infinite linear;
-            }
-        }
-    }
+  }
 }
 
 @keyframes moving {
-    from {
-        transform: translateY(#{setUnit(30)});
-    }
-    to {
-        transform: translateY(#{setUnit(-30)});
-    }
+  from {
+    transform: translateY(#{setUnit(30)});
+  }
+  to {
+    transform: translateY(#{setUnit(-30)});
+  }
 }

@@ -14,8 +14,8 @@ import { TrackRatingsController } from './trackRatings.controller';
 import { TrackRatingsService } from './trackRatings.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([TrackRatingEntity, TrackEntity, FileEntity, GenreEntity, CategoryEntity])],
-    providers: [TrackRatingsService, TracksService, FilesService, SpacesService],
-    controllers: [TrackRatingsController],
+  imports: [TypeOrmModule.forFeature([TrackRatingEntity, TrackEntity, FileEntity, GenreEntity, CategoryEntity])],
+  providers: [TrackRatingsService, TracksService, FilesService, SpacesService],
+  controllers: [TrackRatingsController],
 })
 export class TrackRatingsModule {}

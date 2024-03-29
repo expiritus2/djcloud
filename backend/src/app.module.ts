@@ -15,24 +15,24 @@ import { TrackRatingsModule } from './trackRatings/trackRatings.module';
 import { TracksModule } from './tracks/tracks.module';
 
 @Module({
-    imports: [
-        ConfigModule.forRoot({ isGlobal: true }),
-        TypeOrmModule.forRootAsync({
-            useFactory: async () => {
-                await dataSource.initialize();
-                return dataSource.options;
-            },
-        }),
-        UsersModule,
-        AuthModule,
-        GenresModule,
-        CategoriesModule,
-        TracksModule,
-        TrackRatingsModule,
-        TelegramModule,
-        FilesModule,
-        StatsModule,
-    ],
-    providers: [],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => {
+        await dataSource.initialize();
+        return dataSource.options;
+      },
+    }),
+    UsersModule,
+    AuthModule,
+    GenresModule,
+    CategoriesModule,
+    TracksModule,
+    TrackRatingsModule,
+    TelegramModule,
+    FilesModule,
+    StatsModule,
+  ],
+  providers: [],
 })
 export class AppModule {}

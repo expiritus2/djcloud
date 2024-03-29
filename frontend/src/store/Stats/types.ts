@@ -1,7 +1,7 @@
 export type GetTrackByIdParamsDto = {
-    id: number;
+  id: number;
 };
 
 export type AddTrackListenDto = {
-    trackId: number;
+  trackId: number;
 };

@@ -1,42 +1,42 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .smallNav {
-    position: relative;
-    margin-right: setUnit(5);
+  position: relative;
+  margin-right: setUnit(5);
 
-    .hamburger {
-        width: setUnit(25);
-        height: setUnit(25);
-        vertical-align: middle;
-        color: $whiteColor;
-    }
+  .hamburger {
+    width: setUnit(25);
+    height: setUnit(25);
+    vertical-align: middle;
+    color: $whiteColor;
+  }
 
-    .list {
-        list-style: none;
-        position: absolute;
-        overflow: hidden;
-        right: 0;
-        border-radius: setUnit(3);
-        background: $whiteColor;
-        box-shadow: setUnit(3) setUnit(3) setUnit(8) rgba(0,0,0,.5);
-        width: fit-content;
-        min-width: setUnit(130);
-        max-width: setUnit(150);
-        z-index: 999;
+  .list {
+    list-style: none;
+    position: absolute;
+    overflow: hidden;
+    right: 0;
+    border-radius: setUnit(3);
+    background: $whiteColor;
+    box-shadow: setUnit(3) setUnit(3) setUnit(8) rgba(0, 0, 0, 0.5);
+    width: fit-content;
+    min-width: setUnit(130);
+    max-width: setUnit(150);
+    z-index: 999;
 
-        .item {
-            .link {
-                text-decoration: none;
-                padding: setUnit(10) setUnit(15);
-                display: block;
-                color: $darkColor;
+    .item {
+      .link {
+        text-decoration: none;
+        padding: setUnit(10) setUnit(15);
+        display: block;
+        color: $darkColor;
 
-                &.active {
-                    background: darken($active-background-color, 20);
-                    color: $menu-item-active-color;
-                }
-            }
+        &.active {
+          background: darken($active-background-color, 20);
+          color: $menu-item-active-color;
         }
+      }
     }
+  }
 }

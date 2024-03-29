@@ -1,8 +1,8 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .categories {
-    .pendingWrapper {
-        height: calc(100% - #{setUnit(47)});
-    }
+  .pendingWrapper {
+    height: calc(100% - #{setUnit(47)});
+  }
 }

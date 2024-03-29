@@ -1,38 +1,38 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .shuffle {
-    display: flex;
-    align-items: center;
-    border: 1px solid $darkColor;
-    width: fit-content;
-    border-radius: setUnit(5);
-    padding: setUnit(10) setUnit(15);
-    cursor: pointer;
-    font-size: setUnit(14);
-    height: setUnit(33);
+  display: flex;
+  align-items: center;
+  border: 1px solid $darkColor;
+  width: fit-content;
+  border-radius: setUnit(5);
+  padding: setUnit(10) setUnit(15);
+  cursor: pointer;
+  font-size: setUnit(14);
+  height: setUnit(33);
 
-    @media screen and (max-width: setUnit($mobile-small)) {
-        padding: setUnit(5) setUnit(10);
-        font-size: setUnit(12);
-        height: setUnit(28);
+  @media screen and (max-width: setUnit($mobile-small)) {
+    padding: setUnit(5) setUnit(10);
+    font-size: setUnit(12);
+    height: setUnit(28);
+  }
+
+  &.active {
+    font-weight: bold;
+    background-color: $active-background-color;
+    border-color: $active-background-color;
+    color: $whiteColor;
+
+    &:hover {
+      background-color: lighten($active-background-color, 5);
+      border-color: lighten($active-background-color, 5);
     }
+  }
 
-    &.active {
-        font-weight: bold;
-        background-color: $active-background-color;
-        border-color: $active-background-color;
-        color: $whiteColor;
-
-        &:hover {
-            background-color: lighten($active-background-color, 5);
-            border-color: lighten($active-background-color, 5);
-        }
-    }
-
-    .icon {
-        width: setUnit(15);
-        height: setUnit(15);
-        margin-left: setUnit(10);
-    }
+  .icon {
+    width: setUnit(15);
+    height: setUnit(15);
+    margin-left: setUnit(10);
+  }
 }

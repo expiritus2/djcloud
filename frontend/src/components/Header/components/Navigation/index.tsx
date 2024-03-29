@@ -11,24 +11,30 @@ import SmallNav from './SmallNav';
 import styles from './styles.module.scss';
 
 type ComponentProps = {
-    className?: string;
+  className?: string;
 };
 
 const Navigation: FC<ComponentProps> = (props) => {
-    const { className } = props;
-    const { screen } = useScreen();
-    const { navCategories, tracksGenres } = useStore();
+  const { className } = props;
+  const { screen } = useScreen();
+  const { navCategories, tracksGenres } = useStore();
 
-    useEffect(() => {
-        navCategories.getAll();
-        tracksGenres.getTracksGenres();
-    }, []); // eslint-disable-line
+  useEffect(() => {
+    navCategories.getAll();
+    tracksGenres.getTracksGenres();
+  }, []); // eslint-disable-line
 
-    return (
-        <div className={classNames(styles.navigation, screen.width <= 900 ? styles.mobile : styles.desktop, className)}>
-            {screen.width > MOBILE_SMALL ? <FullNav /> : <SmallNav />}
-        </div>
-    );
+  return (
+    <div
+      className={classNames(
+        styles.navigation,
+        screen.width <= 900 ? styles.mobile : styles.desktop,
+        className
+      )}
+    >
+      {screen.width > MOBILE_SMALL ? <FullNav /> : <SmallNav />}
+    </div>
+  );
 };
 
 export default observer(Navigation);

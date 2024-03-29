@@ -1,9 +1,9 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .starWrapper {
-    .ratingNumber {
-        text-align: center;
-        font-size: setUnit(14);
-    }
+  .ratingNumber {
+    text-align: center;
+    font-size: setUnit(14);
+  }
 }

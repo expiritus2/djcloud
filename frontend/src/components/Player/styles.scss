@@ -1,44 +1,44 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .rhap_container {
-    box-shadow: 0 0 setUnit(3) 0 rgba($darkColor, .4);
+  box-shadow: 0 0 setUnit(3) 0 rgba($darkColor, 0.4);
 
-    .rhap_current-time {
-        color: $whiteColor;
-    }
+  .rhap_current-time {
+    color: $whiteColor;
+  }
 
-    .rhap_total-time {
-        color: $whiteColor;
-    }
+  .rhap_total-time {
+    color: $whiteColor;
+  }
 
-    svg {
-        path {
-            fill: $whiteColor;
-        }
+  svg {
+    path {
+      fill: $whiteColor;
     }
+  }
 }
 
 .rhap_progress-bar-show-download {
-    background: $primaryColor;
+  background: $primaryColor;
 
-    .rhap_progress-indicator {
-        background: $whiteColor  ;
-    }
+  .rhap_progress-indicator {
+    background: $whiteColor;
+  }
 
-    .rhap_progress-filled {
-        background: $player-progress-filled-color;
-    }
+  .rhap_progress-filled {
+    background: $player-progress-filled-color;
+  }
 
-    .rhap_download-progress {
-        background: $whiteColor;
-    }
+  .rhap_download-progress {
+    background: $whiteColor;
+  }
 }
 
 .rhap_volume-bar {
-    background: $player-progress-filled-color;
+  background: $player-progress-filled-color;
 
-    .rhap_volume-indicator {
-        background: $whiteColor;
-    }
+  .rhap_volume-indicator {
+    background: $whiteColor;
+  }
 }

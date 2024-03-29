@@ -13,44 +13,44 @@ import { AuthService } from './auth.service';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
-    @Post('/signup')
-    @Serialize(UserDto)
-    @ApiOperation({ summary: 'Register new user' })
-    @ApiResponse({ status: 201, type: UserDto })
-    async signup(@Body() body: CreateUserDto, @Session() session: any): Promise<UserEntity> {
-        const user = await this.authService.signup(body.email, body.password);
-        session.userId = user.id;
+  @Post('/signup')
+  @Serialize(UserDto)
+  @ApiOperation({ summary: 'Register new user' })
+  @ApiResponse({ status: 201, type: UserDto })
+  async signup(@Body() body: CreateUserDto, @Session() session: any): Promise<UserEntity> {
+    const user = await this.authService.signup(body.email, body.password);
+    session.userId = user.id;
 
-        return user;
-    }
+    return user;
+  }
 
-    @Post('/signin')
-    @Serialize(UserDto)
-    @ApiOperation({ summary: 'Authenticate user' })
-    @ApiResponse({ status: 200, type: UserDto })
-    @HttpCode(200)
-    async signin(@Body() body: CreateUserDto, @Session() session: any) {
-        const user = await this.authService.signin(body.email, body.password);
-        session.userId = user.id;
+  @Post('/signin')
+  @Serialize(UserDto)
+  @ApiOperation({ summary: 'Authenticate user' })
+  @ApiResponse({ status: 200, type: UserDto })
+  @HttpCode(200)
+  async signin(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
+    session.userId = user.id;
 
-        return user;
-    }
+    return user;
+  }
 
-    @Get('/whoami')
-    @Serialize(UserDto)
-    @ApiOperation({ summary: 'Return authenticated user' })
-    @ApiResponse({ status: 200, type: UserDto })
-    whoAmI(@CurrentUser() user: UserEntity) {
-        return user;
-    }
+  @Get('/whoami')
+  @Serialize(UserDto)
+  @ApiOperation({ summary: 'Return authenticated user' })
+  @ApiResponse({ status: 200, type: UserDto })
+  whoAmI(@CurrentUser() user: UserEntity) {
+    return user;
+  }
 
-    @Get('/signout')
-    @Serialize(SuccessDto)
-    @ApiOperation({ summary: 'Signout user' })
-    signOut(@Session() session: any) {
-        session.userId = null;
-        return { success: true };
-    }
+  @Get('/signout')
+  @Serialize(SuccessDto)
+  @ApiOperation({ summary: 'Signout user' })
+  signOut(@Session() session: any) {
+    session.userId = null;
+    return { success: true };
+  }
 }

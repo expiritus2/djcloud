@@ -12,33 +12,42 @@ import { Player } from 'components';
 import { canActivate } from './helpers';
 
 const AppRouter: FC = () => {
-    const { user, currentTrack } = useStore();
+  const { user, currentTrack } = useStore();
 
-    return (
-        <BrowserRouter>
-            <Routes>
-                {routesConfig.map(({ path, Component, roles: pathRoles }) => {
-                    const userRole = user.data?.role?.name as UserRoleEnum;
-                    const isCanActivate = canActivate(userRole, pathRoles as UserRoleEnum[]);
-                    const exceptPlayerPaths = [!currentTrack.data ? routes.login : undefined, '*'];
+  return (
+    <BrowserRouter>
+      <Routes>
+        {routesConfig.map(({ path, Component, roles: pathRoles }) => {
+          const userRole = user.data?.role?.name as UserRoleEnum;
+          const isCanActivate = canActivate(userRole, pathRoles as UserRoleEnum[]);
+          const exceptPlayerPaths = [!currentTrack.data ? routes.login : undefined, '*'];
 
-                    let Page = null;
-                    if (isCanActivate) {
-                        Page = (
-                            <>
-                                <Component />
-                                {!exceptPlayerPaths.includes(path) ? <Player /> : null}
-                            </>
-                        );
-                    } else if (user.state !== RequestStateEnum.PENDING && user.state !== RequestStateEnum.IDLE) {
-                        Page = <Navigate to={routes.login} />;
-                    }
+          let Page = null;
+          if (isCanActivate) {
+            Page = (
+              <>
+                <Component />
+                {!exceptPlayerPaths.includes(path) ? <Player /> : null}
+              </>
+            );
+          } else if (
+            user.state !== RequestStateEnum.PENDING &&
+            user.state !== RequestStateEnum.IDLE
+          ) {
+            Page = <Navigate to={routes.login} />;
+          }
 
-                    return <Route key={path} path={path} element={Page} />;
-                })}
-            </Routes>
-        </BrowserRouter>
-    );
+          return (
+            <Route
+              key={path}
+              path={path}
+              element={Page}
+            />
+          );
+        })}
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 export default observer(AppRouter);

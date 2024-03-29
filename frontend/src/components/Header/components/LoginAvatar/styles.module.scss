@@ -1,41 +1,41 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .avatarWrapper {
-    position: relative;
+  position: relative;
 
-    .avatar {
-        border: 1px solid $active-background-color;
-    }
+  .avatar {
+    border: 1px solid $active-background-color;
+  }
 
-    .menu {
-        position: absolute;
-        top: setUnit(55);
-        right: 0;
-        background: $whiteColor;
+  .menu {
+    position: absolute;
+    top: setUnit(55);
+    right: 0;
+    background: $whiteColor;
+    color: $darkColor;
+    border-radius: setUnit(3);
+    width: setUnit(100);
+    padding: setUnit(5) setUnit(0);
+    box-shadow: setUnit(2) setUnit(2) setUnit(5) rgba(0, 0, 0, 0.5);
+    z-index: 999;
+
+    .list {
+      list-style: none;
+
+      .item {
+        padding: setUnit(7) setUnit(15);
+        cursor: pointer;
+        display: inline-block;
+        width: 100%;
+        text-decoration: none;
         color: $darkColor;
-        border-radius: setUnit(3);
-        width: setUnit(100);
-        padding: setUnit(5) setUnit(0);
-        box-shadow: setUnit(2) setUnit(2) setUnit(5) rgba(0,0,0,.5);
-        z-index: 999;
 
-        .list {
-            list-style: none;
-
-            .item {
-                padding: setUnit(7) setUnit(15);
-                cursor: pointer;
-                display: inline-block;
-                width: 100%;
-                text-decoration: none;
-                color: $darkColor;
-
-                &:hover {
-                    background-color: $active-background-color;
-                    color: $whiteColor;
-                }
-            }
+        &:hover {
+          background-color: $active-background-color;
+          color: $whiteColor;
         }
+      }
     }
+  }
 }

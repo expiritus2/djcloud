@@ -1,16 +1,16 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .logo {
-    width: setUnit(113);
+  width: setUnit(113);
 
-    .logoImage {
-        vertical-align: middle;
-        height: 100%;
-        width: 100%;
-    }
+  .logoImage {
+    vertical-align: middle;
+    height: 100%;
+    width: 100%;
+  }
 
-    .link {
-        display: inline-block;
-    }
+  .link {
+    display: inline-block;
+  }
 }

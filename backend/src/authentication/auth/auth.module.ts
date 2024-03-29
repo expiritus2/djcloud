@@ -11,12 +11,12 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), UsersModule],
-    controllers: [AuthController],
-    providers: [AuthService, UsersService],
+  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity]), UsersModule],
+  controllers: [AuthController],
+  providers: [AuthService, UsersService],
 })
 export class AuthModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer.apply(CurrentUserMiddleware).forRoutes('*');
-    }
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CurrentUserMiddleware).forRoutes('*');
+  }
 }

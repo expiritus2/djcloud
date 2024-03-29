@@ -1,9 +1,9 @@
 export type GetTrackByIdParamsDto = {
-    id: number;
+  id: number;
 };
 
 export type RequestPageTracksProps = {
-    page: number;
-    isAdmin: boolean;
-    isMobile: boolean;
+  page: number;
+  isAdmin: boolean;
+  isMobile: boolean;
 };

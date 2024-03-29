@@ -7,34 +7,34 @@ import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UsersService, private configService: ConfigService) {}
+  constructor(private usersService: UsersService, private configService: ConfigService) {}
 
-    async signup(email: string, password: string): Promise<UserEntity> {
-        const users = await this.usersService.find({ email });
+  async signup(email: string, password: string): Promise<UserEntity> {
+    const users = await this.usersService.find({ email });
 
-        if (users.length) {
-            throw new BadRequestException('Email in use');
-        }
-
-        const hashPassword = await getHashPassword(password, this.configService.get('SALT'));
-
-        return await this.usersService.create(email, hashPassword);
+    if (users.length) {
+      throw new BadRequestException('Email in use');
     }
 
-    async signin(email: string, password: string): Promise<UserEntity> {
-        const [user] = await this.usersService.find({ email });
+    const hashPassword = await getHashPassword(password, this.configService.get('SALT'));
 
-        if (!user) {
-            throw new NotFoundException('User not found');
-        }
+    return await this.usersService.create(email, hashPassword);
+  }
 
-        const storedHashPassword = user.password;
+  async signin(email: string, password: string): Promise<UserEntity> {
+    const [user] = await this.usersService.find({ email });
 
-        const hashPassword = await getHashPassword(password, this.configService.get('SALT'));
-        if (storedHashPassword !== hashPassword) {
-            throw new BadRequestException('Email or password not valid');
-        }
-
-        return user;
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
+
+    const storedHashPassword = user.password;
+
+    const hashPassword = await getHashPassword(password, this.configService.get('SALT'));
+    if (storedHashPassword !== hashPassword) {
+      throw new BadRequestException('Email or password not valid');
+    }
+
+    return user;
+  }
 }

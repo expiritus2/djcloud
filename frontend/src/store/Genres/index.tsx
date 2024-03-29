@@ -8,21 +8,24 @@ import { Genre } from 'types/track';
 import { adminPageTableLimit } from '../../settings';
 
 export class GenresStore extends BaseRequestStore<PaginatedItems<Genre>> {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        makeObservable(this, {
-            getAll: action,
-        });
-    }
+    makeObservable(this, {
+      getAll: action,
+    });
+  }
 
-    getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<PaginatedItems<Genre>>({ store: this, method: getAll }).execResult();
+  getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
+    const sendRequest = new Api<PaginatedItems<Genre>>({
+      store: this,
+      method: getAll,
+    }).execResult();
 
-        sendRequest(
-            { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
-            options,
-            cb,
-        );
-    }
+    sendRequest(
+      { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
+      options,
+      cb
+    );
+  }
 }

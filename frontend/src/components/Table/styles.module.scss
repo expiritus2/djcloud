@@ -1,68 +1,68 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 $sorColor: $dangerColor;
 
 .tableHolder {
+  width: 100%;
+
+  .table {
     width: 100%;
 
-    .table {
-        width: 100%;
-
-        .theadItem,
-        .tbodyItem {
-            border-bottom: 1px dotted $darkColor;
-        }
-
-        .theadItem {
-            .title {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-        }
-
-        .tbodyItem:nth-child(even) {
-            background-color: lighten($active-background-color, 40);
-        }
-
-        .theadCell {
-            font-size: setUnit(18);
-            font-weight: bold;
-
-            &.cell {
-                padding: 0;
-            }
-
-            .title {
-                &.clickable {
-                    cursor: pointer;
-                }
-
-                &.desc {
-                    color: $sorColor;
-                }
-            }
-
-            .sortArrow {
-                color: $darkColor;
-                transition: all .2s;
-
-                &.asc {
-                    transform: rotate(0);
-                }
-
-                &.desc {
-                    transform: rotate(180deg);
-                    fill: $dangerColor;
-                }
-            }
-        }
-
-        .cell,
-        .title {
-            padding: setUnit(10);
-            white-space: nowrap;
-        }
+    .theadItem,
+    .tbodyItem {
+      border-bottom: 1px dotted $darkColor;
     }
+
+    .theadItem {
+      .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .tbodyItem:nth-child(even) {
+      background-color: lighten($active-background-color, 40);
+    }
+
+    .theadCell {
+      font-size: setUnit(18);
+      font-weight: bold;
+
+      &.cell {
+        padding: 0;
+      }
+
+      .title {
+        &.clickable {
+          cursor: pointer;
+        }
+
+        &.desc {
+          color: $sorColor;
+        }
+      }
+
+      .sortArrow {
+        color: $darkColor;
+        transition: all 0.2s;
+
+        &.asc {
+          transform: rotate(0);
+        }
+
+        &.desc {
+          transform: rotate(180deg);
+          fill: $dangerColor;
+        }
+      }
+    }
+
+    .cell,
+    .title {
+      padding: setUnit(10);
+      white-space: nowrap;
+    }
+  }
 }

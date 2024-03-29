@@ -1,13 +1,13 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .tracks {
-    .pendingWrapper {
-        height: calc(100% - #{setUnit(102)});
+  .pendingWrapper {
+    height: calc(100% - #{setUnit(102)});
 
-        .loader {
-            position: relative;
-            bottom: setUnit(50);
-        }
+    .loader {
+      position: relative;
+      bottom: setUnit(50);
     }
+  }
 }

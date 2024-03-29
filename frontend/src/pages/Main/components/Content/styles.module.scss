@@ -1,73 +1,75 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .content {
-    width: 100%;
-    padding: setUnit(15) setUnit(20) setUnit(20) setUnit(20);
-    height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)});
-    overflow: auto;
+  width: 100%;
+  padding: setUnit(15) setUnit(20) setUnit(20) setUnit(20);
+  height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)});
+  overflow: auto;
 
-    @media screen and (max-width: setUnit(400)) {
-        padding: setUnit(10);
-    }
+  @media screen and (max-width: setUnit(400)) {
+    padding: setUnit(10);
+  }
 
-    .innerHolder {
-        min-height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(125)});
+  .innerHolder {
+    min-height: calc(
+      100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(125)}
+    );
 
-        .sorts {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: setUnit(25);
+    .sorts {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: setUnit(25);
 
-            @media screen and (max-width: #{setUnit($mobile-small)}) {
-                align-items: end;
-            }
+      @media screen and (max-width: #{setUnit($mobile-small)}) {
+        align-items: end;
+      }
 
-            .actions {
-                display: flex;
-                align-items: center;
+      .actions {
+        display: flex;
+        align-items: center;
 
-                @media screen and (max-width: #{setUnit($mobile-small)}) {
-                    display: block;
-                    width: 100%;
-                    max-width: setUnit(200);
-                }
-
-                .subActions {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                }
-
-                .sortField {
-                    @media screen and (max-width: #{setUnit($mobile-small)}) {
-                        margin-bottom: setUnit(10);
-                    }
-                }
-            }
-
-            .headerActions {
-                display: flex;
-                align-items: center;
-                margin-left: setUnit(10);
-            }
-
-            .shuffle,
-            .sortAscDesc {
-                margin-left: setUnit(10);
-
-                @media screen and (max-width: #{setUnit($mobile-small)}) {
-                    margin-left: 0;
-                    width: 48%;
-                }
-            }
-
-            .shuffle {
-                @media screen and (max-width: #{setUnit($mobile-small)}) {
-                    margin-left: setUnit(5);
-                }
-            }
+        @media screen and (max-width: #{setUnit($mobile-small)}) {
+          display: block;
+          width: 100%;
+          max-width: setUnit(200);
         }
+
+        .subActions {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .sortField {
+          @media screen and (max-width: #{setUnit($mobile-small)}) {
+            margin-bottom: setUnit(10);
+          }
+        }
+      }
+
+      .headerActions {
+        display: flex;
+        align-items: center;
+        margin-left: setUnit(10);
+      }
+
+      .shuffle,
+      .sortAscDesc {
+        margin-left: setUnit(10);
+
+        @media screen and (max-width: #{setUnit($mobile-small)}) {
+          margin-left: 0;
+          width: 48%;
+        }
+      }
+
+      .shuffle {
+        @media screen and (max-width: #{setUnit($mobile-small)}) {
+          margin-left: setUnit(5);
+        }
+      }
     }
+  }
 }

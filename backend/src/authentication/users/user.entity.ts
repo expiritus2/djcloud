@@ -1,33 +1,33 @@
 import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { RoleEntity } from '../../roles/role.entity';
 
 @Entity('users')
 export class UserEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    email: string;
+  @Column()
+  email: string;
 
-    @Column()
-    password: string;
+  @Column()
+  password: string;
 
-    @ManyToOne(() => RoleEntity, (role) => role.users)
-    @JoinColumn({ name: 'roleId' })
-    role: RoleEntity;
+  @ManyToOne(() => RoleEntity, (role) => role.users)
+  @JoinColumn({ name: 'roleId' })
+  role: RoleEntity;
 
-    @CreateDateColumn({ type: 'timestamptz', nullable: false })
-    createdAt: Date;
+  @CreateDateColumn({ type: 'timestamptz', nullable: false })
+  createdAt: Date;
 
-    @UpdateDateColumn({ type: 'timestamptz', nullable: false })
-    updatedAt: Date;
+  @UpdateDateColumn({ type: 'timestamptz', nullable: false })
+  updatedAt: Date;
 }

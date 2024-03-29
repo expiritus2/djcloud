@@ -1,37 +1,37 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $darkColor;
+  padding: setUnit(10) setUnit(30);
+  color: $active-background-color;
+
+  .logo {
+    cursor: pointer;
+  }
+
+  .search {
+    margin: 0 setUnit(20);
+    width: setUnit(250);
+
+    @media screen and (max-width: #{setUnit($mobile-small)}) {
+      width: 100%;
+    }
+  }
+
+  .telegram {
+    margin-right: setUnit(15);
+    @media screen and (max-width: 900px) {
+      position: relative;
+      bottom: setUnit(1);
+    }
+  }
+
+  .info {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: $darkColor;
-    padding: setUnit(10) setUnit(30);
-    color: $active-background-color;
-
-    .logo {
-        cursor: pointer;
-    }
-
-    .search {
-        margin: 0 setUnit(20);
-        width: setUnit(250);
-
-        @media screen and (max-width: #{setUnit($mobile-small)}) {
-            width: 100%;
-        }
-    }
-
-    .telegram {
-        margin-right: setUnit(15);
-        @media screen and (max-width: 900px) {
-            position: relative;
-            bottom: setUnit(1);
-        }
-    }
-
-    .info {
-        display: flex;
-        align-items: center;
-    }
+  }
 }

@@ -7,72 +7,77 @@ import { useOutsideClick, useScreen } from 'hooks';
 import styles from './styles.module.scss';
 
 export type MenuItem = {
-    id?: string;
-    label: string;
-    path: string;
-    value?: string;
-    count?: number;
-    active?: boolean;
-    onClickItem?: Function;
+  id?: string;
+  label: string;
+  path: string;
+  value?: string;
+  count?: number;
+  active?: boolean;
+  onClickItem?: Function;
 };
 
 type ComponentProps = {
-    className?: string;
-    listItems: MenuItem[];
-    switcher?: ReactNode;
+  className?: string;
+  listItems: MenuItem[];
+  switcher?: ReactNode;
 };
 
 const Menu: FC<ComponentProps> = (props) => {
-    const { className, listItems, switcher } = props;
-    const { screen } = useScreen();
-    const [open, setOpen] = useState(!screen.mobileSmallWidth);
-    const menuRef = useRef(null);
+  const { className, listItems, switcher } = props;
+  const { screen } = useScreen();
+  const [open, setOpen] = useState(!screen.mobileSmallWidth);
+  const menuRef = useRef(null);
 
-    useEffect(() => {
-        setOpen(!screen.mobileSmallWidth);
-    }, [screen.mobileSmallWidth]);
+  useEffect(() => {
+    setOpen(!screen.mobileSmallWidth);
+  }, [screen.mobileSmallWidth]);
 
-    useOutsideClick([menuRef], () => {
-        if (screen.mobileSmallWidth) {
-            setOpen(false);
-        }
-    });
+  useOutsideClick([menuRef], () => {
+    if (screen.mobileSmallWidth) {
+      setOpen(false);
+    }
+  });
 
-    const getActiveClassName = ({ isActive }: { isActive: boolean }) => {
-        return classNames(styles.link, isActive ? styles.active : '');
-    };
+  const getActiveClassName = ({ isActive }: { isActive: boolean }) => {
+    return classNames(styles.link, isActive ? styles.active : '');
+  };
 
-    const renderItems = (list: MenuItem[]) => {
-        return (list as MenuItem[]).map((item) => (
-            <li key={item.path} className={styles.item}>
-                <NavLink
-                    id={item.id}
-                    className={({ isActive }) => getActiveClassName({ isActive: item.active || isActive })}
-                    to={item.path}
-                    onClick={(e) => item.onClickItem?.(e, item.value)}
-                >
-                    <span className={styles.label}>{item.label}</span>
-                    {item.count && <span className={styles.count}>{`(${item.count})`}</span>}
-                </NavLink>
-            </li>
-        ));
-    };
-
-    const onClickMenu = () => {
-        setOpen(true);
-    };
-
-    return (
-        <div
-            ref={menuRef}
-            onClick={onClickMenu}
-            className={classNames(styles.menu, open ? styles.open : styles.closed, className)}
+  const renderItems = (list: MenuItem[]) => {
+    return (list as MenuItem[]).map((item) => (
+      <li
+        key={item.path}
+        className={styles.item}
+      >
+        <NavLink
+          id={item.id}
+          className={({ isActive }) => getActiveClassName({ isActive: item.active || isActive })}
+          to={item.path}
+          onClick={(e) => item.onClickItem?.(e, item.value)}
         >
-            {screen.mobileSmallWidth && <GiHamburgerMenu className={styles.openIcon} />}
-            {open ? switcher : null}
-            <ul className={classNames(styles.list, switcher ? styles.isSwitcher : '')}>{renderItems(listItems)}</ul>
-        </div>
-    );
+          <span className={styles.label}>{item.label}</span>
+          {item.count && <span className={styles.count}>{`(${item.count})`}</span>}
+        </NavLink>
+      </li>
+    ));
+  };
+
+  const onClickMenu = () => {
+    setOpen(true);
+  };
+
+  return (
+    <div
+      ref={menuRef}
+      onClick={onClickMenu}
+      className={classNames(styles.menu, open ? styles.open : styles.closed, className)}
+    >
+      {screen.mobileSmallWidth && <GiHamburgerMenu className={styles.openIcon} />}
+      {open ? switcher : null}
+      <ul className={classNames(styles.list, switcher ? styles.isSwitcher : '')}>
+        {renderItems(listItems)}
+      </ul>
+    </div>
+  );
 };
 
 export default Menu;

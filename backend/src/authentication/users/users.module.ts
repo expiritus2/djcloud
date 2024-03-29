@@ -9,9 +9,9 @@ import { UsersService } from './users.service';
 
 @Global()
 @Module({
-    imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity])],
-    controllers: [UsersController],
-    providers: [UsersService],
-    exports: [UsersService],
+  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity])],
+  controllers: [UsersController],
+  providers: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

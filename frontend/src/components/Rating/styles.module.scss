@@ -1,89 +1,87 @@
-@import "styles/variables";
-@import "styles/functions";
+@import 'styles/variables';
+@import 'styles/functions';
 
 .stars {
-    line-height: setUnit(14);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    white-space: nowrap;
+  line-height: setUnit(14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  white-space: nowrap;
 
-    .starsWrapper {
-        padding: setUnit(30) setUnit(10);
+  .starsWrapper {
+    padding: setUnit(30) setUnit(10);
 
-        .starsHolder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    .starsHolder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-            .star {
-                width: setUnit(35);
-                height: setUnit(35);
-                vertical-align: middle;
-
-                &.white {
-
-                }
-            }
-        }
-    }
-
-    .star {
-        margin-right: setUnit(1);
-        width: setUnit(15);
-        height: setUnit(15);
+      .star {
+        width: setUnit(35);
+        height: setUnit(35);
         vertical-align: middle;
-        cursor: pointer;
-
-        path {
-            fill: $rating-stars-color;
-        }
 
         &.white {
-            path {
-                fill: $whiteColor;
-            }
         }
+      }
+    }
+  }
 
-        &.isDidRating {
-            path {
-                fill: darken($active-background-color, 15);
-            }
+  .star {
+    margin-right: setUnit(1);
+    width: setUnit(15);
+    height: setUnit(15);
+    vertical-align: middle;
+    cursor: pointer;
 
-            &.white {
-                path {
-                    fill: $whiteColor;
-                }
-            }
-        }
-
-        &.mobile {
-            width: setUnit(27);
-            height: setUnit(27);
-        }
-
-
-        &:last-child {
-            margin-right: 0;
-        }
+    path {
+      fill: $rating-stars-color;
     }
 
-    &.disable {
-        pointer-events: none;
+    &.white {
+      path {
+        fill: $whiteColor;
+      }
     }
+
+    &.isDidRating {
+      path {
+        fill: darken($active-background-color, 15);
+      }
+
+      &.white {
+        path {
+          fill: $whiteColor;
+        }
+      }
+    }
+
+    &.mobile {
+      width: setUnit(27);
+      height: setUnit(27);
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &.disable {
+    pointer-events: none;
+  }
 }
 
 .rating {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    .count {
-        font-size: setUnit(12);
-        margin-left: setUnit(3);
+  .count {
+    font-size: setUnit(12);
+    margin-left: setUnit(3);
 
-        &.white {
-            color: $whiteColor;
-        }
+    &.white {
+      color: $whiteColor;
     }
+  }
 }

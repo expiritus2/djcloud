@@ -9,26 +9,29 @@ import { Category } from 'types/track';
 import store from '..';
 
 export class CategoriesStore extends BaseRequestStore<PaginatedItems<Category>> {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        makeObservable(this, {
-            getAll: action,
-        });
+    makeObservable(this, {
+      getAll: action,
+    });
 
-        reaction(
-            () => this.data,
-            (data) => store.navCategories.setData(data as PaginatedItems<Category>),
-        );
-    }
+    reaction(
+      () => this.data,
+      (data) => store.navCategories.setData(data as PaginatedItems<Category>)
+    );
+  }
 
-    getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
-        const sendRequest = new Api<PaginatedItems<Category>>({ store: this, method: getAll }).execResult();
+  getAll(cfg?: PaginationParams, options?: RequestOptions, cb?: Function) {
+    const sendRequest = new Api<PaginatedItems<Category>>({
+      store: this,
+      method: getAll,
+    }).execResult();
 
-        sendRequest(
-            { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
-            options,
-            cb,
-        );
-    }
+    sendRequest(
+      { limit: adminPageTableLimit, field: 'id', sort: SortEnum.DESC, ...this.meta, ...cfg },
+      options,
+      cb
+    );
+  }
 }

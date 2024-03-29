@@ -1,109 +1,111 @@
-@import "styles/functions";
-@import "styles/variables";
+@import 'styles/functions';
+@import 'styles/variables';
 
 .menu {
-    background-color: $darkColor;
-    min-width: setUnit(300);
-    color: $whiteColor;
-    position: relative;
+  background-color: $darkColor;
+  min-width: setUnit(300);
+  color: $whiteColor;
+  position: relative;
 
-    @media screen and (max-width: setUnit($mobile)) {
-        min-width: setUnit(200);
+  @media screen and (max-width: setUnit($mobile)) {
+    min-width: setUnit(200);
+  }
+
+  @media screen and (max-width: setUnit($mobile-small)) {
+    transition: margin-left 0.3s;
+
+    .openIcon {
+      display: none;
     }
 
-    @media screen and (max-width: setUnit($mobile-small)) {
-        transition: margin-left .3s;
+    &.open {
+      margin-left: 0;
 
-        .openIcon {
-            display: none;
-        }
-
-        &.open {
-            margin-left: 0;
-
-            .list {
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
-
-        &.closed{
-            margin-left: setUnit(-170);
-
-            .list {
-                opacity: 0;
-                pointer-events: none;
-            }
-
-            .openIcon {
-                position: absolute;
-                right: setUnit(7);
-                top: setUnit(10);
-                display: block;
-            }
-        }
+      .list {
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
 
-    .list {
-        list-style: none;
-        padding: setUnit(30) 0;
-        overflow: auto;
-        height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(0)});
+    &.closed {
+      margin-left: setUnit(-170);
 
-        &.isSwitcher {
-            height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(41)});
-        }
+      .list {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .openIcon {
+        position: absolute;
+        right: setUnit(7);
+        top: setUnit(10);
+        display: block;
+      }
+    }
+  }
+
+  .list {
+    list-style: none;
+    padding: setUnit(30) 0;
+    overflow: auto;
+    height: calc(100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(0)});
+
+    &.isSwitcher {
+      height: calc(
+        100vh - #{setUnit($header-height)} - #{setUnit($player-height)} - #{setUnit(41)}
+      );
+    }
+
+    @media screen and (max-width: #{setUnit($mobile)}) {
+      padding: setUnit(20) 0;
+    }
+
+    .item {
+      padding: 0 setUnit(20);
+      margin-bottom: setUnit(5);
+      cursor: pointer;
+
+      @media screen and (max-width: #{setUnit($mobile)}) {
+        padding: 0 setUnit(5);
+      }
+
+      .label {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: setUnit(200);
+        overflow: hidden;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .link {
+        color: $menu-item-color;
+        text-decoration: none;
+        width: 100%;
+        padding: setUnit(10) setUnit(20);
+        border-radius: setUnit(5);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
         @media screen and (max-width: #{setUnit($mobile)}) {
-            padding: setUnit(20) 0;
+          padding: setUnit(10) setUnit(15);
         }
 
-        .item {
-            padding: 0 setUnit(20);
-            margin-bottom: setUnit(5);
-            cursor: pointer;
-
-            @media screen and (max-width: #{setUnit($mobile)}) {
-                padding: 0 setUnit(5);
-            }
-
-            .label {
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                max-width: setUnit(200);
-                overflow: hidden;
-            }
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-
-            .link {
-                color: $menu-item-color;
-                text-decoration: none;
-                width: 100%;
-                padding: setUnit(10) setUnit(20);
-                border-radius: setUnit(5);
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-
-                @media screen and (max-width: #{setUnit($mobile)}) {
-                    padding: setUnit(10) setUnit(15);
-                }
-
-                &:hover,
-                &.active {
-                    background-color: darken($active-background-color, 20);
-                    color: $menu-item-active-color;
-                }
-            }
+        &:hover,
+        &.active {
+          background-color: darken($active-background-color, 20);
+          color: $menu-item-active-color;
         }
+      }
     }
+  }
 
-    .count {
-        display: inline-block;
-        font-size: setUnit(14);
-        margin-left: setUnit(10);
-    }
+  .count {
+    display: inline-block;
+    font-size: setUnit(14);
+    margin-left: setUnit(10);
+  }
 }

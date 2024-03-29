@@ -34,15 +34,18 @@ const TableComponent: FC<ComponentProps> = (props) => {
     [modifyGenre, setModalState]
   );
 
-  const onClickDelete = useCallback((e: any, id: number, cb: Function) => {
-    cb(true);
-    modifyGenre.getById({ id }, {}, (err: any) => {
-      if (!err) {
-        cb(false);
-        setModalState({ id, type: ModalStateEnum.DELETE, open: true });
-      }
-    });
-  }, [modifyGenre, setModalState]);
+  const onClickDelete = useCallback(
+    (e: any, id: number, cb: Function) => {
+      cb(true);
+      modifyGenre.getById({ id }, {}, (err: any) => {
+        if (!err) {
+          cb(false);
+          setModalState({ id, type: ModalStateEnum.DELETE, open: true });
+        }
+      });
+    },
+    [modifyGenre, setModalState]
+  );
 
   const columns = useMemo(() => {
     return [

@@ -21,25 +21,31 @@ const TableComponent: FC<ComponentProps> = (props) => {
   const { className, setModalState } = props;
   const { categories, modifyCategory } = useStore();
 
-  const onClickEdit = useCallback((e: any, id: number, cb: Function) => {
-    cb(true);
-    modifyCategory.getById({ id }, {}, (err: any) => {
-      if (!err) {
-        cb(false);
-        setModalState({ id, type: ModalStateEnum.UPDATE, open: true });
-      }
-    });
-  }, [modifyCategory, setModalState]);
+  const onClickEdit = useCallback(
+    (e: any, id: number, cb: Function) => {
+      cb(true);
+      modifyCategory.getById({ id }, {}, (err: any) => {
+        if (!err) {
+          cb(false);
+          setModalState({ id, type: ModalStateEnum.UPDATE, open: true });
+        }
+      });
+    },
+    [modifyCategory, setModalState]
+  );
 
-  const onClickDelete = useCallback((e: any, id: number, cb: Function) => {
-    cb(true);
-    modifyCategory.getById({ id }, {}, (err: any) => {
-      if (!err) {
-        cb(false);
-        setModalState({ id, type: ModalStateEnum.DELETE, open: true });
-      }
-    });
-  }, [modifyCategory, setModalState]);
+  const onClickDelete = useCallback(
+    (e: any, id: number, cb: Function) => {
+      cb(true);
+      modifyCategory.getById({ id }, {}, (err: any) => {
+        if (!err) {
+          cb(false);
+          setModalState({ id, type: ModalStateEnum.DELETE, open: true });
+        }
+      });
+    },
+    [modifyCategory, setModalState]
+  );
 
   const columns = useMemo(() => {
     return [
